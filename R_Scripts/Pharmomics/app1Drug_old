@@ -1,0 +1,173 @@
+# plots only if they select multiple organs or species!
+# added by the .sh script
+# input = list()
+# input$var <- "Amoxicillin"
+# input$organs <- "common"
+# input$species <- c("Homo sapiens","Rattus norvegicus")
+
+.libPaths(c("/home/www/abhatta3-webserver/Rnew2/lib64/R/library/",.libPaths()))
+options(stringsAsFactors = FALSE)
+
+load("/home/www/abhatta3-webserver/include/pharmomics/all_combined_KEGG_GOBP_pathway.rda")
+load("/home/www/abhatta3-webserver/include/pharmomics/All_combined_data_AE_GEO_0.01.rda")
+
+
+library(UpSetR)
+source("/home/www/abhatta3-webserver/srv/shiny-server/helpers.r")
+
+upreggenes <- NULL
+downreggenes <- NULL
+upreggenes <- data.frame(gene = character(),species = character(),organ = character())
+downreggenes <- data.frame(gene = character(),species = character(),organ = character())
+species <- input$species
+organs <- input$organs
+geneoutputs <- list()
+geneoutputs$upreggenes  <- NULL
+geneoutputs$downreggenes <- NULL
+geneoutputs$final <- NULL
+geneoutputs$final_intersections <- NULL
+geneoutputs$pathway_final <- NULL
+geneoutputs$pathway_final_up <- NULL
+geneoutputs$pathway_final_down <- NULL
+geneoutputs$pathway_final_intersections <- NULL
+if(length(species) == 0 | length(organs) == 0){
+  
+}else{ 
+  # if(length(species) >= 2){
+  #   hideTab("tabs","between organ gene comparison")
+  #   showTab("tabs", "between species gene comparison")
+  #   showTab("tabs", "gene overlap summary")
+  # }else if(length(organs) >= 2){
+  #   hideTab("tabs","between species gene comparison")
+  #   showTab("tabs", "between organ gene comparison")
+  #   showTab("tabs", "gene overlap summary")      
+  # }else{
+  #   hideTab("tabs","between species gene comparison")
+  #   hideTab("tabs", "between organ gene comparison")
+  #   hideTab("tabs", "gene overlap summary")  
+  # }
+  
+  
+  for(i in 1:length(species)){
+    for(j in 1:length(organs)){
+      currentupgene <- final_list_up[[input$var]][[species[i]]][[organs[j]]]
+      currentdowngene <- final_list_down[[input$var]][[species[i]]][[organs[j]]]
+      if(is.null(currentupgene)){
+        next
+      }
+      
+      upreggenes <- rbind.data.frame(upreggenes,data.frame(gene = currentupgene,species = species[i],organ = organs[j]))
+      downreggenes <- rbind.data.frame(downreggenes,data.frame(gene = currentdowngene,species = species[i],organ = organs[j]))
+    }
+  }
+  upreggenes$direction <- "upregulation"
+  downreggenes$direction <- "downregulation"
+  geneoutputs$upreggenes <- upreggenes
+  geneoutputs$downreggenes <- downreggenes
+  geneoutputs$final  <- rbind.data.frame(upreggenes,downreggenes)
+  
+  
+}
+##### CROSS-ORGANS PLOT ####
+if(is.null(geneoutputs$final)){
+  
+}else{
+  currentframe <- geneoutputs$final
+  allorgans <- unique(currentframe$organ)
+  allspecies <- unique(currentframe$species)
+  if(length(allspecies) > 1){
+    
+  }
+  else if(length(allorgans)==1){
+    
+  }
+  else{
+    organgenelist_up <- list()
+    organgenelist_down <- list()
+    organgenelist_combine <- list()
+    for(i in 1:length(allorgans)){
+      organgenelist_up[[allorgans[i]]] <- currentframe$gene[currentframe$organ %in% allorgans[i] & currentframe$direction %in% "upregulation"]
+      organgenelist_down[[allorgans[i]]] <- currentframe$gene[currentframe$organ %in% allorgans[i] & currentframe$direction %in% "downregulation"]
+      organgenelist_combine[[allorgans[i]]] <- currentframe$gene[currentframe$organ %in% allorgans[i]]
+    }
+    
+    listresult <- fromList(organgenelist_combine)
+    geneoutputs$final_intersections <- convertion(listresult)
+    if(nrow(geneoutputs$final_intersections) > 0){
+      png("Cross_organs_comparison_upset.png", width = 950, height = 400, units = "px", res = 80)
+      upset(listresult, order.by = "freq", mainbar.y.label = "Organ DEG Size", text.scale = 2.5)
+      dev.off()
+    }
+  }
+}
+##### CROSS-SPECIES PLOT ####
+if(is.null(geneoutputs$final)){
+  
+}else{
+  currentframe <- geneoutputs$final
+  allorgans <- unique(currentframe$organ)
+  allspecies <- unique(currentframe$species)
+  if(length(allorgans) > 1){
+    
+  }
+  else if(length(allspecies)==1){
+    
+  }
+  else{
+    speciesgenelist_up <- list()
+    speciesgenelist_down <- list()
+    speciesgenelist_combine <- list()
+    for(i in 1:length(allspecies)){
+      if(allspecies[i] %in% "Homo sapiens"){
+        currentgenes_up <- currentframe$gene[currentframe$species %in% allspecies[i] & currentframe$direction %in% "upregulation"]
+        currentgenes_down <- currentframe$gene[currentframe$species %in% allspecies[i] & currentframe$direction %in% "downregulation"]
+        currentgenes_combine <- currentframe$gene[currentframe$species %in% allspecies[i]]
+      }else if(allspecies[i] %in% "Mus musculus"){
+        currentgenes_up <- unique(Mouse_symbols2$human_symbol[Mouse_symbols2$mouse_symbol %in% 
+                                                                currentframe$gene[currentframe$species %in% allspecies[i] & currentframe$direction %in% "upregulation"]
+                                                              ])
+        currentgenes_down <- unique(Mouse_symbols2$human_symbol[Mouse_symbols2$mouse_symbol %in% 
+                                                                  currentframe$gene[currentframe$species %in% allspecies[i] & currentframe$direction %in% "downregulation"]
+                                                                ])
+        currentgenes_combine <- unique(Mouse_symbols2$human_symbol[Mouse_symbols2$mouse_symbol %in% 
+                                                                     currentframe$gene[currentframe$species %in% allspecies[i]]
+                                                                   ])              
+      }else{
+        currentgenes_up <- unique(RAT_symbols2$human_symbol[RAT_symbols2$rat_symbol %in% 
+                                                              currentframe$gene[currentframe$species %in% allspecies[i] & currentframe$direction %in% "upregulation"]
+                                                            ])
+        currentgenes_down <- unique(RAT_symbols2$human_symbol[RAT_symbols2$rat_symbo %in% 
+                                                                currentframe$gene[currentframe$species %in% allspecies[i] & currentframe$direction %in% "downregulation"]
+                                                              ])
+        currentgenes_combine <- unique(RAT_symbols2$human_symbol[RAT_symbols2$rat_symbo %in% 
+                                                                   currentframe$gene[currentframe$species %in% allspecies[i]]
+                                                                 ])    
+      }
+      
+      speciesgenelist_up[[allspecies[i]]] <- currentgenes_up
+      speciesgenelist_down[[allspecies[i]]] <- currentgenes_down
+      speciesgenelist_combine[[allspecies[i]]] <- currentgenes_combine
+    }
+    
+    
+    listresult <- fromList(speciesgenelist_combine)
+    geneoutputs$final_intersections <- convertion(listresult)
+    if(nrow(geneoutputs$final_intersections) > 0){
+      png("Cross_species_comparison_upset.png", width = 950, height = 400, units = "px", res = 80)
+      upset(listresult, order.by = "freq", mainbar.y.label = "Species DEG Size", text.scale = 2.5)
+      dev.off()
+    }
+  }
+}
+
+if(!is.null(geneoutputs$final)){
+  write.csv(geneoutputs$final,
+              "Download_genes.csv", row.names=FALSE,quote=FALSE)
+}
+
+if(!is.null(geneoutputs$final_intersections)){
+  currentresult <- geneoutputs$final_intersections
+  colnames(currentresult) <- c("Gene","Organ")
+  write.csv(currentresult,
+              "Download_gene_intersections.csv", row.names=FALSE,quote=FALSE)
+}

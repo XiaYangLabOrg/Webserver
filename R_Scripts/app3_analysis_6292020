@@ -1,0 +1,60 @@
+# commented out portions are added as a function of the user input and random_string
+
+# Genes_up <- unlist(strsplit(input$Genes_up,"\n|\t|,| "))
+# Genes_down <- unlist(strsplit(input$Genes_down,"\n|\t|,| "))
+
+Jaccard2 <- function(set1,set2){
+  I <- length(intersect(set1,set2))
+  return(I/(length(set1)+length(set2)-I))
+}
+
+load("/srv/shiny-server/All_combined_data_AE_GEO_0.01.rda")
+
+bothind <- ifelse(length(Genes_down) != 0, T,F)
+diseasegenes_up <- Genes_up[Genes_up %in% HUGO_symbols2$`Approved Symbol`]
+if(bothind){diseasegenes_down <- Genes_down[Genes_down %in% HUGO_symbols2$`Approved Symbol`]}
+if(length(diseasegenes_up)/length(diseasegenes_up) < 0.05){
+  diseasegenes_up <- unique(RAT_symbols2$human_symbol[RAT_symbols2$rat_symbol %in% diseasegenes_up])
+  if(bothind)
+    diseasegenes_down <- unique(RAT_symbols2$human_symbol[RAT_symbols2$rat_symbol %in% diseasegenes_down])
+}
+
+cat("40%\n")
+
+drug_all <- NULL
+tissue_all <- NULL
+species_all <- NULL
+Jaccardscore <- NULL
+for(drugs in names(final_list_up)){
+  for(species in names(final_list_up[[drugs]])){
+    for(tissue in names(final_list_up[[drugs]][[species]])){
+      if(tissue %in% "common"){next}
+      if(species %in% "Rattus norvigicus"){
+        druggenes_up <- unique(RAT_symbols2$human_symbol[RAT_symbols2$rat_symbol %in% final_list_up[[drugs]][[species]][[tissue]]])
+        druggenes_down <- unique(RAT_symbols2$human_symbol[RAT_symbols2$rat_symbol %in% final_list_down[[drugs]][[species]][[tissue]]])
+      }else if(species %in% "Mus musculus"){
+        druggenes_up <- unique(Mouse_symbols2$human_symbol[Mouse_symbols2$mouse_symbol %in% final_list_up[[drugs]][[species]][[tissue]]])
+        druggenes_down <- unique(Mouse_symbols2$human_symbol[Mouse_symbols2$mouse_symbol %in% final_list_down[[drugs]][[species]][[tissue]]])
+      }else{
+        druggenes_up <-  final_list_up[[drugs]][[species]][[tissue]]
+        druggenes_down <-  final_list_down[[drugs]][[species]][[tissue]]
+      }
+      drug_all <- c(drug_all,drugs)
+      species_all <- c(species_all, species)
+      tissue_all <- c(tissue_all, tissue)
+      if(bothind){
+        Jaccardscore <- c(Jaccardscore, Jaccard2(druggenes_up, diseasegenes_up) + Jaccard2(druggenes_down, diseasegenes_down)-Jaccard2(druggenes_up,diseasegenes_down)-Jaccard2(druggenes_down,diseasegenes_up))
+      }else{
+        Jaccardscore <- c(Jaccardscore, Jaccard2(unique(c(druggenes_up,druggenes_down)),diseasegenes_up))
+      }
+      
+    }
+  }
+}
+
+cat("60%\n")
+
+result <- data.frame(drugname = drug_all,species = species_all,tissue = tissue_all, Jaccard_score = Jaccardscore)
+result = result[order(result$Jaccard_score, decreasing = TRUE),]
+
+#write.table(result, "app3result.txt", row.names=FALSE, quote = FALSE, sep = "\t")

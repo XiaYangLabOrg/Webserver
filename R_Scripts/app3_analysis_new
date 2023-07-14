@@ -1,0 +1,151 @@
+# commented out portions are added as a function of the user input and random_string
+
+# Genes_up <- unlist(strsplit(input$Genes_up,"\n|\t|,| "))
+# Genes_down <- unlist(strsplit(input$Genes_down,"\n|\t|,| "))
+library(GeneOverlap)
+Jaccard2 <- function(set1,set2){
+  I <- length(intersect(set1,set2))
+  return(I/(length(set1)+length(set2)-I))
+}
+Jaccard3 <- function(set1,set2,genomesize){
+  go.obj <- newGeneOverlap(set1,
+                           set2,
+                           genome.size=genomesize)
+  go.obj <- testGeneOverlap(go.obj)
+  return(list(go.obj@Jaccard, go.obj@odds.ratio,go.obj@pval))
+}
+load("/srv/shiny-server/Jaccard_repositioning/Jaccard_app_databasev2_No_GeoDE.rda")
+
+bothind <- ifelse(length(Genes_down) != 0, T,F)
+speciesind <- "Human"
+diseasegenes_up <- Genes_up[Genes_up %in% HUGO_symbols2$`Approved Symbol`]
+if(bothind){diseasegenes_down <- Genes_down[Genes_down %in% HUGO_symbols2$`Approved Symbol`]}
+      
+      
+if(length(diseasegenes_up)/length(Genes_up) < 0.05){
+	species <- "non-Human"
+        diseasegenes_up_Rat <- Genes_up[Genes_up %in% RAT_symbols2$rat_symbol]
+        if(bothind){diseasegenes_down_Rat <- Genes_down[Genes_down %in% RAT_symbols2$rat_symbol]}
+        
+        diseasegenes_up <-  unique(RAT_symbols2$human_symbol[RAT_symbols2$rat_symbol %in% Genes_up])
+        if(bothind){diseasegenes_down <-  unique(RAT_symbols2$human_symbol[RAT_symbols2$rat_symbol %in% Genes_down])}
+        
+        diseasegenes_up_Mouse <-  Genes_up[Genes_up %in% Mouse_symbols2$mouse_symbol]
+        if(bothind){diseasegenes_down_Mouse <-  Genes_up[Genes_up %in% Mouse_symbols2$mouse_symbol]}
+        }else{
+          diseasegenes_up_Rat <- unique(RAT_symbols2$rat_symbol[RAT_symbols2$human_symbol %in% Genes_up])
+          if(bothind){diseasegenes_down_Rat <- unique(RAT_symbols2$rat_symbol[RAT_symbols2$human_symbol %in% Genes_down])}
+
+          diseasegenes_up_Mouse <-  unique(Mouse_symbols2$mouse_symbol[Mouse_symbols2$human_symbol %in% Genes_up])
+          if(bothind){diseasegenes_down_Mouse <-  unique(Mouse_symbols2$mouse_symbol[Mouse_symbols2$human_symbol %in% Genes_down])}
+      }
+
+
+cat("40%\n")
+
+      Jaccardscore <- NULL
+      Foldenrichment <- NULL
+      pvalue <- NULL
+      for(r in 1:nrow(Ratframe)){
+        druggenes_up <- Ratgenesup[[r]]
+        druggenes_down <- Ratgenesdown[[r]]
+        if(bothind){
+          Jaccardscore[r] <- Jaccard2(druggenes_up, diseasegenes_up_Rat) + Jaccard2(druggenes_down, diseasegenes_down_Rat)-Jaccard2(druggenes_up,diseasegenes_down_Rat)-Jaccard2(druggenes_down,diseasegenes_up_Rat)
+          result <- Jaccard3(unique(c(druggenes_up,druggenes_down)),unique(c(diseasegenes_up_Rat,diseasegenes_down_Rat)),nrow(RAT_symbols2))
+          Foldenrichment[r] <- result[[2]]
+          pvalue[r] <- result[[3]]
+        }else{
+          Jaccardscore[r] <- Jaccard2(unique(c(druggenes_up,druggenes_down)),diseasegenes_up_Rat)
+          result <- Jaccard3(unique(c(druggenes_up,druggenes_down)),diseasegenes_up_Rat,nrow(RAT_symbols2))
+          Foldenrichment[r] <- result[[2]]
+          pvalue[r] <- result[[3]]          
+        }
+      }
+
+      Ratframe$Jaccardscore <- Jaccardscore
+      Ratframe$Foldenrichment <- Foldenrichment
+      Ratframe$enrichpvalue <- pvalue
+
+      if(bothind){
+        rank_within_species <- rep(NA,nrow(Ratframe))
+        rank_within_species[which(Ratframe$Jaccardscore > 0)] <- rank( Ratframe$Jaccardscore[Ratframe$Jaccardscore > 0])/nrow( Ratframe[Ratframe$Jaccardscore > 0,])
+        rank_within_species[which(Ratframe$Jaccardscore < 0)] <- -rank( -Ratframe$Jaccardscore[Ratframe$Jaccardscore < 0])/nrow( Ratframe[Ratframe$Jaccardscore < 0,])
+        Ratframe$rank_within_species <- rank_within_species
+      }else{
+        Ratframe$rank_within_species <- rank( Ratframe$Jaccardscore)/nrow( Ratframe)
+      } 
+      
+
+      Jaccardscore <- NULL
+      Foldenrichment <- NULL
+      pvalue <- NULL
+      for(r in 1:nrow(Mouseframe)){
+        druggenes_up <- Mousegenesup[[r]]
+        druggenes_down <- Mousegenesdown[[r]]
+        if(bothind){
+          Jaccardscore[r] <- Jaccard2(druggenes_up, diseasegenes_up_Mouse) + Jaccard2(druggenes_down, diseasegenes_down_Mouse)-Jaccard2(druggenes_up,diseasegenes_down_Mouse)-Jaccard2(druggenes_down,diseasegenes_up_Mouse)
+          result <- Jaccard3(unique(c(druggenes_up,druggenes_down)),unique(c(diseasegenes_up_Mouse,diseasegenes_down_Mouse)),nrow(Mouse_symbols2))
+          Foldenrichment[r] <- result[[2]]
+          pvalue[r] <- result[[3]]
+        }else{
+          Jaccardscore[r] <- Jaccard2(unique(c(druggenes_up,druggenes_down)),diseasegenes_up_Mouse)
+          result <- Jaccard3(unique(c(druggenes_up,druggenes_down)),diseasegenes_up_Mouse,nrow(Mouse_symbols2))
+          Foldenrichment[r] <- result[[2]]
+          pvalue[r] <- result[[3]]
+        }
+      }
+      Mouseframe$Jaccardscore <- Jaccardscore
+      Mouseframe$Foldenrichment <- Foldenrichment
+      Mouseframe$enrichpvalue <- pvalue
+
+      if(bothind){
+        rank_within_species <- rep(NA,nrow(Mouseframe))
+        rank_within_species[which(Mouseframe$Jaccardscore > 0)] <- rank( Mouseframe$Jaccardscore[Mouseframe$Jaccardscore > 0])/nrow( Mouseframe[Mouseframe$Jaccardscore > 0,])
+        rank_within_species[which(Mouseframe$Jaccardscore < 0)] <- -rank( -Mouseframe$Jaccardscore[Mouseframe$Jaccardscore < 0])/nrow( Mouseframe[Mouseframe$Jaccardscore < 0,])
+        Mouseframe$rank_within_species <- rank_within_species
+      }else{
+        Mouseframe$rank_within_species <- rank( Mouseframe$Jaccardscore)/nrow( Mouseframe)
+      }      
+      
+      Jaccardscore <- NULL
+      Foldenrichment <- NULL
+      pvalue <- NULL
+      for(r in 1:nrow(Humanframe)){
+        druggenes_up <- Humangenesup[[r]]
+        druggenes_down <- Humangenesup[[r]]
+        if(bothind){
+          Jaccardscore[r] <- Jaccard2(druggenes_up, diseasegenes_up) + Jaccard2(druggenes_down, diseasegenes_down)-Jaccard2(druggenes_up,diseasegenes_down)-Jaccard2(druggenes_down,diseasegenes_up)
+          result <- Jaccard3(unique(c(druggenes_up,druggenes_down)),unique(c(diseasegenes_up,diseasegenes_down)),nrow(HUGO_symbols2))
+          Foldenrichment[r] <- result[[2]]
+          pvalue[r] <- result[[3]]
+        }else{
+          Jaccardscore[r] <- Jaccard2(unique(c(druggenes_up,druggenes_down)),diseasegenes_up)
+          result <- Jaccard3(unique(c(druggenes_up,druggenes_down)),diseasegenes_up,nrow(HUGO_symbols2))
+          Foldenrichment[r] <- result[[2]]
+          pvalue[r] <- result[[3]]
+        }
+      }
+      Humanframe$Jaccardscore <- Jaccardscore
+      Humanframe$Foldenrichment <- Foldenrichment
+      Humanframe$enrichpvalue <- pvalue
+
+      if(bothind){
+        rank_within_species <- rep(NA,nrow(Humanframe))
+        rank_within_species[which(Humanframe$Jaccardscore > 0)] <- rank( Humanframe$Jaccardscore[Humanframe$Jaccardscore > 0])/nrow( Humanframe[Humanframe$Jaccardscore > 0,])
+        rank_within_species[which(Humanframe$Jaccardscore < 0)] <- -rank( -Humanframe$Jaccardscore[Humanframe$Jaccardscore < 0])/nrow( Humanframe[Humanframe$Jaccardscore < 0,])
+        Humanframe$rank_within_species <- rank_within_species
+      }else{
+        Humanframe$rank_within_species <- rank( Humanframe$Jaccardscore)/nrow( Humanframe)
+      }
+     
+
+
+cat("60%\n")
+
+result <- rbind.data.frame(Humanframe[,!colnames(Humanframe) %in% c("allsignatures_up","allsignatures_down")],Mouseframe[,!colnames(Mouseframe) %in% c("allsignatures_up","allsignatures_down")],Ratframe[,!colnames(Ratframe) %in% c("allsignatures_up","allsignatures_down")])
+
+result$enrichFDR <- p.adjust(aresult$enrichpvalue, method="BH")
+
+result = result[order(result$Jaccardscore, decreasing = TRUE),]
+
+#write.table(result, "app3result.txt", row.names=FALSE, quote = FALSE, sep = "\t")

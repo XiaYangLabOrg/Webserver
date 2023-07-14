@@ -1,0 +1,515 @@
+# plots only if they select multiple organs or species!
+# added by the .php script
+# input = list()
+# input$var <- "Amoxicillin"
+# input$organs <- "common"
+# input$species <- c("Homo sapiens","Rattus norvegicus")
+
+.libPaths(c("/home/www/abhatta3-webserver/Rnew2/lib64/R/library/",.libPaths()))
+options(stringsAsFactors = FALSE)
+
+#load("/home/www/abhatta3-webserver/include/pharmomics/all_combined_KEGG_GOBP_pathway.rda")
+#load("/home/www/abhatta3-webserver/include/pharmomics/All_combined_data_AE_GEO_0.01.rda")
+
+source("/home/www/abhatta3-webserver/srv/shiny-server/helpers.r")
+
+if(length(input$species)>1){
+  comp = "species"
+} else comp = "tissue"
+
+items <- c()
+for(s in input$species){
+  for(t in input$organs){
+    items <- c(items, paste(input$var, s, t, sep = "_"))
+  }
+}
+if(sum(items %in% names(multiple_datasets))>0){
+  multi_items <- items[items %in% names(multiple_datasets)]
+  if(length(input$species)>1){ # between species comparison
+    for(i in multi_items){
+      species <- unlist(strsplit(i, split = "_"))[2]
+      input$species <- c(input$species, paste(species, multiple_datasets[[i]], sep = "_"))
+      input$species <- input$species[input$species!=species]
+    }
+  }
+  else{ # between tissues comparison
+    for(i in multi_items){
+      tissue <- unlist(strsplit(i, split = "_"))[3]
+      input$organs <- c(input$organs, paste(tissue, multiple_datasets[[i]], sep = "_"))
+      input$organs <- input$organs[input$organs!=tissue]
+    }
+  }
+}
+
+
+library(UpSetR)
+
+upreggenes <- NULL
+downreggenes <- NULL
+upreggenes <- data.frame(gene = character(),species = character(),organ = character())
+downreggenes <- data.frame(gene = character(),species = character(),organ = character())
+species <- input$species
+organs <- input$organs
+geneoutputs <- list()
+geneoutputs$upreggenes  <- NULL
+geneoutputs$downreggenes <- NULL
+geneoutputs$final <- NULL
+geneoutputs$final_intersections <- NULL
+geneoutputs$pathway_final <- NULL
+geneoutputs$pathway_final_up <- NULL
+geneoutputs$pathway_final_down <- NULL
+geneoutputs$pathway_final_intersections <- NULL
+if(length(species) == 0 | length(organs) == 0){
+  
+}else{ 
+  
+  for(i in 1:length(species)){
+    for(j in 1:length(organs)){
+      currentupgene <- final_list_up[[input$var]][[species[i]]][[organs[j]]]
+      currentdowngene <- final_list_down[[input$var]][[species[i]]][[organs[j]]]
+      if(is.null(currentupgene) | length(currentupgene)==0){
+        next
+      }
+      upreggenes <- rbind.data.frame(upreggenes,data.frame(gene = currentupgene,species = species[i],organ = organs[j]))
+      downreggenes <- rbind.data.frame(downreggenes,data.frame(gene = currentdowngene,species = species[i],organ = organs[j]))
+    }
+  }
+  upreggenes$direction <- "upregulation"
+  downreggenes$direction <- "downregulation"
+  geneoutputs$upreggenes <- upreggenes
+  geneoutputs$downreggenes <- downreggenes
+  geneoutputs$final  <- rbind.data.frame(upreggenes,downreggenes)
+  
+  
+}
+##### CROSS-ORGANS PLOT ####
+if(is.null(geneoutputs$final)){
+  
+}else{
+  currentframe <- geneoutputs$final
+  allorgans <- unique(currentframe$organ)
+  allspecies <- unique(currentframe$species)
+  if(length(allspecies) > 1){
+    
+  }
+  else if(length(allorgans)==1){
+    
+  }
+  else{
+    comp = "tissue"
+    organgenelist_up <- list()
+    organgenelist_down <- list()
+    organgenelist_combine <- list()
+    for(i in 1:length(allorgans)){
+      organgenelist_up[[allorgans[i]]] <- currentframe$gene[currentframe$organ %in% allorgans[i] & currentframe$direction %in% "upregulation"]
+      organgenelist_down[[allorgans[i]]] <- currentframe$gene[currentframe$organ %in% allorgans[i] & currentframe$direction %in% "downregulation"]
+      organgenelist_combine[[allorgans[i]]] <- currentframe$gene[currentframe$organ %in% allorgans[i]]
+    }
+    
+    listresult <- fromList(organgenelist_combine)
+    geneoutputs$final_intersections <- convertion(listresult)
+    if(nrow(geneoutputs$final_intersections) > 0){
+      png(paste0(sessionID,"_Cross_organs_comparison_upset.png"), width = 950, height = 400, units = "px", res = 80)
+      upset(listresult, order.by = "freq", mainbar.y.label = "DEG Count", text.scale = 2.5)
+      dev.off()
+    }
+  }
+}
+##### CROSS-SPECIES PLOT ####
+if(is.null(geneoutputs$final)){
+  
+}else{
+  currentframe <- geneoutputs$final
+  allorgans <- unique(currentframe$organ)
+  allspecies <- unique(currentframe$species)
+  if(length(allorgans) > 1){
+    
+  }
+  else if(length(allspecies)==1){
+    
+  }
+  else{
+    comp = "species"
+    speciesgenelist_up <- list()
+    speciesgenelist_down <- list()
+    speciesgenelist_combine <- list()
+    for(i in 1:length(allspecies)){
+      if(allspecies[i] %in% "Homo sapiens"){
+        currentgenes_up <- currentframe$gene[currentframe$species %in% allspecies[i] & currentframe$direction %in% "upregulation"]
+        currentgenes_down <- currentframe$gene[currentframe$species %in% allspecies[i] & currentframe$direction %in% "downregulation"]
+        currentgenes_combine <- currentframe$gene[currentframe$species %in% allspecies[i]]
+      }else if(allspecies[i] %in% "Mus musculus"){
+        currentgenes_up <- unique(Mouse_symbols2$human_symbol[Mouse_symbols2$mouse_symbol %in% 
+                                                                currentframe$gene[currentframe$species %in% allspecies[i] & currentframe$direction %in% "upregulation"]
+        ])
+        currentgenes_down <- unique(Mouse_symbols2$human_symbol[Mouse_symbols2$mouse_symbol %in% 
+                                                                  currentframe$gene[currentframe$species %in% allspecies[i] & currentframe$direction %in% "downregulation"]
+        ])
+        currentgenes_combine <- unique(Mouse_symbols2$human_symbol[Mouse_symbols2$mouse_symbol %in% 
+                                                                     currentframe$gene[currentframe$species %in% allspecies[i]]
+        ])              
+      }else{
+        currentgenes_up <- unique(RAT_symbols2$human_symbol[RAT_symbols2$rat_symbol %in% 
+                                                              currentframe$gene[currentframe$species %in% allspecies[i] & currentframe$direction %in% "upregulation"]
+        ])
+        currentgenes_down <- unique(RAT_symbols2$human_symbol[RAT_symbols2$rat_symbo %in% 
+                                                                currentframe$gene[currentframe$species %in% allspecies[i] & currentframe$direction %in% "downregulation"]
+        ])
+        currentgenes_combine <- unique(RAT_symbols2$human_symbol[RAT_symbols2$rat_symbo %in% 
+                                                                   currentframe$gene[currentframe$species %in% allspecies[i]]
+        ])    
+      }
+      
+      speciesgenelist_up[[allspecies[i]]] <- currentgenes_up
+      speciesgenelist_down[[allspecies[i]]] <- currentgenes_down
+      speciesgenelist_combine[[allspecies[i]]] <- currentgenes_combine
+    }
+    
+    
+    listresult <- fromList(speciesgenelist_combine)
+    geneoutputs$final_intersections <- convertion(listresult)
+    if(nrow(geneoutputs$final_intersections) > 0){
+      png(paste0(sessionID,"_Cross_species_comparison_upset.png"), width = 950, height = 400, units = "px", res = 80)
+      upset(listresult, order.by = "freq", mainbar.y.label = "DEG Count", text.scale = 2.5)
+      dev.off()
+    }
+  }
+}
+
+concatenate=function(myvect, mysep="")
+{
+  if(length(myvect)==0) return(myvect)
+  if(length(myvect)==1) return(myvect)
+  string = ""
+  for(item in myvect){
+    string = paste(string, item, sep = mysep)
+  }
+  string = substring(string, first=(nchar(mysep)+1))
+  return(string)
+}
+
+if(!is.null(geneoutputs$final)){ 
+  # write.csv(geneoutputs$final,
+  #           "Download_genes.csv", row.names=FALSE,quote=FALSE)
+  allgenes <- geneoutputs$final
+  intersected <- allgenes$gene[duplicated(allgenes$gene)]
+  if(length(intersected)>0 | !is.null(geneoutputs$final_intersections)){
+    intersections = geneoutputs$final_intersections
+    intersected <- intersections$Item 
+    if(comp == "species"){
+      allgenes <- allgenes[order(allgenes$species),]
+      if(sum(grepl("Homo sapiens",allgenes$species))>0 & sum(grepl("Rattus norvegicus",allgenes$species))>0 & sum(grepl("Mus musculus",allgenes$species))>0){ # all three species
+        orthologs <- c()
+        for(row in 1:nrow(allgenes)){
+          if(allgenes$species[row]=="Homo sapiens"){
+            orthologs <- c(orthologs, allgenes$gene[row])
+          }
+          else if(allgenes$species[row]=="Rattus norvegicus"){
+            human <- RAT_symbols2$human_symbol[RAT_symbols2$rat_symbol==allgenes$gene[row]]
+            if(sum(intersected %in% human)>0){
+              orthologs <- c(orthologs, concatenate(unique(human[human %in% intersected]), mysep = ", "))
+              #if(length(unique(human[human %in% intersected]))>1) cat(row, ":",allgenes$gene[row], "\n")
+            }
+            else{
+              orthologs <- c(orthologs, allgenes$gene[row])
+            }
+          }
+          else{
+            human <- Mouse_symbols2$human_symbol[Mouse_symbols2$mouse_symbol==allgenes$gene[row]]
+            if(sum(intersected %in% human)>0){
+              orthologs <- c(orthologs, concatenate(unique(human[human %in% intersected]), mysep = ", "))
+              #if(length(unique(human[human %in% intersected]))>1) cat(row, ":",allgenes$gene[row], "\n")
+            }
+            else{
+              orthologs <- c(orthologs, allgenes$gene[row])
+            }
+          }
+        }
+        allgenes$human <- orthologs
+        allgenes$Species_Orig_Gene_Direction <- paste(allgenes$species, allgenes$gene, allgenes$direction, sep = "_")
+        allgenes$Species_Direction <- paste(allgenes$species, allgenes$direction, sep = "_")
+        
+        Species_Orig_Gene_Direction <- c()
+        remove <- c()
+        intersections_copy <- intersections$Item
+        for(i in 1:nrow(intersections)){
+          inner = c()
+          for(row in 1:nrow(allgenes)){
+            sep_genes <- unlist(strsplit(allgenes$human[row], split = ", "))
+            if(intersections_copy[i] %in% sep_genes){
+              if(intersections$result[i]=="Homo sapiens:Mus musculus"){
+                remove <- c(remove, row)
+                inner = c(inner, allgenes$Species_Direction[row])
+                if(allgenes$species[row]=="Mus musculus"){
+                  intersections$Item[i] <- paste(intersections$Item[i], allgenes$gene[row],
+                                                 sep = "/")
+                }
+              }
+              else if(intersections$result[i]=="Homo sapiens:Rattus norvegicus"){
+                remove <- c(remove, row)
+                inner = c(inner, allgenes$Species_Direction[row])
+                if(allgenes$species[row]=="Rattus norvegicus"){
+                  intersections$Item[i] <- paste(intersections$Item[i], allgenes$gene[row],
+                                                 sep = "/")
+                }
+                
+              }
+              else if(intersections$result[i]=="Mus musculus:Rattus norvegicus"){
+                inner = c(inner, allgenes$Species_Orig_Gene_Direction[row])
+                remove <- c(remove, row)
+              }
+              else{ # all three species
+                inner = c(inner, allgenes$Species_Orig_Gene_Direction[row])
+                remove <- c(remove, row)
+              }
+            }
+          }
+          Species_Orig_Gene_Direction <- c(Species_Orig_Gene_Direction, concatenate(unique(inner), mysep = ", "))
+        }
+        overlapped = data.frame("Tissue"=unique(allgenes$organ),"Gene"=intersections$Item, "Species_Direction"=Species_Orig_Gene_Direction)
+        overlapped <- overlapped[order(match(intersections$result,c("Homo sapiens:Mus musculus:Rattus norvegicus",
+                                                                    "Homo sapiens:Mus musculus","Homo sapiens:Rattus norvegicus",
+                                                                    "Mus musculus:Rattus norvegicus"))),]
+        
+        allgenes <- allgenes[-remove,]
+        allgenes$Species_Direction <- paste(allgenes$species, allgenes$direction, sep = "_")
+        allgenes <- allgenes[,c("organ", "gene","Species_Direction")]
+        colnames(allgenes) <- c("Tissue","Gene","Species_Direction")
+        
+        allgenes <- rbind(overlapped, allgenes)
+        
+      }
+      else if(("Homo sapiens" %in% unique(allgenes$species)) & (length(unique(allgenes$species))>=2)){ # human and one other - mouse/rat
+        # get gene conversion back
+        orthologs <- c()
+        multiple <- list()
+        multiple$human <- NULL
+        multiple$musrat <- NULL
+        for(row in 1:nrow(allgenes)){
+          if(allgenes$species[row]=="Homo sapiens"){
+            orthologs <- c(orthologs, allgenes$gene[row])
+          }
+          else if(grepl("Rattus norvegicus", allgenes$species[row])){ # could be multiple data sets one
+            human <- RAT_symbols2$human_symbol[RAT_symbols2$rat_symbol==allgenes$gene[row]]
+            if(sum(intersected %in% human)>0){
+              orthologs <- c(orthologs, concatenate(unique(human[human %in% intersected]), mysep = ", "))
+              if(length(unique(human[human %in% intersected]))>1){
+                cat(row, ":",allgenes$gene[row], "\n")
+                multiple$human <- c(multiple$human, unique(human[human %in% intersected]))
+                multiple$musrat <- allgenes$gene[row]
+              }
+            }
+            else{
+              orthologs <- c(orthologs, allgenes$gene[row])
+            }
+          }
+          else{
+            human <- Mouse_symbols2$human_symbol[Mouse_symbols2$mouse_symbol==allgenes$gene[row]]
+            if(sum(intersected %in% human)>0){
+              orthologs <- c(orthologs, concatenate(unique(human[human %in% intersected]), mysep = ", "))
+              if(length(unique(human[human %in% intersected]))>1){
+                cat(row, ":",allgenes$gene[row], "\n")
+                multiple$human <- c(multiple$human, unique(human[human %in% intersected]))
+                multiple$musrat <- allgenes$gene[row]
+              }
+            }
+            else{
+              orthologs <- c(orthologs, allgenes$gene[row])
+            }
+          }
+        }
+        allgenes$human <- orthologs
+        new_genes <- c()
+        for(row in 1:nrow(allgenes)){
+          if(grepl(",", allgenes$human[row]) | (allgenes$human[row] %in% multiple$human & allgenes$gene[row] %in% multiple$musrat)){
+            orthologs <- allgenes$human[row]
+            split_ortho <- unlist(strsplit(allgenes$human[row], split = ", "))
+            indices = c()
+            for(ort in split_ortho){
+              if(ort %in% intersections$Item){
+                indices = c(indices, grep(ort, intersections$Item))
+              }
+            }
+            if(sum(grepl("Mus musculus",intersections$result[indices]))>0){
+              orthologs <- concatenate(c(orthologs,allgenes$gene[allgenes$human==allgenes$human[row] &
+                                                                   allgenes$species=="Mus musculus"]), mysep = "/")
+            }
+            if(sum(grepl("Rattus norvegicus",intersections$result[indices]))>0){
+              orthologs <- concatenate(c(orthologs,allgenes$gene[allgenes$human==allgenes$human[row] &
+                                                                   grepl("Rattus norvegicus", allgenes$species)]), mysep = "/")
+            }
+            new_genes <- c(new_genes, orthologs)
+          }
+          else if(allgenes$human[row] %in% intersected){# can only be the human genes
+            orthologs <- allgenes$human[row]
+            if(grepl("Mus musculus",intersections$result[intersections$Item==allgenes$human[row]])){
+              orthologs <- concatenate(c(orthologs,allgenes$gene[allgenes$human==allgenes$human[row] &
+                                                                   allgenes$species=="Mus musculus"]), mysep = "/")
+            }
+            if(grepl("Rattus norvegicus",intersections$result[intersections$Item==allgenes$human[row]])){
+              orthologs <- concatenate(c(orthologs,allgenes$gene[allgenes$human==allgenes$human[row] &
+                                                                   grepl("Rattus norvegicus", allgenes$species)]), mysep = "/")
+            }
+            new_genes <- c(new_genes, orthologs)
+          }
+          else{
+            new_genes <- c(new_genes, allgenes$gene[row])
+          }
+        }
+        allgenes$new_genes <- new_genes
+        
+        if(!is.null(multiple$human)){
+          for(row in 1:nrow(allgenes)){
+            if(allgenes$human[row] %in% multiple$human & !grepl("/",allgenes$new_genes[row])){
+              new_cell <- concatenate(unique(allgenes$new_genes[grep(allgenes$human[row], allgenes$new_genes)][grepl(",",allgenes$new_genes[grep(allgenes$human[row], allgenes$new_genes)])]), mysep = ", ")
+              allgenes$new_genes[row] <- new_cell
+            }
+          }
+        }
+        
+        allgenes$Species_Direction <- paste(allgenes$species, allgenes$direction, sep = "_")
+        allgenes$Species_Direction <- sapply(allgenes$new_genes, function(x){
+          if(grepl(",",x)){
+            splitted <- unlist(strsplit(x, split = "/"))
+            hum_genes <- unlist(strsplit(splitted[1], split = ", "))
+            musrat <- splitted[2]
+            indices = c()
+            for(gene in hum_genes){
+              if(length(grep(gene, allgenes$human))>0){
+                indices = c(indices, which(grepl(gene, allgenes$human) & grepl(musrat, allgenes$new_genes)))
+              }
+            }
+            return(concatenate(unique(allgenes$Species_Direction[unique(indices)]), mysep = ", "))
+          }
+          else{
+            return(concatenate(allgenes$Species_Direction[allgenes$new_genes==x], mysep = ", "))
+          }
+        })
+        allgenes <- allgenes[!duplicated(allgenes$new_genes),]
+        allgenes <- allgenes[,c("organ","new_genes","Species_Direction")]
+        colnames(allgenes) <- c("Tissue","Gene","Species_Direction")
+        allgenes <- allgenes[order(nchar(allgenes$Species_Direction), decreasing = TRUE),]
+      }
+      else{ # mouse and rat
+        orthologs <- c()
+        for(row in 1:nrow(allgenes)){
+          if(grepl("Rattus norvegicus", allgenes$species[row])){
+            human <- RAT_symbols2$human_symbol[RAT_symbols2$rat_symbol==allgenes$gene[row]]
+            if(sum(intersected %in% human)>0){
+              orthologs <- c(orthologs, concatenate(unique(human[human %in% intersected]), mysep = ", "))
+              #if(length(unique(human[human %in% intersected]))>1) cat(row, ":",allgenes$gene[row], "\n")
+            }
+            else{
+              orthologs <- c(orthologs, allgenes$gene[row])
+            }
+          }
+          else{
+            human <- Mouse_symbols2$human_symbol[Mouse_symbols2$mouse_symbol==allgenes$gene[row]]
+            if(sum(intersected %in% human)>0){
+              orthologs <- c(orthologs, concatenate(unique(human[human %in% intersected]), mysep = ", "))
+              #if(length(unique(human[human %in% intersected]))>1) cat(row, ":",allgenes$gene[row], "\n")
+            }
+            else{
+              orthologs <- c(orthologs, allgenes$gene[row])
+            }
+          }
+        }
+        allgenes$human <- orthologs
+        allgenes$Species_Orig_Gene_Direction <- paste(allgenes$species, allgenes$gene, allgenes$direction, sep = "_")
+        
+        Species_Orig_Gene_Direction <- c()
+        remove <- c()
+        for(gene in intersected){
+          inner = c()
+          for(row in 1:nrow(allgenes)){
+            sep_genes <- unlist(strsplit(allgenes$human[row], split = ", "))
+            if(gene %in% sep_genes){
+              inner = c(inner, allgenes$Species_Orig_Gene_Direction[row])
+              remove <- c(remove, row)
+            }
+          }
+          Species_Orig_Gene_Direction <- c(Species_Orig_Gene_Direction, concatenate(unique(inner), mysep = ", "))
+        }
+        overlapped = data.frame("Tissue"=unique(allgenes$organ),"Gene"=intersected, "Species_Direction"=Species_Orig_Gene_Direction)
+        
+        allgenes <- allgenes[-remove,]
+        allgenes$Species_Direction <- paste(allgenes$species, allgenes$direction, sep = "_")
+        allgenes <- allgenes[,c("organ", "gene","Species_Direction")]
+        colnames(allgenes) <- c("Tissue","Gene","Species_Direction")
+        
+        allgenes <- rbind(overlapped, allgenes)
+      }
+      allgenes <- allgenes[!duplicated(allgenes),]
+    }
+    else if(comp == "tissue"){
+      allgenes <- allgenes[order(allgenes$organ),]
+      allgenes$Tissue_Direction <- paste(allgenes$organ, allgenes$direction, sep = "_")
+      allgenes$Tissue_Direction <- sapply(allgenes$gene, function(x){
+        return(concatenate(allgenes$Tissue_Direction[allgenes$gene==x], mysep = ", "))
+      })
+      allgenes <- allgenes[order(nchar(allgenes$Tissue_Direction), decreasing = TRUE),]
+      allgenes$organ <- NULL
+      allgenes$direction <- NULL
+      allgenes <- allgenes[!duplicated(allgenes),]
+      allgenes <- allgenes[,c("species","gene","Tissue_Direction")]
+      colnames(allgenes) <- c("Species","Gene","Tissue_Direction")
+    }
+    else{
+      
+    }
+  } # if there are overlaps
+  else{
+    if(comp == "species"){
+      allgenes$Species_Direction <- paste(allgenes$species, allgenes$direction)
+      allgenes <- allgenes[,c("organ", "gene","Species_Direction")]
+    }
+    else{
+      allgenes$Tissue_Direction <- paste(allgenes$organ, allgenes$direction)
+      allgenes <- allgenes[,c("species", "gene","Tissue_Direction")]
+    }
+  }
+  
+  # if(!is.null(geneoutputs$final_intersections)){
+  #   currentresult <- geneoutputs$final_intersections
+  #   colnames(currentresult) <- c("Gene","Organ")
+  #   forAjax <- "{\"data\":["
+  #   #currentresult$Organ <- gsub(":", ", ", currentresult$Organ)
+  #   #forAjax <- "["
+  #   for(row in 1:nrow(currentresult)){
+  #     if(row!=nrow(currentresult)){
+  #       forAjax = paste0(forAjax, "[\"", currentresult[row,1], "\",\"",currentresult[row,2],"\"],")
+  #       #forAjax = paste0(forAjax, "{\"Gene\":\"",currentresult[row,1], "\",\"Species\":\"",currentresult[row,2],"\"},")
+  #     }
+  #     else{
+  #       forAjax = paste0(forAjax, "[\"", currentresult[row,1], "\",\"",currentresult[row,2],"\"]]}")
+  #       #forAjax = paste0(forAjax, "{\"Gene\":\"",currentresult[row,1], "\",\"Species\":\"",currentresult[row,2],"\"}]")
+  #     }
+  #   }
+  #   write(x = forAjax, file = "gene_intersections_ajax.json", sep = "")
+  #   write.csv(currentresult,
+  #             "Download_gene_intersections.csv", row.names=FALSE,quote=FALSE)
+  # }
+  
+  # will be written by the .php script
+  #write(x = forAjax, file = "sessionID_gene_intersections.txt", sep = "")
+} else {
+  allgenes <- data.frame("Species_Tissue"="No results","Gene"="", "Direction"="")
+}
+
+forAjax <- "{\"data\":["
+for(row in 1:nrow(allgenes)){
+  if(row!=nrow(allgenes)){
+    forAjax = paste0(forAjax, "[\"", allgenes[row,1], "\",\"",
+                     allgenes[row,2],"\",\"",
+                     allgenes[row,3],"\"],")
+  }
+  else{
+    forAjax = paste0(forAjax, "[\"", allgenes[row,1], "\",\"",
+                     allgenes[row,2],"\",\"",
+                     allgenes[row,3],"\"]]}")
+  }
+}
+
+# will be written by the .php script
+#write(x = forAjax, file = "sessionID_gene_intersections.txt", sep = "")
+#write.table(allgenes, "sessionID_genes_result.txt", row.names = FALSE, sep = "\t", quote = FALSE)

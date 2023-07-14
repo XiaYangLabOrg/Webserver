@@ -1,0 +1,197 @@
+# plots only if they select multiple organs or species!
+# added by the .php script
+# input = list()
+# input$var <- "Dexamethasone"
+# input$organs <- "adipose tissue"
+# input$organs <- c("adipose tissue", "muscular system")
+# input$species <- c("Homo sapiens","Rattus norvegicus")
+# input$species <- c("Homo sapiens","Mus musculus")
+# input$species <- "Homo sapiens"
+
+.libPaths(c("/home/www/abhatta3-webserver/Rnew2/lib64/R/library/",.libPaths()))
+options(stringsAsFactors = FALSE)
+
+library(UpSetR)
+source("/home/www/abhatta3-webserver/srv/shiny-server/helpers.r")
+
+if(length(input$species)>1){
+  comp = "species"
+} else comp = "tissue"
+
+items <- c()
+for(s in input$species){
+  for(t in input$organs){
+    items <- c(items, paste(input$var, s, t, sep = "_"))
+  }
+}
+if(sum(items %in% names(multiple_datasets))>0){
+  multi_items <- items[items %in% names(multiple_datasets)]
+  if(length(input$species)>1){ # between species comparison
+    for(i in multi_items){
+      species <- unlist(strsplit(i, split = "_"))[2]
+      input$species <- c(input$species, paste(species, multiple_datasets[[i]], sep = "_"))
+      input$species <- input$species[input$species!=species]
+    }
+  }
+  else{ # between tissues comparison
+    for(i in multi_items){
+      tissue <- unlist(strsplit(i, split = "_"))[3]
+      input$organs <- c(input$organs, paste(tissue, multiple_datasets[[i]], sep = "_"))
+      input$organs <- input$organs[input$organs!=tissue]
+    }
+  }
+}
+
+pathways <- NULL
+pathways <- data.frame(Pathway = character(),species = character(),Tissue = character())
+species <- input$species
+organs <- input$organs
+pathwayoutputs <- list()
+pathwayoutputs$pathways  <- NULL
+pathwayoutputs$final <- NULL
+pathwayoutputs$final_intersections <- NULL
+if(length(species) == 0 | length(organs) == 0){
+  
+}else{ 
+  
+  for(i in 1:length(species)){
+    for(j in 1:length(organs)){
+      currentpathway <- framelist[[input$var]][[species[i]]][[organs[j]]]
+      if(is.null(currentpathway)){
+        next
+      }
+      if(length(currentpathway)==1){
+        if(is.na(currentpathway)) next
+      }
+      pathways <- rbind.data.frame(pathways,data.frame(Pathway = currentpathway,species = species[i],Tissue = organs[j]))
+    }
+  }
+
+  pathwayoutputs$pathways <- pathways
+  pathwayoutputs$final  <- pathwayoutputs$pathways
+  
+  
+}
+##### CROSS-ORGANS PLOT ####
+if(is.null(pathwayoutputs$final)){
+  
+}else{
+  currentframe <- pathwayoutputs$final
+  allorgans <- unique(currentframe$Tissue)
+  allspecies <- unique(currentframe$species)
+  if(length(allspecies) > 1){
+    
+  }
+  else if(length(allorgans)==1){
+    
+  }
+  else{
+    comp = "tissue"
+    organpathwaylist_combine <- list()
+    for(i in 1:length(allorgans)){
+      organpathwaylist_combine[[allorgans[i]]] <- currentframe$Pathway[currentframe$Tissue %in% allorgans[i]]
+    }
+    
+    listresult <- fromList(organpathwaylist_combine)
+    pathwayoutputs$final_intersections <- convertion(listresult)
+    if(nrow(pathwayoutputs$final_intersections) > 0){
+      png("Cross_organs_comparison_upset.png", width = 950, height = 400, units = "px", res = 80)
+      upset(listresult, order.by = "freq", mainbar.y.label = "Pathway Count", text.scale = 2.5)
+      dev.off()
+    }
+  }
+}
+##### CROSS-SPECIES PLOT ####
+if(is.null(pathwayoutputs$final)){
+  
+}else{
+  currentframe <- pathwayoutputs$final
+  allorgans <- unique(currentframe$Tissue)
+  allspecies <- unique(currentframe$species)
+  if(length(allorgans) > 1){
+    
+  }
+  else if(length(allspecies)==1){
+    
+  }
+  else{
+    comp = "species"  
+    speciespathwaylist_combine <- list()
+    
+    for(i in 1:length(allspecies)){
+      speciespathwaylist_combine[[allspecies[i]]] <- currentframe$Pathway[currentframe$species %in% allspecies[i]]
+    }
+    
+    listresult <- fromList(speciespathwaylist_combine)
+    pathwayoutputs$final_intersections <- convertion(listresult)
+    if(nrow(pathwayoutputs$final_intersections) > 0){
+      png("Cross_species_comparison_upset.png", width = 950, height = 400, units = "px", res = 80)
+      upset(listresult, order.by = "freq", mainbar.y.label = "Pathway Count", text.scale = 2.5)
+      dev.off()
+    }
+  }
+}
+
+concatenate=function(myvect, mysep="")
+{
+  if(length(myvect)==0) return(myvect)
+  if(length(myvect)==1) return(myvect)
+  string = ""
+  for(item in myvect){
+    string = paste(string, item, sep = mysep)
+  }
+  string = substring(string, first=(nchar(mysep)+1))
+  return(string)
+}
+
+if(!is.null(pathwayoutputs$final)){ 
+  allpathways <- pathwayoutputs$final
+  intersected <- allpathways$Pathway[duplicated(allpathways$Pathway)]
+  if(length(intersected)>0 | !is.null(pathwayoutputs$final_intersections)){
+    intersections = pathwayoutputs$final_intersections
+    intersected <- intersections$Item
+    if(comp=="tissue"){
+      allpathways$Tissue <- sapply(allpathways$Pathway, function(x){
+        return(concatenate(allpathways$Tissue[allpathways$Pathway==x], mysep = ", "))
+      })
+      allpathways <- allpathways[order(nchar(allpathways$Tissue), decreasing = TRUE),]
+      allpathways <- allpathways[!duplicated(allpathways),]
+      allpathways <- allpathways[,c("species","Pathway","Tissue")]
+      colnames(allpathways) <- c("Species","Pathway","Tissue")
+    }
+    else{
+      allpathways$species <- sapply(allpathways$Pathway, function(x){
+        return(concatenate(allpathways$species[allpathways$Pathway==x], mysep = ", "))
+      })
+      allpathways <- allpathways[order(nchar(allpathways$species), decreasing = TRUE),]
+      allpathways <- allpathways[!duplicated(allpathways),]
+      allpathways <- allpathways[,c("Tissue","Pathway","species")]
+      colnames(allpathways) <- c("Tissue","Pathway","Species")
+    }
+  } else{
+    if(comp == "species"){
+      allpathways <- allpathways[,c("Tissue", "Pathway","species")]
+      colnames(allpathways) <- c("Tissue","Pathway","Species")
+    }
+    else{
+      allpathways <- allpathways[,c("species", "Pathway","Tissue")]
+      colnames(allpathways) <- c("Species","Pathway","Tissue")
+    }
+  }
+} else{
+  allpathways <- data.frame("Species_Tissue"="No results","Gene"="", "Direction"="")
+}
+
+forAjax <- "{\"data\":["
+for(row in 1:nrow(allpathways)){
+  if(row!=nrow(allpathways)){
+    forAjax = paste0(forAjax, "[\"", allpathways[row,1], "\",\"",
+                     allpathways[row,2],"\",\"",
+                     allpathways[row,3],"\"],")
+  }
+  else{
+    forAjax = paste0(forAjax, "[\"", allpathways[row,1], "\",\"",
+                     allpathways[row,2],"\",\"",
+                     allpathways[row,3],"\"]]}")
+  }
+}

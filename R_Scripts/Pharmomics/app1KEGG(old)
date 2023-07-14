@@ -1,0 +1,204 @@
+# plots only if they select multiple organs or species!
+# added by the .sh script
+# input = list()
+# input$var <- "Amoxicillin"
+# input$organs <- "common"
+# input$species <- c("Homo sapiens","Rattus norvegicus")
+
+.libPaths(c("/home/www/abhatta3-webserver/Rnew2/lib64/R/library/",.libPaths()))
+options(stringsAsFactors = FALSE)
+
+load("/home/www/abhatta3-webserver/include/pharmomics/all_combined_KEGG_GOBP_pathway.rda")
+load("/home/www/abhatta3-webserver/include/pharmomics/All_combined_data_AE_GEO_0.01.rda")
+
+
+library(UpSetR)
+library(loop)
+
+species <- input$species
+organs <- input$organs
+
+geneoutputs <- list()
+geneoutputs$upreggenes  <- NULL
+geneoutputs$downreggenes <- NULL
+geneoutputs$final <- NULL
+geneoutputs$final_intersections <- NULL
+geneoutputs$pathway_final <- NULL
+geneoutputs$pathway_final_up <- NULL
+geneoutputs$pathway_final_down <- NULL
+geneoutputs$pathway_final_intersections <- NULL
+
+if(length(species) == 0 | length(organs) == 0){
+  
+}else{
+  
+  # if(length(species) >= 2){
+  #   hideTab("tabs","between organ pathway comparison")
+  #   showTab("tabs", "between species pathway comparison")
+  #   showTab("tabs", "pathway overlap summary")
+  # }else if(length(organs) >= 2){
+  #   hideTab("tabs","between species pathway comparison")
+  #   showTab("tabs", "between organ pathway comparison")
+  #   showTab("tabs", "pathway overlap summary")      
+  # }else{
+  #   hideTab("tabs","between species pathway comparison")
+  #   hideTab("tabs", "between organ pathway comparison")
+  #   hideTab("tabs", "pathway overlap summary")  
+  # }
+  
+  for(i in 1:length(species)){
+    
+    for(j in 1:length(organs)){
+      currentframe <- framelist_up[[input$var]][[species[i]]][[organs[j]]]
+      currentframe$organ <- organs[j]
+      currentframe$species <- species[i]
+      
+      if(class(currentframe) == "data.frame"){
+        if(!exists("kkframe_final")){
+          kkframe_final <- currentframe
+        }else{
+          kkframe_final <- rbind.data.frame(kkframe_final,currentframe)
+        }
+      }
+      
+      currentframe <- framelist_down[[input$var]][[species[i]]][[organs[j]]]
+      currentframe$organ <- organs[j]
+      currentframe$species <- species[i]
+      
+      if(class(currentframe) == "data.frame"){
+        if(!exists("kkframe_final_down")){
+          kkframe_final_down <- currentframe
+        }else{
+          kkframe_final_down <- rbind.data.frame(kkframe_final_down,currentframe)
+        }
+      }
+      currentframe <- framelist_combine[[input$var]][[species[i]]][[organs[j]]]
+      currentframe$organ <- organs[j]
+      currentframe$species <- species[i]
+      
+      if(class(currentframe) == "data.frame"){
+        if(!exists("kkframe_final_combine")){
+          kkframe_final_combine <- currentframe
+        }else{
+          kkframe_final_combine <- rbind.data.frame(kkframe_final_combine,currentframe)
+        }
+      }
+      
+    }
+  }
+  
+  kkframe_final$direction <- "upregulation"
+  geneoutputs$pathway_final_up <- kkframe_final
+  
+  kkframe_final_down$direction <- "downregulation"
+  geneoutputs$pathway_final_down <- kkframe_final_down
+  
+  kkframe_final_combine$direction <- "combine"
+  geneoutputs$kkframe_final_combine <- kkframe_final_combine
+  
+  
+  geneoutputs$pathway_final <- rbind.data.frame(kkframe_final, kkframe_final_down, kkframe_final_combine)
+}
+
+##### CROSS-ORGANS PLOT PATHWAY ####
+if(is.null(geneoutputs$pathway_final)){
+  
+}else{
+  currentframe <- geneoutputs$pathway_final
+  currentframe <- currentframe[currentframe$Adjusted.P.value < 0.05,]
+  if(nrow(currentframe) < 1){
+    
+  }else{
+    allorgans <- unique(currentframe$organ)
+    allspecies <- unique(currentframe$species)
+    if(length(allspecies) > 1){
+      
+    }
+    if(length(allorgans)==1){
+      
+    }
+    else{
+      organgenelist_up <- list()
+      organgenelist_down <- list()
+      organgenelist_combine <- list()
+      for(i in 1:length(allorgans)){
+        organgenelist_up[[allorgans[i]]] <- currentframe$Term[currentframe$organ %in% allorgans[i] & currentframe$direction %in% "upregulation"]
+        organgenelist_down[[allorgans[i]]] <- currentframe$Term[currentframe$organ %in% allorgans[i] & currentframe$direction %in% "downregulation"]
+        organgenelist_combine[[allorgans[i]]] <- currentframe$Term[currentframe$organ %in% allorgans[i] & currentframe$direction %in% "combine"]
+      }
+      
+      listresult <- fromList(organgenelist_combine)
+      geneoutputs$pathway_final_intersections <- convertion(listresult)
+
+       if(sum(rowSums(listresult)>1)==0){
+        cat("No similarities found between organs")
+      }
+      else
+      {
+           if(nrow(geneoutputs$pathway_final_intersections) > 0){
+        png("Cross_organs_comparison_upset.png", width = 950, height = 400, units = "px", res = 80)
+        upset(listresult, order.by = "freq", mainbar.y.label = "Organ pathways Size", text.scale = 2.5)
+        dev.off()  
+      }#else{
+      #   hideTab("tabs", "between organ pathway comparison")
+      #   hideTab("tabs", "pathway overlap summary")
+      # }
+      }
+
+      
+     
+    }
+  }
+}
+
+
+##### CROSS-SPECIES PLOT PATHWAY ####
+if(is.null(geneoutputs$pathway_final)){
+  
+  
+}else{
+  currentframe <- geneoutputs$pathway_final
+  currentframe <- currentframe[currentframe$Adjusted.P.value < 0.05,]
+  if(nrow(currentframe) < 1){
+    
+  }else{
+    allorgans <- unique(currentframe$organ)
+    allspecies <- unique(currentframe$species)
+    if(length(allorgans) > 1){
+      
+    }
+    if(length(allspecies)==1){
+      
+    }
+    else{
+      speciesgenelist_up <- list()
+      speciesgenelist_down <- list()
+      speciesgenelist_combine <- list()
+      for(i in 1:length(allspecies)){
+        speciesgenelist_up[[allspecies[i]]] <- currentframe$Term[currentframe$species %in% allspecies[i] & currentframe$direction %in% "upregulation"]
+        speciesgenelist_down[[allspecies[i]]] <- currentframe$Term[currentframe$species %in% allspecies[i] & currentframe$direction %in% "downregulation"]
+        speciesgenelist_combine[[allspecies[i]]] <- currentframe$Term[currentframe$species %in% allspecies[i] &  currentframe$direction %in% "combine"]
+      }
+      listresult <- fromList(speciesgenelist_combine)
+      geneoutputs$pathway_final_intersections <- convertion(listresult)
+
+      if(sum(rowSums(listresult)>1)==0){
+        cat("No similarities found between species")
+      }
+      else
+      {
+        if(nrow(geneoutputs$pathway_final_intersections) > 0){
+        png("Cross_species_comparison_upset.png", width = 950, height = 400, units = "px", res = 80)
+        upset(listresult, order.by = "freq", mainbar.y.label = "Species pathways Size", text.scale = 2.5)
+        dev.off()
+        }
+      }
+      
+    }
+  }
+}
+
+
+
+
+
