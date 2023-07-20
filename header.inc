@@ -35,7 +35,7 @@
                             <li class="current"><a href="#"><div>Home</div></a></li>
                             <li><a href="runmergeomics.php"><div>Run Mergeomics</div></a></li>
                             <li><a href="runpharmomics.php"><div>Run PharmOmics</div></a></li>
-                            <!--<li><a href="runtoxiomics.php"><div>Run Toxiomics</div></a></li>-->
+                            <li><a href="runtoxiomics.php"><div>Run Toxiomics</div></a></li>
                             <li><a href="tutorial.php"><div>Tutorial</div></a>
                                 <ul>
                                     <!--<li><a href="#" title=""><div>In production!</div></a></li>-->
@@ -48,6 +48,7 @@
                                     <!--<li><a href="tutorial_PharmOmics.php" title=""><div>PharmOmics</div></a></li>-->
                                     <li><a href="tutorial.php" title=""><div>Mergeomics</div></a></li>
                                     <li><a href="tutorial_pharmomics.php" title=""><div>Pharmomics</div></a></li>
+                                    <li><a href="tutorial_toxiomics.php" title=""><div>Toxiomics</div></a></li>
                                 </ul>
                             </li>
                             <li><a href="contact.php"><div>Contact</div></a></li>
