@@ -31,22 +31,28 @@ $mail->Subject = $subject;
 
 
 //$address = "dougvarneson@gmail.com";
-$address = 'mcheng7777@gmail.com';
+$address = 'xyang123@g.ucla.edu';
 $mail->AddAddress($address);
-$address = 'mcheng7777@g.ucla.edu';
-$mail->AddAddress($address);
-// $address = 'montyblencowe@ucla.edu';
-// $mail->AddAddress($address);
-// $address = 'xyang123@g.ucla.edu';
-// $mail->AddAddress($address);
+if ($subject == "Mergeomics Support: Mergeomics Pipeline" || $subject == "Mergeomics Support: Pharmomics Pipeline") {
+    $address = 'montyblencowe@ucla.edu';
+    $mail->AddAddress($address);
+} elseif ($subject == "Mergeomics Support: Report a bug"){
+    $address = 'mcheng7777@g.ucla.edu';
+    $mail->AddAddress($address);
+} else{
+    $address = 'montyblencowe@ucla.edu';
+    $mail->AddAddress($address);
+    $address = 'mcheng7777@g.ucla.edu';
+    $mail->AddAddress($address);
+}
 
 
-if(!$mail->Send()) {
+if(!$mail->send()) {
     echo "Mailer Error: " . $mail->ErrorInfo;
 } else {
     echo "E-Mail Sent! Thank you " . $name . ", we will contact you shortly.";
    
-}
+}       
 
 
 
