@@ -27,12 +27,19 @@ $mail->Password   = "friday11";            // GMAIL password
 
 $mail->SetFrom($from, $name);
 
-$mail->Subject    = $subject;
+$mail->Subject = $subject;
 
 
 //$address = "dougvarneson@gmail.com";
-$address = 'jading@ucla.edu';
+$address = 'mcheng7777@gmail.com';
 $mail->AddAddress($address);
+$address = 'mcheng7777@g.ucla.edu';
+$mail->AddAddress($address);
+// $address = 'montyblencowe@ucla.edu';
+// $mail->AddAddress($address);
+// $address = 'xyang123@g.ucla.edu';
+// $mail->AddAddress($address);
+
 
 if(!$mail->Send()) {
     echo "Mailer Error: " . $mail->ErrorInfo;
