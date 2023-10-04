@@ -14,7 +14,7 @@
 # Written by Ville-Petteri Makinen 2013
 #
 kda2himmeli <- function(job, modules=NULL, ndrivers=5) {
-    
+  
     # Import node values.
     cat("\nImporting node data...\n")
     valdata <- tool.read(job$nodfile)
@@ -61,8 +61,7 @@ kda2himmeli <- function(job, modules=NULL, ndrivers=5) {
     
     # Create work folder.
     dpath <- file.path(job$folder, "himmeli")
-    if(file.exists(dpath) == FALSE)
-    dir.create(path=dpath, recursive=TRUE)
+    if(file.exists(dpath) == FALSE) dir.create(path=dpath, recursive=TRUE)
     
     # Save data files.
     edgfile <- file.path(job$folder, "kda2himmeli.edges.txt")
@@ -109,12 +108,12 @@ kda2himmeli <- function(job, modules=NULL, ndrivers=5) {
 
 kda2himmeli.exec <- function(job, valdata, drivers, modpool, palette) {
     
-    # Create star topology.
-    edgdata <- data.frame()
-    for(i in unique(drivers$NODE)) {
-        tmp <- kda2himmeli.edges(job$graph, i, job$depth, job$direction)
-        edgdata <- rbind(edgdata, tmp)
-    }
+  # Create star topology.
+  edgdata <- data.frame()
+  for(i in unique(drivers$NODE)) {
+      tmp <- kda2himmeli.edges(job$graph, i, job$depth, job$direction)
+      edgdata <- rbind(edgdata, tmp)
+  }
     
     # Select affected nodes.
     tmp <- c(edgdata$TAIL, edgdata$HEAD)
@@ -123,7 +122,7 @@ kda2himmeli.exec <- function(job, valdata, drivers, modpool, palette) {
     
     # Assign node shapes.
     valdata$SHAPE <- "circle"
-    pos <- match(valdata$NODE, drivers$NODE);
+    pos <- match(valdata$NODE, drivers$NODE)
     valdata[which(pos > 0),"SHAPE"] <- "star"
     
     # Trace module memberships.
@@ -132,7 +131,7 @@ kda2himmeli.exec <- function(job, valdata, drivers, modpool, palette) {
     # Trim edge dataset.
     edgdata <- edgdata[which(edgdata$TAIL != edgdata$HEAD),]
     edgdata <- unique(edgdata[,c("TAIL", "HEAD", "WEIGHT")])
-    edgdata$COLOR <- "808080"
+    edgdata$COLOR <- "cfcfcf"
     
     # Restore original identities.
     edgdata$TAIL <- job$graph$nodes[edgdata$TAIL]
@@ -142,8 +141,9 @@ kda2himmeli.exec <- function(job, valdata, drivers, modpool, palette) {
     
     # Make identities unique for the current module.
     modtag <- job$modules[drivers[1,"MODULE"]]
-    for(i in 1:nrow(noddata))
-    noddata[i,"NODE"] <- paste(noddata[i,"NODE"], modtag, sep="@")
+    for(i in 1:nrow(noddata)){
+      noddata[i,"NODE"] <- paste(noddata[i,"NODE"], modtag, sep="@")
+    }
     for(i in 1:nrow(edgdata)) {
         edgdata[i,"TAIL"] <- paste(edgdata[i,"TAIL"], modtag, sep="@")
         edgdata[i,"HEAD"] <- paste(edgdata[i,"HEAD"], modtag, sep="@")
@@ -314,19 +314,18 @@ kda2himmeli.identify <- function(dat, varname, labels) {
 # Optional input:
 #   modules           array of module names to be visualized
 #   ndrivers          maximum number of drivers per module
-#   depth 	      search depth of subgraphs
+#   depth             search depth of subgraphs
 #
 # Written by Zeyneb Kurt 2015
 #
-# JD found errors in YZ code, implementing own version.
 kda2cytoscape <- function(job, node.list=NULL, modules=NULL, ndrivers=5,
 depth=1) {
     # Select top scoring modules.
     cat("\nForwarding KDA results to Cytoscape...\n")
     
-    if(is.null(modules) )  # if module names were not provided by user,
-    # take module names from kda results
-    modules <- job$modules[unique(job$results$MODULE)]
+    if(is.null(modules))  # if module names were not provided by user,
+      # take module names from kda results
+      modules <- job$modules[unique(job$results$MODULE)]
     
     # Convert module names to indices.
     if(!is.null(modules)) {
@@ -336,34 +335,28 @@ depth=1) {
     }
     
     # Select top key drivers from each module.
-    # JD changed kda2cytoscape.drivers() to include all modules the KD is a KD for
     drivers <- kda2cytoscape.drivers(job$results, modules, ndrivers)
     mods <- unique(drivers$MODULE)
-    # JD edits
     allmods <- c(mods, setdiff(unique(job$moddata$MODULE), mods))
-    #modnames <- job$modules[mods]
     modnames <- job$modules[allmods]
     modnames[which(mods == 0)] <- "NON.MODULE"
-    # deleted based on YZ edits
-    # palette <- kda2cytoscape.colormap(length(mods))
-    # palette[,which(mods == 0)] <- c(90,90,90)
     
     if(!is.null(node.list)){
-        if (all(is.na(match(node.list, job$graph$nodes))) )
+      if(all(is.na(match(node.list, job$graph$nodes)))){
         stop("These nodes are not in the provided graph")
-        else{
-            drivers <- c()
-            nds <- which(!is.na(match(job$graph$nodes, node.list)))
-            for(ii in 1:length(nds)){
-                if (length(which(job$results$NODE == nds[ii])) > 0 ){
-                    mdls <- job$results$MODULE[which(job$results$NODE ==
-                    nds[ii])]
-                    drivers <- rbind(drivers, cbind(mdls, nds[ii]))
-                }
-                else
-                drivers <- rbind(drivers, cbind(0, nds[ii]))
+      }
+      else{
+        drivers <- c()
+        nds <- which(!is.na(match(job$graph$nodes, node.list)))
+        for(ii in 1:length(nds)){
+            if (length(which(job$results$NODE == nds[ii])) > 0 ){
+                mdls <- job$results$MODULE[which(job$results$NODE == 
+                nds[ii])]
+                drivers <- rbind(drivers, cbind(mdls, nds[ii]))
             }
+            else drivers <- rbind(drivers, cbind(0, nds[ii]))
         }
+      }
     }
     drivers <- as.data.frame(drivers)
     colnames(drivers) <- c("MODULE" , "NODE","FDR")
@@ -371,26 +364,16 @@ depth=1) {
     # Create work folder.
     dpath <- file.path(job$folder, "cytoscape")
     if(file.exists(dpath) == FALSE)
-    dir.create(path=dpath, recursive=TRUE)
+      dir.create(path=dpath, recursive=TRUE)
     # Save top KDAs into file
-    #palette <- kda2cytoscape.colormap(length(mods)) # kda2cytoscape.colormaps on YZ edits
-    #palette <- kda2cytoscape.colormap(length(mods))
-    palette <- kda2cytoscape.colormap(length(allmods)) # make cols for all modules
+    # make cols for all modules
+    palette <- kda2cytoscape.colormap(length(allmods))
     drivers$MODNAMES <- modnames[match(drivers$MODULE, mods)]
-    # edited based on YZ edits
     drivers$NODNAMES <- job$graph$nodes[drivers$NODE]
-    # added based on YZ edits
     for(i in 1:nrow(drivers)){
         k <- which(mods == drivers$MODULE[i])
         drivers$COLOR[i] <- palette[k]
     }
-    
-    # deleted based on YZ edits
-    # for(i in 1:nrow(drivers))
-    # drivers$COLOR[i] <- sprintf("#%02d%02d%02d",
-    # palette[1, match(drivers$MODULE[i], mods)],
-    # palette[2, match(drivers$MODULE[i], mods)],
-    # palette[3, match(drivers$MODULE[i], mods)])
     
     kdafile <- file.path(dpath, paste(job$label, ".kda2cytoscape.top.kds.txt", sep =""))
     tool.save(frame=drivers, file=kdafile)
@@ -401,61 +384,25 @@ depth=1) {
     for(i in 1:length(mods)) {
         rows <- which(drivers$MODULE == mods[i])
         if(length(rows) > 0){
-            # edited based on YZ edits, reverted
-            # JD edits
-            # so that nodes with module membership other than those of KDs 
-            # will be colored with that module
             tmp <- kda2cytoscape.exec(job, drivers[rows,], allmods, palette,
                                       depth)
-            # tmp <- kda2cytoscape.exec(job, drivers[rows,], mods, palette,
-            # depth)
-            # tmp <- kda2cytoscape.exec(i,job, drivers[rows,], mods,depth,palette)
             if (!is.null(tmp)){
                 edgdata <- rbind(edgdata, tmp$edat)
                 noddata <- rbind(noddata, tmp$vdat)
             }
         }
     }
-    
-    # edits to partially fix YZ code - some module memberships will still not be complete
-    # as written, only based on the modules that had significant key drivers
-    # remove <- c()
-    # nonkds <- noddata[noddata$SHAPE=="Ellipse",]
-    # nonkds <- nonkds[duplicated(nonkds$NODE),]
-    # nonkds <- nonkds[nonkds$MEMBERSHIP=="NONMEMBER",]
-    # remove <- rownames(nonkds)
-    # noddata <- noddata[-as.numeric(remove),]
-    
-    # deleted based on YZ edits
-    # this was added for nodes that have module memberships besides
-    # just the ones that the KDs are KDs for
-    # noddata[which(noddata[,5] == "") , 5] <- NA
-    
-    # added based on YZ edits, reverted by JD
-    # ADD URL	
-    # Google chart service.	
-    # urlbase <- "http://chart.apis.google.com/chart?cht=p&chs=200x200"	
-    # urlbase <- paste(urlbase, "chf=bg,s,00000000", sep="&")	
-    
-    unq.nodes <- unique(noddata$NODE)
+
     keep.list <- c()
-    # deleted based on YZ edits, JD reverted
-    # this is where the original problem was when certain KDs would not 
-    # be labeled as a KD (Diamond) even though it is 
-    # it happens when the KD is a member and has multiple data entries
-    # in the noddata but none have NA in the SECTOR column so doesn't 
-    # go through code in 'if (any(is.na(noddata[rws, 5])) )'
+    unq.nodes <- unique(noddata$NODE)
     for ( i in 1:length(unq.nodes) ) {
         rws <- which(noddata[,1] == unq.nodes[i])
-        #if (any(is.na(noddata[rws, 5])) ) {
         if (any(is.na(noddata[rws, "SECTOR"])) ) {
-            # change to 200 to accomodate YZ change of KD to 200
             nn <- which(as.integer(noddata[rws, 3]) == 200)
             if (length(nn) >0) keep.list <- c(keep.list, rws[nn[1]])
             else keep.list <- c(keep.list, rws[1])
         }
         else {
-            # JD edits - if KD exists in list, then keep that node
             kd <- which(noddata[rws, "SHAPE"] == "Diamond")
             if (length(kd) >0){
                 keep.list <- c(keep.list, rws[kd[1]])
@@ -471,188 +418,116 @@ depth=1) {
                     strsplit(noddata[rws[1], "SECTOR"], "1:")[[1]][lenlen]
                 noddata[rws, "COLOR"] <- paste0("#", noddata[rws[1], "COLOR"])
             }
-
         }
     }
     
-    # added based on YZ edits, JD reverted
-    # for (i in 1:length(unq.nodes)){	
-    #     rows <- which(noddata$NODE == unq.nodes[i])	
-    #     diarow <- which(noddata$SHAPE[rows] == "Diamond")	
-    #     n <- length(rows)	
-    #     c <- ""	
-    #     chd <- "chd=t:1"	
-    #     chco <- "chco="	
-    #     if (n == 1){	
-    #         c <- noddata$COLOR[rows]	
-    #         chco <- paste(chco, c, sep="")	
-    #     }else{	
-    #         if (length(diarow)== 0){	
-    #             for (k in 1:(n-1)){	
-    #                 chd <- paste(chd, 1, sep=",")	
-    #             }	
-    #             for (j in 1:n){	
-    #                 c <- noddata$COLOR[rows[j]]	
-    #                 if (j == 1){	
-    #                     chco <- paste(chco, c, sep="")	
-    #                 }else{	
-    #                     chco <- paste(chco, c, sep="|")	
-    #                 }	
-    #             }	
-    #         }else if (length(diarow) < 2){	
-    #             chd <- "chd=t:1"	
-    #             c <- noddata$COLOR[rows[diarow]]	
-    #             chco <- paste("chco=", c, sep="") 	
-    #         }else{	
-    #             for (k in 1:(length(diarow)-1)){	
-    #                 chd <- paste(chd, 1, sep=",")	
-    #             }	
-    #             for (h in 1:length(diarow)){	
-    #                 c <- noddata$COLOR[rows[diarow[h]]]	
-    #                 if (h == 1){	
-    #                     chco <- paste(chco, c, sep="")	
-    #                 }else{	
-    #                     chco <- paste(chco, c, sep="|")	
-    #                 }	
-    #             }	
-    #         }	
-    #     }	
-    #     url <- paste(urlbase, chd, chco, sep="&")	
-    #     noddata$URL[rows] <- gsub("#","",url)	
-    #     
-    #     # keep only 1st or diamond row	
-    #     if (any(is.na(noddata[rows, 5])) ) {	
-    #         nn <- which(as.integer(noddata[rows, 3]) == 100) 	
-    #         if (length(nn) >0) keep.list <- c(keep.list, rows[nn[1]])	
-    #         else keep.list <- c(keep.list, rows[1])	
-    #     }else {	
-    #         dia <- which(noddata$SHAPE[rows]=="Diamond")	
-    #         if (length(dia) == 0){	
-    #             keep.list <- c(keep.list, rows[1])	
-    #         }else{	
-    #             pickdia <- rows[dia]	
-    #             keep.list <- c(keep.list, pickdia)	
-    #         }	
-    #     }	
-    # }	
-    
     noddata <- noddata[keep.list, ]
-    # added by JD
     noddata$SECTOR[is.na(noddata$SECTOR)] <- ""
     noddata$URL[is.na(noddata$URL)] <- ""
-    
-    # deleted based on YZ edits
-    # noddata$MODULE <- NULL
-    
-    # added based on YZ edits
-    # nonmem <- which(noddata$MEMBERSHIP == "NONMEMBER" & noddata$SHAPE == "Ellipse")
-    # nonmem <- which(noddata$URL == "" & noddata$SHAPE == "Ellipse")	
-    # noddata$SIZE[nonmem] = 50	
-    # noddata$URL[nonmem] = ''
     
     # Save data files.
     edgfile <- file.path(dpath, paste(job$label, ".kda2cytoscape.edges.txt", sep =""))
     nodfile <- file.path(dpath, paste(job$label, ".kda2cytoscape.nodes.txt", sep =""))
-    if (!is.null(edgdata)) tool.save(frame=edgdata, file=edgfile)
-    # deleted based on YZ edits - brought back and edited by Jess
-    #if (!is.null(noddata)) tool.save(frame=noddata[, c("NODE", "LABEL", "COLOR", "SIZE", "SHAPE", "SECTOR", "URL", "LABELSIZE")], file=nodfile)
     
-    # Color info.
-    # instr <- NULL
-    # edited based on YZ edits
-    # instr <- paste("MODULES", "COLOR", sep="\t")
-    # instr <- paste("NUMBER","MODULES", "COLOR", sep="\t")
+    whole.network=cbind(job$graph$tails, job$graph$heads, job$graph$weight)
+    TAIL.ids=match(edgdata$TAIL, job$graph$nodes)
+    HEAD.ids=match(edgdata$HEAD, job$graph$nodes)
+    edge.weights.to.be.found=cbind(TAIL.ids, HEAD.ids)
+    direction=job$direction
+    if(direction > 0)
+      edge.weights.to.be.found=merge(edge.weights.to.be.found, whole.network,
+                                     by.x=c(1,2), by.y=c(1,2))
+    if(direction < 0)
+      edge.weights.to.be.found=merge(edge.weights.to.be.found, whole.network,
+                                     by.x=c(1,2), by.y=c(2,1))
+    if(direction == 0)
+      edge.weights.to.be.found=unique(rbind(merge(edge.weights.to.be.found, 
+                                                  whole.network, by.x=c(1,2), 
+                                                  by.y=c(1,2)), 
+                                            merge(edge.weights.to.be.found, 
+                                                  whole.network, by.x=c(1,2), 
+                                                  by.y=c(2,1))))
+    edge.weights.to.be.found[,1]=job$graph$nodes[edge.weights.to.be.found[,1]]
+    edge.weights.to.be.found[,2]=job$graph$nodes[edge.weights.to.be.found[,2]]
+    
+    edgdata.wout.wgts=edgdata[,-3]
+    edge.weights.to.be.found=merge(edgdata.wout.wgts, edge.weights.to.be.found, 
+                                   by.x=c(1,2), by.y=c(1,2))
+    edge.weights.to.be.found= edge.weights.to.be.found[,c(1,2,5,3,4)]
+    
+    colnames(edge.weights.to.be.found)[3] <- "WEIGHT"
+    if(sum(duplicated(edge.weights.to.be.found[,c("TAIL","HEAD","COLOR","MODULE")]))){
+      cat("\nDuplicate edges found!\n Check network file.\n\n")
+    }
+    if (!is.null(edgdata)) tool.save(frame=edge.weights.to.be.found, file=edgfile)
     
     num <- NULL
     color <- NULL
     mod <- NULL
     
-    # edited based on YZ edits
-    # for(j in 1:ncol(palette)) {
-    #     c <- palette[,j]
-    #     value <- sprintf("#%02d%02d%02d", c[1], c[2], c[3])
-    #     value <- paste(modnames[j], value, sep="\t")
-    #for(j in 1:length(palette)) { 
-    for(j in 1:length(modnames)) { # edited by Jess
-        num[j] <- j
-        color[j] <- palette[j]
-        mod[j] <- modnames[j]
-        # value <- palette[j]
-        # value <- paste(j,modnames[j], value, sep="\t")
-        # instr <- c(instr, value)
+    # Color info.
+    for(j in 1:length(modnames)) {
+      num[j] <- j
+      color[j] <- palette[j]
+      mod[j] <- modnames[j]
     }
     
     instr <- data.frame(NUMBER=num, MODULES=mod, COLOR=color)
     
-    # add by Jess
-    # add module membership
-    
-    noddata$MODULE <- sapply(noddata$URL, function(x){
-        mods <- c()
-        for(col in instr$COLOR){
-            if(grepl(gsub("#","",col), x)){
-                mods <- c(mods, as.character(instr$MODULES[instr$COLOR==col]))
-            }
+    noddata$MODULE <- vapply(noddata$URL, function(x){
+      mods <- c()
+      for(col in instr$COLOR){
+        if(grepl(gsub("#","",col), x)){
+          mods <- c(mods, as.character(instr$MODULES[instr$COLOR==col]))
         }
-        if(length(mods)>0){
-            return(concatenate(mods, mysep = ","))
-        } else{
-            return("")
-        }
-    })
+      }
+      if(length(mods)>0){
+        return(do.call("paste",c(as.list(mods), list("sep"=","))))
+      } else{
+        return("")
+      }
+    }, "character")
     
     kd_res <- job$results
     kd_res$MODULE <- job$modules[kd_res$MODULE]
     kd_res$NODE <- job$graph$nodes[kd_res$NODE]
     kd_res <- kd_res[kd_res$FDR<0.05,]
     
-    # list modules KD is a KD for
-    noddata$KD_MODULE <- vapply(noddata$NODE, function(x){
-        if(x %in% kd_res$NODE){
-            return(do.call("paste",
-                           c(as.list(kd_res$MODULE[kd_res$NODE==x]),
-                             list("sep"=","))))
-        } else{
-            return("Not a KD")
-        }
-    }, "character")
-    # get module for which the gene is the most significant KD for
-    noddata$KD_TOP_MODULE <- vapply(noddata$NODE, function(x){
-        if(x %in% kd_res$NODE){
-            # find top module
-            kdres <- kd_res[kd_res$NODE==x,]
-            return(do.call("paste",c(kdres$MODULE[which(min(kdres$P)==kdres$P)],
-                                     list("sep"=","))))
-        } else{
-            return("Not a KD")
-        }
-    }, "character")
-    # KD border color based on top module it regulates
-    noddata$KD_BORDER_COLOR <- vapply(noddata$NODE, function(x){
+    kd_info = t(vapply(noddata$NODE, function(x){
+      info <- c()
+      if(x %in% kd_res$NODE){
+        # KD_MODULE
+        info <- c(info, 
+                  do.call("paste",
+                          c(as.list(kd_res$MODULE[kd_res$NODE==x]),
+                            list("sep"=","))))
+        # KD_TOP_MODULE
+        kdres <- kd_res[kd_res$NODE==x,]
+        top_mod <- kdres$MODULE[which(min(kdres$P)==kdres$P)]
+        info <- c(info, 
+                  do.call("paste",c(kdres$MODULE[which(min(kdres$P)==kdres$P)],
+                                    list("sep"=","))))
+        # KD_BORDER_COLOR
+        if(length(top_mod)>1) top_mod = top_mod[1]
+        info <- c(info, instr$COLOR[instr$MODULES==top_mod])
+        
+        # KD_subnetwork_shown
         if(x %in% drivers$NODNAMES){
-            # find top module
-            kdres <- drivers[drivers$NODNAMES==x,]
-            top_col <- kdres$COLOR[which(min(kdres$FDR)==kdres$FDR)]
-            if(length(top_col)>1) top_col = top_col[1]
-            return(as.character(top_col))
-        } else if(x %in% kd_res$NODE){
-            kdres <- kd_res[kd_res$NODE==x,]
-            top_mod <- kdres$MODULE[which(min(kdres$P)==kdres$P)]
-            if(length(top_mod)>1) top_mod = top_mod[1]
-            return(as.character(instr$COLOR[instr$MODULES==top_mod]))
-        } else{
-            return("Not a KD")
+          info <- c(info, "YES")
+        } else {
+          info <- c(info, "NO")
         }
-    }, "character")
-    noddata$KD_subnetwork_shown <- vapply(noddata$NODE, function(x){
-        if(x %in% drivers$NODNAMES){
-            return("YES")
-        } else if(x %in% kd_res$NODE){
-            return("NO")
-        } else{
-            return("Not a KD")
-        }
-    }, "character")
+        
+        return(info)
+        
+      } else{
+        return(rep("Not a KD", 4))
+      }
+    }, FUN.VALUE = character(4)))
+    
+    colnames(kd_info) <- c("KD_MODULE","KD_TOP_MODULE",
+                           "KD_BORDER_COLOR","KD_subnetwork_shown")
+    noddata <- cbind(noddata, kd_info)
     
     modmember_nonkd <- which(noddata$URL!="" & noddata$SHAPE!="Diamond")
     noddata$SIZE[modmember_nonkd] <- 100
@@ -662,19 +537,19 @@ depth=1) {
     noddata$LABELSIZE[kd_sn_not_shown] <- 20
     
     for(col in 1:ncol(noddata)){
-        noddata[,col] <- as.character(noddata[,col])
+      noddata[,col] <- as.character(noddata[,col])
     }
     
-    if (!is.null(noddata)) tool.save(frame=noddata[, c("NODE", "LABEL", "COLOR", 
-                                                       "SIZE", "SHAPE", "SECTOR",
-                                                       "URL", "MODULE","KD_MODULE",
-                                                       "KD_TOP_MODULE",
-                                                       "KD_BORDER_COLOR",
-                                                       "KD_subnetwork_shown",
-                                                       "LABELSIZE")], file=nodfile)
+    if (!is.null(noddata)){
+      tool.save(frame=noddata[, c("NODE", "LABEL", "COLOR", 
+                                  "SIZE", "SHAPE", "SECTOR",
+                                  "URL", "MODULE","KD_MODULE",
+                                  "KD_TOP_MODULE","KD_BORDER_COLOR",
+                                  "KD_subnetwork_shown","LABELSIZE")], 
+                file=nodfile)
+    }
     
     fname <- file.path(dpath, paste(job$label, ".module.color.mapping.txt", sep =""))
-    #write.table(instr, sep="\t", file=fname, na="", row.names=FALSE, quote=FALSE, col.names=FALSE)
     write.table(instr, file=fname, sep="\t", row.names=FALSE, quote=FALSE)
     
     cat("\rInformation is stored into relevant files.\n", sep="")
@@ -683,79 +558,60 @@ depth=1) {
 
 #----------------------------------------------------------------------------
 
-# edited based on YZ edits
 kda2cytoscape.exec <- function(job, drivers, modpool, palette, graph.depth=1){
-# kda2cytoscape.exec <- function(i,job, drivers, modpool, graph.depth=1,palette){
 
-    # Create star topology.
-    edgdata <- data.frame()
-    for(j in unique(drivers$NODE)) {
-        tmp <- kda2cytoscape.edges(job$graph, j, graph.depth, job$direction)
-        edgdata <- rbind(edgdata, tmp)
-    }
+  # Create star topology.
+  edgdata <- data.frame()
+  for(j in unique(drivers$NODE)) {
+    tmp <- kda2cytoscape.edges(job$graph, j, graph.depth, job$direction)
+    edgdata <- rbind(edgdata, tmp)
+  }
+  
+  # Select affected nodes.
+  tmp <- data.frame(unique(c(edgdata$TAIL, edgdata$HEAD)),
+  stringsAsFactors=FALSE)
+  names(tmp) <- "NODE"
+  # Assign node shapes.
+  shapes <- rep("Ellipse", length(tmp))
+  sizes <- rep(50, length(tmp))
+  
+  tmp$SHAPE <- shapes
+  tmp$SIZE <- sizes
+  
+  pos <- match(tmp$NODE, drivers$NODE)
+  tmp[which(pos > 0),"SHAPE"] <- "Diamond"
+  tmp[which(pos > 0),"SIZE"] <- 200
+  
+  # Trace module memberships.
+  noddata <- kda2cytoscape.colorize(tmp, job$moddata, modpool, palette)
+  
+  if(!is.null(noddata)){
+    # Trim edge dataset.
+    edgdata <- edgdata[which(edgdata$TAIL != edgdata$HEAD),]
+    edgdata <- unique(edgdata[,c("TAIL", "HEAD", "WEIGHT")])
+    edgdata$COLOR <- "#cfcfcf"
     
-    # Select affected nodes.
-    tmp <- data.frame(unique(c(edgdata$TAIL, edgdata$HEAD)),
-    stringsAsFactors=FALSE)
-    names(tmp) <- "NODE"
-    # Assign node shapes.
-    shapes <- rep("Ellipse", length(tmp))
-    # edited based on YZ edits
-    # sizes <- rep(50, length(tmp))
-    sizes <- rep(100, length(tmp))
-    # added based on YZ edits
-    fonts <- rep(20, length(tmp))
+    # Restore original identities.
+    edgdata$TAIL <- job$graph$nodes[edgdata$TAIL]
+    edgdata$HEAD <- job$graph$nodes[edgdata$HEAD]
+    modtag <- job$modules[drivers[1,"MODULE"]]
+    if(length(modtag) == 0) modtag <- "NON.MODULE"
     
-    tmp$SHAPE <- shapes
-    tmp$SIZE <- sizes
-    # added based on YZ edits
-    tmp$FONT <- fonts
+    noddata$NODE <- job$graph$nodes[as.numeric(noddata$NODE)]
+    noddata$LABEL <- noddata$NODE
     
-    pos <- match(tmp$NODE, drivers$NODE)
-    tmp[which(pos > 0),"SHAPE"] <- "Diamond"
-    # edited based on YZ edits
-    #tmp[which(pos > 0),"SIZE"] <- 100
-    tmp[which(pos > 0),"SIZE"] <- 200
-    # added based on YZ edits
-    tmp[which(pos > 0),"FONT"] <- 50
+    # Make identities unique for the current module.
     
-    # Trace module memberships.
-    # edited based on YZ edits
-    noddata <- kda2cytoscape.colorize(tmp, job$moddata, modpool, palette)
-    # noddata <- kda2cytoscape.membership(i,tmp, job$moddata, modpool, palette)
-    # CORRECTED BY JD, then reverted
-    # noddata <- kda2cytoscape.membership(i,tmp, job$moddata[job$moddata$MODULE==modpool[i],], modpool, palette)
+    noddata[1:nrow(noddata), "MODULE"] <- modtag
     
-    if(!is.null(noddata)){
-        # Trim edge dataset.
-        edgdata <- edgdata[which(edgdata$TAIL != edgdata$HEAD),]
-        edgdata <- unique(edgdata[,c("TAIL", "HEAD", "WEIGHT")])
-        
-        # edited based on YZ edits
-        # edgdata$COLOR <- "#808080"
-        edgdata$COLOR <- "#cfcfcf"
-        
-        # Restore original identities.
-        edgdata$TAIL <- job$graph$nodes[edgdata$TAIL]
-        edgdata$HEAD <- job$graph$nodes[edgdata$HEAD]
-        modtag <- job$modules[drivers[1,"MODULE"]]
-        if(length(modtag) == 0) modtag <- "NON.MODULE"
-        
-        noddata$NODE <- job$graph$nodes[as.numeric(noddata$NODE)]
-        noddata$LABEL <- noddata$NODE
-        
-        # Make identities unique for the current module.
-        
-        noddata[1:nrow(noddata), "MODULE"] <- modtag
-        
-        edgdata[1:nrow(edgdata), "MODULE"] <- modtag
-        
-        # Return results.
-        res <- list(edat=edgdata, vdat=noddata)
-        return(res)
-    }
-    else res=NULL
+    edgdata[1:nrow(edgdata), "MODULE"] <- modtag
+    
+    # Return results.
+    res <- list(edat=edgdata, vdat=noddata)
     return(res)
+  }
+  else res=NULL
+  return(res)
 }
 
 #----------------------------------------------------------------------------
@@ -799,11 +655,7 @@ kda2cytoscape.drivers <- function(data, modules, ndriv) {
         ind <- c(ind, rows)
     }
     
-    # JD edits
-    # Add back any modules the chosen key drivers were key drivers for
     kds_include <- unique(data[ind,c("MODULE","NODE")]$NODE)
-    
-    # return(data[ind,c("MODULE","NODE")])
     return(data[data$NODE %in% kds_include,c("MODULE","NODE","FDR")])
 }
 
@@ -812,10 +664,7 @@ kda2cytoscape.drivers <- function(data, modules, ndriv) {
 kda2cytoscape.edges <- function(graph, center, depth, direction) {
     global.HEAD <- c()
     global.TAIL <- c()
-    
-    #DOUG
     global.WEIGHT <- c()
-    #END
     
     centeri <- center
     for(i in 1:depth){
@@ -830,29 +679,20 @@ kda2cytoscape.edges <- function(graph, center, depth, direction) {
                 global.HEAD <- c(global.HEAD, rep(j, length(gi$RANK)) )
             }
             new.cent <- unique(c(new.cent, gi$RANK))
-            
-            #DOUG
             global.WEIGHT <- c(global.WEIGHT,((gi$STRENG)/(1.0 + gi$LEVEL)))
-            #END
         }
         centeri <- new.cent[which(!(new.cent %in% centeri))]
     }
-    #g <- unique(data.frame(cbind(HEAD=global.HEAD, TAIL=global.TAIL, WEIGHT=1)))
-    
-    #doug
-    g <- unique(data.frame(cbind(HEAD=global.HEAD, TAIL=global.TAIL, WEIGHT=global.WEIGHT)))
-    #END
+    g <- unique(data.frame(cbind(HEAD=global.HEAD, TAIL=global.TAIL, 
+                                 WEIGHT=global.WEIGHT)))
     
     return(g)
 }
 
 #---------------------------------------------------------------------------
 
-# edited based on YZ edits, reverted by JD
 kda2cytoscape.colorize <- function(noddata, moddata, modpool, palette) {
-# kda2cytoscape.membership <- function(i,noddata, moddata, modpool, palette) {
-    
-    # deleted based on YZ edits, JD reverted
+
     # Google chart service.
     urlbase <- "http://chart.apis.google.com/chart?cht=p&chs=200x200"
     urlbase <- paste(urlbase, "chf=bg,s,00000000", sep="&")
@@ -862,34 +702,6 @@ kda2cytoscape.colorize <- function(noddata, moddata, modpool, palette) {
     moddata <- moddata[which(pos > 0),c("MODULE","NODE")]
     moddata <- unique(moddata)
     
-    # moddata <- moddata[which(!is.na(match(moddata$MODULE, modpool))), ]
-    
-    # added based on YZ edits, reverted by JD
-    # # Assign memberships: color based on inferred current module	
-    # if(length(noddata$NODE) > 0){
-    #     colors <- rep(palette[i], length(noddata$NODE))	
-    #     sector <- paste( "1:", palette[i], sep="")	
-    #     sectors <- rep(sector, length(noddata$NODE))	
-    #     urls <- rep("", length(noddata$NODE))	
-    #     mem <- rep("", length(noddata$NODE))	
-    #     
-    #     for(k in 1:length(noddata$NODE)) {	
-    #         # !! Error 
-    #         # moddata is all the modules! It should be just that current module
-    #         # so if a node is part of at least one module, it will be a "MEMBER" for all
-    #         # other modules even if it's not a member
-    #         if (length(which(moddata$NODE == noddata$NODE[k]))==0){	
-    #             mem[k] <- "NONMEMBER"	
-    #         }else{	
-    #             mem[k] <- "MEMBER"	
-    #         }	
-    #     }	
-    #     label.size <- rep(12, length(noddata$NODE))	
-    #     res <- data.frame(NODE=noddata$NODE, COLOR=colors, SECTOR=sectors, 
-    #                       URL=urls, LABELSIZE=label.size, MEMBERSHIP = mem, 
-    #                       stringsAsFactors=FALSE)
-    
-    # deleted based on YZ edits, reverted by JD
     # Merge duplicate rows.
     if(length(moddata$NODE) > 0){
         st <- tool.aggregate(moddata$NODE)
@@ -897,7 +709,7 @@ kda2cytoscape.colorize <- function(noddata, moddata, modpool, palette) {
         colors <- rep(NA, length(blocks))
         sectors <- rep("", length(blocks))
         urls <- rep("", length(blocks))
-
+        
         for(k in 1:length(blocks)) {
             chd <- ""
             chco <- ""
@@ -907,14 +719,10 @@ kda2cytoscape.colorize <- function(noddata, moddata, modpool, palette) {
             mods <- sort(unique(mods))
             n <- length(mods)
             if(n < 1) next
-
+            
             for(i in 1:n) {
-                # JD edit
                 c <- palette[which(modpool == mods[i])]
                 c <- gsub("#","",c)
-                # c <- palette[,which(modpool == mods[i])]
-                # JD edit
-                # c <- sprintf("%02d%02d%02d", c[1], c[2], c[3])
                 if(i < 2) {
                     chd <- "chd=t:1"
                     chco <- paste("chco=", c, sep="")
@@ -930,12 +738,9 @@ kda2cytoscape.colorize <- function(noddata, moddata, modpool, palette) {
             urls[k] <- paste(urlbase, chd, chco, sep="&")
         }
         
-        # JD edit
-        # label.size <- rep(12, length(blocks))
         # keep 1st clr in colors, keep all sectors in sectors
         res <- data.frame(NODE=as.integer(st$labels), COLOR=colors,
-        SECTOR=sectors, URL=urls,
-        stringsAsFactors=FALSE)
+                          SECTOR=sectors, URL=urls, stringsAsFactors=FALSE)
         res <- merge(noddata, res, all.x=TRUE)
         res$LABELSIZE <- 12
         
@@ -952,53 +757,31 @@ kda2cytoscape.colorize <- function(noddata, moddata, modpool, palette) {
 }
 
 #----------------------------------------------------------------------------
-lighten <- function(color, factor = 0.5) {
-    col <- col2rgb(color)
-    col <- col + (255 - col)*factor
+
+kda2cytoscape.colormap <- function(ncolors) {
+
+  palette <- rainbow(n=(ncolors + 2))
+  palette <- vapply(palette, function(x){
+    col <- col2rgb(x)
+    col <- col + (255 - col)*0.5
     col <- rgb(t(col), maxColorValue=255)
     return(col)
-}
-
-# edited by YZ but decided not to change for now bc don't want to deal with installing ggtern
-kda2cytoscape.colormap <- function(ncolors) {
-    palette <- rainbow(n=(ncolors + 2))
-    palette <- sapply(palette, lighten)
-    palette <- (col2rgb(palette)/255)
-
-    # Dampen raw colors.
-    kappa <- pmax(0.25*palette[1,], 0.25*palette[2,], 0.4*palette[3,])
-    palette[1,] <- ((1.0 - kappa)*palette[1,] + kappa)
-    palette[2,] <- ((1.0 - kappa)*palette[2,] + kappa)
-    #palette <- round(99*palette)
-    palette <- round(255*palette)
-    
-    # Remove strongest greens (easy to confuse on screen).
-    # if (ncolors == 1){
-    #     rb <- (palette[1,] + palette[3,])
-    #     palette <- palette[,order(rb)]
-    #     ind <- which.max(palette[,2])
-    #     mask <- setdiff(1:ncol(palette), ind)
-    #     palette <- palette[,mask]
-    # }
-    # else {
-    #     while(ncol(palette) > ncolors) {
-    #         rb <- (palette[1,] + palette[3,])
-    #         palette <- palette[,order(rb)]
-    #         ind <- which.max(palette[,2])
-    #         mask <- setdiff(1:ncol(palette), ind)
-    #         palette <- palette[,mask]
-    #     }
-    # }
-    # Sort by components.
-    x <- (10000*palette[1,] + 100*palette[2,] + palette[3,])
-    
-    cols <- apply(palette, 2, function(x){
-        return(rgb(x[1], x[2], x[3], maxColorValue = 255))
-    })
-    # show_col(cols)
-    
-    #return(palette[,order(x)])
-    return(cols)
+  }, "character")
+  palette <- (col2rgb(palette)/255)
+  
+  # Dampen raw colors.
+  kappa <- pmax(0.25*palette[1,], 0.25*palette[2,], 0.4*palette[3,])
+  palette[1,] <- ((1.0 - kappa)*palette[1,] + kappa)
+  palette[2,] <- ((1.0 - kappa)*palette[2,] + kappa)
+  palette <- round(255*palette)
+  
+  x <- (10000*palette[1,] + 100*palette[2,] + palette[3,])
+  
+  cols <- apply(palette, 2, function(x){
+    return(rgb(x[1], x[2], x[3], maxColorValue = 255))
+  })
+  
+  return(cols)
 }
 
 #----------------------------------------------------------------------------
@@ -1088,6 +871,7 @@ kda.analyze.exec <- function(memb, graph, nsim) {
         
         # First pass.
         x <- kda.analyze.simulate(obs[k], g, nmemb, nnodes, 200)
+        if(sum(is.na(x))==length(x)) next
         
         # Estimate preliminary P-value.
         param <- tool.normalize(x)
@@ -1096,8 +880,6 @@ kda.analyze.exec <- function(memb, graph, nsim) {
         if(p*nhubs > 2.0) next
         
         # Estimate final P-value.
-        # edited based on new Mergeomics.R
-        #n <- (nsim - length(x))
         n <- min(nsim, abs(nsim - length(x))+1) # it was: (nsim - length(x))
         y <- kda.analyze.simulate(obs[k], g, nmemb, nnodes, n)
         param <- tool.normalize(c(x, y))
@@ -1186,7 +968,7 @@ kda.analyze.test <- function(neigh, w, members, nnodes) {
     nexpect <- (nmemb/nnodes)*nneigh
     
     # Calculate enrichment score.
-    if(nobserv < 1.0) return(NA);
+    if(nobserv < 1.0) return(NA)
     z <- (nobserv - nexpect)/(sqrt(nexpect) + 1.0)
     return(z)
 }
@@ -1224,48 +1006,53 @@ kda.analyze.test <- function(neigh, w, members, nnodes) {
 # Written by Ville-Petteri Makinen 2013
 #
 kda.configure <- function(plan) {
-    cat("\nKDA Version:12.7.2015\n")
-    cat("\nParameters:\n")
-    plan$stamp <- Sys.time()
-    if(is.null(plan$folder)) stop("No parent folder.")
-    if(is.null(plan$label)) stop("No job label.")
-    if(is.null(plan$netfile)) stop("No network file.")
-    if(is.null(plan$modfile)) stop("No module file.")
-    
-    if(is.null(plan$depth)) plan$depth <- 1
-    plan$depth <- round(plan$depth)
-    if(plan$depth < 1) stop("Unusable search depth.")
-    cat("  Search depth: ", plan$depth, "\n", sep="")
-    
-    if(is.null(plan$direction)) plan$direction <- 0
-    plan$direction <- round(plan$direction)
-    if(abs(plan$direction) > 1) stop("Unusable search direction.")
-    cat("  Search direction: ", plan$direction, "\n", sep="")
-    
-    if(is.null(plan$maxoverlap)) plan$maxoverlap <- 0.33
-    if(plan$maxoverlap > 1) stop("Unusable overlap limit.")
-    if(plan$maxoverlap < 0) stop("Unusable overlap limit.")
-    cat("  Maximum overlap: ", plan$maxoverlap, "\n", sep="")
-    
-    if(is.null(plan$minsize)) plan$minsize <- 20
-    if(plan$minsize < 1) stop("Unusable size limit.")
-    cat("  Minimum module size: ", plan$minsize, "\n", sep="")
-    
-    if(is.null(plan$mindegree)) plan$mindegree <- "automatic"
-    if(is.null(plan$maxdegree)) plan$maxdegree <- "automatic"
-    cat("  Minimum degree: ", plan$mindegree, "\n", sep="")
-    cat("  Maximum degree: ", plan$maxdegree, "\n", sep="")
-    
-    if(is.null(plan$edgefactor)) plan$edgefactor <- 0.5
-    if(plan$edgefactor > 1) stop("Unusable edge factor.")
-    if(plan$edgefactor < 0) stop("Unusable edge factor.")
-    cat("  Edge factor: ", plan$edgefactor, "\n", sep="")
-    
-    if(is.null(plan$nperm)) plan$nperm <- 2000
-    
-    if(is.null(plan$seed)) plan$seed <- 1
-    cat("  Random seed: ", plan$seed, "\n", sep="")
-    return(plan)
+  if(is.null(plan$folder)) stop("No parent folder.")
+  if(is.null(plan$label)) stop("No job label.")
+  jdir <- file.path(plan$folder, "kda")
+  
+  if(!dir.exists(jdir)) dir.create(path=jdir, recursive=TRUE)
+  if(file.access(jdir, 2) != 0) stop("Cannot access '" + plan$folder + "'.")
+  
+  cat("\nKDA Version:12.01.2021\n")
+  cat("\nParameters:\n")
+  plan$stamp <- Sys.time()
+  if(is.null(plan$netfile)) stop("No network file.")
+  if(is.null(plan$modfile)) stop("No module file.")
+  
+  if(is.null(plan$depth)) plan$depth <- 1
+  plan$depth <- round(plan$depth)
+  if(plan$depth < 1) stop("Unusable search depth.")
+  cat("  Search depth: ", plan$depth, "\n", sep="")
+  
+  if(is.null(plan$direction)) plan$direction <- 0
+  plan$direction <- round(plan$direction)
+  if(abs(plan$direction) > 1) stop("Unusable search direction.")
+  cat("  Search direction: ", plan$direction, "\n", sep="")
+  
+  if(is.null(plan$maxoverlap)) plan$maxoverlap <- 0.33
+  if(plan$maxoverlap > 1) stop("Unusable overlap limit.")
+  if(plan$maxoverlap < 0) stop("Unusable overlap limit.")
+  cat("  Maximum overlap: ", plan$maxoverlap, "\n", sep="")
+  
+  if(is.null(plan$minsize)) plan$minsize <- 20
+  if(plan$minsize < 1) stop("Unusable size limit.")
+  cat("  Minimum module size: ", plan$minsize, "\n", sep="")
+  
+  if(is.null(plan$mindegree)) plan$mindegree <- "automatic"
+  if(is.null(plan$maxdegree)) plan$maxdegree <- "automatic"
+  cat("  Minimum degree: ", plan$mindegree, "\n", sep="")
+  cat("  Maximum degree: ", plan$maxdegree, "\n", sep="")
+  
+  if(is.null(plan$edgefactor)) plan$edgefactor <- 0.5
+  if(plan$edgefactor > 1) stop("Unusable edge factor.")
+  if(plan$edgefactor < 0) stop("Unusable edge factor.")
+  cat("  Edge factor: ", plan$edgefactor, "\n", sep="")
+  
+  if(is.null(plan$nperm)) plan$nperm <- 2000
+  
+  if(is.null(plan$seed)) plan$seed <- 1
+  cat("  Random seed: ", plan$seed, "\n", sep="")
+  return(plan)
 }
 # Organize and save results.
 #
@@ -1278,24 +1065,28 @@ kda.configure <- function(plan) {
 # Written by Ville-Petteri Makinen 2013
 #
 kda.finish <- function(job) {
-    cat("\nFinishing results...\n")
-    if (nrow(job$results)==0){
-        cat("No Key Driver Found!!!!")
-    }else{
-        
-        # Estimate additional measures.
-        res <- kda.finish.estimate(job)
-        
-        # Save full results.
-        res <- kda.finish.save(res, job)
-        
-        # Create a simpler file for viewing.
-        res <- kda.finish.trim(res, job)
-        
-        # Create a summary file of top hits.
-        res <- kda.finish.summarize(res, job)
-        return(job)
-    }
+  cat("\nFinishing results...\n")
+  if (nrow(job$results)==0){
+    cat("No Key Driver Found!!!!")
+  } else {
+    
+    # Estimate additional measures.
+    res <- kda.finish.estimate(job)
+    
+    # Save full results.
+    res <- kda.finish.save(res, job)
+    
+    # Create a simpler file for viewing.
+    res <- kda.finish.trim(res, job)
+    
+    # Create a summary file of top hits.
+    res <- kda.finish.summarize(res, job)
+    
+    # Create a inputs and parameters file
+    job <- kda.finish.param(job)
+    
+    return(job)
+  }
 }
 
 #---------------------------------------------------------------------------
@@ -1341,6 +1132,40 @@ kda.finish.estimate <- function(job) {
 
 #---------------------------------------------------------------------------
 
+kda.finish.param <- function(job) {
+  inputs <- data.frame("Input or parameter" = c("Network file",
+                                                "Marker set file",
+                                                "Search depth",
+                                                "Search direction",
+                                                "Maximum overlap",
+                                                "Minimum module size",
+                                                "Minimum degree",
+                                                "Maximum degree",
+                                                "Edge factor",
+                                                "Number of permutations",
+                                                "Random seed"),
+                       "Value" = c(basename(job$netfile),
+                                   basename(job$modfile),
+                                   job$depth,
+                                   job$direction,
+                                   job$maxoverlap,
+                                   job$minsize,
+                                   job$mindegree,
+                                   job$maxdegree,
+                                   job$edgefactor,
+                                   job$nperm,
+                                   job$seed), 
+                       check.names = FALSE)
+  
+  jdir <- file.path(job$folder, "kda")
+  fname <- paste(job$label, ".param.txt", sep="")
+  tool.save(frame=inputs, file=fname, directory=jdir)
+  
+  return(job)
+}
+
+#---------------------------------------------------------------------------
+
 kda.finish.save <- function(res, job) {
     
     # Collect co-hubs.
@@ -1374,23 +1199,26 @@ kda.finish.save <- function(res, job) {
     res$MODULE <- job$modules[res$MODULE]
     res$NODE <- job$graph$nodes[res$NODE]
     
-    # added by JD
+    # Add description back for merged modules 
+    # (will be DESCR for reported name)
     if(!is.null(job$inffile)){
-        if(!is.null(res$DESCR)){
-            modinfo <- read.delim(job$inffile, stringsAsFactors = FALSE)
-            modinfo <- modinfo[,c("MODULE","DESCR")]
-            modinfo <- rbind(modinfo, data.frame("MODULE"=paste0(modinfo$MODULE,",.."),
-                                                 "DESCR"=modinfo$DESCR, 
-                                                 stringsAsFactors = FALSE))
-            for(iter in 1:nrow(res)){
-                if(is.na(res$DESCR[iter]) & grepl(",..",res$MODULE[iter])){
-                    if(gsub(",..","",res$MODULE[iter]) %in% modinfo$MODULE){
-                        res$DESCR[iter] <- modinfo$DESCR[modinfo$MODULE==gsub(",..","",res$MODULE[iter])]
-                    }
-                }
+      if(!is.null(res$DESCR)){
+        modinfo <- read.delim(job$inffile, stringsAsFactors = FALSE)
+        modinfo <- modinfo[,c("MODULE","DESCR")]
+        modinfo <- rbind(modinfo, 
+                         data.frame("MODULE"=paste0(modinfo$MODULE,",.."),
+                                    "DESCR"=modinfo$DESCR, 
+                                    stringsAsFactors = FALSE))
+        for(iter in 1:nrow(res)){
+          if(is.na(res$DESCR[iter]) & grepl(",..",res$MODULE[iter])){
+            if(gsub(",..","",res$MODULE[iter]) %in% modinfo$MODULE){
+              res$DESCR[iter] <- 
+                modinfo$DESCR[modinfo$MODULE==gsub(",..","",res$MODULE[iter])]
             }
-            res$DESCR[is.na(res$DESCR)] <- ""
+          }
         }
+        res$DESCR[is.na(res$DESCR)] <- ""
+      }
     }
     
     # Sort and save results.
@@ -1414,10 +1242,12 @@ kda.finish.trim <- function(res, job) {
     fdreals <- res$FDR; fdrates <- rep("", nrow(res))
     ldreals <- res$FOLD; folds <- rep("", nrow(res))
     for(i in 1:nrow(res)) {
-        pvals[i] <- sprintf("%.2e", preals[	i])
-        if(is.na(fdreals[i])) fdrates[i] <- ""
-        else fdrates[i] <- sprintf("%.4f", fdreals[i])
-        folds[i] <- sprintf("%.2f", ldreals[i])
+      pvals[i] <- sprintf("%.2e", preals[ i])
+      if(is.na(fdreals[i])) 
+        fdrates[i] <- ""
+      else
+        fdrates[i] <- sprintf("%.4f", fdreals[i])
+      folds[i] <- sprintf("%.2f", ldreals[i])
     }
     
     # Update results.
@@ -1514,7 +1344,7 @@ kda.prepare <- function(job) {
     # Collect neighbors.
     cat("\nCollecting hubs...\n")
     job$graph <- kda.prepare.screen(job$graph, job$depth, job$direction,
-    job$edgefactor, job$mindegree,job$maxdegree)
+    job$edgefactor, job$mindegree, job$maxdegree)
     if(length(job$graph$hubs) < 1) stop("No usable hubs detected.")
     
     # Collect overlapping co-hubs.
@@ -1610,7 +1440,7 @@ kda.prepare.overlap <- function(graph, direction, rmax) {
             stamp <- Sys.time()
         }
         
-        # Neibhgorhood topology.
+        # Neighborhood topology.
         g <- hubnets[[key]]
         neighbors <- g$RANK
         locals <- intersect(neighbors, hubs)
@@ -1725,10 +1555,6 @@ kda.start.edges <- function(job) {
     cat("\nImporting edges...\n")
     varnames <- c("TAIL", "HEAD", "WEIGHT")
     edgdata <- tool.read(file=job$netfile, vars=varnames)
-    ####### DOUG CHANGE
-    #edgdata$TAIL <- toupper(edgdata$TAIL)
-    #edgdata$HEAD <- toupper(edgdata$HEAD)
-    ########
     edgdata$WEIGHT <- suppressWarnings(as.double(edgdata$WEIGHT))
     edgdata <- edgdata[which(edgdata$WEIGHT > 0),]
     
@@ -1776,10 +1602,6 @@ kda.start.modules <- function(job, edgdata) {
     # Import module data.
     cat("\nImporting modules...\n")
     moddata <- tool.read(file=job$modfile, vars=c("MODULE", "NODE"))
-    ####### DOUG CHANGE
-    #moddata$MODULE <- toupper(moddata$MODULE)
-    #moddata$NODE <- toupper(moddata$NODE)
-    ########
     moddata <- unique(moddata)
     
     # Collect node names.
@@ -1840,34 +1662,22 @@ kda.start.identify <- function(dat, varname, labels) {
 #
 # Written by Ville-Petteri Makinen 2013
 #
-
-concatenate=function(myvect, mysep="")
-{
-    if(length(myvect)==0) return(myvect)
-    if(length(myvect)==1) return(myvect)
-    string = ""
-    for(item in myvect){
-        string = paste(string, item, sep = mysep)
-    }
-    string = substring(string, first=(nchar(mysep)+1))
-    return(string)
-}
-
-ssea2kda <- function(job, symbols=NULL, filter=NULL, rmax=NULL) {
+ssea2kda <- function(job, symbols=NULL, rmax=NULL, min.module.count=NULL, filter=NULL) {
     cat("\nForwarding MSEA results to KDA...\n")
     if(is.null(rmax)) rmax <- 0.33
     if(is.null(filter)) filter <- 0.25
     
     # Collect genes and top markers from original files.
-    noddata <- ssea2kda.import(job$genfile, job$locfile)
+    noddata <- ssea2kda.import(job$genfile, job$marfile)
     
     # Select candidate modules.
     res <- job$results
     res <- res[order(res$P),]
     rows <- which(res$FDR < filter)
-    # MODIFIED BY JESS
-    if(length(rows) < 3) rows <- (1:12) # including ctrl sets and will take them out
+    if(!is.null(min.module.count))
+      if(length(rows) < min.module.count) rows <- (1:min.module.count)
     if(length(rows) < nrow(res)) res <- res[rows,]
+    if(length(rows) < 3) stop("No modules to forward to MSEA with given filter!\n")
     
     # Collect member genes.
     moddata <- job$moddata
@@ -1879,43 +1689,55 @@ ssea2kda <- function(job, symbols=NULL, filter=NULL, rmax=NULL) {
     modinfo$MODULE <- job$modules[modinfo$MODULE]
     moddata$MODULE <- job$modules[moddata$MODULE]
     moddata$GENE <- job$genes[moddata$GENE]
-    # ADDED BY JESS
+    
     moddata <- moddata[!grepl("_ctrl", moddata$MODULE),]
     moddata_orig <- moddata
     
     # Merge and trim overlapping modules.
     moddata$OVERLAP <- moddata$MODULE
     if(length(unique(moddata$MODULE))>1){
-        moddata <- tool.coalesce(items=moddata$GENE, groups=moddata$MODULE,
-        rcutoff=rmax)
-        moddata$MODULE <- moddata$CLUSTER
-        moddata$GENE <- moddata$ITEM
-        moddata$OVERLAP <- moddata$GROUPS
-        moddata <- moddata[,c("MODULE", "GENE", "OVERLAP")]
-        moddata <- unique(moddata)
-        
-        # ADDED BY JESS
-        # add back 'lost genes'
-        if(length(setdiff(moddata_orig$GENE, moddata$GENE))>0){
-            addBack <- data.frame("GENE"=unique(setdiff(moddata_orig$GENE, moddata$GENE)))
-            modules <- c()
-            for(gene in addBack$GENE){
-                modules <- c(modules, concatenate(moddata_orig$MODULE[moddata_orig$GENE==gene], mysep = ", "))
-            }
-            addBack$Module <- modules
-            merged_modules <- unique(moddata$OVERLAP)
-            names(merged_modules) <- unique(moddata$MODULE)
-            for(iter in 1:nrow(addBack)){
-                # get module name from merged
-                mod <- names(merged_modules)[grepl(paste0("\\b",unlist(strsplit(addBack$Module[iter], split = ", "))[1],"\\b"), merged_modules)]
-                temp <- data.frame("MODULE"=mod, 
-                                   "GENE"=addBack$GENE[iter], 
-                                   "OVERLAP"=merged_modules[names(merged_modules)==mod],
-                                   stringsAsFactors = FALSE)
-                moddata <- rbind(moddata, temp)
-            }
-            moddata <- moddata[order(moddata$MODULE),] # 2667
+      moddata <- tool.coalesce(items=moddata$GENE, groups=moddata$MODULE,
+      rcutoff=rmax)
+      moddata$MODULE <- moddata$CLUSTER
+      moddata$GENE <- moddata$ITEM
+      moddata$OVERLAP <- moddata$GROUPS
+      moddata <- moddata[,c("MODULE", "GENE", "OVERLAP")]
+      moddata <- unique(moddata)
+      
+      # add back 'lost' genes
+      if(length(setdiff(moddata_orig$GENE, moddata$GENE))>0){
+        addBack <- data.frame("GENE"=unique(setdiff(moddata_orig$GENE, moddata$GENE)))
+        modules <- c()
+        for(gene in addBack$GENE){
+          modules <- c(modules, 
+                       do.call("paste",
+                               c(as.list(moddata_orig$MODULE[moddata_orig$GENE==gene]), 
+                                 list("sep"=", "))))
         }
+        addBack$Module <- modules
+        merged_modules <- unique(moddata$OVERLAP)
+        names(merged_modules) <- unique(moddata$MODULE)
+        for(iter in 1:nrow(addBack)){
+          # get module name from merged
+          first_match = unlist(strsplit(addBack$Module[iter], split = ", "))[1]
+          mod <- names(merged_modules)[grepl(first_match, merged_modules)]
+          if(length(mod)>1){
+            for(set in mod){
+              submods = unlist(strsplit(merged_modules[[set]], split = ","))
+              if(first_match %in% submods){
+                mod <- set
+                break
+              }
+            }
+          }
+          temp <- data.frame("MODULE"=mod, 
+                             "GENE"=addBack$GENE[iter], 
+                             "OVERLAP"=merged_modules[names(merged_modules)==mod],
+                             stringsAsFactors = FALSE)
+          moddata <- rbind(moddata, temp)
+        }
+        moddata <- moddata[order(moddata$MODULE),]
+      }
     }
     
     # Calculate enrichment scores for merged modules.
@@ -1934,9 +1756,9 @@ ssea2kda <- function(job, symbols=NULL, filter=NULL, rmax=NULL) {
     
     # Mark modules with overlaps.
     for(i in which(moddata$MODULE != moddata$OVERLAP))
-    moddata[i,"MODULE"] <- paste(moddata[i,"MODULE"], "..", sep=",")
+      moddata[i,"MODULE"] <- paste(moddata[i,"MODULE"], "..", sep=",")
     for(i in which(res$MODULE != res$OVERLAP))
-    res[i,"MODULE"] <- paste(res[i,"MODULE"], "..", sep=",")
+      res[i,"MODULE"] <- paste(res[i,"MODULE"], "..", sep=",")
     
     # Separate merged genes.
     nodes <- character()
@@ -1959,8 +1781,7 @@ ssea2kda <- function(job, symbols=NULL, filter=NULL, rmax=NULL) {
         moddata[i,] <- NA
     }
     tmp$OVERLAP <- moddata_a$OVERLAP[match(tmp$MODULE, moddata_a$MODULE)]
-    # EDITED BY JESS
-    moddata <- na.omit(moddata[,c("MODULE","GENE","OVERLAP")]) # add back overlap
+    moddata <- na.omit(moddata[,c("MODULE","GENE","OVERLAP")])
     moddata <- unique(rbind(moddata, tmp))
     
     # Translate gene symbols.
@@ -1985,14 +1806,13 @@ ssea2kda <- function(job, symbols=NULL, filter=NULL, rmax=NULL) {
     # Save modules for KDA.
     jdir <- file.path(job$folder, "ssea")
     modfile <- paste(job$label, ".ssea2kda.modules.txt", sep="")
-    # EDITED BY JESS
-    tool.save(frame=unique(moddata[,c("MODULE", "OVERLAP","NODE", "GENE")]), # add back overlap
+    tool.save(frame=unique(moddata[,c("MODULE", "OVERLAP","NODE", "GENE")]),
     file=modfile, directory=jdir)
     
     # Save nodes for KDA.
     jdir <- file.path(job$folder, "ssea")
     nodfile <- paste(job$label, ".ssea2kda.nodes.txt", sep="")
-    out_node = unique(noddata[,c("NODE", "GENE", "LOCUS", "VALUE")])
+    out_node = unique(noddata[,c("NODE", "GENE", "MARKER", "VALUE")])
     names(out_node)[3] = "MARKER"
     tool.save(frame=out_node,
     file=nodfile, directory=jdir)
@@ -2010,25 +1830,21 @@ ssea2kda <- function(job, symbols=NULL, filter=NULL, rmax=NULL) {
 
 #---------------------------------------------------------------------------
 
-ssea2kda.import <- function(genfile, locfile) {
+ssea2kda.import <- function(genfile, marfile) {
     
     # Import marker values.
     cat("\nImporting marker values...\n")
-    locdata <- tool.read(locfile, c("LOCUS", "VALUE"))
+    locdata <- tool.read(marfile, c("MARKER", "VALUE"))
     locdata$VALUE <- as.double(locdata$VALUE)
     rows <- which(0*(locdata$VALUE) == 0)
     locdata <- unique(na.omit(locdata[rows,]))
-    locdata_ex <- locdata
-    names(locdata_ex) <- c("MARKER","VALUE")
-    print(summary(locdata_ex))
+    print(summary(locdata))
     
     # Import mapping data.
     cat("\nImporting mapping data...\n")
-    gendata <- tool.read(genfile, c("GENE", "LOCUS"))
+    gendata <- tool.read(genfile, c("GENE", "MARKER"))
     gendata <- unique(na.omit(gendata))
-    gendata_ex <- gendata
-    names(gendata_ex) <- c("GENE","MARKER")
-    print(summary(gendata_ex))
+    print(summary(gendata))
     
     # Merge datasets.
     data <- merge(gendata, locdata)
@@ -2067,11 +1883,11 @@ ssea2kda.analyze <- function(job, moddata) {
     modsizes <- rep(0, nmods)
     genes <- as.integer(moddata$GENE)
     for(k in 1:length(blocks)) {
-        key <- keys[k]
-        rows <- blocks[[k]]
-        members <- unique(genes[rows])
-        genlists[[key]] <- as.integer(members)
-        modsizes[[key]] <- length(members)
+      key <- keys[k]
+      rows <- blocks[[k]]
+      members <- unique(genes[rows])
+      genlists[[key]] <- as.integer(members)
+      modsizes[[key]] <- length(members)
     }
     
     # Determine marker set sizes.
@@ -2079,11 +1895,11 @@ ssea2kda.analyze <- function(job, moddata) {
     moddensities <- rep(0.0, nmods)
     loclists <- job$database$gene2loci
     for(k in 1:length(genlists)) {
-        locset <- integer()
-        for(i in genlists[[k]])
+      locset <- integer()
+      for(i in genlists[[k]])
         locset <- c(locset, loclists[[i]])
-        modlengths[[k]] <- length(unique(locset))
-        moddensities[[k]] <- modlengths[[k]]/length(locset)
+      modlengths[[k]] <- length(unique(locset))
+      moddensities[[k]] <- modlengths[[k]]/length(locset)
     }
     
     # Update database.
@@ -2098,7 +1914,7 @@ ssea2kda.analyze <- function(job, moddata) {
     
     # Restore module identities.
     res$NGENES <- modsizes[res$MODULE]
-    res$NLOCI <- modlengths[res$MODULE]
+    res$NMARKER <- modlengths[res$MODULE]
     res$DENSITY <- moddensities[res$MODULE]
     res$MODULE <- job$modules[res$MODULE]
     return(res)
@@ -2126,7 +1942,6 @@ ssea.analyze <- function(job) {
     
     # Observed enrichment scores.
     db <- job$database
-    # scores <- ssea.analyze.observe(db)
     scores_int <- ssea.analyze.observe(db)
     scores <- scores_int[["scores"]]
     chis_sd <- scores_int[["chis_sd"]]
@@ -2136,7 +1951,9 @@ ssea.analyze <- function(job) {
     
     # Simulated scores.
     nperm <- job$nperm
-    nullsets <- ssea.analyze.simulate(db, scores, nperm, job$permtype)
+    trim_start = job$trim
+    trim_end = 1 - job$trim
+    nullsets <- ssea.analyze.simulate(db, scores, nperm, job$permtype, trim_start, trim_end)
     
     # Estimate scores based on Gaussian distribution.
     cat("\nNormalizing scores...\n")
@@ -2179,8 +1996,8 @@ ssea.analyze <- function(job) {
     res <- data.frame(MODULE=(1:nmods), stringsAsFactors=FALSE)
     res$P <- pvalues
     res$FREQ <- freq
-    res$CHI <- scores
     res$ZSCORE <- z
+    res$CHI <- scores
     res$CHI_SD <- chis_sd
     res$CHI_SE <- chis_se
     
@@ -2195,7 +2012,7 @@ ssea.analyze <- function(job) {
 
 #----------------------------------------------------------------------------
 
-ssea.analyze.simulate <- function(db, observ, nperm, permtype, trim_start = 0.002, trim_end = 0.998) {
+ssea.analyze.simulate <- function(db, observ, nperm, permtype, trim_start, trim_end) {
   
   #############################################################################
   #####This is an additional process to trim genes with exceptionally high value####
@@ -2230,123 +2047,123 @@ ssea.analyze.simulate <- function(db, observ, nperm, permtype, trim_start = 0.00
   }
   cutoff=as.numeric(quantile(trim_scores,probs=c(trim_start,trim_end)))
   gene_sel=which(trim_scores>cutoff[1]&trim_scores<cutoff[2])
-    
-    # Include only non-empty modules for simulation.
-    nmods <- length(db$modulesizes)
-    targets <- which(db$modulesizes > 0)
-    hits <- rep(NA, nmods)
-    hits[targets] <- 0
-    
-    # Prepare data structures to hold null samples.
-    keys <- rep(0, nperm)
-    scores <- rep(NA, nperm)
-    scoresets <- list()
-    for(i in 1:nmods)
+  
+  # Include only non-empty modules for simulation.
+  nmods <- length(db$modulesizes)
+  targets <- which(db$modulesizes > 0)
+  hits <- rep(NA, nmods)
+  hits[targets] <- 0
+  
+  # Prepare data structures to hold null samples.
+  keys <- rep(0, nperm)
+  scores <- rep(NA, nperm)
+  scoresets <- list()
+  for(i in 1:nmods)
     scoresets[[i]] <- double()
+  
+  # Simulate random scores.
+  nelem <- 0
+  snull <- double()
+  stamp <- Sys.time()
+  for(k in 1:nperm) {
+    if(permtype == "gene") snull <- ssea.analyze.randgenes(db, targets, gene_sel)
+    if(permtype == "marker") snull <- ssea.analyze.randloci(db, targets)
+    if(length(snull) < 1) stop("Unknown permutation type.")
     
-    # Simulate random scores.
-    nelem <- 0
-    snull <- double()
+    # Check data capacity.
+    ntarg <- length(targets)
+    if((nelem + ntarg) >= length(keys)) {
+      keys <- c(keys, rep(0, nelem))
+      scores <- c(scores, rep(NA, nelem))
+    }
+    
+    # Collect scores.
+    for(i in 1:ntarg) {
+      nelem <- (nelem + 1)
+      t <- targets[i]
+      keys[nelem] <- t
+      scores[nelem] <- snull[i]
+      hits[t] <- (hits[t] + (snull[i] > observ[t]))
+    }
+    
+    # Drop less significant modules.
+    hmax <- min(sqrt(nperm/k), 10)
+    targets <- which(hits < hmax)
+    if(length(targets) < 1) break
+    
+    # Progress report.
+    delta <- as.double(Sys.time() - stamp)
+    if((delta < 10.0) & (k < nperm)) next
+    cat(sprintf("%d/%d cycles\n", k, nperm))
     stamp <- Sys.time()
-    for(k in 1:nperm) {
-        if(permtype == "gene") snull <- ssea.analyze.randgenes(db, targets, gene_sel)
-        if(permtype == "marker") snull <- ssea.analyze.randloci(db, targets)
-        if(length(snull) < 1) stop("Unknown permutation type.")
-        
-        # Check data capacity.
-        ntarg <- length(targets)
-        if((nelem + ntarg) >= length(keys)) {
-            keys <- c(keys, rep(0, nelem))
-            scores <- c(scores, rep(NA, nelem))
-        }
-        
-        # Collect scores.
-        for(i in 1:ntarg) {
-            nelem <- (nelem + 1)
-            t <- targets[i]
-            keys[nelem] <- t
-            scores[nelem] <- snull[i]
-            hits[t] <- (hits[t] + (snull[i] > observ[t]))
-        }
-        
-        # Drop less significant modules.
-        hmax <- min(sqrt(nperm/k), 10)
-        targets <- which(hits < hmax)
-        if(length(targets) < 1) break
-        
-        # Progress report.
-        delta <- as.double(Sys.time() - stamp)
-        if((delta < 10.0) & (k < nperm)) next
-        cat(sprintf("%d/%d cycles\n", k, nperm))
-        stamp <- Sys.time()
-    }
-    
-    # Remove missing entries.
-    scores <- scores[1:nelem]
-    keys <- keys[1:nelem]
-    
-    # Organize null scores into lists.
-    st <- tool.aggregate(keys)
-    labels <- as.integer(st$labels)
-    blocks <- st$blocks
-    for(i in 1:length(blocks)) {
-        key <- labels[i]
-        rows <- blocks[[i]]
-        scoresets[[key]] <- scores[rows]
-    }
-    return(scoresets)
+  }
+  
+  # Remove missing entries.
+  scores <- scores[1:nelem]
+  keys <- keys[1:nelem]
+  
+  # Organize null scores into lists.
+  st <- tool.aggregate(keys)
+  labels <- as.integer(st$labels)
+  blocks <- st$blocks
+  for(i in 1:length(blocks)) {
+    key <- labels[i]
+    rows <- blocks[[i]]
+    scoresets[[key]] <- scores[rows]
+  }
+  return(scoresets)
 }
 
 #----------------------------------------------------------------------------
 
 ssea.analyze.observe <- function(db) {
-    mod2gen <- db$module2genes
-    gene2loci <- db$gene2loci
-    locus2row <- db$locus2row
-    observed <- db$observed
-    expected <- db$expected
-    nmods <- length(mod2gen)  
+  mod2gen <- db$module2genes
+  gene2loci <- db$gene2loci
+  locus2row <- db$locus2row
+  observed <- db$observed
+  expected <- db$expected
+  nmods <- length(mod2gen)  
+  
+  # Test every module.
+  scores <- rep(NA, nmods)
+  chis_sd <- rep(NA, nmods)
+  chis_se <- rep(NA, nmods)
+  chis_variance <- rep(NA, nmods)
+  for(k in 1:nmods) {
+    genes <- mod2gen[[k]]
     
-    # Test every module.
-    scores <- rep(NA, nmods)
-    chis_sd <- rep(NA, nmods)
-    chis_se <- rep(NA, nmods)
-    chis_variance <- rep(NA, nmods)
-    for(k in 1:nmods) {
-        genes <- mod2gen[[k]]
-        
-        # Collect markers.
-        loci <- integer()
-        for(i in genes) 
-            loci <- c(loci, gene2loci[[i]])
-        
-        # Determine data rows.
-        loci <- unique(loci)
-        rows <- locus2row[loci]
-        nloci <- length(rows)    
-        
-        # Calculate total counts.
-        #e <- nloci*expected
-        e <- (nloci/length(locus2row))*colSums(observed)
-        o <- observed[rows,]
-        if(nloci > 1) o <- colSums(o)
-        
-        # Estimate enrichment.
-        # scores[k] <- ssea.analyze.statistic(o, e)
-        int <- ssea.analyze.statistic(o, e)
-        scores[k] <- int[["mean_z"]]
-        chis_sd[k] <- int[["chis_sd"]]
-        chis_se[k] <- int[["chis_se"]]
-        if("matrix" %in% class(int[["chis_var"]])){
-            chis_variance[k] <- NA
-        } else{
-            chis_variance[k] <- int[["chis_var"]]
-        }
+    # Collect markers.
+    loci <- integer()
+    for(i in genes) 
+      loci <- c(loci, gene2loci[[i]])
+    
+    # Determine data rows.
+    loci <- unique(loci)
+    rows <- locus2row[loci]
+    NMARKER <- length(rows)    
+    
+    # Calculate total counts.
+    #e <- NMARKER*expected
+    e <- (NMARKER/length(locus2row))*colSums(observed)
+    o <- observed[rows,]
+    if(NMARKER > 1) o <- colSums(o)
+    
+    # Estimate enrichment.
+    # scores[k] <- ssea.analyze.statistic(o, e)
+    int <- ssea.analyze.statistic(o, e)
+    scores[k] <- int[["mean_z"]]
+    chis_sd[k] <- int[["chis_sd"]]
+    chis_se[k] <- int[["chis_se"]]
+    if("matrix" %in% class(int[["chis_var"]])){
+      chis_variance[k] <- NA
+    } else{
+      chis_variance[k] <- int[["chis_var"]]
     }
-    return(list("scores"=scores,
-                "chis_sd"=chis_sd,
-                "chis_se"=chis_se,
-                "chis_var"=chis_variance))
+  }
+  return(list("scores"=scores,
+              "chis_sd"=chis_sd,
+              "chis_se"=chis_se,
+              "chis_var"=chis_variance))
 }
 
 #----------------------------------------------------------------------------
@@ -2403,33 +2220,34 @@ ssea.analyze.randgenes <- function(db, targets, gene_sel) {
 #----------------------------------------------------------------------------
 
 ssea.analyze.randloci <- function(db, targets) {
-    modlengths <- db$modulelengths
-    locus2row <- db$locus2row
-    observed <- db$observed
-    expected <- db$expected
+  modlengths <- db$modulelengths
+  locus2row <- db$locus2row
+  observed <- db$observed
+  expected <- db$expected
+  
+  # Test target modules.
+  scores <- double()
+  nrows <- length(locus2row)
+  for(k in targets) {
+    NMARKER <- modlengths[[k]]
     
-    # Test target modules.
-    scores <- double()
-    nrows <- length(locus2row)
-    for(k in targets) {
-        nloci <- modlengths[[k]]
-        
-        # Determine data rows.
-        loci <- sample.int(nrows, nloci)
-        rows <- locus2row[loci]
-        
-        # Calculate total counts.
-        e <- nloci*expected
-        o <- observed[rows,]
-        if(nloci > 1) o <- colSums(o)
-        
-        # Estimate enrichment.
-        z <- ssea.analyze.statistic(o, e)
-        scores <- c(scores, z[["mean_z"]])
-    }
+    # Determine data rows.
+    loci <- sample.int(nrows, NMARKER)
+    rows <- locus2row[loci]
     
-    # Return results.
-    return(scores)
+    # Calculate total counts.
+    #e <- NMARKER*expected
+    e <- (NMARKER/length(locus2row))*colSums(observed)
+    o <- observed[rows,]
+    if(NMARKER > 1) o <- colSums(o)
+    
+    # Estimate enrichment.
+    z <- ssea.analyze.statistic(o, e)
+    scores <- c(scores, z[["mean_z"]])
+  }
+  
+  # Return results.
+  return(scores)
 }
 
 #----------------------------------------------------------------------------
@@ -2464,92 +2282,94 @@ ssea.analyze.statistic <- function(o, e) {
 # Written by Ville-Petteri Makinen 2013
 #
 ssea.control <- function(job) {
-    cat("\nAdding positive controls...\n")
-    db <- job$database
-    gene2loci <- db$gene2loci
-    locus2row <- db$locus2row
-    observed <- db$observed
-    expected <- db$expected
+  cat("\nAdding positive controls...\n")
+  db <- job$database
+  gene2loci <- db$gene2loci
+  locus2row <- db$locus2row
+  observed <- db$observed
+  expected <- db$expected
+  
+  # Find slots for control module.
+  modules <- job$modules
+  slotA <- which(modules == "_ctrlA")
+  slotB <- which(modules == "_ctrlB")
+  if(length(slotA) != 1) stop("No control slot A.")
+  if(length(slotB) != 1) stop("No control slot B.")
+  
+  # Calculate gene scores.
+  ngens <- length(gene2loci)
+  scores <- rep(NA, ngens)
+  for(k in 1:ngens) {
+    loci <- gene2loci[[k]]
+    NMARKER <- length(loci)
+    if(NMARKER < 1) next
     
-    # Find slots for control module.
-    modules <- job$modules
-    slotA <- which(modules == "_ctrlA")
-    slotB <- which(modules == "_ctrlB")
-    if(length(slotA) != 1) stop("No control slot A.")
-    if(length(slotB) != 1) stop("No control slot B.")
+    # Calculate total counts.
+    rows <- locus2row[loci]
+    e <- NMARKER*expected
+    o <- observed[rows,]
+    if(NMARKER > 1) o <- colSums(o)
     
-    # Calculate gene scores.
-    ngens <- length(gene2loci)
-    scores <- rep(NA, ngens)
-    for(k in 1:ngens) {
-        loci <- gene2loci[[k]]
-        nloci <- length(loci)
-        if(nloci < 1) next
-        
-        # Calculate total counts.
-        rows <- locus2row[loci]
-        e <- nloci*expected
-        o <- observed[rows,]
-        if(nloci > 1) o <- colSums(o)
-        
-        # Estimate enrichment score.
-        #scores[k] <- ssea.analyze.statistic(o, e)
-        int <- ssea.analyze.statistic(o, e)
-        scores[k] <- int[["mean_z"]]
-    }
-    
-    # Select top genes.
-    sizes <- db$modulesizes
-    sizes <- sizes[which(sizes > 0)]
-    ntop <- floor(median(sizes))
-    genesA <- order(scores, decreasing=TRUE)
-    genesA <- genesA[1:ntop]
-    
-    # Collect genes within modules.
-    members <- integer()
-    mod2gen <- db$module2genes
-    for(k in 1:length(mod2gen))
+    # Estimate enrichment score.
+    #scores[k] <- ssea.analyze.statistic(o, e)
+    int <- ssea.analyze.statistic(o, e)
+    scores[k] <- int[["mean_z"]]
+  }
+  
+  # Select top genes.
+  sizes <- db$modulesizes
+  sizes <- sizes[which(sizes > 0)]
+  ntop <- floor(median(sizes))
+  genesA <- order(scores, decreasing=TRUE)
+  genesA <- genesA[1:ntop]
+  
+  # Collect genes within modules.
+  members <- integer()
+  mod2gen <- db$module2genes
+  for(k in 1:length(mod2gen))
     members <- c(members, mod2gen[[k]])
-    members <- unique(members)
-    
-    # Select top genes among module members.
-    genesB <- order(scores[members], decreasing=TRUE)
-    genesB <- members[genesB[1:ntop]]
-    
-    # Collect markers.
-    locsetA <- integer()
-    locsetB <- integer()
-    for(k in genesA)
+  members <- unique(members)
+  
+  # Select top genes among module members.
+  genesB <- order(scores[members], decreasing=TRUE)
+  genesB <- members[genesB[1:ntop]]
+  
+  # Collect markers.
+  locsetA <- integer()
+  locsetB <- integer()
+  for(k in genesA)
     locsetA <- c(locsetA, gene2loci[[k]])
-    for(k in genesB)
+  for(k in genesB)
     locsetB <- c(locsetB, gene2loci[[k]])
-    locsetA <- unique(locsetA)
-    locsetB <- unique(locsetB)
-    
-    # Force matching number of markers.
-    modlen <- min(length(locsetA), length(locsetB))
-    
-    # Create new modules.
-    db$genescores <- scores
-    db$modulesizes[[slotA]] <- ntop
-    db$modulesizes[[slotB]] <- ntop
-    db$modulelengths[[slotA]] <- modlen
-    db$modulelengths[[slotB]] <- modlen
-    db$moduledensities[[slotA]] <- length(locsetA)/sum(db$genesizes[genesA])
-    db$moduledensities[[slotB]] <- length(locsetB)/sum(db$genesizes[genesB])
-    db$module2genes[[slotA]] <- genesA
-    db$module2genes[[slotB]] <- genesB
-    
-    # Update module data.
-    tmpA <- data.frame(MODULE=slotA, GENE=genesA)
-    tmpB <- data.frame(MODULE=slotB, GENE=genesB)
-    job$moddata <- rbind(job$moddata, tmpA, tmpB)
-    
-    # Return results.
-    job$database <- db; remove(db); gc(FALSE)
-    nmem <- (object.size(job))*(0.5^20)
-    cat("Job: ", nmem, " Mb\n", sep="")
-    return(job)
+  locsetA <- unique(locsetA)
+  locsetB <- unique(locsetB)
+  
+  # Force matching number of markers.
+  modlen <- min(length(locsetA), length(locsetB))
+  
+  # Create new modules.
+  db$genescores <- scores
+  db$modulesizes[[slotA]] <- ntop
+  db$modulesizes[[slotB]] <- ntop
+  db$modulelengths[[slotA]] <- modlen
+  db$modulelengths[[slotB]] <- modlen
+  db$moduledensities[[slotA]] <- length(locsetA)/sum(db$genesizes[genesA])
+  db$moduledensities[[slotB]] <- length(locsetB)/sum(db$genesizes[genesB])
+  db$module2genes[[slotA]] <- genesA
+  db$module2genes[[slotB]] <- genesB
+  
+  # Update module data.
+  tmpA <- data.frame(MODULE=slotA, GENE=genesA)
+  tmpB <- data.frame(MODULE=slotB, GENE=genesB)
+  job$moddata <- rbind(job$moddata, tmpA, tmpB)
+  
+  # Return results.
+  job$database <- db
+  remove(db)
+  gc(FALSE)
+  nmem <- (object.size(job))*(0.5^20)
+  cat("Job: ", nmem, " Mb\n", sep="")
+  return(job)
 }
 # Organize and save results.
 #
@@ -2583,6 +2403,7 @@ ssea.finish <- function(job) {
     job <- ssea.finish.fdr(job)
     job <- ssea.finish.genes(job)
     job <- ssea.finish.details(job)
+    job <- ssea.finish.param(job)
     return(job)
 }
 
@@ -2609,14 +2430,14 @@ ssea.finish.genes <- function(job) {
     # Create data frame.
     res <- data.frame(GENE=(1:ngenes))
     res$SCORE <- db$genescores
-    res$NLOCI <- db$genesizes
-    res$LOCUS <- toploci
+    res$NMARKER <- db$genesizes
+    res$MARKER <- toploci
     res$VALUE <- topvals
     job$generesults <- res
     
     # Restore original identities.
     res$GENE <- job$genes[res$GENE]
-    res$LOCUS <- job$loci[res$LOCUS]
+    res$MARKER <- job$loci[res$MARKER]
     
     # Save results.
     jdir <- file.path(job$folder, "ssea")
@@ -2628,162 +2449,317 @@ ssea.finish.genes <- function(job) {
 
 #----------------------------------------------------------------------------
 
-ssea.finish.fdr <- function(job) {
-    res <- job$results
-    
-    # Add module statistics.
-    db <- job$database
+ssea.finish.fdr <- function(job, jobs=NULL) {
+  res <- job$results
+  
+  # Add module statistics.
+  db <- job$database
+  if(is.null(jobs)){
     res$NGENES <- db$modulesizes[res$MODULE]
-    res$NLOCI <- db$modulelengths[res$MODULE]
+    res$NMARKER <- db$modulelengths[res$MODULE]
     res$DENSITY <- db$moduledensities[res$MODULE]
-    
-    # Estimate false discovery rates.
-    res$FDR <- tool.fdr(res$P)
-    job$results <- res
-    
-    # Merge with module info.
-    res <- merge(res, job$modinfo, all.x=TRUE)
-    
-    # Sort according to significance.
-    res <- res[order(res$P),]
-    job$results <- res
-    
-    # Restore module names.
+  } else{
+    res$NGENES <- job$db_df$modulesizes[match(res$MODULE, job$db_df$MODULE)]
+    res$NMARKER <- job$db_df$modulelengths[match(res$MODULE, job$db_df$MODULE)]
+    res$DENSITY <- job$db_df$moduledensities[match(res$MODULE, job$db_df$MODULE)]
+  }
+  
+  # Estimate false discovery rates.
+  # Find number of modules that made it into the analysis.
+  nmods <- length(unique(job$moddata$MODULE)) - 2 # minus 2 for ctrls
+  res$FDR <- tool.fdr(res$P, nmods=nmods)
+  # Merge with module info.
+  res <- merge(res, job$modinfo, all.x=TRUE)
+  # Sort according to significance.
+  res <- res[order(res$P),]
+  job$results <- res
+  
+  # Restore module names.
+  if(is.null(jobs)){
     res$MODULE <- job$modules[res$MODULE]
-    
-    # Save full results.
-    jdir <- file.path(job$folder, "ssea")
-    # fname <- paste(job$label, ".results.txt", sep="")
-    # names(res)[5] = "NMARKER"
-    # tool.save(frame=res, file=fname, directory=jdir)
-    
-    # Prepare results for post-processing.
-    header <- rep("MODULE", 4)
-    header[[2]] <- paste("P.", job$label, sep="")
-    header[[3]] <- paste("FDR.", job$label, sep="")
-    header[[4]] <- "DESCR"
-    res <- res[,c("MODULE", "P", "FDR", "DESCR")]
-    names(res) <- header
-    
-    # Make numbers nicer to look at.
-    pvals <- character()
-    fdrates <- character()
-    for(i in 1:nrow(res)) {
-        pvals[i] <- sprintf("%.2e", res[i,2])
-        fdrates[i] <- sprintf("%.4f", res[i,3])
+  } else{
+    if(nrow(job$modinfo)>2){
+      job$modinfo$MODULE <- job$modules[job$modinfo$MODULE]
+      res$DESCR <- job$modinfo$DESCR[match(res$MODULE, job$modinfo$MODULE)]
+    } 
+  }
+  
+  # Prepare results for post-processing.
+  header <- rep("MODULE", 3)
+  header[[2]] <- paste("P.", job$label, sep="")
+  header[[3]] <- paste("FDR.", job$label, sep="")
+  if(!is.null(jobs)){
+    res <- res[,c("MODULE", "P", "FDR", "Cochran.Q","Cochran.P","I2","DESCR")]
+    names(res) <- c(header,"Cochran.Q","Cochran.P","I2","DESCR")
+  } else{
+    res <- res[,c("MODULE", "P", "FDR","DESCR")]
+    names(res) <- c(header,"DESCR")
+  }
+  
+  # Make numbers nicer to look at.
+  pvals <- character()
+  fdrates <- character()
+  qstat <- character()
+  cpvals <- character()
+  for(i in 1:nrow(res)) {
+    pvals[i] <- sprintf("%.2e", res[i,2])
+    fdrates[i] <- sprintf("%.4f", res[i,3])
+    if(!is.null(jobs)){
+      qstat[i] <- sprintf("%.2e", res[i,4])
+      cpvals[i] <- sprintf("%.2e", res[i,5])
     }
-    res[,2] <- pvals
-    res[,3] <- fdrates
+  }
+  res[,2] <- pvals
+  res[,3] <- fdrates
+  if(!is.null(jobs)){
+    res[,4] <- qstat
+    res[,5] <- cpvals
+  }
+  
+  # Save P-values.
+  if(!is.null(jobs)){
+    jdir <- file.path(job$folder, "meta")
+  } else {
+    jdir <- file.path(job$folder, "ssea")
+  }
+  fname <- paste(job$label, ".pvalues.txt", sep="")
+  tool.save(frame=res, file=fname, directory=jdir)
+  
+  # Print individual significance results for 
+  # different studies in meta
+  if(!is.null(jobs)){
+    combine_res <- data.frame("MODULE"=res$MODULE)
+    for(i in 1:length(jobs)){
+      p <- NULL
+      fdr <- NULL
+      ires <- jobs[[i]]$results
+      # bring back module identities
+      ires$MODULE <- jobs[[i]]$modules[ires$MODULE]
+      for(iter in 1:length(res$MODULE)){
+        if(res$MODULE[iter] %in% ires$MODULE){
+          p[iter] <- ires$P[ires$MODULE==res$MODULE[iter]]
+          fdr[iter] <- ires$FDR[ires$MODULE==res$MODULE[iter]]
+        }
+        else{
+          p[iter] <- 1
+          fdr[iter] <- 1
+        }
+      }
+      if(paste0(jobs[[i]]$label,".P") %in% colnames(combine_res)){
+        cat("Warning! Duplicate label names in individual studies.\n")
+        cat("Please choose unique labels for each study.\n")
+      }
+      combine_res[,paste0(jobs[[i]]$label,".P")] = p
+      combine_res[,paste0(jobs[[i]]$label,".FDR")] = fdr
+      ires_stat <- data.frame("MODULE"=jobs[[i]]$modules,
+                              "Zscore"=jobs[[i]]$zscores,
+                              "Chi_Var"=jobs[[i]]$var)
+      combine_res[,paste0(jobs[[i]]$label,".Z")] = 
+        ires_stat$Zscore[match(combine_res$MODULE,
+                               ires_stat$MODULE)]
+      combine_res[,paste0(jobs[[i]]$label,".Chi_Var")] = 
+        ires_stat$Chi_Var[match(combine_res$MODULE,
+                                ires_stat$MODULE)]
+    }
     
-    # Save P-values.
-    fname <- paste(job$label, ".pvalues.txt", sep="")
-    tool.save(frame=res, file=fname, directory=jdir)
-    return(job)
+    combine_res$META.P = res[,paste("P.", job$label, sep="")]
+    combine_res$META.FDR = res[,paste("FDR.", job$label, sep="")]
+    combine_res$Cochran.Q = res[,"Cochran.Q"]
+    combine_res$Cochran.P = res[,"Cochran.P"]
+    combine_res$I2 = res[,"I2"]
+    if("DESCR" %in% colnames(res)) combine_res$DESCR = res$DESCR
+    if(sum(combine_res$DESCR!="")==0 | sum(!is.na(combine_res$DESCR))==0){
+      combine_res$DESCR = NULL
+    }
+    for(i in 1:length(jobs)){
+      for(col in c("TOPGENES","TOPMARKERS","TOPVALUES")){
+        combine_res[,paste0(jobs[[i]]$label,".",col)] = 
+          jobs[[i]]$topgenes[,col][match(combine_res$MODULE,
+                                         jobs[[i]]$topgenes$MODULE)]
+        na_val <- is.na(combine_res[,paste0(jobs[[i]]$label,".",col)])
+        combine_res[,paste0(jobs[[i]]$label,".",col)][na_val] <- ""
+      }
+    }
+    fname = paste(job$label, ".combined.results.txt", sep="")
+    job$combined_results <- combine_res
+    tool.save(frame=combine_res, file=fname, directory=jdir)
+  }
+  return(job)
 }
 
 #----------------------------------------------------------------------------
 
-ssea.finish.details <- function(job) {
-    
-    # Find signficant modules.
-    res <- job$results
-    mask <- which(res$FDR < 1) # jessica changed 0.25 to 1
-    if(length(mask) < 5) {
-        mask <- order(res$P)
-        mask <- mask[1:min(5,length(mask))]
-    }
-    
-    # Collect gene members of top modules.
-    dtl <- data.frame()
-    mod2genes <- job$database$module2genes
-    for(k in res[mask,"MODULE"]) {
-        genset <- mod2genes[[k]]
-        tmp <- data.frame(MODULE=k, GENE=genset)
-        dtl <- rbind(dtl, tmp)
-    }
-    
-    # Merge with gene results.
-    dtl <- merge(dtl, job$generesults, all.x=TRUE)
-    
-    # Merge with module info.
-    if(nrow(job$modinfo) > 0)
+ssea.finish.details <- function(job, jobs=NULL) {
+  
+  # Find signficant modules.
+  res <- job$results
+  mask <- which(res$FDR < 1)
+  if(length(mask) < 5) {
+    mask <- order(res$P)
+    mask <- mask[1:min(5,length(mask))]
+  }
+  
+  # Collect gene members of top modules.
+  dtl <- data.frame()
+  mod2genes <- job$database$module2genes
+  if(!is.null(jobs)){
+    names(mod2genes) <- job$modules
+  }
+  for(k in res[mask,"MODULE"]) {
+    genset <- mod2genes[[k]]
+    tmp <- data.frame(MODULE=k, GENE=genset)
+    dtl <- rbind(dtl, tmp)
+  }
+  
+  # Merge with gene results.
+  dtl <- merge(dtl, job$generesults, all.x=TRUE)
+  
+  # Merge with module info.
+  if(nrow(job$modinfo) > 0)
     dtl <- merge(dtl, job$modinfo, all.x=TRUE)
-    else
+  else
     dtl$DESCR = ""
-    
-    # Merge with module statistics.
-    dtl <- merge(res[,c("MODULE", "P", "FDR")], dtl, all.y=TRUE)
-    
-    # Sort according to enrichment and marker value.
-    scores <- 1000*rank(-(dtl$P))
-    gscores <- tool.unify(dtl$VALUE)
-    rows <- order((scores + gscores), decreasing=TRUE)
-    dtl <- dtl[rows,]
-    
-    # Restore names and sort columns.
+  
+  # Merge with module statistics.
+  dtl <- merge(res[,c("MODULE", "P", "FDR")], dtl, all.y=TRUE)
+  
+  # Sort according to enrichment and marker value.
+  scores <- 1000*rank(-(dtl$P))
+  gscores <- tool.unify(dtl$VALUE)  
+  rows <- order((scores + gscores), decreasing=TRUE)
+  dtl <- dtl[rows,]
+  
+  # Restore names and sort columns.
+  if(is.null(jobs)){
     dtl$MODULE <- job$modules[dtl$MODULE]
-    dtl$GENE <- job$genes[dtl$GENE]
-    dtl$LOCUS <- job$loci[dtl$LOCUS]
-    dtl <- dtl[,c("MODULE", "FDR", "GENE", "NLOCI",
-    "LOCUS", "VALUE", "DESCR")]
-    
-    # Make numbers look nicer.
-    values <- character()
-    fdrates <- character()
-    for(i in 1:nrow(dtl)) {
-        values[i] <- sprintf("%.2f", dtl[i,"VALUE"])
-        fdrates[i] <- sprintf("%.2f%%", 100*dtl[i,"FDR"])
+  }
+  dtl$GENE <- job$genes[dtl$GENE]
+  dtl$MARKER <- job$loci[dtl$MARKER]
+  dtl <- dtl[,c("MODULE", "FDR", "GENE", "NMARKER", "MARKER", "VALUE", "DESCR")]
+  
+  # subset dtl to only module members
+  moddata <- read.delim(job$modfile)
+  mod_order <- unique(dtl$MODULE)
+  comma <- dtl[grepl(",",dtl$GENE) & !grepl("_ctrlA|_ctrlB",dtl$MODULE),]
+  dtl <- dtl[!(grepl(",",dtl$GENE) & !grepl("_ctrlA|_ctrlB",dtl$MODULE)),]
+  
+  addBack <- do.call("rbind", c(apply(comma, 1, function(x){
+    genes <- unlist(strsplit(x["GENE"], split = ","))
+    genes <- genes[genes %in% moddata$GENE[moddata$MODULE==x["MODULE"]]]
+    return(data.frame("MODULE"=x["MODULE"],
+                      "FDR"=as.numeric(x["FDR"]),
+                      "GENE"=genes,
+                      "NMARKER"=as.numeric(x["NMARKER"]),
+                      "MARKER"=x["MARKER"],
+                      "VALUE"=as.numeric(x["VALUE"]),
+                      "DESCR"=x["DESCR"]))
+  })))
+  
+  dtl <- rbind(dtl, addBack)
+  dtl <- dtl[order(dtl$VALUE, decreasing = TRUE),]
+  dtl <- dtl[order(match(dtl$MODULE, mod_order)),]
+  
+  # Make numbers look nicer.
+  values <- character()
+  fdrates <- character()
+  for(i in 1:nrow(dtl)) {
+    values[i] <- sprintf("%.2f", dtl[i,"VALUE"])
+    fdrates[i] <- sprintf("%.2f%%", 100*dtl[i,"FDR"])
+  }
+  dtl$FDR <- fdrates
+  dtl$VALUE <- values
+  
+  # Save contents.
+  jdir <- file.path(job$folder, "ssea")
+  fname <- paste(job$label, ".details.txt", sep="")
+  names(dtl) = c("MODULE","FDR","GENE","NMARKER","MARKER","VALUE","DESCR")
+  tool.save(frame=dtl, file=fname, directory=jdir)
+  
+  # Add top five genes, markers, values details to result file
+  # Restore module names.
+  res$MODULE <- job$modules[res$MODULE]
+  res$TOPGENES <- ""
+  res$TOPMARKERS <- ""
+  res$TOPVALUES <- ""
+  for(i in 1:length(res$MODULE)){
+    if(res$MODULE[i] %in% dtl$MODULE){
+      if(length(dtl$GENE[dtl$MODULE==res$MODULE[i]])<10){
+        inc <- 1:length(dtl$GENE[dtl$MODULE==res$MODULE[i]])
+      } else{
+        inc <- 1:10
+      }
+      res$TOPGENES[i] <- 
+        do.call("paste",
+                c(dtl$GENE[dtl$MODULE==res$MODULE[i]][inc],
+                  list("sep"=";")))
+      res$TOPMARKERS[i] <- 
+        do.call("paste",
+                c(dtl$MARKER[dtl$MODULE==res$MODULE[i]][inc],
+                  list("sep"=";")))
+      res$TOPVALUES[i] <- 
+        do.call("paste",
+                c(dtl$VALUE[dtl$MODULE==res$MODULE[i]][inc],
+                  list("sep"=";")))
+    } else{
+      res$TOPGENES[i] <- ""
+      res$TOPMARKERS[i] <- ""
+      res$TOPVALUES[i] <- ""
     }
-    dtl$FDR <- fdrates
-    dtl$VALUE <- values
-    
-    # Save contents.
-    jdir <- file.path(job$folder, "ssea")
-    fname <- paste(job$label, ".details.txt", sep="")
-    names(dtl) = c("MODULE","FDR","GENE","NMARKER","MARKER","VALUE","DESCR")
-    tool.save(frame=dtl, file=fname, directory=jdir)
-    
-    # Add top five genes, markers, values details to result file
-    # Restore module names.
-    res$MODULE <- job$modules[res$MODULE]
-    res$TOPGENES <- ""
-    res$TOPMARKERS <- ""
-    res$TOPVALUES <- ""
-    for(i in 1:length(res$MODULE)){
-        if(res$MODULE[i] %in% dtl$MODULE){
-            if(length(dtl$GENE[dtl$MODULE==res$MODULE[i]])<10){
-                inc <- 1:length(dtl$GENE[dtl$MODULE==res$MODULE[i]])
-            } else{
-                inc <- 1:10
-            }
-            res$TOPGENES[i] <- do.call("paste",
-                                       c(dtl$GENE[dtl$MODULE==res$MODULE[i]][inc], 
-                                         list("sep"=";")))
-            res$TOPMARKERS[i] <- do.call("paste",
-                                         c(dtl$MARKER[dtl$MODULE==res$MODULE[i]][inc], 
-                                           list("sep"=";")))
-            res$TOPVALUES[i] <- do.call("paste",
-                                        c(dtl$VALUE[dtl$MODULE==res$MODULE[i]][inc], 
-                                          list("sep"=";")))
-        } else{
-            res$TOPGENES[i] <- ""
-            res$TOPMARKERS[i] <- ""
-            res$TOPVALUES[i] <- ""
-        }
-    }
-    
-    # Save full results.
-    jdir <- file.path(job$folder, "ssea")
-    fname <- paste(job$label, ".results.txt", sep="")
-    colnames(res)[colnames(res)=="NLOCI"] <- "NMARKER"
-    res <- res[,c("MODULE","P","FREQ","NGENES","NMARKER",
-                  "DENSITY","FDR","DESCR","ZSCORE","CHI",
-                  "CHI_SD","CHI_SE","TOPGENES","TOPMARKERS",
-                  "TOPVALUES")]
-    tool.save(frame=res, file=fname, directory=jdir)
-    
-    return(job)
+  }
+  
+  # Save full results.
+  jdir <- file.path(job$folder, "ssea")
+  fname <- paste(job$label, ".results.txt", sep="")
+  res <- res[,c("MODULE","P","FREQ","NGENES","NMARKER",
+                "DENSITY","FDR","DESCR","ZSCORE","CHI",
+                "CHI_SD","CHI_SE","TOPGENES","TOPMARKERS",
+                "TOPVALUES")]
+  job$topgenes <- res[,c("MODULE","TOPGENES","TOPMARKERS","TOPVALUES")]
+  job$resultfile <- file.path(jdir, fname)
+  job$msea_results <- res
+  tool.save(frame=res, file=fname, directory=jdir)
+  
+  return(job)
 }
+
+ssea.finish.param <- function(job) {
+  inputs <- data.frame(
+    "Input or parameter" = c(
+      "Marker association file",
+      "Marker mapping file",
+      "Marker set file",
+      "Permutation type",
+      "Number of permutations",
+      "Random seed",
+      "Trim",
+      "Minimum gene count",
+      "Maximum gene count",
+      "Maximum overlap between genes"
+    ),
+    "Value" = c(
+      basename(job$marfile),
+      ifelse(is.null(job$genfile), NA, basename(job$genfile)),
+      basename(job$modfile),
+      job$permtype,
+      job$nperm,
+      job$seed,
+      job$trim,
+      job$mingenes,
+      job$maxgenes,
+      job$maxoverlap
+    ), 
+    check.names = FALSE
+  )
+  
+  # Save contents.
+  jdir <- file.path(job$folder, "ssea")
+  fname <- paste(job$label, ".param.txt", sep="")
+  tool.save(frame=inputs, file=fname, directory=jdir)
+  
+  return(job)
+}
+
+
 #
 # Merge multiple MSEA results into meta MSEA.
 #
@@ -2798,128 +2774,194 @@ ssea.finish.details <- function(job) {
 # Written by Ville-Petteri Makinen 2013, Modified by Le Shu 2015
 #
 ssea.meta <- function(jobs, label, folder) {
+  
+  # Create meta job.
+  #cat("\nMerging jobs...\n")
+  meta <- list()
+  meta$label <- label
+  meta$folder <- folder 
+  meta$modfile <- "undefined"
+  meta$genfile <- "undefined"
+  meta$marfile <- "undefined"
+  
+  jdir <- file.path(folder, "meta")
+  if(!dir.exists(jdir)) dir.create(path=jdir, recursive=TRUE)
+  if(file.access(jdir, 2) != 0)
+    stop("Cannot access '" + plan$folder + "'.")
+  
+  meta <- ssea.start.configure(meta)
+  
+  # Collect data.
+  meta$results <- data.frame()
+  meta$modinfo <- data.frame()
+  meta$moddata <- data.frame()
+  meta$gendata <- data.frame()
+  meta$locdata <- data.frame()
+  forhet <- list()
+  for(k in 1:length(jobs)) {
+    job <- jobs[[k]]
+    results <- job$results
+    modinfo <- job$modinfo
+    moddata <- job$moddata
+    gendata <- job$gendata
+    locdata <- job$locdata
     
-    # Create meta job.
-    #cat("\nMerging jobs...\n")
-    meta <- list()
-    meta$label <- label
-    meta$folder <- folder
-    meta$modfile <- "undefined"
-    meta$genfile <- "undefined"
-    meta$marfile <- "undefined"
-    meta <- ssea.start.configure(meta)
+    # Restore original identities.
+    results$MODULE <- job$modules[results$MODULE]
+    modinfo$MODULE <- job$modules[modinfo$MODULE]
+    moddata$MODULE <- job$modules[moddata$MODULE]
+    moddata$GENE <- job$genes[moddata$GENE]
+    gendata$GENE <- job$genes[gendata$GENE]
+    gendata$MARKER <- job$loci[gendata$MARKER]
+    locdata$MARKER <- job$loci[locdata$MARKER]
     
-    # Collect data.
-    meta$results <- data.frame()
-    meta$modinfo <- data.frame()
-    meta$moddata <- data.frame()
-    meta$gendata <- data.frame()
-    meta$locdata <- data.frame()
-    for(k in 1:length(jobs)) {
-        job <- jobs[[k]]
-        results <- job$results
-        modinfo <- job$modinfo
-        moddata <- job$moddata
-        gendata <- job$gendata
-        locdata <- job$locdata
-        
-        # Restore original identities.
-        results$MODULE <- job$modules[results$MODULE]
-        modinfo$MODULE <- job$modules[modinfo$MODULE]
-        moddata$MODULE <- job$modules[moddata$MODULE]
-        moddata$GENE <- job$genes[moddata$GENE]
-        gendata$GENE <- job$genes[gendata$GENE]
-        gendata$LOCUS <- job$loci[gendata$LOCUS]
-        locdata$LOCUS <- job$loci[locdata$LOCUS]
-        
-        # Update meta sets.
-        meta$results <- rbind(meta$results, results)
-        meta$modinfo <- rbind(meta$modinfo, modinfo)
-        meta$moddata <- rbind(meta$moddata, moddata)
-        meta$gendata <- rbind(meta$gendata, gendata)
-        meta$locdata <- rbind(meta$locdata, locdata)
+    # Update meta sets.
+    meta$results <- rbind(meta$results, results)
+    meta$modinfo <- rbind(meta$modinfo, modinfo)
+    meta$moddata <- rbind(meta$moddata, moddata)
+    meta$gendata <- rbind(meta$gendata, gendata)
+    meta$locdata <- rbind(meta$locdata, locdata)
+    
+    # get data for het stats
+    job$zscores[is.nan(job$zscores)] <- 0
+    job$var[is.na(job$var)] <- 1
+    forhet[[paste0("Job_",k)]] <- data.frame("MODULE"=job$modules,
+                                             "Zscore"=job$zscore,
+                                             "Var_Inv"=1/(job$var))
+  }
+  
+  # Remove duplicate rows (non-numeric values only).
+  meta$modinfo <- unique(meta$modinfo)
+  meta$moddata <- unique(meta$moddata)
+  meta$gendata <- unique(meta$gendata)
+  
+  # Determine identities.
+  meta$modules <- unique(meta$moddata$MODULE)
+  meta$genes <- unique(meta$gendata$GENE)
+  meta$loci <- unique(meta$gendata$MARKER)
+  
+  # Convert identities to indices.
+  meta$results <- ssea.start.identify(meta$results, "MODULE", meta$modules)
+  meta$modinfo <- ssea.start.identify(meta$modinfo, "MODULE", meta$modules)
+  meta$moddata <- ssea.start.identify(meta$moddata, "MODULE", meta$modules)
+  meta$moddata <- ssea.start.identify(meta$moddata, "GENE", meta$genes)
+  meta$gendata <- ssea.start.identify(meta$gendata, "GENE", meta$genes)
+  meta$gendata <- ssea.start.identify(meta$gendata, "MARKER", meta$loci)
+  meta$locdata <- ssea.start.identify(meta$locdata, "MARKER", meta$loci)
+  
+  # Convert marker values to z-scores.
+  values <- meta$locdata$VALUE
+  qvals <- tool.unify(values)
+  qvals <- pmax(qvals, .Machine$double.xmin)
+  qvals <- pmin(qvals, (1.0 - .Machine$double.eps))
+  zvals <- qnorm(qvals)
+  
+  # Merge matching markers.
+  st <- tool.aggregate(meta$locdata$MARKER)
+  blocks <- st$blocks
+  for(k in 1:length(blocks)) {
+    rows <- blocks[[k]]
+    z <- sum(zvals[rows])
+    zvals[rows] <- z/sqrt(length(rows))
+  }
+  
+  # Convert back to original data space.
+  meta$locdata$VALUE <- quantile(values, pnorm(zvals))
+  meta$locdata <- unique(meta$locdata)
+  
+  # Construct hierarchical representation.
+  cat("\nPreparing data structures...\n")
+  ngens <- length(meta$genes) 
+  nmods <- length(meta$modules)
+  meta$database <- ssea.prepare.structure(meta$moddata, meta$gendata,
+                                          nmods, ngens)
+  
+  # Determine test cutoffs.
+  lengths <- meta$database$modulelengths
+  mu <- median(lengths[which(lengths > 0)])
+  meta$quantiles <- seq(0.5, (1.0 - 1.0/mu), length.out=10)
+  
+  # Calculate hit counts.
+  NMARKER <- length(meta$loci)
+  hits <- ssea.prepare.counts(meta$locdata, NMARKER, meta$quantiles)
+  meta$database <- c(meta$database, hits)
+  
+  # Check result values.
+  meta$results <- meta$results[,c("MODULE", "P")]
+  pvalues <- pmax(meta$results$P, .Machine$double.xmin)
+  pvalues <- pmin(pvalues, (1.0 - .Machine$double.eps))
+  meta$results$P <- pvalues
+  
+  # Calculate meta P-values.
+  cat("\nPostprocessing meta results...\n")
+  st <- tool.aggregate(meta$results$MODULE)
+  blocks <- st$blocks
+  for(k in 1:length(blocks)) {
+    rows <- blocks[[k]]
+    tmp <- meta$results[rows,]
+    z <- qnorm(tmp$P)
+    z <- sum(z)/sqrt(length(z))
+    meta$results[rows,"P"] <- NA
+    meta$results[rows[1],"P"] <- pnorm(z)
+  }
+  
+  # restore orig identities
+  meta$results$MODULE <- meta$modules[meta$results$MODULE]
+  meta$db_df <- data.frame("MODULE"=meta$modules,
+                           "modulesizes"=meta$database$modulesizes,
+                           "modulelengths"=meta$database$modulelengths,
+                           "moduledensities"=meta$database$moduledensities)
+  
+  # for each module get Z scores and inverse of variance of chis
+  meta$results$Cochran.Q <- vapply(meta$results$MODULE, function(x){
+    xval <- c()
+    weightval <- c()
+    for(j in names(forhet)){
+      xval <- c(xval, forhet[[j]]$Zscore[forhet[[j]]$MODULE==x])
+      weightval <- c(weightval, forhet[[j]]$Var_Inv[forhet[[j]]$MODULE==x])
     }
-    
-    # Remove duplicate rows (non-numeric values only).
-    meta$modinfo <- unique(meta$modinfo)
-    meta$moddata <- unique(meta$moddata)
-    meta$gendata <- unique(meta$gendata)
-    
-    # Determine identities.
-    meta$modules <- unique(meta$moddata$MODULE)
-    meta$genes <- unique(meta$gendata$GENE)
-    meta$loci <- unique(meta$gendata$LOCUS)
-    
-    # Convert identities to indices.
-    meta$results <- ssea.start.identify(meta$results, "MODULE", meta$modules)
-    meta$modinfo <- ssea.start.identify(meta$modinfo, "MODULE", meta$modules)
-    meta$moddata <- ssea.start.identify(meta$moddata, "MODULE", meta$modules)
-    meta$moddata <- ssea.start.identify(meta$moddata, "GENE", meta$genes)
-    meta$gendata <- ssea.start.identify(meta$gendata, "GENE", meta$genes)
-    meta$gendata <- ssea.start.identify(meta$gendata, "LOCUS", meta$loci)
-    meta$locdata <- ssea.start.identify(meta$locdata, "LOCUS", meta$loci)
-    
-    # Convert marker values to z-scores.
-    values <- meta$locdata$VALUE
-    qvals <- tool.unify(values)
-    qvals <- pmax(qvals, .Machine$double.xmin)
-    qvals <- pmin(qvals, (1.0 - .Machine$double.eps))
-    zvals <- qnorm(qvals)
-    
-    # Merge matching markers.
-    st <- tool.aggregate(meta$locdata$LOCUS)
-    blocks <- st$blocks
-    for(k in 1:length(blocks)) {
-        rows <- blocks[[k]]
-        z <- sum(zvals[rows])
-        zvals[rows] <- z/sqrt(length(rows))
+    weightval[weightval==1] <- 0
+    cochran_res <- tool.cochranQ(x = xval, weights = weightval)
+    if(is.nan(cochran_res["Q"])){
+      return(NA)
+    } else {
+      return(cochran_res["Q"])
     }
-    
-    # Convert back to original data space.
-    meta$locdata$VALUE <- quantile(values, pnorm(zvals))
-    meta$locdata <- unique(meta$locdata)
-    
-    # Construct hierarchical representation.
-    cat("\nPreparing data structures...\n")
-    ngens <- length(meta$genes)
-    nmods <- length(meta$modules)
-    meta$database <- ssea.prepare.structure(meta$moddata, meta$gendata,
-    nmods, ngens)
-    
-    # Determine test cutoffs.
-    lengths <- meta$database$modulelengths
-    mu <- median(lengths[which(lengths > 0)])
-    meta$quantiles <- seq(0.5, (1.0 - 1.0/mu), length.out=10)
-    
-    # Calculate hit counts.
-    nloci <- length(meta$loci)
-    hits <- ssea.prepare.counts(meta$locdata, nloci, meta$quantiles)
-    meta$database <- c(meta$database, hits)
-    
-    # Check result values.
-    meta$results <- meta$results[,c("MODULE", "P")]
-    pvalues <- pmax(meta$results$P, .Machine$double.xmin)
-    pvalues <- pmin(pvalues, (1.0 - .Machine$double.eps))
-    meta$results$P <- pvalues
-    
-    # Calculate meta P-values.
-    cat("\nPostprocessing meta results...\n")
-    st <- tool.aggregate(meta$results$MODULE)
-    blocks <- st$blocks
-    for(k in 1:length(blocks)) {
-        rows <- blocks[[k]]
-        tmp <- meta$results[rows,]
-        z <- qnorm(tmp$P)
-        z <- sum(z)/sqrt(length(z))
-        meta$results[rows,"P"] <- NA
-        meta$results[rows[1],"P"] <- pnorm(z)
+  }, FUN.VALUE = numeric(1))
+  meta$results$Cochran.P <- vapply(meta$results$MODULE, function(x){
+    xval <- c()
+    weightval <- c()
+    for(j in names(forhet)){
+      xval <- c(xval, forhet[[j]]$Zscore[forhet[[j]]$MODULE==x])
+      weightval <- c(weightval, forhet[[j]]$Var_Inv[forhet[[j]]$MODULE==x])
     }
-    
-    # Finish and save statistics.
-    meta$results <- na.omit(meta$results)
-    meta <- ssea.finish.fdr(meta)
-    #meta <- ssea.finish.details(meta)
-    return(meta)
+    weightval[weightval==1] <- 0
+    cochran_res <- tool.cochranQ(x = xval, weights = weightval)
+    return(cochran_res["p-value"])
+  }, FUN.VALUE = numeric(1))
+  degfrd <- length(jobs) - 1
+  meta$results$Cochran.DF <- degfrd
+  meta$results$I2 <- vapply(meta$results$Cochran.Q, function(x){
+    if(is.na(x)){
+      return(NA)
+    } else{
+      i2 = 100*((x-degfrd)/x)
+      if(i2<0){
+        return(0)
+      } else{
+        return(i2)
+      }
+    }
+  }, FUN.VALUE=numeric(1))
+  
+  meta$results$Cochran.Q[is.nan(meta$results$Cochran.Q)] <- NA
+  meta$results$Cochran.P[is.nan(meta$results$Cochran.P)] <- NA
+  
+  # Finish and save statistics.
+  meta$results <- na.omit(meta$results)
+  meta <- ssea.finish.fdr(meta, jobs = jobs)
+  #meta <- ssea.finish.details(meta)
+  return(meta)
 }
 #
 # Prepare an indexed database for Marker set enrichment analysis.
@@ -2970,112 +3012,118 @@ ssea.meta <- function(jobs, label, folder) {
 # Written by Ville-Petteri Makinen 2013
 #
 ssea.prepare <- function(job) {
-    cat("\nPreparing data structures...\n")
-    
-    # Remove extreme modules.
-    st <- tool.aggregate(job$moddata$MODULE)
-    mask <- which((st$lengths >= job$mingenes) &
-    (st$lengths <= job$maxgenes))
-    pos <- match(job$moddata$MODULE, st$labels[mask])
-    job$moddata <- job$moddata[which(pos > 0),]
-    
-    # Construct hierarchical representation.
-    ngens <- length(job$genes)
-    nmods <- length(job$modules)
-    db <- ssea.prepare.structure(job$moddata, job$gendata, nmods, ngens)
-    
-    # Determine test cutoffs.
-    if(is.null(job$quantiles)) {
-        lengths <- db$modulelengths
-        mu <- median(lengths[which(lengths > 0)])
-        job$quantiles <- seq(0.5, (1.0 - 1.0/mu), length.out=10)
-    }
-    
-    # Calculate hit counts.
-    nloci <- length(job$loci)
-    hits <- ssea.prepare.counts(job$locdata, nloci, job$quantiles)
-    db <- c(db, hits)
-    
-    # Return results.
-    job$database <- db; remove(db); gc(FALSE)
-    nmem <- (object.size(job))*(0.5^20)
-    cat("Job: ", nmem, " Mb\n", sep="")
-    return(job)
+  cat("\nPreparing data structures...\n")
+  
+  # Remove extreme modules.
+  st <- tool.aggregate(job$moddata$MODULE)
+  mask <- which((st$lengths >= job$mingenes) &
+                  (st$lengths <= job$maxgenes))
+  pos <- match(job$moddata$MODULE, st$labels[mask])
+  job$moddata <- job$moddata[which(pos > 0),]
+  removed <- setdiff(st$labels, unique(job$moddata$MODULE))
+  cat("The following modules were removed because they did not\npass the mingenes and maxgenes parameters:\n", 
+      do.call("paste", c(job$modules[as.numeric(removed)],list("sep"=", "))), "\n")
+  if(nrow(job$moddata)==0) stop("No modules passing mingenes and maxgenes.")
+  
+  # Construct hierarchical representation.
+  ngens <- length(job$genes)
+  nmods <- length(job$modules)
+  db <- ssea.prepare.structure(job$moddata, job$gendata, nmods, ngens)
+  
+  # Determine test cutoffs.
+  if(is.null(job$quantiles)) {
+    lengths <- db$modulelengths
+    mu <- median(lengths[which(lengths > 0)])
+    job$quantiles <- seq(0.5, (1.0 - 1.0/mu), length.out=10)
+  }
+  
+  # Calculate hit counts.
+  NMARKER <- length(job$loci)
+  hits <- ssea.prepare.counts(job$locdata, NMARKER, job$quantiles)
+  db <- c(db, hits)
+  
+  # Return results.
+  job$database <- db
+  remove(db)
+  gc(FALSE)
+  nmem <- (object.size(job))*(0.5^20)
+  cat("Job: ", nmem, " Mb\n", sep="")
+  return(job)
 }
 
 #----------------------------------------------------------------------------
 
 ssea.prepare.structure <- function(moddata, gendata, nmods, ngens) {
-    
-    # Prepare list structures.
-    genlists <- list()
-    loclists <- list()
-    for(k in 1:nmods) genlists[[k]] <- integer()
-    for(k in 1:ngens) loclists[[k]] <- integer()
-    modsizes <- rep(0, nmods)
-    modlengths <- rep(0, nmods)
-    moddensities <- rep(0.0, nmods)
-    gensizes <- rep(0, ngens)
-    
-    # Collect row indices for each module.
-    st <- tool.aggregate(moddata$MODULE)
-    keys <- as.integer(st$labels)
-    blocks <- st$blocks
-    
-    # Collect gene lists.
-    genes <- as.integer(moddata$GENE)
-    for(k in 1:length(blocks)) {
-        key <- keys[k]
-        rows <- blocks[[k]]
-        members <- unique(genes[rows])
-        genlists[[key]] <- as.integer(members)
-        modsizes[[key]] <- length(members)
-    }
-    
-    # Collect row indices for each gene.
-    st <- tool.aggregate(gendata$GENE)
-    keys <- as.integer(st$labels)
-    blocks <- st$blocks
-    
-    # Collect marker lists.
-    loci <- as.integer(gendata$LOCUS)
-    for(k in 1:length(blocks)) {
-        key <- keys[k]
-        rows <- blocks[[k]]
-        members <- unique(loci[rows])
-        loclists[[key]] <- as.integer(members)
-        gensizes[[key]] <- length(members)
-    }
-    
-    # Count distinct markers in each module.
-    for(k in which(modsizes > 0)) {
-        locset <- integer()
-        genset <- genlists[[k]]
-        for(i in genset)
-        locset <- c(locset, loclists[[i]])
-        modlengths[[k]] <- length(unique(locset))
-        moddensities[[k]] <- modlengths[[k]]/length(locset)
-    }
-    
-    # Check data integrity.
-    if(sum(gensizes == 0) > 0) stop("Incomplete locus data.")
-    if(length(gensizes) != ngens) stop("Inconsistent gene data.")
-    if(length(modsizes) != nmods) stop("Inconsistent module data.")
-    
-    # Return results.
-    res <- list()
-    res$modulesizes <- modsizes
-    res$modulelengths <- modlengths
-    res$moduledensities <- moddensities
-    res$genesizes <- gensizes
-    res$module2genes <- genlists
-    res$gene2loci <- loclists
-    return(res)
+  
+  # Prepare list structures.
+  genlists <- list()
+  loclists <- list()
+  for(k in 1:nmods) genlists[[k]] <- integer()
+  for(k in 1:ngens) loclists[[k]] <- integer()
+  modsizes <- rep(0, nmods)
+  modlengths <- rep(0, nmods)
+  moddensities <- rep(0.0, nmods)
+  gensizes <- rep(0, ngens)
+  
+  # Collect row indices for each module.
+  st <- tool.aggregate(moddata$MODULE)
+  keys <- as.integer(st$labels)
+  blocks <- st$blocks
+  
+  # Collect gene lists.
+  genes <- as.integer(moddata$GENE)
+  for(k in 1:length(blocks)) {
+    key <- keys[k]
+    rows <- blocks[[k]]
+    members <- unique(genes[rows])
+    genlists[[key]] <- as.integer(members)
+    modsizes[[key]] <- length(members)
+  }
+  
+  # Collect row indices for each gene.
+  st <- tool.aggregate(gendata$GENE)
+  keys <- as.integer(st$labels)
+  blocks <- st$blocks
+  
+  # Collect marker lists.
+  loci <- as.integer(gendata$MARKER)
+  for(k in 1:length(blocks)) {
+    key <- keys[k]
+    rows <- blocks[[k]]
+    members <- unique(loci[rows])
+    loclists[[key]] <- as.integer(members)
+    gensizes[[key]] <- length(members)
+  }
+  
+  # Count distinct markers in each module.
+  for(k in which(modsizes > 0)) {
+    locset <- integer()
+    genset <- genlists[[k]]
+    for(i in genset)
+      locset <- c(locset, loclists[[i]])
+    modlengths[[k]] <- length(unique(locset))
+    moddensities[[k]] <- modlengths[[k]]/length(locset)
+  }
+  
+  # Check data integrity.
+  if(sum(gensizes == 0) > 0) stop("Incomplete locus data.")
+  if(length(gensizes) != ngens) stop("Inconsistent gene data.")
+  if(length(modsizes) != nmods) stop("Inconsistent module data.")
+  
+  # Return results.
+  res <- list()
+  res$modulesizes <- modsizes
+  res$modulelengths <- modlengths
+  res$moduledensities <- moddensities
+  res$genesizes <- gensizes
+  res$module2genes <- genlists
+  res$gene2loci <- loclists
+  return(res)
 }
 
 #----------------------------------------------------------------------------
 
-ssea.prepare.counts <- function(locdata, nloci, quantiles) {
+ssea.prepare.counts <- function(locdata, NMARKER, quantiles) {
     
     # Make sure there are at least two points to prevent
     # R automagic on matrices to mess things up.
@@ -3083,8 +3131,8 @@ ssea.prepare.counts <- function(locdata, nloci, quantiles) {
     
     # Create mapping table.
     nrows <- nrow(locdata)
-    locmap <- rep(0, nloci)
-    locmap[locdata$LOCUS] <- (1:nrows)
+    locmap <- rep(0, NMARKER)
+    locmap[locdata$MARKER] <- (1:nrows)
     
     # Convert values to standardized range.
     values <- tool.unify(locdata$VALUE)
@@ -3093,7 +3141,7 @@ ssea.prepare.counts <- function(locdata, nloci, quantiles) {
     nquant <- length(quantiles)
     bits <- matrix(data=FALSE, nrow=nrows, ncol=nquant)
     for(i in 1:nrows)
-    bits[i,] <- (values[i] > quantiles)
+      bits[i,] <- (values[i] > quantiles)
     
     # Return results.
     res <- list()
@@ -3125,6 +3173,9 @@ ssea.prepare.counts <- function(locdata, nloci, quantiles) {
 #   plan$maxgenes    maximum number of genes per module
 #   plan$quantiles   cutoffs for test statistic
 #   plan$maxoverlap  maximum overlap allowed between genes
+#   plan$trim        percentile of genes taken from beginning and end of 
+#                    trait associations to avoid signal inflation of null
+#                    background in gene permutation
 #
 # Output:
 #   job$modules       module identities as characters
@@ -3141,7 +3192,7 @@ ssea.prepare.counts <- function(locdata, nloci, quantiles) {
 # Written by Ville-Petteri Makinen 2013, Modified by Le Shu 2015
 #
 ssea.start <- function(plan) {
-    cat("\nMSEA Version:12.15.2020\n")
+    cat("\nMSEA Version:Oct2023\n")
     # Check parameters.
     job <- ssea.start.configure(plan)
     
@@ -3162,7 +3213,7 @@ ssea.start <- function(plan) {
     # Add slots for control modules.
     modules <- unique(moddata$MODULE)
     if((sum(modules == "_ctrlA") > 0) | (sum(modules == "_ctrlA") > 0))
-    stop("Module names '_ctrlA' and '_ctrlB' are reserved.")
+      stop("Module names '_ctrlA' and '_ctrlB' are reserved.")
     modules <- c(modules, "_ctrlA", "_ctrlB")
     tmp <- data.frame(MODULE=c("_ctrlA", "_ctrlB"),
     DESCR=c("Top genes", "Top genes (module members)"))
@@ -3170,41 +3221,39 @@ ssea.start <- function(plan) {
     
     # Import marker values.
     cat("\nImporting marker values...\n")
-    locdata <- tool.read(job$locfile, c("LOCUS", "VALUE"))
+    if(!is.null(job$locfile)) job$marfile <- job$locfile
+    locdata <- tool.read(job$marfile, c("MARKER", "VALUE"))
     locdata$VALUE <- as.double(locdata$VALUE)
     rows <- which(0*(locdata$VALUE) == 0)
     locdata <- unique(na.omit(locdata[rows,]))
-    locdata_ex <- locdata
-    names(locdata_ex) <- c("MARKER","VALUE")
-    print(summary(locdata_ex))
+    print(summary(locdata))
     
     # Import mapping data.
     cat("\nImporting mapping data...\n")
-    gendata <- tool.read(job$genfile, c("GENE", "LOCUS"))
+    gendata <- tool.read(job$genfile, c("GENE", "MARKER"))
     gendata <- unique(na.omit(gendata))
-    gendata_ex <- gendata
-    names(gendata_ex) <- c("GENE","MARKER")
-    print(summary(gendata_ex))
+    print(summary(gendata))
     
     # Remove genes with no marker values.
-    pos <- match(gendata$LOCUS, locdata$LOCUS)
+    pos <- match(gendata$MARKER, locdata$MARKER)
     gendata <- gendata[which(pos > 0),]
     
     # Merge overlapping genes.
     cat("\nMerging genes containing shared markers...\n")
-    gendata <- tool.coalesce(items=gendata$LOCUS, groups=gendata$GENE, rcutoff=job$maxoverlap)
+    gendata <- tool.coalesce(items=gendata$MARKER, groups=gendata$GENE,
+                             rcutoff=job$maxoverlap)
     job$geneclusters <- gendata[,c("CLUSTER","GROUPS")]
     job$geneclusters <- unique(job$geneclusters)
     
     # Update gene symbols.
     moddata <- ssea.start.relabel(moddata, gendata)
     gendata <- unique(gendata[,c("GROUPS", "ITEM")])
-    names(gendata) <- c("GENE", "LOCUS")
+    names(gendata) <- c("GENE", "MARKER")
     
     # Collect identities.
     job$modules <- modules
-    job$loci <- intersect(gendata$LOCUS, locdata$LOCUS)
-    pos <- match(gendata$LOCUS, job$loci)
+    job$loci <- intersect(gendata$MARKER, locdata$MARKER)
+    pos <- match(gendata$MARKER, job$loci)
     job$genes <- gendata[which(pos > 0), "GENE"]
     job$genes <- unique(job$genes)
     
@@ -3212,9 +3261,12 @@ ssea.start <- function(plan) {
     job$modinfo <- ssea.start.identify(modinfo, "MODULE", job$modules)
     job$moddata <- ssea.start.identify(moddata, "MODULE", job$modules)
     job$moddata <- ssea.start.identify(job$moddata, "GENE", job$genes)
+    removed <- setdiff(1:(length(job$modules)-2), unique(job$moddata$MODULE))
+    cat("The following modules were removed because they did not\nhave any genes from the association data:\n", 
+        do.call("paste", c(job$modules[as.numeric(removed)],list("sep"=", "))), "\n")
     job$gendata <- ssea.start.identify(gendata, "GENE", job$genes)
-    job$gendata <- ssea.start.identify(job$gendata, "LOCUS", job$loci)
-    job$locdata <- ssea.start.identify(locdata, "LOCUS", job$loci)
+    job$gendata <- ssea.start.identify(job$gendata, "MARKER", job$loci)
+    job$locdata <- ssea.start.identify(locdata, "MARKER", job$loci)
     
     # Show job size.
     nmem <- (object.size(job))*(0.5^20)
@@ -3232,86 +3284,103 @@ ssea.start <- function(plan) {
 #----------------------------------------------------------------------------
 
 ssea.start.configure <- function(plan) {
-    #bypass if running Meta-MSEA
-    if (!is.null(plan$folder) & !is.null(plan$label) & plan$marfile == "undefined" & plan$genfile == "undefined" & plan$modfile == "undefined"){
-        plan$permtype <- "gene"
-        plan$nperm <- 20000
-        plan$seed <- 1
-        plan$mingenes <- 10
-        plan$maxgenes <- 500
-        plan$maxoverlap <- 0.33
-        cat("\nRunning Meta-MSEA...\n")
-    }else{
-        cat("\nParameters:\n")
-        plan$stamp <- Sys.time()
-        if(is.null(plan$folder)) stop("No output folder.")
-        if(is.null(plan$label)) stop("No job label.")
-        if(is.null(plan$modfile)) stop("No module file.")
-        if(is.null(plan$genfile)) stop("No gene file.")
-        if(is.null(plan$marfile)) stop("No marker file.")
-        
-        
-        if(is.null(plan$permtype)) plan$permtype <- "gene"
-        cat("  Permutation type: ", plan$permtype, "\n", sep="")
-        
-        if(is.null(plan$nperm)) plan$nperm <- 20000
-        cat("  Permutations: ", plan$nperm, "\n", sep="")
-        
-        if(is.null(plan$seed)) plan$seed <- 1
-        cat("  Random seed: ", plan$seed, "\n", sep="")
-        
-        if(is.null(plan$mingenes)) plan$mingenes <- 10
-        if(is.null(plan$maxgenes)) plan$maxgenes <- 500
-        cat("  Minimum gene count: ", plan$mingenes, "\n", sep="")
-        cat("  Maximum gene count: ", plan$maxgenes, "\n", sep="")
-        
-        if(is.null(plan$maxoverlap)) plan$maxoverlap <- 0.33
-        #if(plan$permtype == "locus") plan$maxoverlap <- 1.0 # no effect
-        cat("  Maximum overlap between genes: ", plan$maxoverlap, "\n", sep="")
-        
-        if(is.null(plan$quantiles) == FALSE) {
-            cat("  Test quantiles:");
-            for(q in plan$quantiles)
-            cat(sprintf(" %.2f", 100*q), "%", sep="")
-            cat("\n")
-        }
-        
-        #MODIFIED BY DOUG
-        
-        #Resolve inconsistencies
-        #if(plan$permtype == "marker") plan$permtype = "locus"
-        #dir.create("tmp", showWarnings = FALSE)
-        data <- read.delim(plan$marfile)
-        if(grepl("X...", colnames(data)[1]) | grepl("X...", colnames(data)[2])){ # accommodate utf converted files
-            cat("Accommodating utf converted marker file...\n")
-            colnames(data) <- gsub("X...","",colnames(data))
-            system(paste0("chmod +x ",plan$marfile))
-            write.table(data, plan$marfile, quote = F,row.names = F,sep = "\t")
-        }
-        data <- read.delim(plan$genfile)
-        if(grepl("X...", colnames(data)[1]) | grepl("X...", colnames(data)[2])){ # accommodate utf converted files
-            cat("Accommodating utf converted gene file...\n")
-            colnames(data) <- gsub("X...","",colnames(data))
-            system(paste0("chmod +x ",plan$genfile))
-            write.table(data, plan$genfile, quote = F,row.names = F,sep = "\t")
-        }
-        tmploci=tool.read(plan$marfile,c("MARKER","VALUE"))
-        tmpgene=tool.read(plan$genfile,c("GENE","MARKER"))
-        names(tmploci)=c("LOCUS","VALUE")
-        names(tmpgene)=c("GENE","LOCUS")
-        # loci_file_name = paste("/home/www/abhatta3-webserver/Data/Pipeline/Resources/ssea_temp/",plan$label,"_loci.txt",sep="")
-        # gene_file_name = paste("/home/www/abhatta3-webserver/Data/Pipeline/Resources/ssea_temp/",plan$label,"_gene.txt",sep="")
-        loci_file_name = paste0(plan$label,"_loci.txt")
-        gene_file_name = paste0(plan$label,"_gene.txt")
-        write.table(tmploci,loci_file_name,quote = F,row.names = F,sep = "\t")
-        write.table(tmpgene,gene_file_name,quote = F,row.names = F,sep = "\t")
-        plan$locfile = loci_file_name
-        plan$genfile = gene_file_name
-        
-        #########
+  #bypass if running Meta-MSEA
+  if (!is.null(plan$folder) & 
+      !is.null(plan$label) & 
+      plan$marfile == "undefined" &
+      plan$modfile == "undefined"){
+    plan$permtype <- "gene"
+    plan$nperm <- 20000
+    plan$seed <- 1
+    plan$mingenes <- 10
+    plan$maxgenes <- 500
+    plan$maxoverlap <- 0.33
+    cat("\nRunning Meta-MSEA...\n")
+  } else {
+    plan$stamp <- Sys.time()
+    
+    if(is.null(plan$permtype)) plan$permtype <- "gene"
+    if(is.null(plan$nperm)) plan$nperm <- 20000
+    if(is.null(plan$seed)) plan$seed <- 1
+    if(is.null(plan$mingenes)) plan$mingenes <- 10
+    if(is.null(plan$maxgenes)) plan$maxgenes <- 500
+    if(is.null(plan$maxoverlap)) plan$maxoverlap <- 0.33
+    if(is.null(plan$trim)) plan$trim <- 0.002
+    
+    #Resolve inconsistencies
+    if(plan$permtype == "locus") plan$permtype = "marker"
+    if ("LOCUS" %in% names(read.delim(plan$marfile))){
+      dir.create("tmp", showWarnings = FALSE)
+      tmploci=tool.read(plan$marfile,c("LOCUS","VALUE"))
+      tmpgene=tool.read(plan$genfile,c("GENE","LOCUS"))
+      names(tmploci)=c("MARKER","VALUE")
+      names(tmpgene)=c("GENE","MARKER")
+      write.table(tmploci,"tmp/marker.txt",quote = FALSE,row.names = FALSE,
+                  sep = "\t")
+      write.table(tmpgene,"tmp/gene.txt",quote = FALSE,row.names = FALSE,
+                  sep = "\t")
+      plan$marfile = "tmp/marker.txt"
+      plan$genfile = "tmp/gene.txt"
     }
     
-    return(plan)
+    if(is.null(plan$folder)) stop("No output folder.")
+    if(is.null(plan$label)) stop("No job label.")
+    if(is.null(plan$modfile)) stop("No module file.")
+    if(is.null(plan$genfile)){
+      cat("\nNo gene file provided.\nAssuming non-GWAS enrichment.\n")
+      # make 'fake' mappping file
+      locdata <- tool.read(plan$marfile, c("MARKER", "VALUE"))
+      locdata$VALUE <- as.double(locdata$VALUE)
+      rows <- which(0*(locdata$VALUE) == 0)
+      locdata <- unique(na.omit(locdata[rows,]))
+      gendata <- data.frame("GENE"=locdata$MARKER,
+                            "MARKER"=locdata$MARKER)
+      dir.create("tmp", showWarnings = FALSE)
+      write.table(gendata,"tmp/gene.txt",quote = FALSE,row.names = FALSE,
+                  sep = "\t")
+      plan$genfile = "tmp/gene.txt"
+      
+      # change to appropriate parameters
+      plan$permtype <- "marker"
+      plan$maxoverlap <- 1
+    }
+    if(is.null(plan$marfile)) stop("No marker file.")
+    
+    # accommodate utf converted files
+    data <- read.delim(plan$marfile)
+    if(grepl("X...", colnames(data)[1]) | grepl("X...", colnames(data)[2])){
+      cat("Accommodating utf converted marker file...\n")
+      colnames(data) <- gsub("X...","",colnames(data))
+      system(paste0("chmod +x ",plan$marfile))
+      write.table(data, plan$marfile, quote = F,row.names = F,sep = "\t")
+    }
+    data <- read.delim(plan$genfile)
+    if(grepl("X...", colnames(data)[1]) | grepl("X...", colnames(data)[2])){
+      cat("Accommodating utf converted gene file...\n")
+      colnames(data) <- gsub("X...","",colnames(data))
+      system(paste0("chmod +x ",plan$genfile))
+      write.table(data, plan$genfile, quote = F,row.names = F,sep = "\t")
+    }
+    
+    cat("\nParameters:\n")
+    cat("  Permutation type: ", plan$permtype, "\n", sep="")  
+    cat("  Permutations: ", plan$nperm, "\n", sep="")
+    cat("  Random seed: ", plan$seed, "\n", sep="")
+    cat("  Trim: ", plan$trim, "\n", sep="")
+    cat("  Minimum gene count: ", plan$mingenes, "\n", sep="")
+    cat("  Maximum gene count: ", plan$maxgenes, "\n", sep="")
+    cat("  Maximum overlap between genes: ", plan$maxoverlap, "\n", 
+        sep="")
+    
+    if(is.null(plan$quantiles) == FALSE) {
+      cat("  Test quantiles:");
+      for(q in plan$quantiles)
+        cat(sprintf(" %.2f", 100*q), "%", sep="")
+      cat("\n")
+    }
+  }
+  
+  return(plan)
 }
 
 #----------------------------------------------------------------------------
@@ -3441,7 +3510,7 @@ tool.aggregate <- function(entries, limit=1) {
     
     # Clear buffer.
     if(length(buffer) > 0)
-    subsets <- c(subsets, buffer)
+      subsets <- c(subsets, buffer)
     
     # Check if any subsets.
     nuniq <- length(subsets)
@@ -3487,7 +3556,8 @@ tool.aggregate <- function(entries, limit=1) {
 tool.cluster <- function(edges, cutoff=NULL) {
     
     # Default output.
-    a <- edges$A; b <- edges$B
+    a <- edges$A
+    b <- edges$B
     labels <- unique(c(a, b))
     res <- data.frame(CLUSTER=labels, stringsAsFactors=FALSE)
     res$NODE <- labels
@@ -3578,7 +3648,7 @@ tool.cluster.static <- function(dendro, hlim) {
         
         # Merge two clusters.
         mask <- which((clusters == a) | (clusters == b))
-        clusters[mask] <- i;
+        clusters[mask] <- i
     }
     return(clusters)
 }
@@ -3607,11 +3677,11 @@ tool.coalesce <- function(items, groups, rcutoff=0.0, ncore=NULL) {
     
     # Check arguments.
     if(length(items) != length(groups))
-    stop("Incompatible inputs.")
+      stop("Incompatible inputs.")
     
     # Default output.
     res <- data.frame(CLUSTER=groups, GROUPS=groups,
-    ITEM=items, stringsAsFactors=FALSE)
+                      ITEM=items, stringsAsFactors=FALSE)
     if(rcutoff >= 1.0) return(res)
     if(length(items)==length(unique(items))){
         cat("Genes are all unique - no need to merge modules\n")
@@ -3806,19 +3876,40 @@ tool.coalesce.merge <- function(data, ncore) {
         nodeset <- paste(nodeset, collapse=",")
         
         # Update results.
-        tmp <- data.frame(GROUPS=nodeset, ITEM=labels,
-        COUNT=counts, stringsAsFactors=FALSE)
+        tmp <- data.frame(GROUPS=nodeset, ITEM=labels, COUNT=counts, 
+                          stringsAsFactors=FALSE)
         res <- rbind(res, tmp)
     }
     return(res)
 }
-#
+
+#---------------------------------------------------------------------------
+
+tool.cochranQ <-function(x, weights) {
+  bar.x <- sum(weights*x)/sum(weights)
+  Q <- sum(weights*((x-bar.x)^2))
+  k <- length(x)
+  p.value <- pchisq(Q, k-1, lower.tail = FALSE)
+  output <- c(Q,p.value,as.integer(k-1))
+  names(output) <- c("Q", "p-value", "df")
+  return(output)
+}
+
+# 
 # Written by Ville-Petteri Makinen 2013
+# Modified by Jessica Ding 2023
 #
-tool.fdr <- function(p, f=NULL) {
-    if(length(p) < 5) return(NA*p)
-    if(is.null(f)) return(tool.fdr.bh(p))
-    return(tool.fdr.empirical(p, f))
+tool.fdr <- function(p, nmods=NULL) {
+  if(length(p) < 12){
+    cat("WARNING! Number of pathways analyzed less than 10,\n")
+    cat("running Bonferroni FDR correction.\n")
+    fdrs <- p*nmods # bonferroni correction
+    fdrs[fdrs>1] <- 1 # cap fdr at 1
+    return(fdrs) 
+  } else {
+    return(tool.fdr.bh(p))
+  }
+  #return(tool.fdr.empirical(p, f))
 }
 
 #---------------------------------------------------------------------------
@@ -3958,7 +4049,7 @@ tool.graph.list <- function(entries, nnodes) {
     # Allocate list.
     groups <- list()
     for(i in 1:nnodes)
-    groups[[i]] <- integer()
+      groups[[i]] <- integer()
     
     # Find entry groups.
     st <- tool.aggregate(entries)
@@ -4077,7 +4168,8 @@ tool.normalize <- function(x, prm=NULL, inverse=FALSE) {
     if(length(x) < 10) return(prm)
     
     # Disable warnings.
-    prev <- getOption("warn"); options(warn=-1)
+    prev <- getOption("warn")
+    options(warn=-1)
     
     # Ensure positivity and check size.
     xmin <- min(x)
@@ -4152,7 +4244,7 @@ tool.overlap <- function(items, groups, nbackground=NULL) {
     
     # Check arguments.
     if(length(items) != length(groups))
-    stop("Incompatible inputs.")
+      stop("Incompatible inputs.")
     
     # Remove duplicate entries.
     data <- data.frame(ITEM=items, GROUP=groups, stringAsFactors=FALSE)
@@ -4177,13 +4269,13 @@ tool.overlap <- function(items, groups, nbackground=NULL) {
     nitems <- length(unique(items))
     if(is.null(nbackground)) nbackground <- nitems
     if(nbackground < nitems)
-    stop("tool.overlap: Invalid background size.")
+      stop("tool.overlap: Invalid background size.")
     
     # Number of shared items for each pair of blocks.
     row <- 1
     stamp <- Sys.time()
     nblocks <- length(blocks)
-    nrows <- (nblocks + 1)*nblocks/2;
+    nrows <- (nblocks + 1)*nblocks/2
     mtx <- matrix(nrow=nrows, ncol=5)
     for(a in 1:nblocks) {
         maskA <- blocks[[a]]
@@ -4264,7 +4356,7 @@ compression=FALSE) {
     fname <- file
     if(is.null(directory) == FALSE) {
         if(file.exists(directory) == FALSE)
-        dir.create(path=directory, recursive=TRUE)
+          dir.create(path=directory, recursive=TRUE)
         fname <- file.path(directory, file)
     }
     
@@ -4274,26 +4366,24 @@ compression=FALSE) {
     
     # Compress file.
     if(compression) {
-        if(verbose) cat("\rCompressing file... ")
-        system(paste("gzip -f \"", fname, "\"", sep=""))
-        fname <- paste(fname, ".gz", sep="")
+      if(verbose) cat("\rCompressing file... ")
+      system(paste("gzip -f \"", fname, "\"", sep=""))
+      fname <- paste(fname, ".gz", sep="")
     }
-    
-    # JD change
-    fname_output <- unlist(strsplit(fname, split = "/"))[length(unlist(strsplit(fname, split = "/")))]
     
     # Print report.
     n <- nrow(frame)
-    if(verbose) cat("\rSaved ", n, " rows in '", fname_output, "'.\n", sep="")
+    # if(verbose) cat("\rSaved ", n, " rows in '", fname, "'.\n", sep="")
+    if(verbose) cat("\rSaved ", n, " rows.\n", sep="")
     return(fname)  
 }
 #
 # Determine the network neighbors for a set of nodes. The first
 # argument is the indexed graph structure from tool.graph().
 # The second argument is the list of seed node names and the third
-# indicates the maximum nuber of links to connect neighbors.
+# indicates the maximum number of links to connect neighbors.
 # The fourth input sets the directionality: use a negative value
-# for dowstream, positive for upstream or zero for undirected.
+# for downstream, positive for upstream or zero for undirected.
 #
 # Output:
 #   res$RANK    - indices of neighboring nodes (including seeds)
@@ -4372,9 +4462,9 @@ tool.subgraph.find <- function(seeds, edgemap, heads, visited) {
         
         # Check capacity.
         if((length(neighbors) - nneigh) < nmask)
-        neighbors <- c(neighbors, 0*neighbors, 0*mask)
+          neighbors <- c(neighbors, 0*neighbors, 0*mask)
         
-        # Store node indices.    
+        # Store node indices.
         neighbors[nneigh+(1:nmask)] <- heads[mask]
         nneigh <- (nneigh + nmask)
     }
@@ -4403,6 +4493,9 @@ tool.subgraph.stats <- function(frame, edgemap, heads, weights) {
         wsums[rows] <- (wsums[rows] + weights[edges])
     }
     frame$DEGREE <- wcounts
+    # if weights are all the same, return flat weights
+    # instead of weights determined by node degree
+    if(sd(weights)==0) wsums <- rep(1, length(wcounts))
     frame$STRENG <- wsums
     return(frame)
 }
@@ -4465,46 +4558,4 @@ tool.unify <- function(xtrait, xnull=NULL) {
     # Map observations on null cumulative axis.
     out <- approx(x=q0, y=f0, xout=xtrait)
     return(out$y)
-}
-
-
-# Written by Jessica Ding 2020
-#
-
-makeNewGeneSetFileOnlySNPMappedGenes <- function(geneset_file, details_file, outputname){
-    details <- read.delim(details_file, header=TRUE, stringsAsFactors = FALSE)
-    geneset <- read.delim(geneset_file, header=TRUE, stringsAsFactors = FALSE)
-    details = details[!(grepl("_ctrl", details$MODULE)),]
-    result = data.frame(stringsAsFactors = FALSE)
-    if(sum(grepl(",",details$GENE))==0){
-        write.table(details[,c("MODULE","GENE")], outputname, sep="\t", quote = FALSE, row.names = FALSE)
-    }
-    else{
-        for(mod in unique(details$MODULE)){
-            genes = details$GENE[details$MODULE==mod]
-            multiple_genes <- genes[grep(",", genes)]
-            if(length(multiple_genes)==0){
-                result = rbind(result, 
-                               data.frame("MODULE"=mod, 
-                                          "GENE"=genes, stringsAsFactors = FALSE))
-            }
-            else{
-                split_genes <- unlist(sapply(multiple_genes, 
-                                             FUN = function(x){return(unlist(strsplit(x,
-                                                                                      split = ",")))}))
-                trimmed_genes <- genes[!grepl(",", genes)]
-                #genes <- c(trimmed_genes, split_genes) # only split genes are candidates for scrutiny
-                toTrim = c()
-                for(iter in 1:length(split_genes)){ # changed from genes to split_genes
-                    if(!(split_genes[iter] %in% geneset$GENE[geneset$MODULE==mod])) toTrim = c(toTrim,iter)
-                }
-                if(length(toTrim)>0) split_genes = split_genes[-toTrim]
-                genes <- c(trimmed_genes, split_genes)
-                result = rbind(result, 
-                               data.frame("MODULE"=mod, 
-                                          "GENE"=genes, stringsAsFactors = FALSE))
-            }
-        }
-        write.table(result, outputname, sep="\t", quote = FALSE, row.names = FALSE)
-    }
 }
