@@ -47,7 +47,7 @@ if ($subject == "Mergeomics Support: Mergeomics Pipeline" || $subject == "Mergeo
 }
 
 
-if(!$mail->send()) {
+if(!$mail->Send()) {
     echo "Mailer Error: " . $mail->ErrorInfo;
 } else {
     echo "E-Mail Sent! Thank you " . $name . ", we will contact you shortly.";
