@@ -115,7 +115,7 @@
     ============================================= -->
     <footer id="footer" class="light notopborder" style="background: #F9F9F9 url(include/pictures/pattern-dark.png) repeat center center;">
 
-    <div style="text-align: center;padding-top: 2%;font-size: 20px;">The Mergeomics web tool is freely accessible to all users.<br> We recommend using Chrome or Firefox for the best viewing experience.</div>
+    <div style="text-align: center;padding-top: 2%;font-size: 20px;">The Mergeomics web tool is freely accessible to all users. Test<br> We recommend using Chrome or Firefox for the best viewing experience.</div>
 
       <div class="footercontainer" style="margin-left:auto !important;">
 
