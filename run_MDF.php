@@ -86,7 +86,7 @@ $marker_association = $ROOT_DIR . "Data/Pipeline/" . $json[0]->association;
 $mapping =  $json[0]->marker;
 $MMFConvert =  $json[0]->MMFConvert;
 
-
+debug_to_console($mapping);
 if (count($mapping) > 1) {
     //File will be generated in result_MDF.php
     $mapping = "Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
@@ -98,7 +98,7 @@ if (count($mapping) > 1) {
         $mapping = "Resources/ssea_temp/Converted_" . basename($mapping);
     }
 }
-debug_to_console(count($mapping));
+
 //debug_to_console($mapping);
 
 

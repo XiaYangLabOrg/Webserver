@@ -59,8 +59,8 @@ function utf16_decode($str, &$be=null) {
     if (strlen($str) < 2) {
         return $str;
     }
-    $c0 = ord($str{0});
-    $c1 = ord($str{1});
+    $c0 = ord($str[0]);
+    $c1 = ord($str[1]);
     $start = 0;
     if ($c0 == 0xFE && $c1 == 0xFF) {
         $be = true;
@@ -76,11 +76,11 @@ function utf16_decode($str, &$be=null) {
     $newstr = '';
     for ($i = $start; $i < $len; $i += 2) {
         if ($be) {
-            $val = ord($str{$i})   << 4;
-            $val += ord($str{$i+1});
+            $val = ord($str[$i])   << 4;
+            $val += ord($str[$i+1]);
         } else {
-            $val = ord($str{$i+1}) << 4;
-            $val += ord($str{$i});
+            $val = ord($str[$i+1]) << 4;
+            $val += ord($str[$i]);
         }
         $newstr .= ($val == 0x228) ? "\n" : chr($val);
     }

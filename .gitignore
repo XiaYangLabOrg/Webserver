@@ -4,3 +4,4 @@ include/pharmomics
 .DS_Store
 R-3.4.4
 config.php
+Data/Pipeline/Resources
