@@ -384,6 +384,7 @@ if ((!(file_exists($email_sent)))) {
     ?>
 
     <script>
+        console.log("hahaahah");
         $('#myLDPrune_review').load("/result_MDF.php?sessionID=<?php echo $sessionID ?>&run=<?php print($run); ?>");
     </script>
 
