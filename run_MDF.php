@@ -86,20 +86,17 @@ $marker_association = $ROOT_DIR . "Data/Pipeline/" . $json[0]->association;
 $mapping =  $json[0]->marker;
 $MMFConvert =  $json[0]->MMFConvert;
 
-debug_to_console($mapping);
+
 if (count($mapping) > 1) {
     //File will be generated in result_MDF.php
     $mapping = "Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
 } else {
     $mapping = $mapping[0];
-    debug_to_console($mapping);
     if($MMFConvert!=="none"){
         //File will be generated in result_MDF.php
         $mapping = "Resources/ssea_temp/Converted_" . basename($mapping);
     }
 }
-
-//debug_to_console($mapping);
 
 
 $file2 = "MARFILE=\"" . $marker_association . "\"";
