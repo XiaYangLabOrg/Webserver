@@ -30,7 +30,7 @@ function readMappingFile($path)
 }
 //This result file is for MDF
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
-
+debug_to_console("line33");
 
 /* Initialize PHP variables
 sessionID = the saved session 
@@ -187,7 +187,7 @@ $geneconvertedfile = str_replace("Resources/ssea_temp/", "Data/Pipeline/Resource
 
 //$mappingname = pathinfo(strval($mapping), PATHINFO_FILENAME);
 //$geneconvertedfile = "Data/Pipeline/Resources/ssea_temp/Converted_" . $mappingname;
-
+debug_to_console("line190");
 
 
 
@@ -225,7 +225,7 @@ fwrite($fp, json_encode($data));
 fclose($fp);
 chmod($fjson, 0777);
 
-
+debug_to_console("line228");
 
 
 ?>
@@ -325,6 +325,7 @@ if (!file_exists("./Data/Pipeline/Resources/ldprune_temp/" . "$sessionID" . "_ou
 
 
 <script type="text/javascript">
+  console.log("line328");
   var session_id = "<?php echo $sessionID ?>";
   /*********************************************************************************** 
 Run SSEA script
