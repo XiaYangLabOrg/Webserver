@@ -29,6 +29,7 @@ function readMappingFile($path)
 //This result file is for MDF
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 
+
 /* Initialize PHP variables
 sessionID = the saved session 
 
@@ -102,7 +103,9 @@ $overview_file = "./Data/Pipeline/Resources/ldprune_temp/" . "$sessionID" . "_MD
 if (!file_exists($assocation_file) || $run == "T") {
   //debug_to_console('cd ' . $ROOT_DIR . 'Data/Pipeline; bash ' . $sessionID . 'preprocess.bash');
   $outfile = $ROOT_DIR . "Data/Pipeline/Resources/ldprune_temp/" . $sessionID . ".MDF_joblog.txt";
+  debug_to_console('cd ' . $ROOT_DIR . 'Data/Pipeline; bash ' . $sessionID . 'preprocess.bash ' . '2>&1 | tee -a ' . $outfile);
   shell_exec('cd ' . $ROOT_DIR . 'Data/Pipeline; bash ' . $sessionID . 'preprocess.bash ' . '2>&1 | tee -a ' . $outfile);
+
 }
 
 

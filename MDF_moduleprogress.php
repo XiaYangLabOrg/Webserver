@@ -138,6 +138,7 @@ Since we don't have a database, we create a txt file with the path information
     $marker_association = $json[0]->association;
     $mapping = $json[0]->marker;
   }
+  $mapping_val ="";
   foreach ($mapping as &$value) {
     //$newMappingcontent .= readMappingFile($value);
     $mapping_val .= ", " . basename($value);

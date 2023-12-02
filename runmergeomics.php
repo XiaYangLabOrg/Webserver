@@ -2148,7 +2148,7 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
   <?php
 
 
-  if ($_GET['sessionID']) {
+  if (!empty($_GET['sessionID'])) {
 
 
   ?>
@@ -2193,7 +2193,7 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
     </script>
     <?php
   } else {
-    if (!$_GET['sessionID']) {
+    if (!empty($_GET['sessionID'])) {
     ?>
       <script type="text/javascript">
         var n = localStorage.getItem('on_load_session');
