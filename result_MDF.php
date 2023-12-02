@@ -103,7 +103,7 @@ $overview_file = "./Data/Pipeline/Resources/ldprune_temp/" . "$sessionID" . "_MD
 if (!file_exists($assocation_file) || $run == "T") {
   //debug_to_console('cd ' . $ROOT_DIR . 'Data/Pipeline; bash ' . $sessionID . 'preprocess.bash');
   $outfile = $ROOT_DIR . "Data/Pipeline/Resources/ldprune_temp/" . $sessionID . ".MDF_joblog.txt";
-  debug_to_console('cd ' . $ROOT_DIR . 'Data/Pipeline; bash ' . $sessionID . 'preprocess.bash ' . '2>&1 | tee -a ' . $outfile);
+  debug_to_console('Running cmd: '.'cd ' . $ROOT_DIR . 'Data/Pipeline; bash ' . $sessionID . 'preprocess.bash ' . '2>&1 | tee -a ' . $outfile);
   shell_exec('cd ' . $ROOT_DIR . 'Data/Pipeline; bash ' . $sessionID . 'preprocess.bash ' . '2>&1 | tee -a ' . $outfile);
 
 }
@@ -165,6 +165,7 @@ Get the path of the output files from the R script
 // $overview_file = "./Data/Pipeline/Resources/ldprune_temp/" . "$sessionID" . "_overview.txt";
 
 // RENAME ASSOCIATION FILE
+debug_to_console('line168');
 if (file_exists("./Data/Pipeline/Resources/ldprune_temp/" . "$sessionID" . "_output/marker.txt")) {
   rename("./Data/Pipeline/Resources/ldprune_temp/" . "$sessionID" . "_output/marker.txt", "./Data/Pipeline/Resources/ldprune_temp/" . "$sessionID" . "_output/MDF_corrected_association.txt");
 }
@@ -188,7 +189,7 @@ $geneconvertedfile = str_replace("Resources/ssea_temp/", "Data/Pipeline/Resource
 
 //$mappingname = pathinfo(strval($mapping), PATHINFO_FILENAME);
 //$geneconvertedfile = "Data/Pipeline/Resources/ssea_temp/Converted_" . $mappingname;
-
+debug_to_console('line192');
 debug_to_console($geneconvertedfile);
 debug_to_console($mapping);
 //debug_to_console($pieces);
@@ -229,7 +230,7 @@ fwrite($fp, json_encode($data));
 fclose($fp);
 chmod($fjson, 0777);
 
-
+debug_to_console('line233');
 
 
 ?>
@@ -333,6 +334,7 @@ if (!file_exists("./Data/Pipeline/Resources/ldprune_temp/" . "$sessionID" . "_ou
   /*********************************************************************************** 
 Run SSEA script
 *******************************************************************************/
+  console.log("line337")
   $('#RunSSEA').on('click', function() {
     $('#MDFtogglet').click();
     $('#SSEAtoggle').show();
