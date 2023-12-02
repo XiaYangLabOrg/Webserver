@@ -364,6 +364,7 @@ if ((!(file_exists($email_sent)))) {
         }
 ?>
         <script>
+            console.log("hahaahah3");
             $('#myLDPrune_review').load("/result_MDF.php?sessionID=<?php echo $sessionID ?>&run=<?php print($run); ?>");
         </script>
     <?php
@@ -371,6 +372,7 @@ if ((!(file_exists($email_sent)))) {
     ?>
 
         <script>
+            console.log("hahaahah2");
             $('#myLDPrune_review').load("/result_MDF.php?sessionID=<?php echo $sessionID ?>&run=<?php print($run); ?> ");
         </script>
 
