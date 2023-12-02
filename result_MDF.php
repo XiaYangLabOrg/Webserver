@@ -196,6 +196,7 @@ Update the session
  *******************************************************************************/
 $fsession = "./Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 $fpostOut = "./Data/Pipeline/Resources/ldprune_temp/$sessionID" . "_MDF_postdata.txt";
+debug_to_console("line199");
 if (file_exists($fsession)) {
   $data = file($fsession); // reads an array of lines
   function replace_a_line($data)
@@ -206,10 +207,13 @@ if (file_exists($fsession)) {
     return $data;
   }
   $data = array_map('replace_a_line', $data);
+  debug_to_console("line210");
   file_put_contents($fsession, implode('', $data));
 }
+debug_to_console("line213");
 $fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 $json = json_decode(file_get_contents($fjson))->data;
+debug_to_console("line216");
 $marker_association = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_association.txt";
 $mapping = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_mapping.txt";
 $json[0]->association = $marker_association;
@@ -225,7 +229,7 @@ fwrite($fp, json_encode($data));
 fclose($fp);
 chmod($fjson, 0777);
 
-debug_to_console("line228");
+debug_to_console("line231");
 
 
 ?>
