@@ -121,7 +121,7 @@ $file8 = "OUTPATH=\"" . $ROOT_DIR . "Data/Pipeline/Resources/ldprune_temp/$sessi
 $TRIALNAME = $ROOT_DIR . "Data/Pipeline/Resources/ldprune_temp/" . "$sessionID" . "_output";
 $testing = "TRIALNAME=\"" . $TRIALNAME . "\"\n";
 $testing .= "mkdir -p \$TRIALNAME" . "\n";
-$testing .= "chmod a+rwx \$TRIALNAME" . "\n";
+#$testing .= "chmod a+rwx \$TRIALNAME" . "\n";
 
 $file9 = "# To increase result robustness and conserve memory and time, it is sometimes useful
           # to limit the number of markers. Here, only the top 50% associations are considered.";
