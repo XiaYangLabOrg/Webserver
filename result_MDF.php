@@ -1,3 +1,6 @@
+<script type="text/javascript">
+  console.log("I am in result_mdf");
+</script>
 <?php
 function debug_to_console($data)
 {

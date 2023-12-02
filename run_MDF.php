@@ -363,16 +363,14 @@ if ((!(file_exists($email_sent)))) {
             fclose($myfile);
         }
 ?>
-        <script>
-            console.log("hahaahah3");
+        <script type="text/javascript">
             $('#myLDPrune_review').load("/result_MDF.php?sessionID=<?php echo $sessionID ?>&run=<?php print($run); ?>");
         </script>
     <?php
     } else {
     ?>
 
-        <script>
-            console.log("hahaahah2");
+        <script type="text/javascript">
             $('#myLDPrune_review').load("/result_MDF.php?sessionID=<?php echo $sessionID ?>&run=<?php print($run); ?> ");
         </script>
 
@@ -382,8 +380,7 @@ if ((!(file_exists($email_sent)))) {
 } else {
     ?>
 
-    <script>
-        console.log("hahaahah");
+    <script type="text/javascript">
         $('#myLDPrune_review').load("/result_MDF.php?sessionID=<?php echo $sessionID ?>&run=<?php print($run); ?>");
     </script>
 
