@@ -215,21 +215,25 @@ $fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 $json = json_decode(file_get_contents($fjson))->data;
 debug_to_console("line216");
 $marker_association = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_association.txt";
+debug_to_console("line218");
 $mapping = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_mapping.txt";
+debug_to_console("line220");
 $json[0]->association = $marker_association;
 $json[0]->marker = $mapping;
 $data = null;
+debug_to_console("line224");
 if (empty($data->data)) {
   $data['data'][] = $json[0];
 } else {
   $data->data[] = $json[0];
 }
+debug_to_console("line230");
 $fp = fopen($fjson, 'w');
 fwrite($fp, json_encode($data));
 fclose($fp);
 chmod($fjson, 0777);
 
-debug_to_console("line231");
+debug_to_console("line236");
 
 
 ?>
