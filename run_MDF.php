@@ -201,7 +201,7 @@ if (file_exists($fsession)) {
 
 <script type="text/javascript">
 
-function mdfAjaxtest() {
+function mdfAjax() {
     var
       $http,
       text,
@@ -245,8 +245,8 @@ function mdfAjaxtest() {
 
  <script type="text/javascript">
   setTimeout(function() {
-    mdfAjaxtest();
-  }, 50);
+    mdfAjax();
+  }, 1000);
 </script>
 
 
