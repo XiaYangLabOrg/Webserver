@@ -1,6 +1,3 @@
-<script type="text/javascript">
-  console.log("I am in result_mdf");
-</script>
 <?php
 function debug_to_console($data)
 {
@@ -327,12 +324,10 @@ if (!file_exists("./Data/Pipeline/Resources/ldprune_temp/" . "$sessionID" . "_ou
 
 
 <script type="text/javascript">
-  console.log("line328");
   var session_id = "<?php echo $sessionID ?>";
   /*********************************************************************************** 
 Run SSEA script
 *******************************************************************************/
-  console.log("line337")
   $('#RunSSEA').on('click', function() {
     $('#MDFtogglet').click();
     $('#SSEAtoggle').show();
