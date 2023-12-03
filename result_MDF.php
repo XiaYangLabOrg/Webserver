@@ -30,7 +30,6 @@ function readMappingFile($path)
 }
 //This result file is for MDF
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
-debug_to_console("line33");
 
 /* Initialize PHP variables
 sessionID = the saved session 
@@ -187,7 +186,7 @@ $geneconvertedfile = str_replace("Resources/ssea_temp/", "Data/Pipeline/Resource
 
 //$mappingname = pathinfo(strval($mapping), PATHINFO_FILENAME);
 //$geneconvertedfile = "Data/Pipeline/Resources/ssea_temp/Converted_" . $mappingname;
-debug_to_console("line190");
+
 
 
 
@@ -196,7 +195,6 @@ Update the session
  *******************************************************************************/
 $fsession = "./Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 $fpostOut = "./Data/Pipeline/Resources/ldprune_temp/$sessionID" . "_MDF_postdata.txt";
-debug_to_console("line199");
 if (file_exists($fsession)) {
   $data = file($fsession); // reads an array of lines
   function replace_a_line($data)
@@ -207,33 +205,29 @@ if (file_exists($fsession)) {
     return $data;
   }
   $data = array_map('replace_a_line', $data);
-  debug_to_console("line210");
   file_put_contents($fsession, implode('', $data));
 }
-debug_to_console("line213");
+
 $fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 $json = json_decode(file_get_contents($fjson))->data;
-debug_to_console("line216");
 $marker_association = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_association.txt";
-debug_to_console("line218");
 $mapping = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_mapping.txt";
-debug_to_console("line220");
+
 $json[0]["association"] = $marker_association;
 $json[0]["marker"] = $mapping;
 $data = null;
-debug_to_console("line224");
 if (empty($data->data)) {
   $data['data'][] = $json[0];
 } else {
   $data->data[] = $json[0];
 }
-debug_to_console("line230");
+
 $fp = fopen($fjson, 'w');
 fwrite($fp, json_encode($data));
 fclose($fp);
 chmod($fjson, 0777);
 
-debug_to_console("line236");
+
 
 
 ?>
