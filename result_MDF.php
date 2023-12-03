@@ -218,8 +218,8 @@ $marker_association = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corr
 debug_to_console("line218");
 $mapping = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_mapping.txt";
 debug_to_console("line220");
-$json[0]->association = $marker_association;
-$json[0]->marker = $mapping;
+$json[0]["association"] = $marker_association;
+$json[0]["marker"] = $mapping;
 $data = null;
 debug_to_console("line224");
 if (empty($data->data)) {
