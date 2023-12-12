@@ -16,7 +16,7 @@ GET = if the user enters the link directly
 POST = if PHP enters the link
 
 */
-
+debug_to_console("line19");
   if (isset($_GET['sessionID'])) {
     $sessionID = $_GET['sessionID'];
   }
@@ -71,7 +71,7 @@ POST = if PHP enters the link
     $MMFConvert = "none";
   }
 
-
+  debug_to_console("line74");
   //stored variable for use later
   $fpath = "./Data/Pipeline/Resources/ssea_temp/$sessionID";
   //change the file path if the user has skipped MDF in the GWAS pipeline
@@ -152,7 +152,7 @@ Sets path to email file and sent_email file
   }
 
 
-
+  debug_to_console("line155");
   /***************************************
 Session ID
 Need to update the session for the user
@@ -194,7 +194,7 @@ Since we don't have a database, we create a txt file with the path information
       file_put_contents($fsession, implode('', $data));
     }
   }
-
+  debug_to_console("line197");
   $fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 
   $data = null;
@@ -253,7 +253,7 @@ Since we don't have a database, we create a txt file with the path information
     $enrichment = $json[0]->enrichment;
     $module_info = $json[0]->genedesc;
   }
-
+  debug_to_console("line256");
   if (count($mapping) > 1) {
     foreach ($mapping as &$value) {
       //$newMappingcontent .= readMappingFile($value);
