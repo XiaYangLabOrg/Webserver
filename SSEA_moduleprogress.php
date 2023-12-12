@@ -240,18 +240,31 @@ Since we don't have a database, we create a txt file with the path information
   } else {
     //From session load
     $json = json_decode(file_get_contents($fjson))->data;
-    $perm_type = $json[0]->perm;
-    $max_gene = $json[0]->maxgenes;
-    $min_gene = $json[0]->mingenes;
-    $minoverlap = $json[0]->minoverlap;
-    $maxoverlap = $json[0]->maxoverlap;
-    $sseanperm = $json[0]->numperm;
-    $sseafdr = $json[0]->fdrcutoff;
-    $marker_association = $json[0]->association;
-    $mapping = $json[0]->marker;
-    $module = $json[0]->geneset;
-    $enrichment = $json[0]->enrichment;
-    $module_info = $json[0]->genedesc;
+    // $perm_type = $json[0]->perm;
+    // $max_gene = $json[0]->maxgenes;
+    // $min_gene = $json[0]->mingenes;
+    // $minoverlap = $json[0]->minoverlap;
+    // $maxoverlap = $json[0]->maxoverlap;
+    // $sseanperm = $json[0]->numperm;
+    // $sseafdr = $json[0]->fdrcutoff;
+    // $marker_association = $json[0]->association;
+    // $mapping = $json[0]->marker;
+    // $module = $json[0]->geneset;
+    // $enrichment = $json[0]->enrichment;
+    // $module_info = $json[0]->genedesc;
+
+    $perm_type = $json[0]["perm"];
+    $max_gene = $json[0]["maxgenes"];
+    $min_gene = $json[0]["mingenes"];
+    $minoverlap = $json[0]["minoverlap"];
+    $maxoverlap = $json[0]["maxoverlap"];
+    $sseanperm = $json[0]["numperm"];
+    $sseafdr = $json[0]["fdrcutoff"];
+    $marker_association = $json[0]["association"];
+    $mapping = $json[0]["marker"];
+    $module = $json[0]["geneset"];
+    $enrichment = $json[0]["enrichment"];
+    $module_info = $json[0]["genedesc"];
   }
   debug_to_console("line256");
   if (count($mapping) > 1) {

@@ -205,12 +205,12 @@ if (file_exists($fsession)) {
   $data = array_map('replace_a_line', $data);
   file_put_contents($fsession, implode('', $data));
 }
-
+debug_to_console("line208");
 $fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 $json = json_decode(file_get_contents($fjson))->data;
 $marker_association = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_association.txt";
 $mapping = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_mapping.txt";
-
+debug_to_console("line213");
 $json[0]["association"] = $marker_association;
 $json[0]["marker"] = $mapping;
 $data = null;
@@ -219,7 +219,7 @@ if (empty($data->data)) {
 } else {
   $data->data[] = $json[0];
 }
-
+debug_to_console("line222");
 $fp = fopen($fjson, 'w');
 fwrite($fp, json_encode($data));
 fclose($fp);
