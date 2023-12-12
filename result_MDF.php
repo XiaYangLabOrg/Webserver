@@ -214,11 +214,12 @@ debug_to_console("line213");
 $json[0]["association"] = $marker_association;
 $json[0]["marker"] = $mapping;
 $data = null;
-if (empty($data->data)) {
-  $data['data'][] = $json[0];
-} else {
-  $data->data[] = $json[0];
-}
+$data['data'][] = $json[0];
+// if (empty($data->data)) {
+  
+// } else {
+//   $data->data[] = $json[0];
+// }
 debug_to_console("line222");
 $fp = fopen($fjson, 'w');
 fwrite($fp, json_encode($data));

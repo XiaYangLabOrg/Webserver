@@ -228,11 +228,12 @@ Since we don't have a database, we create a txt file with the path information
     }
     $json['genedesc'] = $module_info;
 
-    if (empty($data->data)) {
-      $data['data'][] = $json;
-    } else {
-      $data->data[] = $json;
-    }
+    $data['data'][] = $json;
+    // if (empty($data->data)) {
+    //   $data['data'][] = $json;
+    // } else {
+    //   $data->data[] = $json;
+    // }
     $fp = fopen($fjson, 'w');
     fwrite($fp, json_encode($data));
     fclose($fp);
