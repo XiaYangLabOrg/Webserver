@@ -6,6 +6,7 @@ function debug_to_console($data)
     $output = implode(',', $output);
   echo "<script type=\"text/javascript\">console.log('Debug Objects: " . $output . "' );</script>";
 }
+debug_to_console("line9");
 function readMappingFile($path)
 {
   //$arr = array();
@@ -83,7 +84,7 @@ if($run == "T"){
   }
 }
 
-
+debug_to_console("line87");
 //filepath to output folder
 $resultfile = "./Data/Pipeline/Resources/ldprune_temp/$sessionID" . "_output/";
 
@@ -107,7 +108,7 @@ if (!file_exists($assocation_file) || $run == "T") {
 //there are no checks so that it will run a job each time
 //even if they already ran it
 
-
+debug_to_console("line111");
 /*********************************************************************************** 
 Send out result email if user has entered an email
  *******************************************************************************/
@@ -150,7 +151,7 @@ if ((!(file_exists($results_notified)))) {
   }
 }
 
-
+debug_to_console("line154");
 
 /*********************************************************************************** 
 Get the path of the output files from the R script
@@ -184,7 +185,7 @@ $geneconvertedfile = str_replace("Resources/ssea_temp/", "Data/Pipeline/Resource
 //$mappingname = pathinfo(strval($mapping), PATHINFO_FILENAME);
 //$geneconvertedfile = "Data/Pipeline/Resources/ssea_temp/Converted_" . $mappingname;
 
-
+debug_to_console("line188");
 
 
 /*********************************************************************************** 
