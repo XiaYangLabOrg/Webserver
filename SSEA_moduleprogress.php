@@ -269,16 +269,20 @@ Since we don't have a database, we create a txt file with the path information
   }
   debug_to_console("line256");
   if (count($mapping) > 1) {
+    debug_to_console("line272");
     foreach ($mapping as &$value) {
       //$newMappingcontent .= readMappingFile($value);
       $mapping_val .= ", " . basename($value);
     }
+    debug_to_console("line277");
     $mapping_val = substr($mapping_val, 2);
   } else {
-
+    debug_to_console("line280");
     if (gettype($mapping) == "array") {
+      debug_to_console("line282");
       $mapping_val = basename($mapping[0]);
     } else {
+      debug_to_console("line285");
       $mapping_val = basename($mapping);
     }
   }
