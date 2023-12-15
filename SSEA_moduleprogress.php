@@ -268,6 +268,8 @@ Since we don't have a database, we create a txt file with the path information
     $module_info = $json[0]["genedesc"];
   }
   debug_to_console("line256");
+  debug_to_console($mapping);
+  debug_to_console(count($mapping));
   if (count($mapping) > 1) {
     debug_to_console("line272");
     foreach ($mapping as &$value) {
