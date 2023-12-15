@@ -302,6 +302,7 @@ Since we don't have a database, we create a txt file with the path information
        <?php
         $overview_write = NULL;
         $overview_write .= "Description" . "\t" . "Filename/Parameter" . "\n";
+        debug_to_console("line305");
         ?>
      </tr>
    </thead>
@@ -313,6 +314,7 @@ Since we don't have a database, we create a txt file with the path information
        <td style="font-weight: bold;">
          <!--Outputs data from the LOCI file ------->
          <?php
+          debug_to_console("line317");
           echo basename($marker_association);
           $overview_write .= "Association Data" . "\t" . basename($marker_association) . "\n";
           debug_to_console("line318");
