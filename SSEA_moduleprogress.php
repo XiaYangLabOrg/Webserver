@@ -315,6 +315,7 @@ Since we don't have a database, we create a txt file with the path information
          <?php
           echo basename($marker_association);
           $overview_write .= "Association Data" . "\t" . basename($marker_association) . "\n";
+          debug_to_console("line318");
           ?>
        </td>
      </tr>
@@ -325,7 +326,7 @@ Since we don't have a database, we create a txt file with the path information
          <!--Outputs data from the GWAS_file_list file ------->
          <?php
 
-          echo $mapping_val;
+          //echo $mapping_val;
           //echo basename($mapping);
           $overview_write .= "Marker Mapping Data" . "\t" . $mapping_val . "\n";
           ?>
@@ -338,6 +339,7 @@ Since we don't have a database, we create a txt file with the path information
          <!--Outputs data from the MODULE file ------->
          <?php
           echo basename($module);
+          debug_to_console("line342");
           $overview_write .= "Gene Sets" . "\t" . basename($module) . "\n";
           ?>
        </td>
@@ -348,6 +350,7 @@ Since we don't have a database, we create a txt file with the path information
        <td style="font-weight: bold;">
          <!--Outputs data from the DESC file ------->
          <?php
+          debug_to_console("line353");
           $fpathmod = $fpath . "DESC";
           if ($module_info == "None Provided") {
             echo "None Selected";
@@ -356,6 +359,7 @@ Since we don't have a database, we create a txt file with the path information
             echo basename($module_info);
             $overview_write .= "Gene Sets Description" . "\t" . basename($module_info) . "\n";
           }
+          debug_to_console("line362");
           ?>
        </td>
      </tr>
@@ -367,6 +371,7 @@ Since we don't have a database, we create a txt file with the path information
        <td>Permutation Type</td>
        <td style="font-weight: bold;">
          <?php
+         debug_to_console("line374");
           if ($perm_type == "locus") {
             echo "marker";
             $overview_write .= "Permutation Type" . "\tmarker\n";
@@ -374,6 +379,7 @@ Since we don't have a database, we create a txt file with the path information
             echo "$perm_type";
             $overview_write .= "Permutation Type" . "\t" . trim("$perm_type") . "\n";
           }
+          debug_to_console("line382");
           ?>
        </td>
      </tr>
@@ -385,7 +391,9 @@ Since we don't have a database, we create a txt file with the path information
        <td style="font-weight: bold;">
          <?php
           echo "$max_gene";
-          $overview_write .= "Max Genes in Gene Sets" . "\t" . trim("$max_gene") . "\n"; ?>
+          $overview_write .= "Max Genes in Gene Sets" . "\t" . trim("$max_gene") . "\n";
+          debug_to_console("line395");
+         ?>
        </td>
      </tr>
      <tr>
@@ -396,7 +404,9 @@ Since we don't have a database, we create a txt file with the path information
        <td style="font-weight: bold;">
          <?php
           echo "$min_gene";
-          $overview_write .= "Min Genes in Gene Sets" . "\t" . trim("$min_gene") . "\n"; ?>
+          $overview_write .= "Min Genes in Gene Sets" . "\t" . trim("$min_gene") . "\n"; 
+          debug_to_console("line408");
+          ?>
        </td>
      </tr>
      <tr>
@@ -407,7 +417,9 @@ Since we don't have a database, we create a txt file with the path information
        <td style="font-weight: bold;">
          <?php
           echo "$maxoverlap";
-          $overview_write .= "Max Overlap Allowed for Merging" . "\t" . trim("$maxoverlap") . "\n"; ?>
+          $overview_write .= "Max Overlap Allowed for Merging" . "\t" . trim("$maxoverlap") . "\n"; 
+          debug_to_console("line421");
+          ?>
        </td>
      </tr>
      <tr>
@@ -418,7 +430,9 @@ Since we don't have a database, we create a txt file with the path information
        <td style="font-weight: bold;">
          <?php
           echo "$minoverlap";
-          $overview_write .= "Min Module Overlap Allowed for Merging" . "\t" . trim("$minoverlap") . "\n"; ?>
+          $overview_write .= "Min Module Overlap Allowed for Merging" . "\t" . trim("$minoverlap") . "\n"; 
+          debug_to_console("line434");
+          ?>
        </td>
      </tr>
      <tr>
@@ -440,7 +454,9 @@ Since we don't have a database, we create a txt file with the path information
        <td style="font-weight: bold;">
          <?php
           echo "$sseafdr";
-          $overview_write .= "MSEA to KDA export FDR cutoff" . "\t" . trim("$sseafdr") . "\n"; ?>
+          $overview_write .= "MSEA to KDA export FDR cutoff" . "\t" . trim("$sseafdr") . "\n"; 
+          debug_to_console("line458");
+          ?>
        </td>
      </tr>
    </tbody>
@@ -454,6 +470,7 @@ Since we don't have a database, we create a txt file with the path information
   fwrite($overview_file, $overview_write);
   fclose($overview_file);
   chmod($overview_fp, 0777);
+  debug_to_console("line473");
   ?>
 
  <br>
@@ -465,6 +482,7 @@ Users can enter their email. It will refresh the page with a GET if they click e
 --------------------------------------------------------------------------------------------->
  <h5 style="color: #00004d;">Enter your e-mail id for job completion notification (Recommended)
    <?php
+   debug_to_console("line485");
     /*This checks if the email exists or not. If it does, then give a success notifcation  */
     if (isset($_GET['SSEAemail']) ? $_GET['SSEAemail'] : null) {
     ?>
@@ -484,7 +502,7 @@ Users can enter their email. It will refresh the page with a GET if they click e
      <button type="button" class="button button-3d button-small nomargin" id="SSEAemailSubmit">Send email</button>
    <?php
     }
-
+    debug_to_console("line505");
     ?>
  </h5>
 
