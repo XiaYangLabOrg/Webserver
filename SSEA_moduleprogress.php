@@ -267,9 +267,6 @@ Since we don't have a database, we create a txt file with the path information
     $enrichment = $json[0]["enrichment"];
     $module_info = $json[0]["genedesc"];
   }
-  debug_to_console("line256");
-  debug_to_console($mapping);
-  debug_to_console(gettype($mapping));
   if (is_string($mapping)) {
     debug_to_console("line272");
     foreach ($mapping as &$value) {
