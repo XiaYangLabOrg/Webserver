@@ -16,7 +16,6 @@ GET = if the user enters the link directly
 POST = if PHP enters the link
 
 */
-debug_to_console("line19");
   if (isset($_GET['sessionID'])) {
     $sessionID = $_GET['sessionID'];
   }
@@ -71,8 +70,7 @@ debug_to_console("line19");
     $MMFConvert = "none";
   }
 
-  debug_to_console("line74");
-  //stored variable for use later
+    //stored variable for use later
   $fpath = "./Data/Pipeline/Resources/ssea_temp/$sessionID";
   //change the file path if the user has skipped MDF in the GWAS pipeline
   // if (isset($_GET['skippedMDF'])) {
@@ -152,8 +150,7 @@ Sets path to email file and sent_email file
   }
 
 
-  debug_to_console("line155");
-  /***************************************
+/***************************************
 Session ID
 Need to update the session for the user
 Since we don't have a database, we create a txt file with the path information
@@ -194,7 +191,6 @@ Since we don't have a database, we create a txt file with the path information
       file_put_contents($fsession, implode('', $data));
     }
   }
-  debug_to_console("line197");
   $fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 
   $data = null;
@@ -268,20 +264,15 @@ Since we don't have a database, we create a txt file with the path information
     $module_info = $json[0]["genedesc"];
   }
   if (is_string($mapping)) {
-    debug_to_console("line272");
     foreach ($mapping as &$value) {
       //$newMappingcontent .= readMappingFile($value);
       $mapping_val .= ", " . basename($value);
     }
-    debug_to_console("line277");
     $mapping_val = substr($mapping_val, 2);
   } else {
-    debug_to_console("line280");
     if (gettype($mapping) == "array") {
-      debug_to_console("line282");
       $mapping_val = basename($mapping[0]);
     } else {
-      debug_to_console("line285");
       $mapping_val = basename($mapping);
     }
   }
@@ -305,7 +296,6 @@ Since we don't have a database, we create a txt file with the path information
        <?php
         $overview_write = NULL;
         $overview_write .= "Description" . "\t" . "Filename/Parameter" . "\n";
-        debug_to_console("line305");
         ?>
      </tr>
    </thead>
@@ -317,10 +307,8 @@ Since we don't have a database, we create a txt file with the path information
        <td style="font-weight: bold;">
          <!--Outputs data from the LOCI file ------->
          <?php
-          debug_to_console("line317");
           echo basename($marker_association);
           $overview_write .= "Association Data" . "\t" . basename($marker_association) . "\n";
-          debug_to_console("line318");
           ?>
        </td>
      </tr>
@@ -333,6 +321,7 @@ Since we don't have a database, we create a txt file with the path information
 
           //echo $mapping_val;
           //echo basename($mapping);
+          debug_to_console($mapping_val);
           $overview_write .= "Marker Mapping Data" . "\t" . $mapping_val . "\n";
           ?>
        </td>
@@ -344,7 +333,6 @@ Since we don't have a database, we create a txt file with the path information
          <!--Outputs data from the MODULE file ------->
          <?php
           echo basename($module);
-          debug_to_console("line342");
           $overview_write .= "Gene Sets" . "\t" . basename($module) . "\n";
           ?>
        </td>
@@ -355,7 +343,6 @@ Since we don't have a database, we create a txt file with the path information
        <td style="font-weight: bold;">
          <!--Outputs data from the DESC file ------->
          <?php
-          debug_to_console("line353");
           $fpathmod = $fpath . "DESC";
           if ($module_info == "None Provided") {
             echo "None Selected";
@@ -364,7 +351,6 @@ Since we don't have a database, we create a txt file with the path information
             echo basename($module_info);
             $overview_write .= "Gene Sets Description" . "\t" . basename($module_info) . "\n";
           }
-          debug_to_console("line362");
           ?>
        </td>
      </tr>
@@ -376,7 +362,6 @@ Since we don't have a database, we create a txt file with the path information
        <td>Permutation Type</td>
        <td style="font-weight: bold;">
          <?php
-         debug_to_console("line374");
           if ($perm_type == "locus") {
             echo "marker";
             $overview_write .= "Permutation Type" . "\tmarker\n";
@@ -384,7 +369,6 @@ Since we don't have a database, we create a txt file with the path information
             echo "$perm_type";
             $overview_write .= "Permutation Type" . "\t" . trim("$perm_type") . "\n";
           }
-          debug_to_console("line382");
           ?>
        </td>
      </tr>
@@ -397,7 +381,6 @@ Since we don't have a database, we create a txt file with the path information
          <?php
           echo "$max_gene";
           $overview_write .= "Max Genes in Gene Sets" . "\t" . trim("$max_gene") . "\n";
-          debug_to_console("line395");
          ?>
        </td>
      </tr>
@@ -410,7 +393,6 @@ Since we don't have a database, we create a txt file with the path information
          <?php
           echo "$min_gene";
           $overview_write .= "Min Genes in Gene Sets" . "\t" . trim("$min_gene") . "\n"; 
-          debug_to_console("line408");
           ?>
        </td>
      </tr>
@@ -423,7 +405,6 @@ Since we don't have a database, we create a txt file with the path information
          <?php
           echo "$maxoverlap";
           $overview_write .= "Max Overlap Allowed for Merging" . "\t" . trim("$maxoverlap") . "\n"; 
-          debug_to_console("line421");
           ?>
        </td>
      </tr>
@@ -436,7 +417,6 @@ Since we don't have a database, we create a txt file with the path information
          <?php
           echo "$minoverlap";
           $overview_write .= "Min Module Overlap Allowed for Merging" . "\t" . trim("$minoverlap") . "\n"; 
-          debug_to_console("line434");
           ?>
        </td>
      </tr>
@@ -460,7 +440,6 @@ Since we don't have a database, we create a txt file with the path information
          <?php
           echo "$sseafdr";
           $overview_write .= "MSEA to KDA export FDR cutoff" . "\t" . trim("$sseafdr") . "\n"; 
-          debug_to_console("line458");
           ?>
        </td>
      </tr>
@@ -475,7 +454,6 @@ Since we don't have a database, we create a txt file with the path information
   fwrite($overview_file, $overview_write);
   fclose($overview_file);
   chmod($overview_fp, 0777);
-  debug_to_console("line473");
   ?>
 
  <br>
@@ -487,7 +465,6 @@ Users can enter their email. It will refresh the page with a GET if they click e
 --------------------------------------------------------------------------------------------->
  <h5 style="color: #00004d;">Enter your e-mail id for job completion notification (Recommended)
    <?php
-   debug_to_console("line485");
     /*This checks if the email exists or not. If it does, then give a success notifcation  */
     if (isset($_GET['SSEAemail']) ? $_GET['SSEAemail'] : null) {
     ?>
@@ -507,7 +484,6 @@ Users can enter their email. It will refresh the page with a GET if they click e
      <button type="button" class="button button-3d button-small nomargin" id="SSEAemailSubmit">Send email</button>
    <?php
     }
-    debug_to_console("line505");
     ?>
  </h5>
 
