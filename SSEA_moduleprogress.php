@@ -263,6 +263,7 @@ Since we don't have a database, we create a txt file with the path information
     $enrichment = $json[0]["enrichment"];
     $module_info = $json[0]["genedesc"];
   }
+  debug_to_console($mapping);
   if (is_string($mapping)) {
     foreach ($mapping as &$value) {
       //$newMappingcontent .= readMappingFile($value);
@@ -321,7 +322,9 @@ Since we don't have a database, we create a txt file with the path information
 
           //echo $mapping_val;
           //echo basename($mapping);
+          debug_to_console("line324");
           debug_to_console($mapping_val);
+          debug_to_console("line326");
           $overview_write .= "Marker Mapping Data" . "\t" . $mapping_val . "\n";
           ?>
        </td>
