@@ -105,30 +105,30 @@ if (isset($_GET['run'])) {
 
 $fjson = $ROOT_DIR . "Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 $json = json_decode(file_get_contents($fjson))->data;
-$perm_type = $json[0]->perm;
-$max_gene = $json[0]->maxgenes;
-$min_gene = $json[0]->mingenes;
-$minoverlap = $json[0]->minoverlap;
-$maxoverlap = $json[0]->maxoverlap;
-$sseanperm = $json[0]->numperm;
-$sseafdr = $json[0]->fdrcutoff;
-$marker_association = $json[0]->association;
-$mapping = $json[0]->marker;
-$module =  $json[0]->geneset;
-$enrichment = $json[0]->enrichment;
-$module_info =  $json[0]->genedesc;
-$GSETConvert = $json[0]->GSETConvert;
-$MMFConvert = $json[0]->MMFConvert;
+$perm_type = $json[0]["perm"];
+$max_gene = $json[0]["maxgenes"];
+$min_gene = $json[0]["mingenes"];
+$minoverlap = $json[0]["minoverlap"];
+$maxoverlap = $json[0]["maxoverlap"];
+$sseanperm = $json[0]["numperm"];
+$sseafdr = $json[0]["fdrcutoff"];
+$marker_association = $json[0]["association"];
+$mapping = $json[0]["marker"];
+$module =  $json[0]["geneset"];
+$enrichment = $json[0]["enrichment"];
+$module_info =  $json[0]["genedesc"];
+$GSETConvert = $json[0]["GSETConvert"];
+$MMFConvert = $json[0]["MMFConvert"];
 // debug_to_console($marker_association);
 // debug_to_console($mapping);
 // debug_to_console($module);
 // debug_to_console($module_info);
 
-if (count($mapping) > 1) {
+if (is_string($mapping)) {
   //File will be generated in result_SSEA.php
   $mapping = "Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
 } else {
-  if (gettype($mapping) == "array") {
+  if (is_array($mapping)) {
     $mapping_val = $mapping[0];
     // Jess added
     $mapping = $mapping_val;
@@ -357,7 +357,7 @@ if ((!(file_exists($email_sent)))) {
     $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
     $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
     $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-    $mail->Password   = "mergeomics729@";            // GMAIL password
+    #$mail->Password   = "mergeomics729@";            // GMAIL password
 
 
     $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
