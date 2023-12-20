@@ -318,9 +318,7 @@ Since we don't have a database, we create a txt file with the path information
 
           //echo $mapping_val;
           //echo basename($mapping);
-          debug_to_console("line324");
-          debug_to_console($mapping_val);
-          debug_to_console("line326");
+          echo $mapping_val;
           $overview_write .= "Marker Mapping Data" . "\t" . $mapping_val . "\n";
           ?>
        </td>
