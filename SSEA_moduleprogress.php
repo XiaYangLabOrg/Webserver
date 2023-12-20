@@ -265,7 +265,7 @@ Since we don't have a database, we create a txt file with the path information
   }
   if (is_string($mapping)) {
     debug_to_console($mapping);
-    $mapping_val .= ", " . basename($value);
+    $mapping_val .= ", " . basename($mapping);
     debug_to_console($mapping_val);
     $mapping_val = substr($mapping_val, 2);
     debug_to_console($mapping_val);
