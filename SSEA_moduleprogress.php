@@ -263,15 +263,14 @@ Since we don't have a database, we create a txt file with the path information
     $enrichment = $json[0]["enrichment"];
     $module_info = $json[0]["genedesc"];
   }
-  debug_to_console($mapping);
   if (is_string($mapping)) {
-    foreach ($mapping as &$value) {
-      //$newMappingcontent .= readMappingFile($value);
-      $mapping_val .= ", " . basename($value);
-    }
+    debug_to_console($mapping);
+    $mapping_val .= ", " . basename($value);
+    debug_to_console($mapping_val);
     $mapping_val = substr($mapping_val, 2);
+    debug_to_console($mapping_val);
   } else {
-    if (gettype($mapping) == "array") {
+    if (is_array($mapping)) {
       $mapping_val = basename($mapping[0]);
     } else {
       $mapping_val = basename($mapping);
