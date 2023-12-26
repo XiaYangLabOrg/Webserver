@@ -9,6 +9,7 @@ function debug_to_console($data)
 
   echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
+debug_to_console("11");
 function readMappingFile($path)
 {
   $handle = fopen($path, "r");
@@ -25,6 +26,7 @@ function readMappingFile($path)
     return $content;
   }
 }
+debug_to_console("29");
 /* Initialize PHP variables
 sessionID = the saved session 
 
@@ -33,11 +35,11 @@ POST = if PHP enters the link
 
 */
 
-
+debug_to_console("38");
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
 }
-
+debug_to_console("42");
 if (isset($_GET['run'])) {
   $run = $_GET['run'];
 }
