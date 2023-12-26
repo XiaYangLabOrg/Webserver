@@ -31,7 +31,6 @@ if (isset($_GET['sessionID'])) {
 
 if (isset($_GET['run'])) {
     $run = $_GET['run'];
-    debug_to_console($run);
 }
 
 if (isset($_GET['rmchoice']) ? $_GET['rmchoice'] : null) {
@@ -39,40 +38,40 @@ if (isset($_GET['rmchoice']) ? $_GET['rmchoice'] : null) {
 }
 if ($rmchoice == 1) {
     $ssea_json = $ROOT_DIR . "Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
-    $data = json_decode(file_get_contents($ssea_json))->data;
-    $perm_type = $data[0]->perm;
-    $max_gene = $data[0]->maxgenes;
-    $min_gene = $data[0]->mingenes;
-    $minoverlap = $data[0]->minoverlap;
-    $maxoverlap = $data[0]->maxoverlap;
-    $mseanperm = $data[0]->numperm;
-    $fdrval = $data[0]->fdrcutoff;
-    $marker_association = $data[0]->association;
-    $mapping = $data[0]->marker;
-    $mdf = $data[0]->mdf;
-    $mdf_ntop = $data[0]->mdf_ntop;
-    $module_file = $data[0]->geneset;
-    $enrichment = $data[0]->enrichment;
-    $module_info = $data[0]->genedesc;
-    $GSETConvert = $data[0]->GSETConvert;
+    $data = json_decode(file_get_contents($ssea_json),true)->data[0];
+    $perm_type = $data->perm;
+    $max_gene = $data->maxgenes;
+    $min_gene = $data->mingenes;
+    $minoverlap = $data->minoverlap;
+    $maxoverlap = $data->maxoverlap;
+    $mseanperm = $data->numperm;
+    $fdrval = $data->fdrcutoff;
+    $marker_association = $data->association;
+    $mapping = $data->marker;
+    $mdf = $data->mdf;
+    $mdf_ntop = $data->mdf_ntop;
+    $module_file = $data->geneset;
+    $enrichment = $data->enrichment;
+    $module_info = $data->genedesc;
+    $GSETConvert = $data->GSETConvert;
 } else {
     $msea_json = $ROOT_DIR . "Data/Pipeline/Resources/msea_temp/$sessionID" . "data.json";
-    $data = json_decode(file_get_contents($msea_json))->data;
-    $perm_type = $data[0]->perm;
-    $max_gene = $data[0]->maxgenes;
-    $min_gene = $data[0]->mingenes;
-    $minoverlap = $data[0]->minoverlap;
-    $maxoverlap = $data[0]->maxoverlap;
-    $mseanperm = $data[0]->numperm;
-    $fdrval = $data[0]->fdrcutoff;
-    $marker_association = $data[0]->association;
-    $mapping = $data[0]->marker;
-    $mdf = $data[0]->mdf;
-    $mdf_ntop = $data[0]->mdf_ntop;
-    $module_file = $data[0]->geneset;
-    $enrichment = $data[0]->enrichment;
-    $module_info = $data[0]->genedesc;
-    $GSETConvert = $data[0]->GSETConvert;
+    $data = json_decode(file_get_contents($msea_json),true)->data;
+    $perm_type = $data->perm;
+    $max_gene = $data->maxgenes;
+    $min_gene = $data->mingenes;
+    $minoverlap = $data->minoverlap;
+    $maxoverlap = $data->maxoverlap;
+    $mseanperm = $data->numperm;
+    $fdrval = $data->fdrcutoff;
+    $marker_association = $data->association;
+    $mapping = $data->marker;
+    $mdf = $data->mdf;
+    $mdf_ntop = $data->mdf_ntop;
+    $module_file = $data->geneset;
+    $enrichment = $data->enrichment;
+    $module_info = $data->genedesc;
+    $GSETConvert = $data->GSETConvert;
 }
 
 if (count($mapping) > 1) {
