@@ -104,8 +104,10 @@ if (isset($_GET['run'])) {
 // $fpath4 = $ROOT_DIR . "/Data/Pipeline/Resources/ssea_temp/$sessionID" . "DESC";
 // $fpathparam = $ROOT_DIR . "/Data/Pipeline/Resources/ssea_temp/$sessionID" . "PARAM";
 // $fpath5 = $ROOT_DIR . "/Data/Pipeline/Resources/ssea_temp/$sessionID" . "PARAM_SSEA_FDR";
-debug_to_console("107");
+
 $fjson = $ROOT_DIR . "Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
+debug_to_console("109");
+debug_to_console(file_get_contents($fjson));
 $json = json_decode(file_get_contents($fjson));
 debug_to_console($json);
 debug_to_console("110");
