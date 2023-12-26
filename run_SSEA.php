@@ -106,7 +106,7 @@ if (isset($_GET['run'])) {
 // $fpath5 = $ROOT_DIR . "/Data/Pipeline/Resources/ssea_temp/$sessionID" . "PARAM_SSEA_FDR";
 
 $fjson = $ROOT_DIR . "Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
-$json = json_decode(file_get_contents($fjson))->data;
+$json = json_decode(file_get_contents($fjson))["data"];
 $perm_type = $json[0]["perm"];
 $max_gene = $json[0]["maxgenes"];
 $min_gene = $json[0]["mingenes"];
