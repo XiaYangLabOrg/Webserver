@@ -9,7 +9,6 @@ function debug_to_console($data)
 
   echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
-debug_to_console("11");
 function readMappingFile($path)
 {
   $handle = fopen($path, "r");
@@ -26,7 +25,6 @@ function readMappingFile($path)
     return $content;
   }
 }
-debug_to_console("29");
 /* Initialize PHP variables
 sessionID = the saved session 
 
@@ -35,7 +33,6 @@ POST = if PHP enters the link
 
 */
 
-debug_to_console("38");
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
 }
@@ -106,30 +103,23 @@ if (isset($_GET['run'])) {
 // $fpath5 = $ROOT_DIR . "/Data/Pipeline/Resources/ssea_temp/$sessionID" . "PARAM_SSEA_FDR";
 
 $fjson = $ROOT_DIR . "Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
-debug_to_console("109");
-debug_to_console("json" . json_decode(file_get_contents($fjson)),true);
-$json = json_decode(file_get_contents($fjson));
-debug_to_console($json);
-debug_to_console("110");
-$perm_type = $json[0]["perm"];
-$max_gene = $json[0]["maxgenes"];
-$min_gene = $json[0]["mingenes"];
-$minoverlap = $json[0]["minoverlap"];
-$maxoverlap = $json[0]["maxoverlap"];
-$sseanperm = $json[0]["numperm"];
-$sseafdr = $json[0]["fdrcutoff"];
-$marker_association = $json[0]["association"];
-$mapping = $json[0]["marker"];
-$module =  $json[0]["geneset"];
-$enrichment = $json[0]["enrichment"];
-$module_info =  $json[0]["genedesc"];
-$GSETConvert = $json[0]["GSETConvert"];
-$MMFConvert = $json[0]["MMFConvert"];
-// debug_to_console($marker_association);
-// debug_to_console($mapping);
-// debug_to_console($module);
-// debug_to_console($module_info);
-debug_to_console("128");
+
+$json = json_decode(file_get_contents($fjson,true))->data[0];
+$perm_type = $json->perm;
+$max_gene = $json->maxgenes;
+$min_gene = $json->mingenes;
+$minoverlap = $json->minoverlap;
+$maxoverlap = $json->maxoverlap;
+$sseanperm = $json->numperm;
+$sseafdr = $json->fdrcutoff;
+$marker_association = $json->association;
+$mapping = $json->marker;
+$module =  $json->geneset;
+$enrichment = $json->enrichment;
+$module_info =  $json->genedesc;
+$GSETConvert = $json->GSETConvert;
+$MMFConvert = $json->MMFConvert;
+
 if (is_string($mapping)) {
   //File will be generated in result_SSEA.php
   $mapping = "Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
@@ -144,8 +134,7 @@ if (is_string($mapping)) {
     $mapping = $mapping_val;
   }
 }
-//debug_to_console("Mapping:" . $mapping);
-debug_to_console("144");
+
 //Path of where the R code/file is created
 $fpathOut = $ROOT_DIR . "/Data/Pipeline/$sessionID" . "analyze.R";
 
@@ -155,7 +144,6 @@ $file2 = trim($ROOT_DIR . "Data/Pipeline/" . $marker_association);
 $file3 = trim($ROOT_DIR . "Data/Pipeline/" . $module);
 $file4 = trim($ROOT_DIR . "Data/Pipeline/" . $module_info);
 $file5 = trim($sseafdr);
-debug_to_console("154");
 $par = "job.msea\$permtype<-\"$perm_type\"" . "\n" .
   "job.msea\$maxgenes<-$max_gene" . "\n" .
   "job.msea\$mingenes<-$min_gene" . "\n" .
@@ -170,7 +158,6 @@ $out = "job.msea\$label <- \"$sessionID\"";   //label
 $file1 = "job.msea\$genfile <- \"$file1\""; //genfile (mapping file/path_to_cat_GWAS)
 $file2 = "job.msea\$marfile <- \"$file2\""; //marfile (Associationfile)
 $file3 = "job.msea\$modfile <- \"$file3\""; //modfile (MODULE)
-debug_to_console("169");
 //if the user did not select an information file
 if (strpos($module_info, "None Provided") !== false) {
   //then set as empty 
@@ -181,17 +168,14 @@ if (strpos($module_info, "None Provided") !== false) {
   $file4 = "job.msea\$inffile <- \"$file4\"";
 }
 
-debug_to_console("180");
 $file5 = "FDR_filter <- (" . "$file5" . "/100)" . "\n";
 if($GSETConvert!=="none"){
-    debug_to_console("GSETConvert:" . $GSETConvert);
     $file5 .= "GSETConvert <- \"$GSETConvert\"" . "\n"; //label
 }
 if($MMFConvert!=="none"){
     $file5 .= "MMFConvert <- \"$MMFConvert\"" . "\n"; //label
 }
 
-debug_to_console("190");
 //Some extra R code that is added into the final R file
 //Could also probably take it out and put it on this page, if you'd like
 
@@ -203,7 +187,6 @@ job.msea\$folder <- \"Results\"\n";
 $m = file_get_contents($ROOT_DIR . "/Data/Pipeline/Resources/part2.txt");
 //$t=file_get_contents("./Data/Pipeline/Resources/part3.txt");
 
-debug_to_console("202");
 //combine the variables into 1
 $data = $out . "\n" . $file1 . "\n" . $file2 . "\n" . $file3 . "\n" . $file4 . "\n" . $file5 . "\n";
 
@@ -220,7 +203,6 @@ fclose($fp);
 
 chmod($fpathOut, 0777); //change permissions to 777. I think 777 is too much. Probably could change it to 644, but check if it executes
 
-debug_to_console("219");
 /***************************************
 Session ID
 Need to update the session for the user
@@ -231,7 +213,6 @@ Since we don't have a database, we have a txt file with the path information
 $fsession = $ROOT_DIR . "/Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 
 if (file_exists($fsession)) {
-  debug_to_console("230");
   $session = explode("\n", file_get_contents($fsession));
   //Create different array elements based on new line
   $pipe_arr = preg_split("/[\t]/", $session[0]);
@@ -338,7 +319,6 @@ if (file_exists($fsession)) {
 Email php block'
 
 */
-debug_to_console("337");
 $email_sent = $ROOT_DIR . "/Data/Pipeline/Results/ssea_email/$sessionID" . "sent_email";
 $email = $ROOT_DIR . "/Data/Pipeline/Results/ssea_email/$sessionID" . "email";
 
@@ -348,9 +328,6 @@ if ((!(file_exists($email_sent)))) {
   //check if the email exists
   if (file_exists($email)) {
     require($ROOT_DIR . '/PHPMailer-master/class.phpmailer.php');
-
-
-    debug_to_console("349");
     $mail = new PHPMailer();
 
     $mail->Body = 'Your Marker Set Enrichment Analysis job is running. We will send you a notification with a link to your results after completion.';
@@ -384,7 +361,6 @@ if ((!(file_exists($email_sent)))) {
     }
   }
 }
-debug_to_console("383");
 ?>
 <script type="text/javascript">
   //once the email has been sent, go to result page
