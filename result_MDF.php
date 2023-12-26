@@ -54,7 +54,7 @@ $data = json_decode(file_get_contents($ssea_json),true)->data[0];
 $mapping = $data->marker;
 $MMFConvert =  $data->MMFConvert;
 if($run == "T"){
-  if (count($mapping) > 1) {
+  if (is_string($mapping)) {
     //$newMappingcontent = array();
     $newMappingcontent = "GENE" . "\t" . "MARKER" . "\n";
     //$count = 1;
