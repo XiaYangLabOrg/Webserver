@@ -128,7 +128,7 @@ if ((!(file_exists($results_notified)))) {
     $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
     $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
     $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-    $mail->Password   = "mergeomics729@";            // GMAIL password
+    #$mail->Password   = "mergeomics729@";            // GMAIL password
 
 
     $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
