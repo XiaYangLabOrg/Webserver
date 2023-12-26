@@ -107,8 +107,7 @@ if (isset($_GET['run'])) {
 
 $fjson = $ROOT_DIR . "Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 debug_to_console("109");
-debug_to_console(file_get_contents($fjson));
-debug_to_console(json_decode(file_get_contents($fjson)));
+debug_to_console("json" . json_decode(file_get_contents($fjson)));
 $json = json_decode(file_get_contents($fjson));
 debug_to_console($json);
 debug_to_console("110");
