@@ -104,7 +104,7 @@ if (isset($_GET['run'])) {
 // $fpath4 = $ROOT_DIR . "/Data/Pipeline/Resources/ssea_temp/$sessionID" . "DESC";
 // $fpathparam = $ROOT_DIR . "/Data/Pipeline/Resources/ssea_temp/$sessionID" . "PARAM";
 // $fpath5 = $ROOT_DIR . "/Data/Pipeline/Resources/ssea_temp/$sessionID" . "PARAM_SSEA_FDR";
-
+debug_to_console("107");
 $fjson = $ROOT_DIR . "Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 $json = json_decode(file_get_contents($fjson))["data"];
 $perm_type = $json[0]["perm"];
@@ -125,7 +125,7 @@ $MMFConvert = $json[0]["MMFConvert"];
 // debug_to_console($mapping);
 // debug_to_console($module);
 // debug_to_console($module_info);
-
+debug_to_console("128");
 if (is_string($mapping)) {
   //File will be generated in result_SSEA.php
   $mapping = "Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
@@ -141,7 +141,7 @@ if (is_string($mapping)) {
   }
 }
 //debug_to_console("Mapping:" . $mapping);
-
+debug_to_console("144");
 //Path of where the R code/file is created
 $fpathOut = $ROOT_DIR . "/Data/Pipeline/$sessionID" . "analyze.R";
 
@@ -151,7 +151,7 @@ $file2 = trim($ROOT_DIR . "Data/Pipeline/" . $marker_association);
 $file3 = trim($ROOT_DIR . "Data/Pipeline/" . $module);
 $file4 = trim($ROOT_DIR . "Data/Pipeline/" . $module_info);
 $file5 = trim($sseafdr);
-
+debug_to_console("154");
 $par = "job.msea\$permtype<-\"$perm_type\"" . "\n" .
   "job.msea\$maxgenes<-$max_gene" . "\n" .
   "job.msea\$mingenes<-$min_gene" . "\n" .
@@ -166,7 +166,7 @@ $out = "job.msea\$label <- \"$sessionID\"";   //label
 $file1 = "job.msea\$genfile <- \"$file1\""; //genfile (mapping file/path_to_cat_GWAS)
 $file2 = "job.msea\$marfile <- \"$file2\""; //marfile (Associationfile)
 $file3 = "job.msea\$modfile <- \"$file3\""; //modfile (MODULE)
-
+debug_to_console("169");
 //if the user did not select an information file
 if (strpos($module_info, "None Provided") !== false) {
   //then set as empty 
@@ -177,7 +177,7 @@ if (strpos($module_info, "None Provided") !== false) {
   $file4 = "job.msea\$inffile <- \"$file4\"";
 }
 
-
+debug_to_console("180");
 $file5 = "FDR_filter <- (" . "$file5" . "/100)" . "\n";
 if($GSETConvert!=="none"){
     debug_to_console("GSETConvert:" . $GSETConvert);
@@ -187,7 +187,7 @@ if($MMFConvert!=="none"){
     $file5 .= "MMFConvert <- \"$MMFConvert\"" . "\n"; //label
 }
 
-
+debug_to_console("190");
 //Some extra R code that is added into the final R file
 //Could also probably take it out and put it on this page, if you'd like
 
@@ -199,7 +199,7 @@ job.msea\$folder <- \"Results\"\n";
 $m = file_get_contents($ROOT_DIR . "/Data/Pipeline/Resources/part2.txt");
 //$t=file_get_contents("./Data/Pipeline/Resources/part3.txt");
 
-
+debug_to_console("202");
 //combine the variables into 1
 $data = $out . "\n" . $file1 . "\n" . $file2 . "\n" . $file3 . "\n" . $file4 . "\n" . $file5 . "\n";
 
@@ -216,7 +216,7 @@ fclose($fp);
 
 chmod($fpathOut, 0777); //change permissions to 777. I think 777 is too much. Probably could change it to 644, but check if it executes
 
-
+debug_to_console("219");
 /***************************************
 Session ID
 Need to update the session for the user
@@ -227,7 +227,7 @@ Since we don't have a database, we have a txt file with the path information
 $fsession = $ROOT_DIR . "/Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 
 if (file_exists($fsession)) {
-
+  debug_to_console("230");
   $session = explode("\n", file_get_contents($fsession));
   //Create different array elements based on new line
   $pipe_arr = preg_split("/[\t]/", $session[0]);
@@ -334,6 +334,7 @@ if (file_exists($fsession)) {
 Email php block'
 
 */
+debug_to_console("337");
 $email_sent = $ROOT_DIR . "/Data/Pipeline/Results/ssea_email/$sessionID" . "sent_email";
 $email = $ROOT_DIR . "/Data/Pipeline/Results/ssea_email/$sessionID" . "email";
 
@@ -345,7 +346,7 @@ if ((!(file_exists($email_sent)))) {
     require($ROOT_DIR . '/PHPMailer-master/class.phpmailer.php');
 
 
-
+    debug_to_console("349");
     $mail = new PHPMailer();
 
     $mail->Body = 'Your Marker Set Enrichment Analysis job is running. We will send you a notification with a link to your results after completion.';
@@ -379,6 +380,7 @@ if ((!(file_exists($email_sent)))) {
     }
   }
 }
+debug_to_console("383");
 ?>
 <script type="text/javascript">
   //once the email has been sent, go to result page
