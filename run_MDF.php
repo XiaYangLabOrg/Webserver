@@ -226,7 +226,7 @@ function mdfAjax() {
           if (text.indexOf("100%") == -1) {
             setTimeout(function() {
               $self();
-            }, 50);
+            }, 1000);
 
           }
 
@@ -244,9 +244,9 @@ function mdfAjax() {
 </script>
 
  <script type="text/javascript">
-  setTimeout(function() {
+  //setTimeout(function() {
     mdfAjax();
-  }, 10000);
+  //}, 10000);
 </script>
 
 
