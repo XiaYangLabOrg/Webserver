@@ -6,7 +6,6 @@ function debug_to_console($data)
     $output = implode(',', $output);
   echo "<script type=\"text/javascript\">console.log('Debug Objects: " . $output . "' );</script>";
 }
-debug_to_console("line9");
 function readMappingFile($path)
 {
   //$arr = array();
@@ -51,9 +50,9 @@ if (isset($_GET['run'])) {
 
 //$ssea_json = $ROOT_DIR . "Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 $ssea_json = $ROOT_DIR . "Data/Pipeline/Resources/ldprune_temp/$sessionID" . "data.json";
-$data = json_decode(file_get_contents($ssea_json))->data;
-$mapping = $data[0]->marker;
-$MMFConvert =  $data[0]->MMFConvert;
+$data = json_decode(file_get_contents($ssea_json),true)->data[0];
+$mapping = $data->marker;
+$MMFConvert =  $data->MMFConvert;
 if($run == "T"){
   if (count($mapping) > 1) {
     //$newMappingcontent = array();
@@ -83,8 +82,6 @@ if($run == "T"){
     }
   }
 }
-
-debug_to_console("line87");
 //filepath to output folder
 $resultfile = "./Data/Pipeline/Resources/ldprune_temp/$sessionID" . "_output/";
 
@@ -108,7 +105,6 @@ if (!file_exists($assocation_file) || $run == "T") {
 //there are no checks so that it will run a job each time
 //even if they already ran it
 
-debug_to_console("line111");
 /*********************************************************************************** 
 Send out result email if user has entered an email
  *******************************************************************************/
@@ -151,7 +147,7 @@ if ((!(file_exists($results_notified)))) {
   }
 }
 
-debug_to_console("line154");
+
 
 /*********************************************************************************** 
 Get the path of the output files from the R script
@@ -185,7 +181,6 @@ $geneconvertedfile = str_replace("Resources/ssea_temp/", "Data/Pipeline/Resource
 //$mappingname = pathinfo(strval($mapping), PATHINFO_FILENAME);
 //$geneconvertedfile = "Data/Pipeline/Resources/ssea_temp/Converted_" . $mappingname;
 
-debug_to_console("line188");
 
 
 /*********************************************************************************** 
@@ -205,12 +200,12 @@ if (file_exists($fsession)) {
   $data = array_map('replace_a_line', $data);
   file_put_contents($fsession, implode('', $data));
 }
-debug_to_console("line208");
+
 $fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 $json = json_decode(file_get_contents($fjson))->data;
 $marker_association = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_association.txt";
 $mapping = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_mapping.txt";
-debug_to_console("line213");
+
 $json[0]["association"] = $marker_association;
 $json[0]["marker"] = $mapping;
 $data = null;
@@ -220,14 +215,11 @@ $data['data'][] = $json[0];
 // } else {
 //   $data->data[] = $json[0];
 // }
-debug_to_console("line222");
+
 $fp = fopen($fjson, 'w');
 fwrite($fp, json_encode($data));
 fclose($fp);
 chmod($fjson, 0777);
-
-
-debug_to_console("line229");
 
 ?>
 

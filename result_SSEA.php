@@ -74,17 +74,18 @@ if ($rmchoice == 1) {
     $GSETConvert = $data->GSETConvert;
 }
 
-if (count($mapping) > 1) {
+if (is_string($mapping)) {
     $newMappingcontent = "GENE" . "\t" . "MARKER" . "\n";
     foreach ($mapping as &$value) {
         $newMappingcontent .= readMappingFile($ROOT_DIR . "Data/Pipeline/" . $value);
     }
+    debug_to_console("line82".$newMappingcontent);
     $mapping = "Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
     $fp = fopen("./Data/Pipeline/" . $mapping, 'w');
     fwrite($fp, $newMappingcontent);
     fclose($fp);
 } else {
-    if (gettype($mapping) == "array") {
+    if (is_array($mapping)) {
         $mapping_val = $mapping[0];
     } else {
         $mapping_val = $mapping;

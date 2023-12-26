@@ -36,7 +36,6 @@ POST = if PHP enters the link
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
 }
-debug_to_console("42");
 if (isset($_GET['run'])) {
   $run = $_GET['run'];
 }
