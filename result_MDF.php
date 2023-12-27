@@ -203,15 +203,13 @@ if (file_exists($fsession)) {
 
 $fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 $json = json_decode(file_get_contents($fjson),true)->data[0];
-var_dump($json);
 $marker_association = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_association.txt";
 $mapping = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_mapping.txt";
 
 $json["association"] = $marker_association;
 $json["marker"] = $mapping;
-var_dump($json);
 $data = null;
-$data['data'][] = $json[0];
+$data['data'][] = $json;
 // if (empty($data->data)) {
   
 // } else {
