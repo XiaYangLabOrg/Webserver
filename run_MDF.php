@@ -130,9 +130,9 @@ $file11 = "echo -e \"MARKER\tVALUE\" > \$TRIALNAME/header.txt\n" .
     "nice head -n \$NMAX \$TRIALNAME/sorted.txt > \$TRIALNAME/top.txt\n" .
     "cat \$TRIALNAME/header.txt \$TRIALNAME/top.txt > \$TRIALNAME/subset.txt\n" .
     "# Remove Markers in dependency structure and create input files for MSEA.\n" .
-    "nice " . $ROOT_DIR . "Data/Pipeline/Resources/LD_files/mdprune \$TRIALNAME/subset.txt \$GENFILE \$MDSFILE \$OUTPATH";
+    "nice " . $ROOT_DIR . "Data/Pipeline/Resources/LD_files/mdprune \$TRIALNAME/subset.txt \$GENFILE \$MDSFILE \$OUTPATH\n";
 
-
+$file12 = "echo \"MDF COMPLETE\"\n";
 // $test = $file10*10;
 
 // $markers_to_use = round($linecount/100*$file10);
@@ -144,7 +144,7 @@ $markers_to_use = "NTOP=" . "$markers_to_use";
 $fpathOut = $ROOT_DIR . "Data/Pipeline/$sessionID" . "preprocess.bash";
 
 
-$data = $file1 . "\n" . $file2 . "\n" . $file3 . "\n" . $file4 . "\n" . $file5 . "\n" . $file6 . "\n" . $file7 . "\n" . $file8 . "\n" . $testing . "\n" . $file9 . "\n" . $markers_to_use . "\n" . $file11 . "\n";
+$data = $file1 . "\n" . $file2 . "\n" . $file3 . "\n" . $file4 . "\n" . $file5 . "\n" . $file6 . "\n" . $file7 . "\n" . $file8 . "\n" . $testing . "\n" . $file9 . "\n" . $markers_to_use . "\n" . $file11 . "\n". $file12;
 
 
 $fp = fopen($fpathOut, "w");
@@ -221,16 +221,22 @@ function mdfAjax() {
       $http.onreadystatechange = function() {
         if (/4|^complete$/.test($http.readyState)) {
 
-          text = $http.responseText;
+            text = $http.responseText;
+            consoloe.log(text);
+
+            if (text.indexOf("100%") == -1) {
+                timeOutVar=setTimeout(function() {
+                    $self();
+                    }, 1000);
+
+            }else{
+                clearTimeout(timeOutVar);
+            }
+          
           //text = text.replace(/\s/g, '');
-          if (text.indexOf("100%") == -1) {
-            setTimeout(function() {
-              $self();
-            }, 1000);
 
-          }
 
-          $('#mdfruntime').html(text);
+            $('#mdfruntime').html(text);
 
         }
       };
