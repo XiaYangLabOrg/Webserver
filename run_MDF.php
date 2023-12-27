@@ -222,7 +222,7 @@ function mdfAjax() {
         if (/4|^complete$/.test($http.readyState)) {
 
             text = $http.responseText;
-            consoloe.log(text);
+            console.log(text);
 
             if (text.indexOf("100%") == -1) {
                 timeOutVar=setTimeout(function() {
