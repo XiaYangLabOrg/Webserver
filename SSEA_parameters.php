@@ -1,6 +1,14 @@
 <?php
 //This parameters files is for when the user chooses MDF in mergeomics
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
+function debug_to_console($data)
+{
+  $output = $data;
+  if (is_array($output))
+    $output = implode(',', $output);
 
+  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
 
 /* Initialize PHP variables
 sessionID = the saved session 
@@ -32,7 +40,7 @@ There are definitely better ways to do this though...
 Session ID
 Since we don't have a database, we have to update the txt file with the path information
  ***************************************/
-$fsession = "./Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
+$fsession = $ROOT_DIR ."Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 
 if (file_exists($fsession)) {
 
@@ -51,9 +59,11 @@ if (file_exists($fsession)) {
 
 
 
-$fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
-$json = json_decode(file_get_contents($fjson),true)->data[0];
+$fjson = $ROOT_DIR . "Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 debug_to_console("ssea_parameters");
+debug_to_console($fjson);
+debug_to_console(file_get_contents($fjson));
+$json = json_decode(file_get_contents($fjson),true)->data[0];
 debug_to_console($json);
 $marker_association = $json->association;
 debug_to_console($marker_association);
