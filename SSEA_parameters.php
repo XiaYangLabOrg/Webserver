@@ -558,6 +558,19 @@ You can technically extract it and just call it externally if you want to keep t
   ***********************************************************************************************/
   function SSEAreview() //This function gets the review table for SSEA
   {
+    console.log(marker_association_file);
+    console.log(mapping_file);
+    console.log(module_set_file);
+    console.log(module_info_file);
+    console.log(permtype);
+    console.log(maxgene);
+    console.log(mingene);
+    console.log(maxoverlap);
+    console.log(minoverlap);
+    console.log(sseanperm);
+    console.log(sseafdr);
+    console.log(GSETConvert);
+
     $.ajax({
       url: "SSEA_moduleprogress.php",
       method: "GET",
