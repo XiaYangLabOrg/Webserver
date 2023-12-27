@@ -53,8 +53,12 @@ if (file_exists($fsession)) {
 
 $fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 $json = json_decode(file_get_contents($fjson),true)->data[0];
+debug_to_console("ssea_parameters");
+debug_to_console($json);
 $marker_association = $json->association;
+debug_to_console($marker_association);
 $mapping = $json->marker;
+debug_to_console($mapping);
 
 
 $mapping = $mapping;
