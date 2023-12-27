@@ -223,12 +223,11 @@ function mdfAjax() {
 
             text = $http.responseText;
             console.log(text);
-
-            if (text.indexOf("100%") == -1) {
+            //check mdf log has finished with "MDF COMPLETE" string at the end and terminate the loop Dec 26. 2023 -Dan
+            if (text.includes("MDF COMPLETE")) {
                 timeOutVar=setTimeout(function() {
                     $self();
-                    }, 1000);
-
+                    }, 10000);
             }else{
                 clearTimeout(timeOutVar);
             }
