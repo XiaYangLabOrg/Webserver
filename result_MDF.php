@@ -202,24 +202,20 @@ if (file_exists($fsession)) {
 }
 
 $fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
-$json = json_decode(file_get_contents($fjson),true)->data[0];
+$json = json_decode(file_get_contents($fjson),true)["data"][0];
 $marker_association = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_association.txt";
 $mapping = "Resources/ldprune_temp/" . $sessionID . "_output/MDF_corrected_mapping.txt";
+if($json["association"]!=$marker_association){
+  $json["association"] = $marker_association;
+  $json["marker"] = $mapping;
+  $data = null;
+  $data['data'][] = $json;
+  $fp = fopen($fjson, 'w');
+  fwrite($fp, json_encode($data));
+  fclose($fp);
+  chmod($fjson, 0777);
+}
 
-$json["association"] = $marker_association;
-$json["marker"] = $mapping;
-$data = null;
-$data['data'][] = $json;
-// if (empty($data->data)) {
-  
-// } else {
-//   $data->data[] = $json[0];
-// }
-
-$fp = fopen($fjson, 'w');
-fwrite($fp, json_encode($data));
-fclose($fp);
-chmod($fjson, 0777);
 
 ?>
 

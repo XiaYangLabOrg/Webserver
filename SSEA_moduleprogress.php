@@ -193,11 +193,11 @@ Since we don't have a database, we create a txt file with the path information
   $fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 
   $data = null;
-  //NOt from session load
-  if ($marker_association != null) { 
+  //Not from session load
+  if (isset($perm_type)) { 
   //if ($module != null) {
     if (file_exists($fjson)) {
-      $json = json_decode(file_get_contents($fjson), true)->data[0];
+      $json = json_decode(file_get_contents($fjson), true)["data"][0];
     } else {
       $json = array();
     }
@@ -235,36 +235,35 @@ Since we don't have a database, we create a txt file with the path information
     chmod($fjson, 0777);
   } else {
     //From session load
-    $json = json_decode(file_get_contents($fjson),true)->data[0];
-    $perm_type = $json->perm;
-    $max_gene = $json->maxgenes;
-    $min_gene = $json->mingenes;
-    $minoverlap = $json->minoverlap;
-    $maxoverlap = $json->maxoverlap;
-    $sseanperm = $json->numperm;
-    $sseafdr = $json->fdrcutoff;
-    $marker_association = $json->association;
-    $mapping = $json->marker;
-    $module = $json->geneset;
-    $enrichment = $json->enrichment;
-    $module_info = $json->genedesc;
+    $json = json_decode(file_get_contents($fjson),true)["data"][0];
+    // $perm_type = $json->perm;
+    // $max_gene = $json->maxgenes;
+    // $min_gene = $json->mingenes;
+    // $minoverlap = $json->minoverlap;
+    // $maxoverlap = $json->maxoverlap;
+    // $sseanperm = $json->numperm;
+    // $sseafdr = $json->fdrcutoff;
+    // $marker_association = $json->association;
+    // $mapping = $json->marker;
+    // $module = $json->geneset;
+    // $enrichment = $json->enrichment;
+    // $module_info = $json->genedesc;
 
-    // $perm_type = $json[0]["perm"];
-    // $max_gene = $json[0]["maxgenes"];
-    // $min_gene = $json[0]["mingenes"];
-    // $minoverlap = $json[0]["minoverlap"];
-    // $maxoverlap = $json[0]["maxoverlap"];
-    // $sseanperm = $json[0]["numperm"];
-    // $sseafdr = $json[0]["fdrcutoff"];
-    // $marker_association = $json[0]["association"];
-    // $mapping = $json[0]["marker"];
-    // $module = $json[0]["geneset"];
-    // $enrichment = $json[0]["enrichment"];
-    // $module_info = $json[0]["genedesc"];
+    $perm_type = $json["perm"];
+    $max_gene = $json["maxgenes"];
+    $min_gene = $json["mingenes"];
+    $minoverlap = $json["minoverlap"];
+    $maxoverlap = $json["maxoverlap"];
+    $sseanperm = $json["numperm"];
+    $sseafdr = $json["fdrcutoff"];
+    $marker_association = $json["association"];
+    $mapping = $json["marker"];
+    $module = $json["geneset"];
+    $enrichment = $json["enrichment"];
+    $module_info = $json["genedesc"];
   }
   if (is_string($mapping)) {
-    $mapping_val .= basename($mapping);
-    debug_to_console($mapping_val);
+    $mapping_val = basename($mapping);
   } else {
     if (is_array($mapping)) {
       $mapping_val = basename($mapping[0]);
