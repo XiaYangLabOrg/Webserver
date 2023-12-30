@@ -69,8 +69,6 @@ POST = if PHP enters the link
   } else{
     $MMFConvert = "none";
   }
-  debug_to_console($sessionID);
-  debug_to_console($mapping);
     //stored variable for use later
   $fpath = "./Data/Pipeline/Resources/ssea_temp/$sessionID";
   //change the file path if the user has skipped MDF in the GWAS pipeline

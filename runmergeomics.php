@@ -645,7 +645,6 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
 
 
   #check for pharmomics
-  debug_to_console("SSEA2pharmomics:" . $ssea2pharmomics_pipeline);
   if (
     $ssea2pharmomics_pipeline == "SSEAtoPharmomics" ||
     $ssea2pharmomics_pipeline == "MSEAtoPharmomics" ||
