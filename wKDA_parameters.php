@@ -26,14 +26,14 @@ if (isset($_GET['sessionID'])) {
   $geneset = null;
   $fjson = "./Data/Pipeline/Resources/kda_temp/$sessionID" . "param.json";
   if (file_exists($fjson)) {
-    $data = json_decode(file_get_contents($fjson))->data;
-    $geneset = $data[0]->geneset;
-    $genesetd = $data[0]->genesetd;
-    $network = $data[0]->network;
-    $kdadepth = $data[0]->kdadepth;
-    $kdadirect = $data[0]->kdadirect;
-    $minKDA = $data[0]->minKDA;
-    $edgewKDA = $data[0]->edgewKDA;
+    $data = json_decode(file_get_contents($fjson),true)["data"][0];
+    $geneset = $data["geneset"];
+    $genesetd = $data["genesetd"];
+    $network = $data["network"];
+    $kdadepth = $data["kdadepth"];
+    $kdadirect = $data["kdadirect"];
+    $minKDA = $data["minKDA"];
+    $edgewKDA = $data["edgewKDA"];
   }
 }
 
@@ -60,10 +60,10 @@ if ($rmchoice == 1) {
   $fjson = "./Data/Pipeline/Resources/meta_temp/$sessionID" . "metaparam.json";
 }
 if (file_exists($fjson)) {
-  $data = json_decode(file_get_contents($fjson))->data;
+  $data = json_decode(file_get_contents($fjson),true)["data"][0];
   if ($geneset == null) {
-    $geneset = $data[0]->geneset;
-    $genesetd = $data[0]->genedesc;
+    $geneset = $data["geneset"];
+    $genesetd = $data["genedesc"];
   }
 }
 debug_to_console($fjson);
