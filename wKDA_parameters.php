@@ -124,45 +124,52 @@ $data = (isset($_POST['formChoice_wKDA']) ? $_POST['formChoice_wKDA'] : null);
 $data2 = (isset($_POST['kdaparam_depth']) ? $_POST['kdaparam_depth'] : null);
 $data3 = (isset($_POST['kdaparam_direct']) ? $_POST['kdaparam_direct'] : null);
 
-if (strlen($data) < 3) {
-  $kdaformChoice = 0;
-  $par_depth = 0;
-  $par_direct = 0;
-} else {
-  $pieces = explode("|", $data);
-  $sessionID = $pieces[0];
-  $kdaformChoice = (int)$pieces[1];
-  $par_depth = (int)$pieces[2];
-  $par_direct = (int)$pieces[3];
+if($data!=null){
+  if (strlen($data) < 3) {
+    $kdaformChoice = 0;
+    $par_depth = 0;
+    $par_direct = 0;
+  } else {
+    $pieces = explode("|", $data);
+    $sessionID = $pieces[0];
+    $kdaformChoice = (int)$pieces[1];
+    $par_depth = (int)$pieces[2];
+    $par_direct = (int)$pieces[3];
+  }
 }
 
 
-if (strlen($data2) < 3) {
-  $path = 0;
-  $kda = 0;
-  $par_depth2 = 0;
-  $par_direct2 = 0;
-} else {
-  $pieces2 = explode("|", $data2);
-  $sessionID = $pieces2[0];
-  $path = (int)$pieces2[1];
-  $kda = (int)$pieces2[2];
-  $par_depth2 = (int)$pieces2[3];
-  $par_direct2 = (int)$pieces2[4];
+if($data2!=null){
+  if (strlen($data2) < 3) {
+    $path = 0;
+    $kda = 0;
+    $par_depth2 = 0;
+    $par_direct2 = 0;
+  } else {
+    $pieces2 = explode("|", $data2);
+    $sessionID = $pieces2[0];
+    $path = (int)$pieces2[1];
+    $kda = (int)$pieces2[2];
+    $par_depth2 = (int)$pieces2[3];
+    $par_direct2 = (int)$pieces2[4];
+  }
 }
 
 
-if (strlen($data3) < 3) {
-  $kda2 = 0;
-  $par_depth3 = 0;
-  $par_direct3 = 0;
-} else {
-  $pieces3 = explode("|", $data3);
-  $sessionID = $pieces3[0];
-  $kda2 = (int)$pieces3[1];
-  $par_depth3 = (int)$pieces3[2];
-  $par_direct3 = (int)$pieces3[3];
+if($data3!=null){
+  if (strlen($data3) < 3) {
+    $kda2 = 0;
+    $par_depth3 = 0;
+    $par_direct3 = 0;
+  } else {
+    $pieces3 = explode("|", $data3);
+    $sessionID = $pieces3[0];
+    $kda2 = (int)$pieces3[1];
+    $par_depth3 = (int)$pieces3[2];
+    $par_direct3 = (int)$pieces3[3];
+  }
 }
+
 
 
 //Store some file path variables to be used later
