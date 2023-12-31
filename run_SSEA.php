@@ -289,7 +289,7 @@ if (file_exists($fsession)) {
           }, 10000);   
         }else{
           clearTimeout(timeOutVar);
-          $('#mySSEA_review').load("/result_SSEA.php?sessionID=" + string + "&rmchoice=1&run=<?php print($run); ?>"); 
+          $('#mySSEA_review').load("/result_SSEA.php?sessionID=" + string + "&rmchoice=1"); 
         }
 
           // if (text.indexOf("100%") == -1) {
