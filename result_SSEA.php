@@ -36,43 +36,30 @@ if (isset($_GET['run'])) {
 if (isset($_GET['rmchoice']) ? $_GET['rmchoice'] : null) {
     $rmchoice = $_GET['rmchoice'];
 }
+#Started from MDF
 if ($rmchoice == 1) {
     $ssea_json = $ROOT_DIR . "Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
-    $data = json_decode(file_get_contents($ssea_json),true)->data[0];
-    $perm_type = $data->perm;
-    $max_gene = $data->maxgenes;
-    $min_gene = $data->mingenes;
-    $minoverlap = $data->minoverlap;
-    $maxoverlap = $data->maxoverlap;
-    $mseanperm = $data->numperm;
-    $fdrval = $data->fdrcutoff;
-    $marker_association = $data->association;
-    $mapping = $data->marker;
-    $mdf = $data->mdf;
-    $mdf_ntop = $data->mdf_ntop;
-    $module_file = $data->geneset;
-    $enrichment = $data->enrichment;
-    $module_info = $data->genedesc;
-    $GSETConvert = $data->GSETConvert;
+    $data = json_decode(file_get_contents($ssea_json),true)["data"][0];
+#Started from TWAS, EWAS ,MWAS
 } else {
     $msea_json = $ROOT_DIR . "Data/Pipeline/Resources/msea_temp/$sessionID" . "data.json";
-    $data = json_decode(file_get_contents($msea_json),true)->data;
-    $perm_type = $data->perm;
-    $max_gene = $data->maxgenes;
-    $min_gene = $data->mingenes;
-    $minoverlap = $data->minoverlap;
-    $maxoverlap = $data->maxoverlap;
-    $mseanperm = $data->numperm;
-    $fdrval = $data->fdrcutoff;
-    $marker_association = $data->association;
-    $mapping = $data->marker;
-    $mdf = $data->mdf;
-    $mdf_ntop = $data->mdf_ntop;
-    $module_file = $data->geneset;
-    $enrichment = $data->enrichment;
-    $module_info = $data->genedesc;
-    $GSETConvert = $data->GSETConvert;
+    $data = json_decode(file_get_contents($msea_json),true)["data"][0];
 }
+$perm_type = $data["perm"];
+$max_gene = $data["maxgenes"];
+$min_gene = $data["mingenes"];
+$minoverlap = $data["minoverlap"];
+$maxoverlap = $data["maxoverlap"];
+$mseanperm = $data["numperm"];
+$fdrval = $data["fdrcutoff"];
+$marker_association = $data["association"];
+$mapping = $data["marker"];
+$mdf = $data["mdf"];
+$mdf_ntop = $data["mdf_ntop"];
+$module_file = $data["geneset"];
+$enrichment = $data["enrichment"];
+$module_info = $data["genedesc"];
+$GSETConvert = $data["GSETConvert"];
 
 if (is_string($mapping)) {
     $newMappingcontent = "GENE" . "\t" . "MARKER" . "\n";
