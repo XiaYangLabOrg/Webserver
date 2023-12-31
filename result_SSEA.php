@@ -66,7 +66,6 @@ if (is_string($mapping)) {
     foreach ($mapping as &$value) {
         $newMappingcontent .= readMappingFile($ROOT_DIR . "Data/Pipeline/" . $value);
     }
-    debug_to_console("line82".$newMappingcontent);
     $mapping = "Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
     $fp = fopen("./Data/Pipeline/" . $mapping, 'w');
     fwrite($fp, $newMappingcontent);
