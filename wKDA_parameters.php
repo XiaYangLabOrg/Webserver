@@ -34,6 +34,12 @@ if (isset($_GET['sessionID'])) {
     $kdadirect = $data["kdadirect"];
     $minKDA = $data["minKDA"];
     $edgewKDA = $data["edgewKDA"];
+  }else{
+    $network = "";
+    $kdadepth = "";
+    $kdadirect = "";
+    $minKDA = "";
+    $edgewKDA = "";
   }
 }
 
@@ -186,13 +192,17 @@ Since we don't have a database, we have to update the txt file with the path inf
 
 $fsession = "./Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 
+
+#LEFT OFF HERE seems we have problem with session file
 if (file_exists($fsession)) //checks if the session file exists already
 {
   //if it does exist, update session
 
   $session = explode("\n", file_get_contents($fsession));
   //Create different array elements based on new line
+  debug_to_console($session);
   $pipe_arr = preg_split("/[\t]/", $session[0]);
+  debug_to_console($pipe_arr);
   $pipeline = $pipe_arr[1];
 
   if ($pipeline == "GWASskipped") {
