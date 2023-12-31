@@ -38,6 +38,11 @@ if (isset($_GET['sessionID'])) {
 }
 if (isset($_GET['run'])) {
   $run = $_GET['run'];
+  $outfile = $ROOT_DIR . "Data/Pipeline/Results/ssea/" . $sessionID . ".MSEA_joblog.txt";
+  #Delete log file from previous run
+  if(file_exists($outfile)){
+      unlink($outfile);
+  }
 }
 
 ?>

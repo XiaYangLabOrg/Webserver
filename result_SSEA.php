@@ -99,10 +99,7 @@ if (isset($_GET['result'])) {
             // shell_exec('cd ' . $ROOT_DIR . '/Data/Pipeline ;' .
             //     $ROOT_DIR . 'Rscript ./' . $sessionID . 'analyze.R 2>&1 | tee -a ' . $outfile);
             
-            #Delete log file if exists
-            if(file_exists($outfile)){
-                unlink($outfile);
-            }
+
             
             shell_exec('cd ' . $ROOT_DIR . '/Data/Pipeline ;' .
                 'Rscript ./' . $sessionID . 'analyze.R 2>&1 | tee -a ' . $outfile);
