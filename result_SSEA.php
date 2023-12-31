@@ -110,8 +110,10 @@ if (isset($_GET['result'])) {
             //shell_exec('./run_ssea_hdlc.sh ' . $sessionID);
             // debug_to_console('cd ' . $ROOT_DIR . '/Data/Pipeline ;' .
             //     $ROOT_DIR . '/R-3.4.4/bin/Rscript ./' . $sessionID . 'analyze.R');
+            // shell_exec('cd ' . $ROOT_DIR . '/Data/Pipeline ;' .
+            //     $ROOT_DIR . 'Rscript ./' . $sessionID . 'analyze.R 2>&1 | tee -a ' . $outfile);
             shell_exec('cd ' . $ROOT_DIR . '/Data/Pipeline ;' .
-                $ROOT_DIR . '/R-3.4.4/bin/Rscript ./' . $sessionID . 'analyze.R 2>&1 | tee -a ' . $outfile);
+                'Rscript ./' . $sessionID . 'analyze.R 2>&1 | tee -a ' . $outfile);
         }
     }
 } else if (file_exists($results)) {
