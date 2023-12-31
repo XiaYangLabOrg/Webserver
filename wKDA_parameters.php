@@ -66,9 +66,7 @@ if (file_exists($fjson)) {
     $genesetd = $data["genedesc"];
   }
 }
-debug_to_console($fjson);
-debug_to_console($geneset);
-debug_to_console($genesetd);
+
 
 //Path to where POST (user selected) data is stored
 $fpostOut = "./Data/Pipeline/Resources/kda_temp/$sessionID" . "_KDA_postdata.txt";
