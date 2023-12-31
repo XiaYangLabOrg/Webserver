@@ -103,22 +103,23 @@ if (isset($_GET['run'])) {
 
 $fjson = $ROOT_DIR . "Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 
-$json = json_decode(file_get_contents($fjson,true))->data[0];
-$perm_type = $json->perm;
-$max_gene = $json->maxgenes;
-$min_gene = $json->mingenes;
-$minoverlap = $json->minoverlap;
-$maxoverlap = $json->maxoverlap;
-$sseanperm = $json->numperm;
-$sseafdr = $json->fdrcutoff;
-$marker_association = $json->association;
-$mapping = $json->marker;
-$module =  $json->geneset;
-$enrichment = $json->enrichment;
-$module_info =  $json->genedesc;
-$GSETConvert = $json->GSETConvert;
-$MMFConvert = $json->MMFConvert;
+$json = json_decode(file_get_contents($fjson,true))["data"][0];
+$perm_type = $json["perm"];
+$max_gene = $json["maxgenes"];
+$min_gene = $json["mingenes"];
+$minoverlap = $json["minoverlap"];
+$maxoverlap = $json["maxoverlap"];
+$sseanperm = $json["numperm"];
+$sseafdr = $json["fdrcutoff"];
+$marker_association = $json["association"];
+$mapping = $json["marker"];
+$module =  $json["geneset"];
+$enrichment = $json["enrichment"];
+$module_info =  $json["genedesc"];
+$GSETConvert = $json["GSETConvert"];
+$MMFConvert = $json["MMFConvert"];
 
+#Changed to is_string and is_array for php ver 8 - Dan
 if (is_string($mapping)) {
   //File will be generated in result_SSEA.php
   $mapping = "Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
