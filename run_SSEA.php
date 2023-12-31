@@ -278,11 +278,21 @@ if (file_exists($fsession)) {
         if (/4|^complete$/.test($http.readyState)) {
           text = $http.responseText;
           //text = text.replace(/\s/g, '');
-          if (text.indexOf("100%") == -1) {
-            setTimeout(function() {
-              $self();
-            }, 50);
-          }
+
+          //check mdf log has finished with "MDF COMPLETE" string at the end and terminate the loop Dec 26. 2023 -Dan
+        if (text.includes("MSEA COMPLETE")) {
+              clearTimeout(timeOutVar);
+        }else{
+          timeOutVar=setTimeout(function() {
+            $self();
+          }, 10000);
+        }
+
+          // if (text.indexOf("100%") == -1) {
+          //   setTimeout(function() {
+          //     $self();
+          //   }, 50);
+          // }
           $('#ssearuntime').html(text);
         }
       };
@@ -292,9 +302,9 @@ if (file_exists($fsession)) {
     }
 
   }
-  setTimeout(function() {
-    kda2networkAjaxtest();
-  }, 50);
+  
+  kda2networkAjaxtest();
+  
 </script>
 <script type="text/javascript">
   var string = "<?php echo $sessionID; ?>";
