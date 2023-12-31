@@ -276,7 +276,6 @@ if (file_exists($fsession)) {
         if (/4|^complete$/.test($http.readyState)) {
           text = $http.responseText;
           //text = text.replace(/\s/g, '');
-
           //check mdf log has finished with "MDF COMPLETE" string at the end and terminate the loop Dec 26. 2023 -Dan
         timeOutVar=null;
         if(!text.includes("MSEA COMPLETE")) {
@@ -285,6 +284,7 @@ if (file_exists($fsession)) {
           }, 10000);   
         }else{
           clearTimeout(timeOutVar);
+          $('#mySSEA_review').load("/result_SSEA.php?sessionID=" + string + "&rmchoice=1&run=<?php print($run); ?>"); 
         }
 
           // if (text.indexOf("100%") == -1) {
