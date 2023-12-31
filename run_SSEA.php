@@ -121,6 +121,7 @@ $module_info =  $json["genedesc"];
 $GSETConvert = $json["GSETConvert"];
 $MMFConvert = $json["MMFConvert"];
 
+debug_to_console("RUN ssea".$mapping);
 #Changed to is_string and is_array for php ver 8 - Dan
 if (is_string($mapping)) {
   //File will be generated in result_SSEA.php
@@ -156,7 +157,6 @@ $par = "job.msea\$permtype<-\"$perm_type\"" . "\n" .
 
 
 //store some R variables with the file information 
-$out = "job.msea\$label <- \"$sessionID\"";   //label
 $file1 = "job.msea\$genfile <- \"$file1\""; //genfile (mapping file/path_to_cat_GWAS)
 $file2 = "job.msea\$marfile <- \"$file2\""; //marfile (Associationfile)
 $file3 = "job.msea\$modfile <- \"$file3\""; //modfile (MODULE)
