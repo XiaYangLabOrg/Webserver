@@ -527,7 +527,6 @@ You can technically extract it and just call it externally if you want to keep t
 
   $("#SSEAtoggleNav").on('click', function(e){
     var href = $(this).attr('href');
-    console.log(href);
     //var classList = $(href).children(0).attr("class").split(/\s+/);
     //console.log(classList);
     //if (classList.length === 2) {
@@ -563,19 +562,6 @@ You can technically extract it and just call it externally if you want to keep t
   ***********************************************************************************************/
   function SSEAreview() //This function gets the review table for SSEA
   {
-    console.log(marker_association_file);
-    console.log(mapping_file);
-    console.log(module_set_file);
-    console.log(module_info_file);
-    console.log(permtype);
-    console.log(maxgene);
-    console.log(mingene);
-    console.log(maxoverlap);
-    console.log(minoverlap);
-    console.log(sseanperm);
-    console.log(sseafdr);
-    console.log(GSETConvert);
-
     $.ajax({
       url: "SSEA_moduleprogress.php",
       method: "GET",
@@ -1077,9 +1063,7 @@ Upload functions -- uses AJAX to send data to a PHP file and then upload the fil
 
   //Gene Sets Description File   
   $("#GSETDuploadInput").on("change", function() {
-    console.log("data_type:" + "gene_set_desc");
     $("#GSETDlabelname").html("Select another file?")
-    console.log(this.files[0]);
     var name = this.files[0].name;
     var file = this.files[0];
     var ext = name.split('.').pop().toLowerCase();
