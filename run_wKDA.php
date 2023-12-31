@@ -9,6 +9,11 @@ if (isset($_GET['rmchoice']) ? $_GET['rmchoice'] : null) {
 }
 if (isset($_GET['run'])) {
   $run = $_GET['run'];
+  $outfile = $ROOT_DIR . "Data/Pipeline/Results/kda/" . $sessionID . ".wKDA_joblog.txt";
+  #Delete log file from previous run
+  if(file_exists($outfile)){
+      unlink($outfile);
+  }
 }
 
 
@@ -53,13 +58,13 @@ if(isset($_GET['run'])){
     $fpath = "./Data/Pipeline/Resources/kda_temp/$sessionID" . "KDAMODULE";
 
     $fjson = "./Data/Pipeline/Resources/kda_temp/$sessionID" . "param.json";
-    $data = json_decode(file_get_contents($fjson))->data;
-    $NetConvert = $data[0]->NetConvert;
-    $GSETConvert = $data[0]->GSETConvert;
+    $data = json_decode(file_get_contents($fjson),true)["data"][0];
+    $NetConvert = $data["NetConvert"];
+    $GSETConvert = $data["GSETConvert"];
 
     if (!(file_exists($fpath))) {
       //$fpath = "Results/$sessionID" . ".ssea2kda.modules.txt";
-      $fpath = $data[0]->geneset;
+      $fpath = $data["geneset"];
     } else {
       $fpath = trim(file_get_contents($fpath));
     }
@@ -240,15 +245,17 @@ if (file_exists($fsession)) {
 
           text = $http.responseText;
           //text = text.replace(/\s/g, '');
-          if (text.indexOf("100%") == -1) {
-            setTimeout(function() {
-              $self();
-            }, 50);
-
+          
+          timeOutVar=null;
+          if (!text.includes("WKDA COMPLETE")) {
+            timeOutVar=setTimeout(function() {
+                        $self();
+                      }, 10000);
+          }else{
+            clearTimeout(timeOutVar);
+            $('#mywKDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=<?php echo $rmchoice ?>")
           }
-
           $('#kdaruntime').html(text);
-
         }
       };
       $http.open('GET', 'runtime.php' + '?sessionID=' + string + "&pipeline=kda&date=" + new Date().getTime(), true);
@@ -260,9 +267,7 @@ if (file_exists($fsession)) {
 </script>
 
 <script type="text/javascript">
-  setTimeout(function() {
-    kda2networkAjaxtest();
-  }, 50);
+  kda2networkAjaxtest();
 </script>
 
 
@@ -365,7 +370,7 @@ if ((!(file_exists($email_sent)))) {
     $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
     $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
     $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-    $mail->Password   = "mergeomics729@";            // GMAIL password
+    #$mail->Password   = "mergeomics729@";            // GMAIL password
 
 
     $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
