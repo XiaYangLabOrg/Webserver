@@ -123,20 +123,22 @@ $MMFConvert = $json["MMFConvert"];
 
 debug_to_console("RUN ssea".$mapping);
 #Changed to is_string and is_array for php ver 8 - Dan
-if (is_string($mapping)) {
-  //File will be generated in result_SSEA.php
-  $mapping = "Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
-} else {
-  if (is_array($mapping)) {
-    $mapping_val = $mapping[0];
-    // Jess added
-    $mapping = $mapping_val;
-  } else {
-    $mapping_val = $mapping;
-    // Jess added
-    $mapping = $mapping_val;
-  }
-}
+// if (is_string($mapping)) {
+//   //File will be generated in result_SSEA.php
+//   $mapping = "Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
+// } else {
+
+if (is_array($mapping)) {
+  $mapping_val = $mapping[0];
+  // Jess added
+  $mapping = $mapping_val;
+} 
+// else {
+//     $mapping_val = $mapping;
+//     // Jess added
+//     $mapping = $mapping_val;
+//   }
+// }
 
 //Path of where the R code/file is created
 $fpathOut = $ROOT_DIR . "/Data/Pipeline/$sessionID" . "analyze.R";
