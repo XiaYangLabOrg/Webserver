@@ -170,13 +170,14 @@ if (file_exists($email)) {
 
                     text = $http.responseText;
                     //text = text.replace(/\s/g, '');
+                    console.log(text);
                     if (!text.includes("META-MSEA COMPLETE")) {
                         timeOutVar=setTimeout(function() {
                             $self();
                         }, 10000);
                     }else{
                         clearTimeout(timeOutVar);
-                        $('#myMETA_review').load("/result_META.php?metasessionID=" + meta_sessionId + "&sessionID=" + sessonId);
+                        $('#myMETA_review').load("/result_META.php?metasessionID=" + meta_sessionId + "&sessionID=" + sessonId+"&sessionload=T");
                     }
                     $('#metaruntime').html(text);
 

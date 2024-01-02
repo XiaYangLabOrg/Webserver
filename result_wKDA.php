@@ -79,7 +79,6 @@ if (isset($_GET['run'])) {
     else{
       $failedon2ndrun = "F";
     }
-    debug_to_console($failedon2ndrun);
   }
 } else if (file_exists($resultfile) && file_exists($ROOT_DIR . "Data/Pipeline/Results/kda/" . "$sessionID" . ".wKDA_kd_full_results.txt")) {
   // do nothing
