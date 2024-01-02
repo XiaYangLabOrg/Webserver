@@ -1,0 +1,14 @@
+}
+},
+labelHorizontalAnchor: "center",
+labelFontWeight: "bold",
+labelFontSize: 16
+},
+
+
+edges: {
+                        
+	width: {
+	    discreteMapper: {
+	        attrName: "id",
+	        entries: [

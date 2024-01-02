@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+    <head>
+        <title>Cytoscape Web KDA Network Visualization</title>
+        
+		<!-- INTIALIZE JAVASCRIPT SCRIPTS -->
+        <script type="text/javascript" src="AC_OETags.min.js"></script>
+        <script type="text/javascript" src="json2.min.js"></script>
+        <script type="text/javascript" src="cytoscapeweb.min.js"></script>
+
+		<!-- MAIN FUNCTION; INITIALIZE GRAPH -->
+		<script type="text/javascript">
+		            window.onload=function() {
+		                // id of Cytoscape Web container div
+		                var div_id = "cytoscapeweb";
+
+		                // you could also use other formats (e.g. GraphML) or grab the network data via AJAX
+		                var networ_json = {
+		                    dataSchema: {
+		                        nodes: [ { name: "label", type: "string" },
+		                                 { name: "size", type: "number" },
+		                                 { name: "mod_num", type: "string" },],
+                 
+		                        edges: [ { name: "label", type: "string" },
+		                                 { name: "weight", type: "number" },
+		                                 { name: "directed", type: "boolean", defValue: true} ]
+		                    },
+		                    data: {
+// PHP TO GET THE NODES AND EDGES

@@ -1,0 +1,7 @@
+]
+}
+},
+color: {
+    discreteMapper: {
+        attrName: "id",
+        entries: [

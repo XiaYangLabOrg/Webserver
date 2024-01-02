@@ -1,0 +1,12 @@
+]
+}
+},
+
+borderWidth: 3,
+borderColor: "#ff0000",
+selectionGlowStrength: 255,
+
+size: {
+	discreteMapper: {
+	    attrName: "id",
+	    entries: [

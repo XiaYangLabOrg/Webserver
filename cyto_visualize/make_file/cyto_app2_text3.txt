@@ -1,0 +1,334 @@
+},
+
+layout: {
+        name: 'cose',
+        idealEdgeLength: 100,
+        nodeOverlap: 20,
+        refresh: 20,
+        fit: true,
+        padding: 30,
+        randomize: false,
+        componentSpacing: 100,
+        nodeRepulsion: 400000,
+        edgeElasticity: 100,
+        nestingFactor: 5,
+        gravity: 80,
+        numIter: 1000,
+        initialTemp: 200,
+        coolingFactor: 0.95,
+        minTemp: 1.0
+      },
+
+  // so we can see the ids
+  style: [
+    {
+      selector: 'node',
+      style: {
+        'label': 'data(id)',
+        'shape': 'data(type)',
+        'width': "70px",
+        'height': "70px",
+        'background-color': 'data(color)',
+        "text-valign": "top",
+      	"text-halign": "center",
+      	"font-size": "20px",
+      	"color": "#000",
+      	"text-outline-color": "#555",
+    	"text-outline-width": "0px",
+    	"overlay-padding": "6px",
+    	"border-width" : "0", //The size of the node’s border.
+		"border-style" : "solid", //The style of the node’s border; may be solid, dotted, dashed, or double.
+		"border-color" : "#fff", //The colour of the node’s border.
+   		 "z-index": "10"
+
+      }
+    },
+
+     {
+      selector: 'node[background]',
+      style: {
+        'background-image': 'data(background)',
+        "text-valign": "center",
+      	"text-halign": "center"
+      }
+    },
+
+    {
+  		selector: 'core',
+     style: {
+	    "selection-box-color": "#AAD8FF",
+	    "selection-box-border-color": "#8BB0D0",
+	    "selection-box-opacity": "0.5"
+  	}
+},
+
+{
+   selector: "node:selected",
+   style: {
+    "border-width": "6px",
+    "border-color": "#AAD8FF",
+    "border-opacity": "0.5",
+    "background-color": "#77828C",
+    "text-outline-color": "#77828C"
+  }
+},
+
+    {
+          selector: 'edge',
+          style: {
+            'curve-style': 'haystack',
+            'haystack-radius': 0,
+            'width': 'data(weight)',
+            'opacity': 0.5,
+            'line-color': '#000000'
+          }
+        }
+  ],
+
+    // initial viewport state:
+  zoom: 1,
+  pan: { x: 0, y: 0 },
+
+  // interaction options:
+  minZoom: 1e-5,
+  maxZoom: 1e5,
+  zoomingEnabled: true,
+  userZoomingEnabled: true,
+  panningEnabled: true,
+  userPanningEnabled: true,
+  boxSelectionEnabled: true,
+  selectionType: 'single',
+  touchTapThreshold: 8,
+  desktopTapThreshold: 4,
+  autolock: false,
+  autoungrabify: false,
+  autounselectify: false,
+
+
+  // rendering options:
+  headless: false,
+  styleEnabled: true,
+  hideEdgesOnViewport: false,
+  textureOnViewport: false,
+  motionBlur: false,
+  motionBlurOpacity: 0.2,
+  wheelSensitivity: 0.4,
+  pixelRatio: 'auto'
+});
+
+
+
+
+
+
+    $('#config-toggle').addEventListener('click', function(){
+      $('body').classList.toggle('config-closed');
+      $('#config-toggle').classList.toggle('config-closed');
+
+      cy.resize();
+    });
+
+let $$ = selector => Array.from( document.querySelectorAll( selector ) );
+
+    let tryPromise = fn => Promise.resolve().then( fn );
+
+    let toJson = obj => obj.json();
+    let toText = obj => obj.text();
+
+    let calculateCachedCentrality = () => {
+      let nodes = cy.nodes();
+
+      if( nodes.length > 0 && nodes[0].data('centrality') == null ){
+        let centrality = cy.elements().closenessCentralityNormalized();
+
+        nodes.forEach( n => n.data( 'centrality', centrality.closeness(n) ) );
+      }
+    };
+
+let $layout = $('#layout');
+    let maxLayoutDuration = 1500;
+    let layoutPadding = 50;
+    let concentric = function( node ){
+      calculateCachedCentrality();
+
+      return node.data('centrality');
+    };
+    let levelWidth = function( nodes ){
+      calculateCachedCentrality();
+
+      let min = nodes.min( n => n.data('centrality') ).value;
+      let max = nodes.max( n => n.data('centrality') ).value;
+
+
+      return ( max - min ) / 5;
+    };
+    let layouts = {
+      CoSe: {
+         name: 'cose',
+               // Called on `layoutready`
+        ready: function(){},
+
+        // Called on `layoutstop`
+        stop: function(){},
+
+        // Whether to animate while running the layout
+        // true : Animate continuously as the layout is running
+        // false : Just show the end result
+        // 'end' : Animate with the end result, from the initial positions to the end positions
+        animate: 'end',
+
+        // Easing of the animation for animate:'end'
+        animationEasing: undefined,
+
+        // The duration of the animation for animate:'end'
+        animationDuration: maxLayoutDuration,
+
+        // A function that determines whether the node should be animated
+        // All nodes animated by default on animate enabled
+        // Non-animated nodes are positioned immediately when the layout starts
+        animateFilter: function ( node, i ){ return true; },
+
+
+        // The layout animates only after this many milliseconds for animate:true
+        // (prevents flashing on fast runs)
+        animationThreshold: 250,
+        idealEdgeLength: 100,
+        nodeOverlap: 20,
+        refresh: 20,
+        fit: true,
+        padding: 30,
+        randomize: false,
+        componentSpacing: 100,
+        nodeRepulsion: 400000,
+        edgeElasticity: 100,
+        nestingFactor: 5,
+        gravity: 80,
+        numIter: 1000,
+        initialTemp: 200,
+        coolingFactor: 0.95,
+        minTemp: 1.0
+      },
+      concentric: {
+         name: 'concentric',
+        padding: layoutPadding,
+        animate: true,
+        animationDuration: maxLayoutDuration,
+        concentric: function( node ){
+          return node.degree();
+        },
+        levelWidth: function( nodes ){
+          return 2;
+        }
+      },
+      concentricCentrality: {
+        name: 'concentric',
+        padding: layoutPadding,
+        animate: true,
+        animationDuration: maxLayoutDuration,
+        concentric: concentric,
+        levelWidth: levelWidth
+      },
+      concentricHierarchyCentrality: {
+        name: 'concentric',
+        padding: layoutPadding,
+        animate: true,
+        animationDuration: maxLayoutDuration,
+        concentric: concentric,
+        levelWidth: levelWidth,
+        sweep: Math.PI * 2 / 3,
+        clockwise: true,
+        startAngle: Math.PI * 1 / 6
+      },
+      Grid: { // replace with your own layout parameters
+         name: 'grid',
+
+		  fit: true, // whether to fit the viewport to the graph
+		  padding: layoutPadding,
+          animate: true,
+          animationDuration: maxLayoutDuration,
+		  boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
+		  avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
+		  avoidOverlapPadding: 10, // extra spacing around nodes when avoidOverlap: true
+		  nodeDimensionsIncludeLabels: false, // Excludes the label when calculating node bounding boxes for the layout algorithm
+		  spacingFactor: undefined, // Applies a multiplicative factor (>0) to expand or compress the overall area that the nodes take up
+		  condense: false, // uses all available space on false, uses minimal space on true
+		  rows: undefined, // force num of rows in the grid
+		  cols: undefined, // force num of columns in the grid
+		  position: function( node ){}, // returns { row, col } for element
+		  sort: undefined, // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
+		  animationEasing: undefined, // easing of animation if enabled
+		  animateFilter: function ( node, i ){ return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+		  ready: undefined, // callback on layoutready
+		  stop: undefined, // callback on layoutstop
+		  transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts 
+      }
+    };
+    let prevLayout;
+    let getLayout = name => Promise.resolve( layouts[ name ] );
+    let applyLayout = layout => {
+      if( prevLayout ){
+        prevLayout.stop();
+      }
+
+      let l = prevLayout = cy.makeLayout( layout );
+
+      return l.run().promiseOn('layoutstop');
+    }
+    let applyLayoutFromSelect = () => Promise.resolve( $layout.value ).then( getLayout ).then( applyLayout );
+
+    $layout.addEventListener('change', applyLayoutFromSelect);
+
+    $('#redo-layout').addEventListener('click', applyLayoutFromSelect);
+
+var session = "<?php echo $sessionID; ?>";
+
+    $("#jsonbutton").addEventListener('click', function(){
+var jsonBlob = new Blob([ JSON.stringify( cy.json() ) ], { type: 'application/javascript;charset=utf-8' });
+
+saveAs( jsonBlob, session+'_cytoscape.json' );
+
+});
+
+
+$("#imagebutton").addEventListener('click', function(){
+
+saveAs(cy.png(), session+"_cytoscape_screenshot.png");
+});
+
+
+/* Add later
+$("#execute_button").addEventListener('click', function(){
+
+// GET THE TEXT VALUE ENTERED
+    var get_node = document.getElementById("nodefilter").value;
+
+    var keynode = cy.filter('[id="' + get_node + '"]'); 
+    var directlyConnected = keynode.neighborhood();
+
+});
+
+$("#clear_button").addEventListener('click', function(){
+
+});
+
+
+function showVal(newVal){
+    document.getElementById("slider_value").innerHTML=newVal;
+
+       // filtering edges
+       var filteredEdges = cy.filter('edges[weight > ' + newVal + ']');
+       // Removing filteredEdges from graph
+    filteredEdges.remove();
+}
+
+*/
+
+
+cy.panzoom();
+
+</script>
+
+    
+
+    
+</html>

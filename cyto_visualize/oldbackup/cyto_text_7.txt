@@ -1,0 +1,188 @@
+}
+},
+color: "#C0C0C0"
+}
+};
+
+                
+// initialization options
+var options = {
+	// where you have the Cytoscape Web SWF
+	swfPath: "CytoscapeWeb",
+	// where you have the Flash installer SWF
+	flashInstallerPath: "playerProductInstall"
+};
+
+// init and draw
+var vis = new org.cytoscapeweb.Visualization(div_id, options);
+
+// GIVEN A GENE NAME, GET THE MODULE NUMBER FOR FILTERING
+function get_mod_num(node_array, gene_name) {
+	for (var i =0, iLen = node_array.length; i<iLen; i++) {
+	    if (node_array[i].id == gene_name) return node_array[i].mod_num
+	}
+}
+
+vis.ready(function() {
+    
+	// IF THE NODE OF INTEREST BUTTON IS CLICKED
+    document.getElementById('testing_button').onclick = function(){
+
+        // GET THE TEXT VALUE ENTERED
+        var testing_node = document.getElementById("txt1").value;
+
+        // FIND THE NEIGHBORS OF THE NODE OF INTEREST
+        var fNeighbors = vis.firstNeighbors([testing_node]);
+        var neighborNodes = fNeighbors.neighbors;
+
+        // ADD THE NODE OF INTEREST TO THE LIST
+        neighborNodes.push([testing_node]);
+
+        // FILTER TO VIEW ONLY THE NODES OF INTEREST
+        vis.filter("nodes",neighborNodes,true);
+
+        // HIGHLIGHT THE NODE OF INTEREST
+        vis.select("nodes", [testing_node]);
+};
+
+// COPY START HERE
+
+// IF THE EDGE WEIGHT BUTTON IS CLICKED
+    document.getElementById('edg_button').onclick = function(){
+
+        // GET THE TEXT VALUE ENTERED
+        var edg_weight = document.getElementById("edg1").value;
+
+        // Hide all edges that have a weight that is lower than the amount entered:
+		vis.filter("edges", function(edge) {
+		    return edge.data.weight >= edg_weight;
+		}, true);
+		vis.filter("nodes", function(node) {
+		    var fn = vis.firstNeighbors( [node], true );
+		    return fn.neighbors.length > 0;
+		});
+		// var options = { 
+		//      angleWidth:          360,
+		//      radius:   100
+		// };
+		// vis.layout({ name: 'Radial', options: options });
+};
+
+// COPY END HERE
+
+// TO EXPORT THE NETWORK AS A PDF RIGHT CLICK
+vis.addContextMenuItem("EXPORT: as pdf", "network",
+function (evt) {
+    var netta = vis.pdf();
+contentType = 'application/octet-stream';
+var a = document.createElement('a');
+var blob = new Blob([window.atob(netta)], {'type':contentType, });
+a.href = window.URL.createObjectURL(blob);
+a.download = 'network.pdf';
+a.click();
+});
+
+// TO SELECT ALL NODES CONNECTED TO NODE OF INTEREST
+vis.addContextMenuItem("Select First Neighbors", "nodes", 
+function (evt) {
+    // Get the right-clicked node:
+    var rootNode = evt.target;
+
+    // Get the first neighbors of that node:
+    var fNeighbors = vis.firstNeighbors([rootNode]);
+    var neighborNodes = fNeighbors.neighbors;
+
+    // Select the root node and its neighbors:
+    vis.select([rootNode]).select(neighborNodes);
+});
+
+// TO FILTER ALL NODES CONNECTED TO NODE OF INTEREST
+vis.addContextMenuItem("Filter First Neighbors", "nodes", 
+function (evt) {
+    // Get the right-clicked node:
+    var rootNode = evt.target;
+
+    // Get the first neighbors of that node:
+    var fNeighbors = vis.firstNeighbors([rootNode]);
+    var neighborNodes = fNeighbors.neighbors;
+
+    // ADD THE NODE OF INTEREST TO THE LIST
+    neighborNodes.push([rootNode.data.label]);
+
+	// FILTER TO VIEW ONLY THE NODES OF INTEREST
+	vis.filter("nodes",neighborNodes,true);
+
+	// HIGHLIGHT THE NODE OF INTEREST
+    vis.select("nodes", [rootNode.data.label]);
+});
+
+// TO CLEAR ALL FILTERS
+vis.addContextMenuItem("Clear", "network", 
+function (evt) {
+	vis.removeFilter("nodes", true);
+	vis.removeFilter("edges", true);
+    // f) Deselect all nodes and all edges:
+    vis.deselect();
+});
+
+document.getElementById('clear_button').onclick = function(){
+    vis.removeFilter("nodes", true);
+	vis.removeFilter("edges", true);
+    // f) Deselect all nodes and all edges:
+    vis.deselect();
+
+};
+
+});
+
+var draw_options = {
+    // data goes here
+    network: networ_json,
+
+    // set the style at initialisation
+    visualStyle: visual_style
+};
+
+vis.draw(draw_options);
+
+                
+};
+
+</script>
+
+
+<style>
+    /* The Cytoscape Web container must have its dimensions set. */
+    html, body { height: 95%; width: 100%; padding: 0; margin: 0; }
+    #cytoscapeweb { width: 100%; height: 100%; }
+</style>
+</head>
+    
+<body>
+    <div id="cytoscapeweb">
+        Cytoscape Web will replace the contents of this div with your graph.
+    </div>
+    <div id="note">
+        <span class="link" id="color">Submit Node of Interest</span>
+    </div>
+    <div>
+    <input name="testing_textbox" type="text" id="txt1"/>
+    <input name="buttonExecute" id="testing_button" type="button" value="Execute" />
+    <input name="clear_button" id="clear_button" type="button" value="Clear" />
+    </div>
+	
+	<!-- COPY START HERE -->
+	    <div id="note2">
+	        <span class="link2" id="edgefilter">Submit Edge Weight to Filter</span>
+	    </div>
+	    <div>
+	    <input name="edge_textbox" type="text" id="edg1"/>
+	    <input name="edg_buttonExecute" id="edg_button" type="button" value="Execute" />
+	    <!-- <input name="edg_clear_button" id="edg_clear_button" type="button" value="Clear" /> -->
+	    </div>
+	<!-- COPY END HERE -->
+	
+    <div>
+        <img style="float:left;width:302.5px;height:180px;" src="http://mergeomics.research.idre.ucla.edu/cyto_visualize/Network_Legend.png" alt="Network_Legend">
+        <!-- Table with Module Colors -->
+		

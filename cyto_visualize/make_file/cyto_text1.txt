@@ -1,0 +1,86 @@
+<?php
+    // GET THE FILE IDENTIFIER
+    $sessionID=trim($_GET['sessionID']);
+    // $random_string="M3uxS7BRXo";
+    $nodes = "../Data/Pipeline/Results/cytoscape/".$sessionID.".wKDA_cytoscape_nodes.txt";
+    $edges = "../Data/Pipeline/Results/cytoscape/".$sessionID.".wKDA_cytoscape_edges.txt";
+?>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+    <head>
+        <title>Cytoscape Web KDA Network Visualization</title>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+          <link rel="stylesheet" href="cytoscape.js-panzoom.css">
+          <link rel="stylesheet" href="style.css" />
+        
+    <!-- INTIALIZE JAVASCRIPT SCRIPTS -->
+         <script type="text/javascript" src="/include/js/jquery.js"></script>
+    <script type="text/javascript" src="/include/js/cytoscape.min.js"></script>
+    <script type="text/javascript" src="/include/js/cytoscape-panzoom.js"></script>
+
+    <!-- polyfills to save and export -->
+    <script type="text/javascript" src="/include/js/FileSaver.js"></script>
+
+
+  </head>
+  <body>
+  
+
+  <div id="cy"></div>
+
+    <span class="fa fa-bars config-toggle" id="config-toggle" style="font-size:25px;"></span>
+
+    <div id="config" class="config">
+
+      <div class="tools">
+    <h2>Session: <?php if($_GET['sessionID']) echo "<div id='session'>$sessionID</div>"; ?></h2>
+
+    <button id="jsonbutton" type="button">Download JSON File</button>
+    <button style="width: 80%;height: 38px;font: caption;border-radius: 4px;background-color: #fff;border: 1px solid #D1D1D1;"><a style="text-decoration: none;color: black;" href=<?php print($nodes); ?> download>Download Cytoscape-ready .txt nodes files</a></button>
+    <button style="width: 80%;height: 38px;font: caption;border-radius: 4px;background-color: #fff;border: 1px solid #D1D1D1;margin-top:1.5%;"><a style="text-decoration: none;color: black;" href=<?php print($edges); ?> download>Download Cytoscape-ready .txt edges files</a></button>
+    <button id="imagebutton" type="button">Take Screenshot of Graph</button>
+   
+    <label for="layout" title="Change layout">Active layout</label>
+    <div class="u-cf"></div>
+    <select id="layout">
+      <option value="CoSe" selected>CoSe Layout</option>
+        <option value="concentric">Concentric Layout</option>
+        <option value="concentricCentrality">Concentric by centrality</option>
+        <option value="concentricHierarchyCentrality">Hierarchy by centrality</option>
+        <option value="Grid">Grid Layout by Name</option>
+      </select>
+      <i id="redo-layout" class="fa fa-refresh action-icon tooltip" title="Redo layout"></i>
+<!--
+    <label for="nodefilter">Filter by Node Name</label>
+    <input id="nodefilter" type="text"> 
+    <input name="buttonExecute" id="execute_button" type="button" value="Execute" />
+    <input name="clear_button" id="clear_button" type="button" value="Clear" />
+
+    <label for="edgefilter">Filter by Edge Weight</label>
+    <input id="edgefilter" type="range" min="0" max="50" step="0.5" value="50" oninput="showVal(this.value)" onchange="showVal(this.value)"><br>
+    <span id="slider_value">50</span>
+  -->
+
+    
+
+    <hr class="solid">
+
+    <h2>Legend</h2>
+      <img class="legend" src="Network_Legend_white.png" alt="Network_Legend">
+
+  <hr class="solid">
+
+    <h2>Modules</h2>
+
+     <div class="container">
+     <table class="table-scroll small-first-col">
+    <thead>
+      <tr>
+      <th>Color</th>
+      <th style="margin-right: 20px;">Name</th>
+      </tr>
+    </thead>
+    <tbody class="body-half-screen">
+  

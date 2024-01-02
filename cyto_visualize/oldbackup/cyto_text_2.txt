@@ -1,0 +1,12 @@
+}
+};
+
+var visual_style = {
+	global: {
+	    backgroundColor: "#ffffff"
+	},
+	nodes: {
+	    shape: {
+			discreteMapper: {
+	            attrName: "id",
+	            entries: [

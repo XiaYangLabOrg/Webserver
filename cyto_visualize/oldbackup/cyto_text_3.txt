@@ -1,0 +1,6 @@
+}
+},
+image: {                        
+	discreteMapper: {
+	    attrName: "id",
+	    entries: [
