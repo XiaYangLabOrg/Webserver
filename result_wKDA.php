@@ -39,7 +39,8 @@ if (isset($_GET['run'])) {
 
     //$info = shell_exec('./run_kda.sh ' . $sessionID . ' 2>&1');
     //debug_to_console('cd ' . $ROOT_DIR . 'Data/Pipeline;' . $ROOT_DIR . 'R-3.4.4/bin/Rscript ./' . $sessionID . 'analyzekda.R');
-    $info = shell_exec('Rscript ./' . $sessionID . 'analyzekda.R 2>&1 | tee -a ' . $outfile);
+    $info = shell_exec('cd ' . $ROOT_DIR . '/Data/Pipeline ;' .
+                      'Rscript ./' . $sessionID . 'analyzekda.R 2>&1 | tee -a ' . $outfile);
     //var_dump($info);
     //$outs = file($outfile);
     //$last_line = $outs[count($outs)-1];
