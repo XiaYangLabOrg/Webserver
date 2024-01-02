@@ -127,7 +127,7 @@ if ($redirectedFromSessionLoad != "T") {
 
 		if (!empty($mdf_file)) {
 			if ($MMFConvert !== "none") {
-				shell_exec($ROOT_DIR . 'R-3.4.4/bin/Rscript ./Data/Pipeline/geneConversion.R ' . $sessionID . " " . $MMFConvert . " " . $mapping);
+				shell_exec('Rscript ./Data/Pipeline/geneConversion.R ' . $sessionID . " " . $MMFConvert . " " . $mapping);
 				$mapping = "Resources/meta_temp/Converted_" . basename($mapping);
 				debug_to_console($mapping);
 			}
@@ -401,7 +401,7 @@ write.table(fullData_site, "' . $ROOT_DIR . 'Data/Pipeline/Results/meta_ssea/' .
 		"chmod -R 777 ./Results/meta_ssea/" . $meta_sessionID . ".meta.inter.results;" .
 		"mkdir ./Results/meta_ssea/" . $meta_sessionID . "_meta_result;" .
 		"chmod -R 777 ./Results/meta_ssea/" . $meta_sessionID . "_meta_result;" .
-		$ROOT_DIR . "R-3.4.4/bin/Rscript ./" . $meta_sessionID . "METAanalyze.R 2>&1 | tee -a " . $outfile . ";" .
+		"Rscript ./" . $meta_sessionID . "METAanalyze.R 2>&1 | tee -a " . $outfile . ";" .
 		"mv " . $ROOT_DIR . "Data/Pipeline/Results/meta_ssea/" . $meta_sessionID . ".meta.inter.results/ssea " . $ROOT_DIR . "Data/Pipeline/Results/meta_ssea/" . $meta_sessionID . ".meta.inter.results/Individual_MSEA_Results;" .
 		"cd ./Results/meta_ssea/" . $meta_sessionID . ".meta.inter.results;" .
 		"zip -r Individual_MSEA_Results.zip Individual_MSEA_Results/");
