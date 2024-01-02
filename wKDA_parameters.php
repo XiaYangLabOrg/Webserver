@@ -129,9 +129,7 @@ There are definitely better ways to do this though...
 $data = (isset($_POST['formChoice_wKDA']) ? $_POST['formChoice_wKDA'] : null);
 $data2 = (isset($_POST['kdaparam_depth']) ? $_POST['kdaparam_depth'] : null);
 $data3 = (isset($_POST['kdaparam_direct']) ? $_POST['kdaparam_direct'] : null);
-debug_to_console("Data:".$data);
-debug_to_console("Data2:".$data2);
-debug_to_console("Data3:".$data3);
+
 
 if($data!=null){
   if (strlen($data) < 3) {
@@ -200,9 +198,7 @@ if (file_exists($fsession)) //checks if the session file exists already
 
   $session = explode("\n", file_get_contents($fsession));
   //Create different array elements based on new line
-  debug_to_console($session);
   $pipe_arr = preg_split("/[\t]/", $session[0]);
-  debug_to_console($pipe_arr);
   $pipeline = $pipe_arr[1];
 
   if ($pipeline == "GWASskipped") {
