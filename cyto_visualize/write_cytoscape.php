@@ -132,7 +132,7 @@
     $text2 = file_get_contents("./make_file/cyto_text2.txt");
     $text3 = file_get_contents("./make_file/cyto_text3.txt");
 
-    $file_path = fopen("/home/www/abhatta3-webserver/cyto_visualize/cytoscape_network_"."$sessionID".".php", "w");
+    $file_path = fopen($ROOT_DIR . "cyto_visualize/cytoscape_network_"."$sessionID".".php", "w");
     // fwrite($file_path, $text1);
     fwrite($file_path, $text1);
     fwrite($file_path, $module_list);
@@ -142,6 +142,6 @@
     fwrite($file_path, $text3);
 
     fclose($file_path);
-    chmod("/home/www/abhatta3-webserver/cyto_visualize/cytoscape_network_"."$sessionID".".php", 0777);
+    chmod($ROOT_DIR . "cyto_visualize/cytoscape_network_"."$sessionID".".php", 0777);
     header('Location: '."/cyto_visualize/cytoscape_network_"."$sessionID".".php?sessionID=$sessionID"); /* Redirect browser */
 ?>
