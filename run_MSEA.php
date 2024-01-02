@@ -221,16 +221,19 @@ function kda2networkAjaxtest() {
       $http.onreadystatechange = function() {
         if (/4|^complete$/.test($http.readyState)) {
 
-          text = $http.responseText;
+            text = $http.responseText;
           //text = text.replace(/\s/g, '');
-          if (text.indexOf("100%") == -1) {
-            setTimeout(function() {
-              $self();
-            }, 50);
+            if(!text.includes("MSEA COMPLETE")) {
+                timeOutVar=setTimeout(function() {
+                    $self();
+                }, 10000);   
+            }else{
+                clearTimeout(timeOutVar);
+                $('#myMSEA_review').load("/result_SSEA.php?sessionID=" + string + "&rmchoice=2");
+            }
+          
 
-          }
-
-          $('#msearuntime').html(text);
+            $('#msearuntime').html(text);
 
         }
       };
@@ -350,7 +353,7 @@ if ((!(file_exists($email_sent)))) {
         $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
         $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
         $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-        $mail->Password   = "mergeomics729@";            // GMAIL password
+        #$mail->Password   = "mergeomics729@";            // GMAIL password
 
 
         $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
