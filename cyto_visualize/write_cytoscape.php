@@ -73,7 +73,7 @@
             fclose($fp);
             chmod($ROOT_DIR ."cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", 0777);
 
-            $node_list .= "{data: { id: \"$node\", type: \"$shape\", color: \"$color\", background: \"http://mergeomics.research.idre.ucla.edu/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_$i\", size: \"10\" }}, \n";
+            $node_list .= "{data: { id: \"$node\", type: \"$shape\", color: \"$color\", background: \"/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_$i\", size: \"10\" }}, \n";
         }
         else if(trim($color) != "#cfcfcf" && $url != "") // occurs
         {
@@ -88,10 +88,10 @@
             $valign = "center";
             if(trim($shape) == "diamond"){
             	$fontsize="40px";
-            	$node_list .= "{data: { id: \"$node\", type: \"$shape\", color: \"$color\", fontsize: \"$fontsize\", valign: \"$valign\", background: \"http://mergeomics.research.idre.ucla.edu/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_$i\", size: \"$size\", border: \"$border\" }}, \n";
+            	$node_list .= "{data: { id: \"$node\", type: \"$shape\", color: \"$color\", fontsize: \"$fontsize\", valign: \"$valign\", background: \"/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_$i\", size: \"$size\", border: \"$border\" }}, \n";
             } else {
             	$fontsize="30px";
-            	$node_list .= "{data: { id: \"$node\", type: \"$shape\", color: \"$color\", fontsize: \"$fontsize\", valign: \"$valign\", background: \"http://mergeomics.research.idre.ucla.edu/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_$i\", size: \"$size\" }}, \n";
+            	$node_list .= "{data: { id: \"$node\", type: \"$shape\", color: \"$color\", fontsize: \"$fontsize\", valign: \"$valign\", background: \"/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_$i\", size: \"$size\" }}, \n";
             }
         }
         else if(trim($shape) == "diamond" ) // added by Jess, make KDs big

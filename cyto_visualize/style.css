@@ -1,0 +1,240 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font: 14px helvetica neue, helvetica, arial, sans-serif;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#cy {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 28em;
+}
+
+.legend{
+    height: 250px;
+    width: 380px;
+}
+
+.config {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 32em;
+  background: rgba(0, 0, 0, 0.666);
+  box-sizing: border-box;
+  color: #fff;
+  transition-property: opacity;
+  transition-duration: 250ms;
+  transition-timing-function: ease-out;
+  overflow: auto;
+  z-index: 1;
+}
+
+
+.tools{
+  margin: 30px 10px 0px;
+  text-align: center;
+}
+
+.session{
+  font-size: 14px;
+}
+
+h2{
+  font-size: 40px;
+      margin: 8px 0;
+}
+p {
+  margin: 0.5em 0;
+    font-size: 1.3em;
+}
+
+#jsonbutton, #imagebutton{
+  height: 38px;
+    background-color: #fff;
+    border: 1px solid #D1D1D1;
+    border-radius: 4px;
+    box-shadow: none;
+    box-sizing: border-box;
+    margin: 5px 0;
+    color: black;
+    font: caption;
+    width: 80%;
+}
+
+#nodefilter{
+  height: 38px;
+    background-color: #fff;
+    border: 1px solid #4e4e4e;
+    border-radius: 4px;
+    margin: 5px 0;
+    color: black;
+    font-size: 20px;
+    width: 45%;
+}
+
+#execute_button, #clear_button{
+      height: 30px;
+    background-color: #d8d8d8;
+    border: 1px solid #cacaca;
+    border-radius: 2px; 
+    color: black;
+    font-size: 15px;
+
+}
+
+select {
+height: 38px;
+    background-color: #fff;
+    border: 1px solid #D1D1D1;
+    border-radius: 4px;
+    box-shadow: none;
+    box-sizing: border-box;
+    margin: 5px 0;
+    color: black;
+    font: caption;
+    width: 80%;
+}
+
+
+label {
+     display: block;
+    margin-bottom: .5rem;
+    font-weight: 600;
+    font-size: 20px;
+    margin: 20px 0 0;
+}
+
+
+.config-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 1em;
+  margin: 0.2em;
+  cursor: pointer;
+  color: #fff;
+  z-index: 9999999;
+}
+
+.config-toggle.config-closed{
+	color: black !important;
+}
+
+.config-closed .config {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.config-closed #cy {
+  right: 0;
+}
+
+
+
+@media (max-width: 600px){
+  #cy {
+    right: 0;
+  }
+}
+
+.container{
+  padding: 1rem;
+  margin: 1rem;
+}
+.table-scroll{
+  /*width:100%; */
+  display: block;
+  empty-cells: show;
+  
+  /* Decoration */
+  border-spacing: 0;
+  border: 1px solid;
+}
+
+.table-scroll thead{
+    background-color: #292929;
+    position: relative;
+    display: block;
+    width: 100%;
+    font-size: 20px;
+}
+
+.table-scroll tbody{
+  /* Position */
+  display: block; position:relative;
+  width:100%; overflow-y:scroll;
+  /* Decoration */
+  border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+.table-scroll tr{
+  width: 100%;
+  display:flex;
+}
+
+.table-scroll td,.table-scroll th{
+  flex-basis:100%;
+  flex-grow:2;
+  display: block;
+  padding: 1rem;
+  text-align: left;
+}
+
+/* Other options */
+
+.table-scroll.small-first-col td:first-child,
+.table-scroll.small-first-col th:first-child{
+  flex-basis:100%;
+  flex-grow:1;
+}
+
+.table-scroll tbody tr:nth-child(2n){
+  background-color: rgba(130,130,170,0.1);
+}
+
+.table-scroll tbody td:nth-child(2n)
+{
+  align-items: center;
+    justify-content: center;
+    display: flex;
+    font-size: 20px !important;
+}
+
+.table-scroll > tbody td:nth-child(1) {
+  width: 2em;
+  min-width: 2em;
+  max-width: 2em;
+}
+
+.body-half-screen{
+  max-height: 320px;
+}
+
+.small-col{flex-basis:10%;}
+
+.circle {
+  position: relative;
+  background-color: #09f;
+  /*margin: 15px auto;*/
+  margin: 10px 10px 10px 15px;
+  /*width: 25px;*/
+  height: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+hr.solid {
+  border: 1px solid #b9b9b966;
+    margin: 35px 20px;
+}
