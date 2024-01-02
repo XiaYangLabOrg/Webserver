@@ -338,6 +338,7 @@ write.table(fullData_site, "' . $ROOT_DIR . 'Data/Pipeline/Results/meta_ssea/' .
 	$runjob .= "cutoff <- cutoff/100" . "\r\n";
 	$runjob .= "names(cutoff) <- trait" . "\r\n";
 	$runjob .= "job.kda <- metassea2kda(job.meta, joblist, rmax=rmax, filter=fdr_cutoff, individual_cutoffs=cutoff)" . "\r\n";
+	$runjob .= "cat(\"META-MSEA COMPLETE\")" . "\r\n";
 	/*
 	$runjob .= "syms <- tool.read(\"Resources/symbols.txt\")" . "\r\n";
 	$runjob .= "syms <- syms[,c(\"HUMAN\", \"MOUSE\")]" . "\r\n";

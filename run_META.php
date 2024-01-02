@@ -124,7 +124,7 @@ if (file_exists($email)) {
     $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
     $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
     $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-    $mail->Password   = "mergeomics729@";            // GMAIL password
+    #$mail->Password   = "mergeomics729@";            // GMAIL password
 
 
     $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
@@ -170,13 +170,14 @@ if (file_exists($email)) {
 
                     text = $http.responseText;
                     //text = text.replace(/\s/g, '');
-                    if (text.indexOf("100%") == -1) {
-                        setTimeout(function() {
+                    if (!text.includes("META-MSEA COMPLETE")) {
+                        timeOutVar=setTimeout(function() {
                             $self();
-                        }, 50);
-
+                        }, 10000);
+                    }else{
+                        clearTimeout(timeOutVar);
+                        $('#myMETA_review').load("/result_META.php?metasessionID=" + meta_sessionId + "&sessionID=" + sessonId);
                     }
-
                     $('#metaruntime').html(text);
 
                 }
@@ -190,9 +191,7 @@ if (file_exists($email)) {
 </script>
 
 <script type="text/javascript">
-    setTimeout(function() {
-        kda2networkAjaxtest();
-    }, 50);
+    kda2networkAjaxtest();
 </script>
 
 <table class="table table-bordered" style="text-align: center" ;>
