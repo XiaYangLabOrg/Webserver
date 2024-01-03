@@ -749,62 +749,19 @@ if ((file_exists($results_sent))) {
         } else {
             $overview = "./Data/Pipeline/Results/ssea/$sessionID.MSEA_file_parameter_selection.txt";
         }
-        require_once('./PHPMailer-master/class.phpmailer.php');
+        #require_once('./PHPMailer-master/class.phpmailer.php');
+
+        #PHPMailer has been updated to the most recent version (https://github.com/PHPMailer/PHPMailer)
+        #Mail function is written at sendEmail in functions.php - Jan.3.2024 Dan
         $emailid = "./Data/Pipeline/Results/ssea_email/$sessionID" . "email";
-
-
-        $mail = new PHPMailer();
-
-        $mail->Body = 'Congratulations! You have successfully executed our pipeline. Please download your results.';
-        $mail->Body .= "\n";
-        $mail->Body .= 'Your results are available at: http://mergeomics.research.idre.ucla.edu/runmergeomics.php?sessionID=';
-        $mail->Body .= "$sessionID";
-        $mail->Body .= "\n";
-        $mail->Body .= 'Note: Your results will be deleted from the server after 24 hours';
-
-        //$mail->IsSMTP(); // telling the class to use SMTP
-
-        $mail->SMTPAuth   = true;                  // enable SMTP authentication
-        $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-        $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-        $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-        $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-        $mail->Password   = "mergeomics729@";            // GMAIL password
-
-        $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
-
-        $mail->Subject    = "Mergeomics MSEA Execution Complete!";
-
-        $file_to_attach = "$resultfile";
-        $file_to_attach2 = "$resultfiledesc";
-        $file_to_attach3 = "$mergemodules";
-        $file_to_attach4 = "$resultgenes";
-        $file_to_attach5 = "$results";
-        $file_to_attach6 = "$nodes";
-        $file_to_attach7 = "$info";
-        $file_to_attach8 = "$overview";
-        $file_to_attach9 = "$joblogfile";
-
-        //$mail->addAttachment($file_to_attach, 'MSEA_modules_pval.txt');
-        $mail->addAttachment($file_to_attach2, 'MSEA_modules_details.txt');
-        $mail->addAttachment($file_to_attach3, 'MSEA_merged_modules.txt');
-        //$mail->addAttachment($file_to_attach4, 'MSEA_genes_details.txt');
-        $mail->addAttachment($file_to_attach5, 'MSEA_modules_full_result.txt');
-        //$mail->addAttachment($file_to_attach6, 'MSEA_genes_top_marker.txt');
-        $mail->addAttachment($file_to_attach7, 'MSEA_merged_modules_full_result.txt');
-        $mail->addAttachment($file_to_attach8, 'MSEA_file_parameter_selection.txt');
-        $mail->addAttachment($file_to_attach9, 'MSEA_runtime_joblog.txt');
-
-        $address = trim(file_get_contents($emailid));
-        $mail->AddAddress($address);
-
-        if (!$mail->Send()) {
-            echo "Mailer Error: " . $mail->ErrorInfo;
-        } else {
-            $myfile = fopen($results_sent_notified, "w");
-            fwrite($myfile, $address);
-            fclose($myfile);
-        }
+        include_once("functions.php");
+        $recipient = trim(file_get_contents($emailid));
+        $title = "Mergeomics - Marker Set Enrichment Analysis (MSEA) Execution Complete!";
+        $body  = "Congratulations! You have successfully executed our pipeline. Please download your results.\n";
+        $body .= "Your results are available at: http://mergeomics.research.idre.ucla.edu/runmergeomics.php?sessionID=";
+        $body .= "$sessionID";
+        $body .= "\nNote: Your results will be deleted from the server after 24 hours";
+        sendEmail($recipient,$title,$body,$results_sent_notified);
     }
 }
 

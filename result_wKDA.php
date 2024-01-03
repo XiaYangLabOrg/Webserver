@@ -661,83 +661,16 @@ if (file_exists($resultfile) and !(file_exists($edges_file))) { ?>
         $email = "./Data/Pipeline/Results/kda_email/$sessionID" . "email";
         if ((!(file_exists($results_sent)))) {
           if (file_exists($email)) {
-            require('./PHPMailer-master/class.phpmailer.php');
-            $hubs = $ROOT_DIR . "Data/Pipeline/Results/kda/$sessionID.wKDA_hubs_structure.txt";
-            $pvals = $ROOT_DIR . "Data/Pipeline/Results/kda/$sessionID.wKDA_kd_pval.txt";
-            $resultfile = $ROOT_DIR .  "Data/Pipeline/Results/kda/$sessionID.wKDA_kd_full_results.txt";
-            $tophits = $ROOT_DIR . "Data/Pipeline/Results/kda/$sessionID.wKDA_kd_tophits.txt";
-            $overview_file = $ROOT_DIR . "Data/Pipeline/Results/kda/$sessionID.wKDA_file_parameter_selection.txt";
-
-            $edges = $ROOT_DIR . "Data/Pipeline/Results/cytoscape/$sessionID.wKDA_cytoscape_edges.txt";
-            $nodes = $ROOT_DIR . "Data/Pipeline/Results/cytoscape/$sessionID.wKDA_cytoscape_nodes.txt";
-            $topkds = $ROOT_DIR . "Data/Pipeline/Results/cytoscape/$sessionID.wKDA_cytoscape_top_kds.txt";
-            $colormapping = $ROOT_DIR . "Data/Pipeline/Results/cytoscape/$sessionID.wKDA_cytoscape_module_color_mapping.txt";
-
-            $all_files = array();
-            foreach (glob($ROOT_DIR . "Data/Pipeline/Results/himmeli/$sessionID*.svg") as $a_file) {
-              $all_files[] = $a_file;
-            }
-            $emailid = $ROOT_DIR . "Data/Pipeline/Results/kda_email/$sessionID" . "email";
-            $mail = new PHPMailer();
-
-            $mail->Body = 'Congratulations! You have successfully executed our pipeline. Please download your results.';
-            $mail->Body .= "\n";
-            $mail->Body .= 'Your results are available at: http://mergeomics.research.idre.ucla.edu/result_wKDA.php?sessionID=';
-            $mail->Body .= "$sessionID";
-            $mail->Body .= "\n";
-            $mail->Body .= 'Note: Your results will be deleted from the server after 24 hours';
-
-            //$mail->IsSMTP(); // telling the class to use SMTP
-
-            $mail->SMTPAuth   = true;                  // enable SMTP authentication
-            $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-            $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-            $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-            $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-            $mail->Password   = "mergeomics729@";            // GMAIL password
-
-            $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
-
-            $mail->Subject    = "Mergeomics wKDA Execution Complete!";
-
-            $file_to_attach = "$resultfile";
-            $file_to_attach2 = "$hubs";
-            $file_to_attach3 = "$pvals";
-            $file_to_attach4 = "$tophits";
-            $file_to_attach6 = "$edges";
-            $file_to_attach7 = "$nodes";
-            $file_to_attach8 = "$topkds";
-            $file_to_attach9 = "$colormapping";
-            $file_to_attach10 = "$overview_file";
-            $file_to_attach11 = "$outfile";
-
-            $mail->addAttachment($file_to_attach, 'wKDA_kd_full_results.txt');
-            //$mail->addAttachment($file_to_attach2, 'wKDA_hubs_structure.txt');
-            //$mail->addAttachment($file_to_attach3, 'wKDA_kd_pval.txt');
-            //$mail->addAttachment($file_to_attach4, 'wKDA_kd_tophits.txt');
-            $mail->addAttachment($file_to_attach6, 'wKDA_cytoscape_edges.txt');
-            $mail->addAttachment($file_to_attach7, 'wKDA_cytoscape_nodes.txt');
-            //$mail->addAttachment($file_to_attach8, 'wKDA_cytoscape_top_kds.txt');
-            $mail->addAttachment($file_to_attach9, 'wKDA_cytoscape_module_color_mapping.txt');
-            $mail->addAttachment($file_to_attach10, 'wKDA_file_parameter_selection.txt');
-            $mail->addAttachment($file_to_attach11, 'wKDA_runtime_joblog.txt');
-
-            foreach ($all_files as $attach) {
-              $mail->addAttachment($attach);
-            }
-
-            //$address = "dougvarneson@gmail.com";
-            $address = trim(file_get_contents($emailid));
-            $mail->AddAddress($address);
-
-            if (!$mail->Send()) {
-              echo "Mailer Error: " . $mail->ErrorInfo;
-            } else {
-
-              $myfile = fopen("./Data/Pipeline/Results/kda_email/$sessionID" . "sent_results", "w");
-              fwrite($myfile, $address);
-              fclose($myfile);
-            }
+            #PHPMailer has been updated to the most recent version (https://github.com/PHPMailer/PHPMailer)
+            #Mail function is written at sendEmail in functions.php - Jan.3.2024 Dan
+            include_once("functions.php");
+            $recipient = trim(file_get_contents($email));
+            $title = "Mergeomics - Weighted Key Driver Analysis (wKDA) Execution Complete!";
+            $body  = "Congratulations! You have successfully executed our pipeline. Please download your results.\n";
+            $body .= "Your results are available at: http://mergeomics.research.idre.ucla.edu/result_wKDA.php?sessionID=";
+            $body .= "$sessionID";
+            $body .= "\nNote: Your results will be deleted from the server after 24 hours";
+            sendEmail($recipient,$title,$body,$results_sent);
           }
         }
 

@@ -26,11 +26,11 @@ function debug_to_console($data)
 
 	echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
-function sendEmail( $recipient,$title, $body ){
+function sendEmail( $recipient,$title, $body, $email_sent){
     require './PHPMailer/src/Exception.php';
     require './PHPMailer/src/PHPMailer.php';
     require './PHPMailer/src/SMTP.php';
-
+    $env=parse_ini_file(".env");
     $mail = new PHPMailer(true);
     try {
         //Server settings
@@ -38,13 +38,13 @@ function sendEmail( $recipient,$title, $body ){
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $mail->Username   = "smha118@g.ucla.edu";                     //SMTP username
-        $mail->Password   = "mergeomics729@";                               //SMTP password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        $mail->Username   = $env["EMAIL_USERNAME"];                  //SMTP username
+        $mail->Password   = $env["EMAIL_PASSWORD"];                               //SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+        $mail->Port       = 587;                //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
     
         //Recipients
-        $mail->setFrom('smha118@g.ucla.edu', 'Mergeomics Team');
+        $mail->setFrom($env["EMAIL_USERNAME"], 'Mergeomics Team');
         $mail->addAddress($recipient);     //Add a recipient
 
         //Content
@@ -55,6 +55,9 @@ function sendEmail( $recipient,$title, $body ){
     
         $mail->send();
         #echo 'Message has been sent';
+        $myfile = fopen($email_sent, "w");
+        fwrite($myfile, $recipient);
+        fclose($myfile);
     } catch (Exception $e) {
         debug_to_console("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
     }

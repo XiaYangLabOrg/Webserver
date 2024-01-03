@@ -113,37 +113,18 @@ $results_notified = "./Data/Pipeline/Results/ld_prune_email/$sessionID" . "sent_
 
 if ((!(file_exists($results_notified)))) {
   if ((file_exists($results_sent))) {
-    require_once('./PHPMailer-master/class.phpmailer.php');
-    $emailid = "./Data/Pipeline/Results/ld_prune_email/$sessionID" . "email";
+    #PHPMailer has been updated to the most recent version (https://github.com/PHPMailer/PHPMailer)
+    #Mail function is written at sendEmail in functions.php - Jan.3.2024 Dan
+    include_once("functions.php");
+    $recipient = "./Data/Pipeline/Results/ld_prune_email/$sessionID" . "email";
+    $title = "Mergeomics - Marker Dependency Filtering (MDF) Execution Complete!";
+    $body =  "Congratulations! You have successfully executed our pipeline. Please download your results.\n";
+    $body .= "Your results are available at: http://mergeomics.research.idre.ucla.edu/runmergeomics.php?sessionID=";
+    $body .= "$sessionID";
+    sendEmail($recipient,$title,$body,$results_notified);
+    
+    
 
-    $mail = new PHPMailer();
-
-    $mail->Body = 'Congratulations! You have successfully executed our pipeline. Please download your results.';
-    $mail->Body .= "\n";
-    $mail->Body .= 'Your results are available at: http://mergeomics.research.idre.ucla.edu/runmergeomics.php?sessionID=';
-    $mail->Body .= "$sessionID";
-
-    $mail->SMTPAuth   = true;                  // enable SMTP authentication
-    $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-    $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-    $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-    $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-    #$mail->Password   = "mergeomics729@";            // GMAIL password
-
-
-    $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
-
-    $mail->Subject    = "Mergeomics MDF Execution Complete!";
-
-    $address = trim(file_get_contents($emailid));
-    $mail->AddAddress($address);
-    if (!$mail->Send()) {
-      //echo "Mailer Error: " . $mail->ErrorInfo;
-    } else {
-      $myfile = fopen("./Data/Pipeline/Results/ld_prune_email/$sessionID" . "sent_email_notified", "w");
-      fwrite($myfile, $address);
-      fclose($myfile);
-    }
   }
 }
 

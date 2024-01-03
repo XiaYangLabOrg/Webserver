@@ -105,45 +105,20 @@ if (file_exists($fsession)) {
 $email_sent = "./Data/Pipeline/Results/meta_email/$meta_sessionID" . "sent_email";
 $email = "./Data/Pipeline/Results/meta_email/$meta_sessionID" . "email";
 
-
-
-//if ((!(file_exists($email_sent)))) {
-
-if (file_exists($email)) {
-    debug_to_console("email file exist:" . $email);
-    require('./PHPMailer-master/class.phpmailer.php');
-    $mail = new PHPMailer();
-    $mail->Body = 'Your META-MSEA job is running. We will send you a notification with a link to your results after completion.';
-    $mail->Body .= "\n";
-    $mail->Body .= 'If you close your browser, you can get your results from: http://mergeomics.research.idre.ucla.edu/runmergeomics.php?sessionID=';
-    $mail->Body .= "$meta_sessionID";
-    $mail->Body .= ' when the pipeline is complete';
-
-    $mail->SMTPAuth   = true;                  // enable SMTP authentication
-    $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-    $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-    $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-    $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-    #$mail->Password   = "mergeomics729@";            // GMAIL password
-
-
-    $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
-
-    $mail->Subject    = "META-MSEA Execution Started";
-
-    $address = trim(file_get_contents($email));
-    $mail->AddAddress($address);
-
-    if (!$mail->Send()) {
-        debug_to_console("Mailer Error: " . $mail->ErrorInfo);
-    } else {
-        debug_to_console("Mail has been sent successfully");
-        $myfile = fopen($email_sent, "w");
-        fwrite($myfile, $address);
-        fclose($myfile);
+if ((!(file_exists($email_sent)))) {
+    if (file_exists($email)) {
+        #PHPMailer has been updated to the most recent version (https://github.com/PHPMailer/PHPMailer)
+        #Mail function is written at sendEmail in functions.php - Jan.3.2024 Dan
+        include_once("functions.php");
+        $recipient = trim(file_get_contents($email));
+        $title = "Mergeomics - Meta Marker Set Enrichment Analysis (META-MSEA) Execution started";
+        $body  = "Your META-MSEA job is running. We will send you a notification with a link to your results after completion.\n";
+        $body .= "If you close your browser, you can get your results from: http://mergeomics.research.idre.ucla.edu/runmergeomics.php?sessionID=";
+        $body .= "$sessionID";
+        $body .= " when the pipeline is complete";
+        sendEmail($recipient,$title,$body,$email_sent);
     }
 }
-//}
 
 ?>
 
