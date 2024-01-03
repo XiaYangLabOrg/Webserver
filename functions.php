@@ -1,4 +1,7 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 function readMappingFile($path)
 {
     $handle = fopen($path, "r");
@@ -15,6 +18,50 @@ function readMappingFile($path)
         return $content;
     }
 }
+function debug_to_console($data)
+{
+	$output = $data;
+	if (is_array($output))
+		$output = implode(',', $output);
+
+	echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
+function sendEmail( $recipient,$title, $body ){
+    require './PHPMailer/src/Exception.php';
+    require './PHPMailer/src/PHPMailer.php';
+    require './PHPMailer/src/SMTP.php';
+
+    $mail = new PHPMailer(true);
+    try {
+        //Server settings
+        #$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->isSMTP();                                            //Send using SMTP
+        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+        $mail->Username   = "smha118@g.ucla.edu";                     //SMTP username
+        $mail->Password   = "mergeomics729@";                               //SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+    
+        //Recipients
+        $mail->setFrom('smha118@g.ucla.edu', 'Mergeomics Team');
+        $mail->addAddress($recipient);     //Add a recipient
+
+        //Content
+        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->Subject = $title;
+        $mail->Body    = $body;
+        #$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+    
+        $mail->send();
+        #echo 'Message has been sent';
+    } catch (Exception $e) {
+        debug_to_console("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+    }
+
+
+}
+
 function generateMendatoryFiles($sessionID, $marker, $mapping)
 {
     $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";

@@ -1,7 +1,9 @@
 
 # include/pharmomics (not sure what this is yet)
 include/pharmomics
+PHPMailer
 .DS_Store
 R-3.4.4
 config.php
-Data/Pipeline/Resources
+Data/Pipeline/
+.env
