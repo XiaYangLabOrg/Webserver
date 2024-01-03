@@ -1,30 +1,8 @@
 <?php
+include "functions.php";
 //This run file is for when the user runs SSEA (from MDF).
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
 
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
-function readMappingFile($path)
-{
-  $handle = fopen($path, "r");
-  $content = "";
-  if ($handle) {
-    $row = 0;
-    while (($line = fgets($handle)) !== false) {
-      $row++;
-      if ($row > 1) {
-        $content .= $line;
-      }
-    }
-    fclose($handle);
-    return $content;
-  }
-}
 /* Initialize PHP variables
 sessionID = the saved session 
 
@@ -345,7 +323,6 @@ if ((!(file_exists($email_sent)))) {
   if (file_exists($email)) {
     #PHPMailer has been updated to the most recent version (https://github.com/PHPMailer/PHPMailer)
     #Mail function is written at sendEmail in functions.php - Jan.3.2024 Dan
-    include_once("functions.php");
     $recipient = trim(file_get_contents($email));
     $title = "Mergeomics - Marker Set Enrichment Analysis (MSEA) Execution Started";
     $body  = "Your Marker Set Enrichment Analysis job is running. We will send you a notification with a link to your results after completion.\n";

@@ -1,13 +1,5 @@
 <?php
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
-
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
-
+include "functions.php";
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
@@ -663,7 +655,6 @@ if (file_exists($resultfile) and !(file_exists($edges_file))) { ?>
           if (file_exists($email)) {
             #PHPMailer has been updated to the most recent version (https://github.com/PHPMailer/PHPMailer)
             #Mail function is written at sendEmail in functions.php - Jan.3.2024 Dan
-            include_once("functions.php");
             $recipient = trim(file_get_contents($email));
             $title = "Mergeomics - Weighted Key Driver Analysis (wKDA) Execution Complete!";
             $body  = "Congratulations! You have successfully executed our pipeline. Please download your results.\n";

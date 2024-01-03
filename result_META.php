@@ -1,20 +1,10 @@
 <?php
 include 'functions.php';
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
-function debug_to_console($data)
-{
-	$output = $data;
-	if (is_array($output))
-		$output = implode(',', $output);
-
-	echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
-
 
 if (isset($_GET['metasessionID'])) {
 	$meta_sessionID = $_GET["metasessionID"];
 }
-
 
 if (isset($_GET['sessionID'])) {
 	//$sessionID = $_GET["sessionID"];
@@ -985,7 +975,6 @@ if ((file_exists($results_sent))) {
 		$email = "./Data/Pipeline/Results/meta_email/$meta_sessionID" . "email";
 		#PHPMailer has been updated to the most recent version (https://github.com/PHPMailer/PHPMailer)
 		#Mail function is written at sendEmail in functions.php - Jan.3.2024 Dan
-		include_once("functions.php");
 		$recipient = trim(file_get_contents($email));
 		$title = "Mergeomics - Meta Marker Set Enrichment Analysis (META-MSEA) Execution complted!";
 		$body  = "Congratulations! You have successfully executed our pipeline. Please download your results.\n";

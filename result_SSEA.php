@@ -1,28 +1,5 @@
 <?php
-function debug_to_console($data)
-{
-    $output = $data;
-    if (is_array($output))
-        $output = implode(',', $output);
-
-    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
-function readMappingFile($path)
-{
-    $handle = fopen($path, "r");
-    $content = "";
-    if ($handle) {
-        $row = 0;
-        while (($line = fgets($handle)) !== false) {
-            $row++;
-            if ($row > 1) {
-                $content .= $line;
-            }
-        }
-        fclose($handle);
-        return $content;
-    }
-}
+include "functions.php";
 
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 if (isset($_GET['sessionID'])) {
@@ -754,7 +731,6 @@ if ((file_exists($results_sent))) {
         #PHPMailer has been updated to the most recent version (https://github.com/PHPMailer/PHPMailer)
         #Mail function is written at sendEmail in functions.php - Jan.3.2024 Dan
         $emailid = "./Data/Pipeline/Results/ssea_email/$sessionID" . "email";
-        include_once("functions.php");
         $recipient = trim(file_get_contents($emailid));
         $title = "Mergeomics - Marker Set Enrichment Analysis (MSEA) Execution Complete!";
         $body  = "Congratulations! You have successfully executed our pipeline. Please download your results.\n";

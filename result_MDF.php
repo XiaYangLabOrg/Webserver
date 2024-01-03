@@ -1,30 +1,6 @@
 <?php
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
-  echo "<script type=\"text/javascript\">console.log('Debug Objects: " . $output . "' );</script>";
-}
-function readMappingFile($path)
-{
-  //$arr = array();
-  $handle = fopen($path, "r");
-  $content = "";
-  if ($handle) {
-    $row = 0;
-    while (($line = fgets($handle)) !== false) {
-      $row++;
-      if ($row > 1) {
-        $content .= $line;
-        //$arr[] = $line;
-      }
-    }
-    fclose($handle);
-    return $content;
-    //return $arr;
-  }
-}
+include "functions.php";
+
 //This result file is for MDF
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 
@@ -115,7 +91,6 @@ if ((!(file_exists($results_notified)))) {
   if ((file_exists($results_sent))) {
     #PHPMailer has been updated to the most recent version (https://github.com/PHPMailer/PHPMailer)
     #Mail function is written at sendEmail in functions.php - Jan.3.2024 Dan
-    include_once("functions.php");
     $recipient = "./Data/Pipeline/Results/ld_prune_email/$sessionID" . "email";
     $title = "Mergeomics - Marker Dependency Filtering (MDF) Execution Complete!";
     $body =  "Congratulations! You have successfully executed our pipeline. Please download your results.\n";

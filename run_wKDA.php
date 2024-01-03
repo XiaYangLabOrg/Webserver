@@ -1,4 +1,5 @@
 <?php
+include "functions.php";
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
@@ -356,7 +357,6 @@ if ((!(file_exists($email_sent)))) {
   if (file_exists($email)) {
     #PHPMailer has been updated to the most recent version (https://github.com/PHPMailer/PHPMailer)
     #Mail function is written at sendEmail in functions.php - Jan.3.2024 Dan
-    include_once("functions.php");
     $recipient = trim(file_get_contents($email));
     $title = "Mergeomics - Weighted Key Driver Analysis (wKDA) Execution Started";
     $body  = "Your Weighted Key Driver Analysis job is running. We will send you a notification with a link to your results after completion.\n";
@@ -364,7 +364,7 @@ if ((!(file_exists($email_sent)))) {
     $body .= "$sessionID";
     $body .= " when the pipeline is complete";
     sendEmail($recipient,$title,$body,$email_sent);
-    
+
     if ($rmchoice == 1) {
 ?>
       <script>
