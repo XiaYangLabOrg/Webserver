@@ -2,7 +2,6 @@
 include "functions.php";
 $old = ini_set('memory_limit', '2000M');
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
-debug_to_console("line5");
 if (isset($_GET['sessionID'])) {
     $sessionID = $_GET['sessionID'];
 }
@@ -78,7 +77,6 @@ $marker_association = $ROOT_DIR . "Data/Pipeline/" . $json[0]->association;
 $mapping =  $json[0]->marker;
 $MMFConvert =  $json[0]->MMFConvert;
 
-debug_to_console("line81");
 if (is_string($mapping)) {
     //File will be generated in result_MDF.php
     $mapping = "Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
@@ -146,7 +144,6 @@ fclose($fp);
 chmod($fpathOut, 0777);
 
 
-debug_to_console("line149");
 $gwas_location = $ROOT_DIR . "/Data/Pipeline/Resources/ldprune_temp/" . "$sessionID" . "_output/MDF_corrected_mapping.txt";
 
 $gwas_path = "./Data/Pipeline/Resources/ssea_temp/" . "$sessionID" . "path_to_cat_GWAS";
@@ -187,7 +184,6 @@ if (file_exists($fsession)) {
     $data = array_map('replace_a_line', $data);
     file_put_contents($fsession, implode('', $data));
 }
-debug_to_console("line190");
 ?>
 
 

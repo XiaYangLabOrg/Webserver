@@ -91,7 +91,7 @@ if ((!(file_exists($results_notified)))) {
   if ((file_exists($results_sent))) {
     #PHPMailer has been updated to the most recent version (https://github.com/PHPMailer/PHPMailer)
     #Mail function is written at sendEmail in functions.php - Jan.3.2024 Dan
-    $recipient = "./Data/Pipeline/Results/ld_prune_email/$sessionID" . "email";
+    $recipient = trim(file_get_contents($results_sent));
     $title = "Mergeomics - Marker Dependency Filtering (MDF) Execution Complete!";
     $body =  "Congratulations! You have successfully executed our pipeline. Please download your results.\n";
     $body .= "Your results are available at: http://mergeomics.research.idre.ucla.edu/runmergeomics.php?sessionID=";
