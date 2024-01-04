@@ -153,6 +153,7 @@ debug_to_console("line152");
 $login_button = '';
 $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=true";
 debug_to_console($scriptUri);
+require_once("vendor/autoload.php");
 $google_client== new Google_Client();
 debug_to_console($google_client);
 $google_client->setRedirectUri($scriptUri);
