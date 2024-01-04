@@ -5,6 +5,7 @@ debug_to_console("line4");
 if (isset($_GET['fromapp2']) ? $_GET['fromapp2'] : null) {
   $fromapp2 = $_GET['fromapp2'];
 }
+debug_to_console("line8");
 if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
   $sessionID = $_GET['sessionID'];
   debug_to_console("line10");
