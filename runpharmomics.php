@@ -1,12 +1,13 @@
 <?php
 include "functions.php";
-
+include "config.php";
+debug_to_console("line4");
 if (isset($_GET['fromapp2']) ? $_GET['fromapp2'] : null) {
   $fromapp2 = $_GET['fromapp2'];
 }
 if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
   $sessionID = $_GET['sessionID'];
-
+  debug_to_console("line10");
   $fsession = "./Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
   if (!file_exists($fsession)) {
     if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')) {
@@ -19,6 +20,8 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
       exit;
     }
   }
+
+  debug_to_console("line24");
   // Create an array of the current session file
   $session = explode("\n", file_get_contents($fsession));
   //Create different array elements based on new line
@@ -120,9 +123,9 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
 
     ),
   ));
-
+  debug_to_console("line123");
   $url = json_decode($json, true);
-
+  debug_to_console($url);
   $x = 1;
   $write_url = NULL;
 
@@ -145,7 +148,7 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
   chmod($furlOut, 0775);
 }
 
-include('config.php');
+
 $login_button = '';
 $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=true";
 $google_client->setRedirectUri($scriptUri);

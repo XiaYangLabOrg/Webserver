@@ -7,3 +7,4 @@ R-3.4.4
 config.php
 Data/Pipeline/
 .env
+vendor/
