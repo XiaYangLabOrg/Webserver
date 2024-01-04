@@ -149,7 +149,7 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
   chmod($furlOut, 0775);
 }
 
-
+debug_to_console("line152");
 $login_button = '';
 $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=true";
 $google_client->setRedirectUri($scriptUri);
@@ -196,7 +196,7 @@ if (isset($_GET["code"])) {
   }
 }
 
-
+debug_to_console("line199");
 
 ?>
 <!DOCTYPE html>
