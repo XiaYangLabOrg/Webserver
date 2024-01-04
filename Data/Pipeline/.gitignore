@@ -1,2 +1,12 @@
-*.R
-*.bash
+*.txt
+*.json
+*output
+*.js
+*LOCI
+*path_to_cat_GWAS
+*file_list
+
+!sample_GWAS/loci.hdlc_040kb_ld70.human.txt
+!GTEx_v8_eQTL/Liver.txt
+!pathways/Reactome_info.txt
+!pathways/Reactome.txt

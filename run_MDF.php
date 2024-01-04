@@ -329,7 +329,8 @@ if ((!(file_exists($email_sent)))) {
         #Mail function is written at sendEmail in functions.php - Jan.3.2024 Dan
         $recipient = trim(file_get_contents($email));
         $title="Mergeomics - Marker Dependency Filtering (MDF) Execution Started";
-        $body= "Your Marker Dependency Filtering job is running. We will send you a notification with a link to your results after completion.\n";
+        $body= "Your Marker Dependency Filtering job is running. We will send you a notification with a link to your results after completion.";
+        $body.= "\n";
         $body.= "If you close your browser, you can get your results from: http://mergeomics.research.idre.ucla.edu/runmergeomics.php?sessionID=";
         $body.="$sessionID";
         $body.=" when the pipeline is complete";

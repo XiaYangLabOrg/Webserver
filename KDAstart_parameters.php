@@ -1,4 +1,6 @@
 <?php
+include 'functions.php';
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 function generatesessionIDing($length = 10)
 {
   $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -8,27 +10,27 @@ function generatesessionIDing($length = 10)
   }
   return $sessionIDing;
 }
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
 
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
-
+$geneset = "";
+$genesetd = "";
+$network = "";
+$kdadepth = "";
+$kdadirect = "";
+$minKDA = "";
+$edgewKDA = "";
+$genesetd_content="";
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
   $fjson = "./Data/Pipeline/Resources/kda_temp/$sessionID" . "param.json";
   if (file_exists($fjson)) {
-    $data = json_decode(file_get_contents($fjson))->data;
-    $geneset = $data[0]->geneset;
-    $genesetd = $data[0]->genesetd;
-    $network = $data[0]->network;
-    $kdadepth = $data[0]->kdadepth;
-    $kdadirect = $data[0]->kdadirect;
-    $minKDA = $data[0]->minKDA;
-    $edgewKDA = $data[0]->edgewKDA;
+    $data = json_decode(file_get_contents($fjson),true)["data"][0];
+    $geneset = $data["geneset"];
+    $genesetd = $data["genesetd"];
+    $network = $data["network"];
+    $kdadepth = $data["kdadepth"];
+    $kdadirect = $data["kdadirect"];
+    $minKDA = $data["minKDA"];
+    $edgewKDA = $data["edgewKDA"];
   }
   if ($genesetd == 2) {
     $genesetd_content = file_get_contents("./Data/Pipeline/Resources/kda_temp/" . $sessionID . "_nodes_file.txt");
@@ -46,12 +48,14 @@ if (isset($_POST['sessionID']) ? $_POST['sessionID'] : null) {
 
 
 $fpostOut = "./Data/Pipeline/Resources/kda_temp/$sessionID" . "_KDA_postdata.txt";
-$fsession = "./Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
+$fsession = $ROOT_DIR . "Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 $session_write = NULL;
 
+debug_to_console($fsession);
 //if the sessionID does not exist
 if (!file_exists($fsession)) {
   //create the session txt file
+
   $sessionfile = fopen($fsession, "w");
   $session_write .= "Pipeline:" . "\t" . "KDA" . "\n";
   $session_write .= "Mergeomics_Path:" . "\t" . "1" . "\n";

@@ -1,12 +1,5 @@
 <?php
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
-
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
+include "functions.php";
 //This KDA parameters files is for the MDF, MSEA, and META pipeline. The wKDA-only pipeline has a different php file ("KDAstart_parameters.php").
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 
