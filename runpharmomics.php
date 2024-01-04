@@ -154,6 +154,7 @@ $login_button = '';
 $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=true";
 debug_to_console($scriptUri);
 debug_to_console($google_client);
+$google_client== new Google_Client();
 $google_client->setRedirectUri($scriptUri);
 debug_to_console($google_client);
 //This $_GET["code"] variable value received after user has login into their Google Account redirct to PHP script then this variable value has been received
