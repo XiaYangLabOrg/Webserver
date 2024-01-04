@@ -705,7 +705,7 @@ if (!file_exists($fsession)) {
     //commented out to temporarily remove login auth until we get https - 11.24.2021 -DAN
     // if (islogin) {
     //   $("#userinfo").show();
-    //   var email = "<?php echo $_SESSION['user_email_address'] ?>"
+    //   var email = "<?php #echo $_SESSION['user_email_address'] ?>"
     //   $("#yourEmail").val(email);
     //   $("#emailSubmit").click();
     // } else {
