@@ -917,7 +917,7 @@ if (isset($_GET["code"])) {
   <?php
 
 
-  if ($_GET['sessionID']) {
+  if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
 
 
   ?>
