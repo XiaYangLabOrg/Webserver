@@ -86,7 +86,7 @@
   }
 
   $geneinputfilesize = filesize($geneinputfile);
-  debug_to_console($geneinputfilesize);
+  
 
 
   if (isset($_GET['ssea2pharmemail'])) {

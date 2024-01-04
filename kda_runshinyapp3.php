@@ -10,7 +10,6 @@ function debug_to_console($data)
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
 }
-debug_to_console($sessionID);
 
 if (isset($_GET['rmchoice'])) {
   $rmchoice = $_GET['rmchoice'];

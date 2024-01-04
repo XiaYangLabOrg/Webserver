@@ -1,14 +1,8 @@
  <?php
+  include "functions.php";
   //This parameters files is for when the user reviews their SSEA file
   $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
-  function debug_to_console($data)
-  {
-    $output = $data;
-    if (is_array($output))
-      $output = implode(',', $output);
 
-    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-  }
   /* Initialize PHP variables
 sessionID = the saved session 
 

@@ -232,7 +232,6 @@ foreach ($detailsarray as $detail) {
     $json['fdr'] =  scientificNotation(trim((float)$line_array[2]));
     $json['desc'] = trim($line_array[7]);
   } else {
-    debug_to_console("rmchoice:" . $rmchoice);
     $line_array = explode("\t", $detail);
     //$json['module'] = strtoupper(trim($line_array[0]));
     $json['module'] = trim($line_array[0]);

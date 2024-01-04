@@ -51,7 +51,6 @@ $fpostOut = "./Data/Pipeline/Resources/kda_temp/$sessionID" . "_KDA_postdata.txt
 $fsession = $ROOT_DIR . "Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 $session_write = NULL;
 
-debug_to_console($fsession);
 //if the sessionID does not exist
 if (!file_exists($fsession)) {
   //create the session txt file

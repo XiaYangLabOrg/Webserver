@@ -167,11 +167,7 @@ if ($fh) //check if the file was opened correctly
     while ($index++ < 2) //run the loop twice
     {
         $line = fgets($fh); //read each line individually
-        //$check = "";
-        
-        //$test = detect_utf_encoding($line);
-        //debug_to_console($test);
-        //var_dump(mb_detect_encoding());
+
 
         if ($data_type == "marker_association") {
             $check = "MARKER\tVALUE";

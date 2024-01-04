@@ -15,7 +15,7 @@ if (isset($_GET['rmchoice'])) {
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
 }
-debug_to_console($sessionID);
+
 if (isset($_GET['run'])) {
   $run = $_GET['run'];
 }
@@ -85,7 +85,6 @@ if (file_exists($fsession)) {
       $pharmomics_arr2 = explode("|", $pharmomics_arr[1]);
       $msea2pharmomics = $pharmomics_arr2[0];
       //$kda2pharmomics = preg_replace('/\s+/', ' ', trim($pharmomics_arr2[1]));
-      debug_to_console("rmchoice:" . $rmchoice);
       if ($rmchoice == 1) {
         return 'Pharmomics_Path:' . "\t" . $msea2pharmomics . "|SSEAKDAtoPharmomics,1.5" . "\n";
       } else if ($rmchoice == 2) {

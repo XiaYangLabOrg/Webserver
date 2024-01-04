@@ -1,12 +1,6 @@
  <?php
-  function debug_to_console($data)
-  {
-    $output = $data;
-    if (is_array($output))
-      $output = implode(',', $output);
-
-    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-  }
+  include "functions.php";
+  $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
   if (isset($_GET['sessionID'])) {
     $sessionID = $_GET['sessionID'];
   }
@@ -53,7 +47,7 @@
   if (isset($_GET['rerun'])) {
     $rerun = $_GET['rerun'];
   }
-  $fjson = "./Data/Pipeline/Resources/kda_temp/$sessionID" . "param.json";
+  $fjson = $ROOT_DIR . "Data/Pipeline/Resources/kda_temp/$sessionID" . "param.json";
   if ($rerun == "T") {
     $json = array();
     //$fpath_random = "./Data/Pipeline/Resources/meta_temp/$meta_sessionID" . "list_strings";
@@ -76,6 +70,7 @@
     } else {
       $data->data[] = $json;
     }
+    debug_to_console($fjson);
     $fp = fopen($fjson, 'w');
     fwrite($fp, json_encode($data));
     fclose($fp);
@@ -307,7 +302,7 @@ Since we don't have a database, we have to update the txt file with the path inf
          }
          else{
           */
-          $fpathmod = "./Data/Pipeline/Resources/kda_temp/$sessionID" . "KDAMODULE";
+          $fpathmod = $ROOT_DIR . "Data/Pipeline/Resources/kda_temp/$sessionID" . "KDAMODULE";
           chmod($fpathmod, 0777);
           if(file_exists($fpathmod)){
             $mod = trim(file_get_contents($fpathmod));

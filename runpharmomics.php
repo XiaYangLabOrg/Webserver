@@ -1,12 +1,5 @@
 <?php
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
-
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
+include "functions.php";
 
 if (isset($_GET['fromapp2']) ? $_GET['fromapp2'] : null) {
   $fromapp2 = $_GET['fromapp2'];
@@ -34,7 +27,6 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
   // added by JD
   $step_arr = preg_split("/[\t]/", $session[1]);
   $step = $step_arr[1];
-  debug_to_console($step);
   if ($step == 1.25 and substr($pipeline, 11, 4) == "App2") {
     $sig_arr = preg_split("/[\t]/", $session[2]);
     $signature = $sig_arr[1];

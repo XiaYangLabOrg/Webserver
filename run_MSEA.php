@@ -23,30 +23,28 @@ if (isset($_GET['run'])) {
 */
 if (!file_exists($ROOT_DIR . "/Data/Pipeline/Results/ssea/$sessionID.MSEA_modules_pval.txt") || $run == "T") {
     $msea_json = $ROOT_DIR . "Data/Pipeline/Resources/msea_temp/$sessionID" . "data.json";
-    $data = json_decode(file_get_contents($msea_json))->data;
-    $perm_type = $data[0]->perm;
-    $max_gene = $data[0]->maxgenes;
-    $min_gene = $data[0]->mingenes;
-    $minoverlap = $data[0]->minoverlap;
-    $maxoverlap = $data[0]->maxoverlap;
-    $mseanperm = $data[0]->numperm;
-    $mseafdr = $data[0]->fdrcutoff;
-    $marker_association = $data[0]->association;
-    $mapping = $data[0]->marker;
-    $mdf = $data[0]->mdf;
-    $mdf_ntop = $data[0]->mdf_ntop;
-    $module = $data[0]->geneset;
-    $enrichment = $data[0]->enrichment;
-    $module_info = $data[0]->genedesc;
-    $MAFConvert = $data[0]->MAFConvert;
-    $MMFConvert = $data[0]->MMFConvert;
-    $GSETConvert = $data[0]->GSETConvert;
+    $data = json_decode(file_get_contents($msea_json),true)["data"][0];
+    $perm_type = $data["perm"];
+    $max_gene = $data["maxgenes"];
+    $min_gene = $data["mingenes"];
+    $minoverlap = $data["minoverlap"];
+    $maxoverlap = $data["maxoverlap"];
+    $mseanperm = $data["numperm"];
+    $mseafdr = $data["fdrcutoff"];
+    $marker_association = $data["association"];
+    $mapping = $data["marker"];
+    $mdf = $data["mdf"];
+    $mdf_ntop = $data["mdf_ntop"];
+    $module = $data["geneset"];
+    $enrichment = $data["enrichment"];
+    $module_info = $data["genedesc"];
+    $MAFConvert = $data["MAFConvert"];
+    $MMFConvert = $data["MMFConvert"];
+    $GSETConvert = $data["GSETConvert"];
 
 
     if (!empty($mdf)) {
-        debug_to_console('cd ' . $ROOT_DIR . 'Data/Pipeline; ' . $ROOT_DIR . 'run_ld_prune.sh ' . $sessionID);
         $outpath = str_replace($ROOT_DIR . "Data/Pipeline/", "", runMDFscript($sessionID, $marker_association, $mapping, $mdf, $mdf_ntop, "none"));
-        debug_to_console($outpath);
         $marker_association = $outpath . "marker.txt";
         $mapping = $outpath . "genes.txt";
     }

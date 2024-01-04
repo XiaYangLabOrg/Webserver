@@ -255,6 +255,8 @@ if (file_exists($fsession)) {
                       }, 10000);
           }else{
             clearTimeout(timeOutVar);
+            console.log("wkda complete");
+            console.log(text);
             $('#mywKDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=<?php echo $rmchoice ?>")
           }
           $('#kdaruntime').html(text);

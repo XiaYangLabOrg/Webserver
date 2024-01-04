@@ -3,9 +3,9 @@
 random=$1
 
 
-/u/local/Modules/default/init/modules.sh
+#/u/local/Modules/default/init/modules.sh
 
 
-cd /home/www/abhatta3-webserver/Data/Pipeline
+cd Data/Pipeline;
 
 bash ./$random"preprocess.bash"
