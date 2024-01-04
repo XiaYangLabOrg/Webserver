@@ -1,5 +1,6 @@
 <?php
-
+include "functions.php";
+include "config.php";
 function generateRandomString($length = 10)
 {
   $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -21,74 +22,67 @@ if (isset($_POST['sessionID']) ? $_POST['sessionID'] : null) {
 } else {
   $sessionID = generateRandomString(10);
 }
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
-
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
-include('config.php');
 //include('mysql_conn.php');
 $login_button = '';
 $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=true";
-$google_client->setRedirectUri($scriptUri);
 
-//This $_GET["code"] variable value received after user has login into their Google Account redirct to PHP script then this variable value has been received
-if (isset($_GET["code"])) {
-  //It will Attempt to exchange a code for an valid authentication token.
-  #  $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
-  $google_client->authenticate($_GET['code']);
-  $_SESSION['access_token'] = $google_client->getAccessToken();
 
-  //This condition will check there is any error occur during geting authentication token. If there is no any error occur then it will execute if block of code/
-  if (!isset($token['error'])) {
-    //Set the access token used for requests
-    #    $google_client->setAccessToken($token['access_token']);
+// $google_client->setRedirectUri($scriptUri);
 
-    //Store "access_token" value in $_SESSION variable for future use.
-    #    $_SESSION['access_token'] = $token['access_token'];
+// //This $_GET["code"] variable value received after user has login into their Google Account redirct to PHP script then this variable value has been received
+// if (isset($_GET["code"])) {
+//   //It will Attempt to exchange a code for an valid authentication token.
+//   #  $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
+//   $google_client->authenticate($_GET['code']);
+//   $_SESSION['access_token'] = $google_client->getAccessToken();
 
-    //Create Object of Google Service OAuth 2 class
-    $google_service = new Google_Service_Oauth2($google_client);
+//   //This condition will check there is any error occur during geting authentication token. If there is no any error occur then it will execute if block of code/
+//   if (!isset($token['error'])) {
+//     //Set the access token used for requests
+//     #    $google_client->setAccessToken($token['access_token']);
 
-    //Get user profile data from google
-    $data = $google_service->userinfo->get();
-    //debug_to_console($data);
-    //Below you can find Get profile data and store into $_SESSION variable
-    if (!empty($data['given_name'])) {
-      $_SESSION['user_first_name'] = $data['given_name'];
-    }
+//     //Store "access_token" value in $_SESSION variable for future use.
+//     #    $_SESSION['access_token'] = $token['access_token'];
 
-    if (!empty($data['family_name'])) {
-      $_SESSION['user_last_name'] = $data['family_name'];
-    }
+//     //Create Object of Google Service OAuth 2 class
+//     $google_service = new Google_Service_Oauth2($google_client);
 
-    if (!empty($data['email'])) {
-      $_SESSION['user_email_address'] = $data['email'];
-    }
+//     //Get user profile data from google
+//     $data = $google_service->userinfo->get();
+//     //debug_to_console($data);
+//     //Below you can find Get profile data and store into $_SESSION variable
+//     if (!empty($data['given_name'])) {
+//       $_SESSION['user_first_name'] = $data['given_name'];
+//     }
 
-    if (!empty($data['gender'])) {
-      $_SESSION['user_gender'] = $data['gender'];
-    }
+//     if (!empty($data['family_name'])) {
+//       $_SESSION['user_last_name'] = $data['family_name'];
+//     }
 
-    if (!empty($data['picture'])) {
-      $_SESSION['user_image'] = $data['picture'];
-    }
-  }
-}
-$user_name = $_SESSION['user_first_name'] . " " . $_SESSION['user_last_name'];
-$user_email = $_SESSION['user_email_address'];
-//This is for check user has login into system by using Google account, if User not login into system then it will execute if block of code and make code for display Login link for Login using Google account.
-if (!isset($_SESSION['access_token'])) {
-  //Create a URL to obtain user authorization
-  //$login_button = '<a href="' . $google_client->createAuthUrl() . '"><img src="sign-in-with-google.png" /></a>';
-  $login_button = '<a href="' . $google_client->createAuthUrl() . '" class="google btn"><i class="fa fa-google fa-fw"></i> Login with Google+</a>';
-  $islogin = False;
-} else {
-  $islogin = True;
-}
+//     if (!empty($data['email'])) {
+//       $_SESSION['user_email_address'] = $data['email'];
+//     }
+
+//     if (!empty($data['gender'])) {
+//       $_SESSION['user_gender'] = $data['gender'];
+//     }
+
+//     if (!empty($data['picture'])) {
+//       $_SESSION['user_image'] = $data['picture'];
+//     }
+//   }
+// }
+// $user_name = $_SESSION['user_first_name'] . " " . $_SESSION['user_last_name'];
+// $user_email = $_SESSION['user_email_address'];
+// //This is for check user has login into system by using Google account, if User not login into system then it will execute if block of code and make code for display Login link for Login using Google account.
+// if (!isset($_SESSION['access_token'])) {
+//   //Create a URL to obtain user authorization
+//   //$login_button = '<a href="' . $google_client->createAuthUrl() . '"><img src="sign-in-with-google.png" /></a>';
+//   $login_button = '<a href="' . $google_client->createAuthUrl() . '" class="google btn"><i class="fa fa-google fa-fw"></i> Login with Google+</a>';
+//   $islogin = False;
+// } else {
+//   $islogin = True;
+// }
 //Always true until we sort out https - 11.24.2021- DAN
 $islogin = True;
 
