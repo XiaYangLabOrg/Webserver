@@ -157,16 +157,16 @@ if (!file_exists($fsession)) {
   chmod($fsession, 0755);
 }
 
-$user_usage_count = "./User_usage/" . $user_email . "." . date("Y.m.d") . ".json";
-$userUsage = 0;
+// $user_usage_count = "./User_usage/" . $user_email . "." . date("Y.m.d") . ".json";
+// $userUsage = 0;
 
-if (file_exists($user_usage_count)) {
-  $jsondata = json_decode(file_get_contents($user_usage_count));
-  $userUsage = count($jsondata);
-  if ($userUsage >= $individual_user_quota) {
-    $reached_doseseg_limit = "yes";
-  }
-}
+// if (file_exists($user_usage_count)) {
+//   $jsondata = json_decode(file_get_contents($user_usage_count));
+//   $userUsage = count($jsondata);
+//   if ($userUsage >= $individual_user_quota) {
+//     $reached_doseseg_limit = "yes";
+//   }
+// }
 ?>
 
 
