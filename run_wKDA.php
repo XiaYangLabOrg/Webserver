@@ -249,6 +249,7 @@ if (file_exists($fsession)) {
           //text = text.replace(/\s/g, '');
           
           timeOutVar=null;
+          console.log(text);
           if (!text.includes("WKDA COMPLETE")) {
             timeOutVar=setTimeout(function() {
                         $self();
@@ -256,7 +257,6 @@ if (file_exists($fsession)) {
           }else{
             clearTimeout(timeOutVar);
             console.log("wkda complete");
-            console.log(text);
             $('#mywKDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=<?php echo $rmchoice ?>")
           }
           $('#kdaruntime').html(text);
