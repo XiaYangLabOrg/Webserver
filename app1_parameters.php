@@ -899,15 +899,16 @@ $(document).on({
       organism_arr = new Array(),
       drug_list = {};
 
-	drugdataname = drug;
-	if(drugdataname.includes('/')){
-	  drugdataname = drugdataname.replace("/"," and ");
-	  //console.log(drugdataname);
-	}
+    drugdataname = drug;
+    console.log("line903:"+drugdatanme);
+    if(drugdataname.includes('/')){
+      drugdataname = drugdataname.replace("/"," and ");
+      //console.log(drugdataname);
+    }
 
-	if(drugdataname!==""){
-		$("#downloadDrugData").html('<a href="./include/pharmomics/DEG_Pathway_Data/' + drugdataname + '_DEGs_Pathways_Signatures.txt" download class="button button-3d button-large" role="button" id="DEG_button" style="margin-top: 3%;"><i class="icon-download1"></i>Download drug gene signatures</a>');
-	}
+    if(drugdataname!==""){
+      $("#downloadDrugData").html('<a href="./include/pharmomics/DEG_Pathway_Data/' + drugdataname + '_DEGs_Pathways_Signatures.txt" download class="button button-3d button-large" role="button" id="DEG_button" style="margin-top: 3%;"><i class="icon-download1"></i>Download drug gene signatures</a>');
+    }
 
     $.ajax({
       type: "GET",
@@ -923,6 +924,7 @@ $(document).on({
         organism_arr.sort();
         organism_arr.forEach(function(x) {
           drug_list[x] = (drug_list[x] || 0) + 1;
+          console.log(drug_list[x]);
         });
 
         $("#mySpecies").html('');
