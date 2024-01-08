@@ -209,7 +209,8 @@ body.loading .ajaxloading {
               <?php
               foreach ($drug_list as $item) {
                 #debug_to_console("$item");
-                echo "<option value = \"$item\">$item</option>";
+                #echo "<option value = \"$item\">$item</option>";
+                echo $item;
               }
 
               ?>
