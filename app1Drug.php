@@ -75,7 +75,7 @@ fclose($fp);
 chmod($fpathOut, 0777);
 $outfile="./Data/Pipeline/Resources/shinyapp1_temp/$sessionID"."app1Drug.log";
 
-shell_exec('./app1Drug.sh '.$sessionID .'2>&1 | tee -a ' . $outfile);
+shell_exec('./app1Drug.sh '.$sessionID .' 2>&1 | tee -a ' . $outfile);
 
 if($type == 'organs')
 {
