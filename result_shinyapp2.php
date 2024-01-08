@@ -1,12 +1,6 @@
 <?php
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
+include "functions.php";
 
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 
 if (isset($_GET['sessionID'])) {
@@ -92,7 +86,7 @@ if ($signature == 1) { //meta
       $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2/" . $sessionID . "out.txt";
       shell_exec("touch " . $frunning_status);
       debug_to_console($ROOT_DIR . "R-3.4.4/bin/Rscript " . $ROOT_DIR . "Data/Pipeline/" . $sessionID . "app2.R | tee " . $outfile);
-      shell_exec($ROOT_DIR . "R-3.4.4/bin/Rscript " . $ROOT_DIR . "Data/Pipeline/" . $sessionID . "app2.R | tee " . $outfile);
+      shell_exec("Rscript " . $ROOT_DIR . "Data/Pipeline/" . $sessionID . "app2.R | tee " . $outfile);
       #shell_exec("sh run_app2.sh $sessionID | tee " . $outfile);
       sleep(1);
     }
@@ -101,7 +95,7 @@ if ($signature == 1) { //meta
       $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2/" . $sessionID . "out.txt";
       shell_exec("touch " . $frunning_status);
       debug_to_console($ROOT_DIR . "R-3.4.4/bin/Rscript " . $ROOT_DIR . "Data/Pipeline/" . $sessionID . "app2.R | tee " . $outfile);
-      shell_exec($ROOT_DIR . "R-3.4.4/bin/Rscript " . $ROOT_DIR . "Data/Pipeline/" . $sessionID . "app2.R | tee " . $outfile);
+      shell_exec("Rscript " . $ROOT_DIR . "Data/Pipeline/" . $sessionID . "app2.R | tee " . $outfile);
       #shell_exec("sh run_app2.sh $sessionID | tee " . $outfile);
       sleep(1);
     }
@@ -221,7 +215,7 @@ if ($signature == 1) { //meta
     // $cmds1 = "sshpass -p \"mergeomics729@\" ssh smha118@192.154.2.201 ";
     // $cmds2 = "'source /etc/profile;module load R;cd /u/scratch/s/smha118/app2seg;qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp run_pharm_dose_seg.sh " . $sessionID . "'";
     $cmds1 = "sshpass -p \"pharmomics129@\" ssh mergeome@192.154.2.201 ";
-    $cmds2 = "'source /etc/profile; module load R/3.4.4; cd /u/scratch/m/mergeome/app2seg; qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp /u/home/m/mergeome/PharmOmics_resource/run_pharm_dose_seg.sh " . $sessionID . "'";
+    $cmds2 = "'source /etc/profile; module load R/4.2.2; cd /u/scratch/m/mergeome/app2seg; qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp /u/home/m/mergeome/PharmOmics_resource/run_pharm_dose_seg.sh " . $sessionID . "'";
     shell_exec("touch " . $frunning_status);
     shell_exec($cmds1 . $cmds2);
     $user_usage_count = $ROOT_DIR . "/User_usage/" . $user_email . "." . date("Y.m.d") . ".json";

@@ -8,7 +8,8 @@ if(isset($_POST['sessionID']) ? $_POST['sessionID'] : null)
 if(isset($_POST['drug_name']) ? $_POST['drug_name'] : null) 
 {
         $drug_name=$_POST['drug_name'];
-        $drug_name = preg_replace('/[0-9]+/', '', $drug_name);
+        #????
+        #$drug_name = preg_replace('/[0-9]+/', '', $drug_name);
 } 
 
 if(isset($_POST['type']) ? $_POST['type'] : null) 

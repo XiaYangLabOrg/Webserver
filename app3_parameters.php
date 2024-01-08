@@ -1,21 +1,6 @@
 <?php
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
+include "functions.php";
 
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
-function generateRandomString($length = 10)
-{
-  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  $randomString = '';
-  for ($i = 0; $i < $length; $i++) {
-    $randomString .= $characters[rand(0, strlen($characters) - 1)];
-  }
-  return $randomString;
-}
 if (isset($_POST['sessionID']) ? $_POST['sessionID'] : null) {
   $sessionID = $_POST['sessionID'];
 }

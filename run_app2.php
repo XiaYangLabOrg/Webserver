@@ -140,10 +140,11 @@ if ($signature == 2 or $signature == 3) {
 
                     text = $http.responseText;
                     text = text.replace(/\s/g, '');
+
                     if (text.indexOf("100%") == -1) {
                         setTimeout(function() {
                             $self();
-                        }, 1000);
+                        }, 10000);
 
                     }
                     $('#app2progresswidth').width(text);
@@ -162,9 +163,9 @@ if ($signature == 2 or $signature == 3) {
     var signature = "<?php echo $signature; ?>";
     console.log("signature:" + signature);
     if (signature == 1) {
-        setTimeout(function() {
-            app2Ajax();
-        }, 100);
+        //setTimeout(function() {
+        app2Ajax();
+        //}, 100);
     }
 </script>
 

@@ -8,3 +8,4 @@ config.php
 Data/Pipeline/
 .env
 vendor/
+srv/

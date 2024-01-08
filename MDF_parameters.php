@@ -1,4 +1,5 @@
 <?php
+include "functions.php";
 //This parameters files is for when the user chooses MDF in mergeomics
 
 
@@ -11,19 +12,6 @@ GET = if the user enters the link directly
 POST = if PHP enters the link
 
 */
-
-
-//This function creates a random session ID string
-function generateRandomString($length = 10)
-{
-  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  $randomString = '';
-  for ($i = 0; $i < $length; $i++) {
-    $randomString .= $characters[rand(0, strlen($characters) - 1)];
-  }
-  return $randomString;
-}
-
 
 //Check if the sessionID exists and the user has returned to the form
 if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
