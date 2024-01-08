@@ -208,6 +208,7 @@ body.loading .ajaxloading {
             <select style="width: 100%;" name="drug_name" size="1" id="myDrugName">
               <?php
               foreach ($drug_list as $item) {
+                debug_to_console("$item");
                 echo "<option value = $item>$item</option>";
               }
 
