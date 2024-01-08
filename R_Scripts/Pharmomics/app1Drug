@@ -5,13 +5,13 @@
 # input$organs <- "common"
 # input$species <- c("Homo sapiens","Rattus norvegicus")
 
-.libPaths(c("/home/www/abhatta3-webserver/Rnew2/lib64/R/library/",.libPaths()))
+#.libPaths(c("/home/www/abhatta3-webserver/Rnew2/lib64/R/library/",.libPaths()))
 options(stringsAsFactors = FALSE)
 
 #load("/home/www/abhatta3-webserver/include/pharmomics/all_combined_KEGG_GOBP_pathway.rda")
 #load("/home/www/abhatta3-webserver/include/pharmomics/All_combined_data_AE_GEO_0.01.rda")
 
-source("/home/www/abhatta3-webserver/srv/shiny-server/helpers.r")
+source("/var/www/mergeomics/html/srv/shiny-server/helpers.r")
 
 if(length(input$species)>1){
   comp = "species"

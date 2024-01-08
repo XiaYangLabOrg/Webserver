@@ -8,11 +8,11 @@
 # input$species <- c("Homo sapiens","Mus musculus")
 # input$species <- "Homo sapiens"
 
-.libPaths(c("/home/www/abhatta3-webserver/Rnew2/lib64/R/library/",.libPaths()))
+#.libPaths(c("/home/www/abhatta3-webserver/Rnew2/lib64/R/library/",.libPaths()))
 options(stringsAsFactors = FALSE)
 
 library(UpSetR)
-source("/home/www/abhatta3-webserver/srv/shiny-server/helpers.r")
+source("/var/www/mergeomics/html/srv/shiny-server/helpers.r")
 
 if(length(input$species)>1){
   comp = "species"
