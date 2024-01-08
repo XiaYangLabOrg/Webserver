@@ -1112,790 +1112,790 @@ $(document).on({
   });
 
 
-  // $("#mySpecies").on("change", 'input[name="species[]"]', function(event) { // show organs for which that species has data for
-
-  //   var species_arr = new Array(),
-  //     drug = $("#myDrugName option:selected").text(),
-  //     organ_list = {};
-
-  //   function displayOrgans(organs) {
-  //     $("#myOrgans").empty();
-  //     if (organs.length == 0) {
-  //       $("#myOrgans").html("No matching organs for current species selection");
-  //     } else {
-  //       organs.sort();
-  //       organs.forEach(function(x) {
-  //         organ_list[x] = (organ_list[x] || 0) + 1;
-  //       });
-  //       $.each(organ_list, function(key, value) {
-  //         $("#myOrgans").append('<div class="radioholder app1"><span class="tick"></span><input type="checkbox" style="display:none;" name="organs[]" value="' + key + '"><span class="desc">' + key + ' [' + value + ']</span></div>');
-  //       });
-  //       $("#myComboButtons").fadeOut();
-  //     }
-
-  //   }
-
-  //   $('input[name="species[]"]:checked').each(function() {
-  //     species_arr.push(this.value);
-  //   });
-
-  //   if (species_arr.length == 0) {
-  //     table.clear().draw();
-  //     $("#myOrgans").html("Please select at least one species");
-  //     $("#myComboButtons").fadeOut();
-  //     return;
-  //   }
-
-  //   $.ajax({
-  //     type: "GET",
-  //     url: "include/pharmomics/PharmOmics_indexcatalog_Jan2021.json",
-  //     dataType: "json",
-  //     success: function(data) {
-  //       var found_drug = $.grep(data, function(v) {
-  //         return v["Drug name"] === drug;
-  //       });
-
-  //       if (species_arr.length == 1) {
-  //         var organ = [],
-  //           found_organisms = $.grep(found_drug, function(v) {
-
-  //             return v["organism"] === species_arr.toString();
-  //           });
-  //         $.each(found_organisms, function(key, value) {
-  //           organ.push(value['organ/tissue']);
-  //         });
-  //         displayOrgans(organ);
-
-  //       } else if (species_arr.length == 2) {
-
-  //         var organ1 = [],
-  //           organ2 = [],
-  //           final_organ = [],
-  //           found_organisms1 = $.grep(found_drug, function(v) {
-  //             return v["organism"] === species_arr[0].toString();
-  //           });
-  //         $.each(found_organisms1, function(key, value) {
-  //           organ1.push(value['organ/tissue']);
-  //         });
-
-  //         found_organisms2 = $.grep(found_drug, function(v) {
-  //           return v["organism"] === species_arr[1].toString();
-  //         });
-  //         $.each(found_organisms2, function(key, value) {
-  //           organ2.push(value['organ/tissue']);
-  //         });
-
-
-  //         var list = [organ1, organ2];
-  //         var result = list.shift().reduce(function(res, v) {
-  //           if (res.indexOf(v) === -1 && list.every(function(a) {
-  //               return a.indexOf(v) !== -1;
-  //             })) res.push(v);
-  //           return res;
-  //         }, []);
-
-  //         $.each(result, function(index, item) {
-  //           found_organs = $.grep(found_drug, function(v) {
-
-  //             return (v["organ/tissue"] === result[index] && v["Drug name"] === drug) && (v['organism'] === species_arr[0].toString() || v['organism'] === species_arr[1].toString());
-  //           });
-
-  //           $.each(found_organs, function(key, value) {
-  //             final_organ.push(value['organ/tissue']);
-  //           });
-
-  //         });
-  //         displayOrgans(final_organ);
-  //       } else if (species_arr.length == 3) {
-  //         var organ1 = [],
-  //           organ2 = [],
-  //           organ3 = [],
-  //           final_organ = [],
-  //           found_organisms1 = $.grep(found_drug, function(v) {
-
-  //             return v["organism"] === species_arr[0].toString();
-  //           });
-  //         $.each(found_organisms1, function(key, value) {
-  //           organ1.push(value['organ/tissue']);
-  //         });
+  $("#mySpecies").on("change", 'input[name="species[]"]', function(event) { // show organs for which that species has data for
+
+    var species_arr = new Array(),
+      drug = $("#myDrugName option:selected").text(),
+      organ_list = {};
+
+    function displayOrgans(organs) {
+      $("#myOrgans").empty();
+      if (organs.length == 0) {
+        $("#myOrgans").html("No matching organs for current species selection");
+      } else {
+        organs.sort();
+        organs.forEach(function(x) {
+          organ_list[x] = (organ_list[x] || 0) + 1;
+        });
+        $.each(organ_list, function(key, value) {
+          $("#myOrgans").append('<div class="radioholder app1"><span class="tick"></span><input type="checkbox" style="display:none;" name="organs[]" value="' + key + '"><span class="desc">' + key + ' [' + value + ']</span></div>');
+        });
+        $("#myComboButtons").fadeOut();
+      }
+
+    }
+
+    $('input[name="species[]"]:checked').each(function() {
+      species_arr.push(this.value);
+    });
+
+    if (species_arr.length == 0) {
+      table.clear().draw();
+      $("#myOrgans").html("Please select at least one species");
+      $("#myComboButtons").fadeOut();
+      return;
+    }
+
+    $.ajax({
+      type: "GET",
+      url: "include/pharmomics/PharmOmics_indexcatalog_Jan2021.json",
+      dataType: "json",
+      success: function(data) {
+        var found_drug = $.grep(data, function(v) {
+          return v["Drug name"] === drug;
+        });
+
+        if (species_arr.length == 1) {
+          var organ = [],
+            found_organisms = $.grep(found_drug, function(v) {
+
+              return v["organism"] === species_arr.toString();
+            });
+          $.each(found_organisms, function(key, value) {
+            organ.push(value['organ/tissue']);
+          });
+          displayOrgans(organ);
+
+        } else if (species_arr.length == 2) {
+
+          var organ1 = [],
+            organ2 = [],
+            final_organ = [],
+            found_organisms1 = $.grep(found_drug, function(v) {
+              return v["organism"] === species_arr[0].toString();
+            });
+          $.each(found_organisms1, function(key, value) {
+            organ1.push(value['organ/tissue']);
+          });
+
+          found_organisms2 = $.grep(found_drug, function(v) {
+            return v["organism"] === species_arr[1].toString();
+          });
+          $.each(found_organisms2, function(key, value) {
+            organ2.push(value['organ/tissue']);
+          });
+
+
+          var list = [organ1, organ2];
+          var result = list.shift().reduce(function(res, v) {
+            if (res.indexOf(v) === -1 && list.every(function(a) {
+                return a.indexOf(v) !== -1;
+              })) res.push(v);
+            return res;
+          }, []);
+
+          $.each(result, function(index, item) {
+            found_organs = $.grep(found_drug, function(v) {
+
+              return (v["organ/tissue"] === result[index] && v["Drug name"] === drug) && (v['organism'] === species_arr[0].toString() || v['organism'] === species_arr[1].toString());
+            });
+
+            $.each(found_organs, function(key, value) {
+              final_organ.push(value['organ/tissue']);
+            });
+
+          });
+          displayOrgans(final_organ);
+        } else if (species_arr.length == 3) {
+          var organ1 = [],
+            organ2 = [],
+            organ3 = [],
+            final_organ = [],
+            found_organisms1 = $.grep(found_drug, function(v) {
+
+              return v["organism"] === species_arr[0].toString();
+            });
+          $.each(found_organisms1, function(key, value) {
+            organ1.push(value['organ/tissue']);
+          });
 
-  //         found_organisms2 = $.grep(found_drug, function(v) {
+          found_organisms2 = $.grep(found_drug, function(v) {
 
-  //           return v["organism"] === species_arr[1].toString();
-  //         });
-  //         $.each(found_organisms2, function(key, value) {
-  //           organ2.push(value['organ/tissue']);
-  //         });
+            return v["organism"] === species_arr[1].toString();
+          });
+          $.each(found_organisms2, function(key, value) {
+            organ2.push(value['organ/tissue']);
+          });
 
-  //         found_organisms3 = $.grep(found_drug, function(v) {
+          found_organisms3 = $.grep(found_drug, function(v) {
 
-  //           return v["organism"] === species_arr[2].toString();
-  //         });
-  //         $.each(found_organisms3, function(key, value) {
-  //           organ3.push(value['organ/tissue']);
-  //         });
+            return v["organism"] === species_arr[2].toString();
+          });
+          $.each(found_organisms3, function(key, value) {
+            organ3.push(value['organ/tissue']);
+          });
 
 
-  //         var list = [organ1, organ2, organ3];
-  //         var result = list.shift().reduce(function(res, v) {
-  //           if (res.indexOf(v) === -1 && list.every(function(a) {
-  //               return a.indexOf(v) !== -1;
-  //             })) res.push(v);
-  //           return res;
-  //         }, []);
+          var list = [organ1, organ2, organ3];
+          var result = list.shift().reduce(function(res, v) {
+            if (res.indexOf(v) === -1 && list.every(function(a) {
+                return a.indexOf(v) !== -1;
+              })) res.push(v);
+            return res;
+          }, []);
 
-  //         $.each(result, function(index, item) {
+          $.each(result, function(index, item) {
 
-  //           found_organs = $.grep(found_drug, function(v) {
+            found_organs = $.grep(found_drug, function(v) {
 
-  //             return (v["organ/tissue"] === result[index] && v["Drug name"] === drug) && (v['organism'] === species_arr[0].toString() || v['organism'] === species_arr[1].toString() || v['organism'] === species_arr[2].toString());
-  //           });
+              return (v["organ/tissue"] === result[index] && v["Drug name"] === drug) && (v['organism'] === species_arr[0].toString() || v['organism'] === species_arr[1].toString() || v['organism'] === species_arr[2].toString());
+            });
 
-  //           $.each(found_organs, function(key, value) {
-  //             final_organ.push(value['organ/tissue']);
-  //           });
-  //         });
+            $.each(found_organs, function(key, value) {
+              final_organ.push(value['organ/tissue']);
+            });
+          });
 
 
-  //         displayOrgans(final_organ);
+          displayOrgans(final_organ);
 
-  //       } else {
-  //         //do nothing
-  //       }
+        } else {
+          //do nothing
+        }
 
 
-  //     },
-  //     error: function() {
-  //       alert("json not found");
-  //     }
-  //   });
-
-  // });
-
-
-
-  // $("#mySpecies").on("click", ".radioholder.app1", function(event) {
-  //   if ($(this).children('input').prop('checked') == true)
-  //     $(this).children('input').prop('checked', false);
-
-  //   else
-  //     $(this).children('input').prop('checked', true);
-
-  //   $(this).children('input').trigger('change');
-  // });
-
-  // $("#mySpecies").on("change", ".radioholder.app1", function(event) {
-  //   $('.radioholder.app1 :input').each(function() {
-  //     if ($(this).prop('checked') == true) {
-  //       $(this).parent().addClass('activeradioholder');
-  //     } else {
-
-  //       $(this).parent().removeClass('activeradioholder');
-
-  //     }
-  //   });
-  //   var legchecked = $('input[name="species[]"]:checked').length;
-  //   if (legchecked == 0) {
-  //     $("#myOrgans").empty();
-  //     $("#myOrgans").html('<p>Please select at least one species</p>');
-  //   }
-  // });
-
-  // $("#myOrgans").on("click", ".radioholder.app1", function(event) {
-  //   if ($(this).children('input').prop('checked') == true)
-  //     $(this).children('input').prop('checked', false);
+      },
+      error: function() {
+        alert("json not found");
+      }
+    });
+
+  });
+
+
+
+  $("#mySpecies").on("click", ".radioholder.app1", function(event) {
+    if ($(this).children('input').prop('checked') == true)
+      $(this).children('input').prop('checked', false);
+
+    else
+      $(this).children('input').prop('checked', true);
+
+    $(this).children('input').trigger('change');
+  });
+
+  $("#mySpecies").on("change", ".radioholder.app1", function(event) {
+    $('.radioholder.app1 :input').each(function() {
+      if ($(this).prop('checked') == true) {
+        $(this).parent().addClass('activeradioholder');
+      } else {
+
+        $(this).parent().removeClass('activeradioholder');
+
+      }
+    });
+    var legchecked = $('input[name="species[]"]:checked').length;
+    if (legchecked == 0) {
+      $("#myOrgans").empty();
+      $("#myOrgans").html('<p>Please select at least one species</p>');
+    }
+  });
+
+  $("#myOrgans").on("click", ".radioholder.app1", function(event) {
+    if ($(this).children('input').prop('checked') == true)
+      $(this).children('input').prop('checked', false);
 
-  //   else
-  //     $(this).children('input').prop('checked', true);
+    else
+      $(this).children('input').prop('checked', true);
 
-  //   $(this).children('input').trigger('change');
-  // });
+    $(this).children('input').trigger('change');
+  });
 
-  // $("#myOrgans").on("change", ".radioholder.app1", function(event) {
-  //   $('.radioholder.app1 :input').each(function() {
-  //     if ($(this).prop('checked') == true) {
-  //       $(this).parent().addClass('activeradioholder');
-  //     } else $(this).parent().removeClass('activeradioholder');
-  //   });
-  // });
+  $("#myOrgans").on("change", ".radioholder.app1", function(event) {
+    $('.radioholder.app1 :input').each(function() {
+      if ($(this).prop('checked') == true) {
+        $(this).parent().addClass('activeradioholder');
+      } else $(this).parent().removeClass('activeradioholder');
+    });
+  });
 
 
-  // $("#myOrgans").on("change", 'input[name="organs[]"]', function(event) {
+  $("#myOrgans").on("change", 'input[name="organs[]"]', function(event) {
 
-  //   var species_arr = new Array(),
-  //     organs_arr = new Array(),
-  //     convert = [],
-  //     convert_done = [],
-  //     drug = $("#myDrugName option:selected").text(),
-  //     organ_list = {};
+    var species_arr = new Array(),
+      organs_arr = new Array(),
+      convert = [],
+      convert_done = [],
+      drug = $("#myDrugName option:selected").text(),
+      organ_list = {};
 
-  //   $('input[name="species[]"]:checked').each(function() {
-  //     species_arr.push(this.value);
-  //   });
+    $('input[name="species[]"]:checked').each(function() {
+      species_arr.push(this.value);
+    });
 
-  //   $('input[name="organs[]"]:checked').each(function() {
-  //     organs_arr.push(this.value);
-  //   });
+    $('input[name="organs[]"]:checked').each(function() {
+      organs_arr.push(this.value);
+    });
 
-  //   if (organs_arr.length == 0) {
-  //     table.clear().draw();
-  //     $("#myComboButtons").fadeOut();
-  //     return;
-  //   } else {
-  //     $("#myComboButtons").fadeIn();
-  //   }
+    if (organs_arr.length == 0) {
+      table.clear().draw();
+      $("#myComboButtons").fadeOut();
+      return;
+    } else {
+      $("#myComboButtons").fadeIn();
+    }
 
-  //   function convert2draw(arr) {
-  //     $.each(arr, function(key, value) {
-  //       convert.push(value["Drug name"]);
-  //       convert.push(value["Study name"]);
-  //       convert.push(value["organ/tissue"]);
-  //       convert.push(value["organism"]);
-  //       convert.push(value["weblink"]);
-  //       convert_done.push(convert);
-  //       convert = [];
-  //     });
+    function convert2draw(arr) {
+      $.each(arr, function(key, value) {
+        convert.push(value["Drug name"]);
+        convert.push(value["Study name"]);
+        convert.push(value["organ/tissue"]);
+        convert.push(value["organism"]);
+        convert.push(value["weblink"]);
+        convert_done.push(convert);
+        convert = [];
+      });
 
-  //     table.clear().draw();
-  //     table.rows.add(convert_done).draw();
-  //     convert_done = [];
+      table.clear().draw();
+      table.rows.add(convert_done).draw();
+      convert_done = [];
 
-  //   }
+    }
 
-  //   function additionalorgans(arr) {
-  //     $.each(arr, function(key, value) {
-  //       convert.push(value["Drug name"]);
-  //       convert.push(value["Study name"]);
-  //       convert.push(value["organ/tissue"]);
-  //       convert.push(value["organism"]);
-  //       convert.push(value["weblink"]);
-  //       convert_done.push(convert);
-  //       convert = [];
-  //     });
+    function additionalorgans(arr) {
+      $.each(arr, function(key, value) {
+        convert.push(value["Drug name"]);
+        convert.push(value["Study name"]);
+        convert.push(value["organ/tissue"]);
+        convert.push(value["organism"]);
+        convert.push(value["weblink"]);
+        convert_done.push(convert);
+        convert = [];
+      });
 
-  //     table.rows.add(convert_done).draw();
-  //     convert_done = [];
-  //   }
+      table.rows.add(convert_done).draw();
+      convert_done = [];
+    }
 
-  //   $.ajax({
-  //     type: "GET",
-  //     url: "include/pharmomics/PharmOmics_indexcatalog_Jan2021.json",
-  //     dataType: "json",
-  //     success: function(data) {
-  //       if (species_arr.length == 1) {
-  //         $.each(organs_arr, function(index, item) {
+    $.ajax({
+      type: "GET",
+      url: "include/pharmomics/PharmOmics_indexcatalog_Jan2021.json",
+      dataType: "json",
+      success: function(data) {
+        if (species_arr.length == 1) {
+          $.each(organs_arr, function(index, item) {
 
-  //           if (index === 0) {
-  //             found_organs = $.grep(data, function(v) {
+            if (index === 0) {
+              found_organs = $.grep(data, function(v) {
 
-  //               return v["organ/tissue"] === organs_arr[index] && v["Drug name"] === drug && v['organism'] === species_arr[0].toString();
-  //             });
-  //             convert2draw(found_organs);
-  //           } else {
-  //             found_organs = $.grep(data, function(v) {
+                return v["organ/tissue"] === organs_arr[index] && v["Drug name"] === drug && v['organism'] === species_arr[0].toString();
+              });
+              convert2draw(found_organs);
+            } else {
+              found_organs = $.grep(data, function(v) {
 
-  //               return v["organ/tissue"] === organs_arr[index] && v["Drug name"] === drug && v['organism'] === species_arr[0].toString();
-  //             });
+                return v["organ/tissue"] === organs_arr[index] && v["Drug name"] === drug && v['organism'] === species_arr[0].toString();
+              });
 
-  //             additionalorgans(found_organs);
+              additionalorgans(found_organs);
 
-  //           }
+            }
 
 
 
 
-  //         });
-  //       } else if (species_arr.length == 2) {
-  //         $.each(organs_arr, function(index, item) {
+          });
+        } else if (species_arr.length == 2) {
+          $.each(organs_arr, function(index, item) {
 
-  //           if (index === 0) {
-  //             found_organs = $.grep(data, function(v) {
+            if (index === 0) {
+              found_organs = $.grep(data, function(v) {
 
-  //               return (v["organ/tissue"] === organs_arr[index] && v["Drug name"] === drug) && (v['organism'] === species_arr[0].toString() || v['organism'] === species_arr[1].toString());
-  //             });
+                return (v["organ/tissue"] === organs_arr[index] && v["Drug name"] === drug) && (v['organism'] === species_arr[0].toString() || v['organism'] === species_arr[1].toString());
+              });
 
-  //             convert2draw(found_organs);
+              convert2draw(found_organs);
 
-  //           } else {
-  //             found_organs = $.grep(data, function(v) {
+            } else {
+              found_organs = $.grep(data, function(v) {
 
-  //               return (v["organ/tissue"] === organs_arr[index] && v["Drug name"] === drug) && (v['organism'] === species_arr[0].toString() || v['organism'] === species_arr[1].toString());
-  //             });
+                return (v["organ/tissue"] === organs_arr[index] && v["Drug name"] === drug) && (v['organism'] === species_arr[0].toString() || v['organism'] === species_arr[1].toString());
+              });
 
-  //             additionalorgans(found_organs);
+              additionalorgans(found_organs);
 
-  //           }
+            }
 
 
 
 
-  //         });
+          });
 
-  //       } else if (species_arr.length == 3) {
+        } else if (species_arr.length == 3) {
 
-  //         $.each(organs_arr, function(index, item) {
+          $.each(organs_arr, function(index, item) {
 
-  //           if (index === 0) {
-  //             found_organs = $.grep(data, function(v) {
+            if (index === 0) {
+              found_organs = $.grep(data, function(v) {
 
-  //               return (v["organ/tissue"] === organs_arr[index] && v["Drug name"] === drug) && (v['organism'] === species_arr[0].toString() || v['organism'] === species_arr[1].toString() || v['organism'] === species_arr[2].toString());
-  //             });
+                return (v["organ/tissue"] === organs_arr[index] && v["Drug name"] === drug) && (v['organism'] === species_arr[0].toString() || v['organism'] === species_arr[1].toString() || v['organism'] === species_arr[2].toString());
+              });
 
-  //             convert2draw(found_organs);
+              convert2draw(found_organs);
 
-  //           } else {
+            } else {
 
-  //             found_organs = $.grep(data, function(v) {
+              found_organs = $.grep(data, function(v) {
 
-  //               return (v["organ/tissue"] === organs_arr[index] && v["Drug name"] === drug) && (v['organism'] === species_arr[0].toString() || v['organism'] === species_arr[1].toString() || v['organism'] === species_arr[2].toString());
-  //             });
+                return (v["organ/tissue"] === organs_arr[index] && v["Drug name"] === drug) && (v['organism'] === species_arr[0].toString() || v['organism'] === species_arr[1].toString() || v['organism'] === species_arr[2].toString());
+              });
 
-  //             additionalorgans(found_organs);
-  //           }
-  //         });
-  //       } else {
-  //         //do nothing
-  //       }
+              additionalorgans(found_organs);
+            }
+          });
+        } else {
+          //do nothing
+        }
 
-  //     },
-  //     error: function() {
-  //       alert("json not found");
-  //     }
-  //   });
+      },
+      error: function() {
+        alert("json not found");
+      }
+    });
 
-  // });
+  });
 
 
-  // var button = document.getElementById("myTutButton_app1");
-  // var val = 0;
+  var button = document.getElementById("myTutButton_app1");
+  var val = 0;
 
-  // //begin function for when button is clicked-------------------------------------------------------------->
-  // button.addEventListener("click", function() {
-  //   //Keep track of when tutorial is opened/closed-------------------------------------------------------------->
-  //   var $this = $(this);
+  //begin function for when button is clicked-------------------------------------------------------------->
+  button.addEventListener("click", function() {
+    //Keep track of when tutorial is opened/closed-------------------------------------------------------------->
+    var $this = $(this);
 
-  //   //If tutorial is already opened yet, then do this-------------------------------------------------------------->
-  //   if ($this.data('clicked')) {
-  //     $('.tutorialbox_app1').empty();
-  //     $('.tutorialbox_app1').hide();
+    //If tutorial is already opened yet, then do this-------------------------------------------------------------->
+    if ($this.data('clicked')) {
+      $('.tutorialbox_app1').empty();
+      $('.tutorialbox_app1').hide();
 
 
 
 
 
 
-  //     $this.data('clicked', false);
-  //     val = val - 1;
-  //     $("#myTutButton_app1").html('<i class="icon-question1"></i>Click for Tutorial'); //Change name of button to 'Click for Tutorial'
+      $this.data('clicked', false);
+      val = val - 1;
+      $("#myTutButton_app1").html('<i class="icon-question1"></i>Click for Tutorial'); //Change name of button to 'Click for Tutorial'
 
-  //   }
+    }
 
-  //   //If tutorial is not opened yet, then do this-------------------------------------------------------------->
-  //   else {
-  //     $this.data('clicked', true);
-  //     val = val + 1; //val counter to not duplicate prepend function
-
-
-  //     if (val == 1) //Only prepend the tutorial once
-  //     {
-  //       $('.tutorialbox_app1').show();
-  //       $('.tutorialbox_app1').html(`<table class="table table-bordered" style="text-align: center;"; id="app1networktable"> 
-  //             <thead>
-  //             <tr>
-  //               <th colspan="2" style="width:100%;">Tutorial</th>
-  //             </tr>
-  //             </thead>
-  //               <tr>
-  //                 <td name="tut" style="width:50%;">
-  //                   <h4 class="instructiontext" style="font-size:20px;">
-  //                   	Studies curated, differentially expressed genes (DEGs), and regulated pathways overview
-  //                   </h4>
-  //                   <p style="font-size:16px;">
-  //                   	Select a drug and a preview of the DEGs and pathway signatures from all studies (meta-analyzed and dose/time segregated) will appear. The top 50 genes and top 20 pathways are shown. To see studies curated in the PharmOmics database, click on the species and tissues that appear for the drug. Further information such as the dose and time regimens can be viewed in the PharmOmics dose/time segregated tables of the Gene/Pathway Regulation tabs. To download full signatures of the drug, click on 'Download drug gene signatures' at the bottom of the page.
-  //                   </p>
-  //                 </td>
-  //                 <td name="tut" style="width:50%;">
-  //                   <h4 class="instructiontext" style="font-size:20px;">
-  //                   	Run Species/Tissue Comparison
-  //                   </h4>
-  //                   <p style="font-size:16px;">
-  //                   	After selecting a drug, the species and tissues for which data is available will appear. For cross species comparison, choose MULTIPLE species and ONE tissue of interest. For cross tissue comparison, choose ONE species and MULTIPLE organs of interest. If multiple species and multiple tissues are selected, the analysis will not initiate. Click 'Run DEGs Comparison' or 'Run Pathways Comparison' to run the comparisons. Results will appear in the 'Species/Tissue Comparison' tab. If there are overlaps, a plot of the counts of species/tissue-specific genes/pathways and overlaps will apear in the 'Degree of DEG/Pathway Overlap' tab (click on plot to download). Regardless of whether there are overlaps, a summary table with the overlapped genes (if any) and those specific to a species/tissue will appear in the 'DEG/Pathway Overlap Summary' tab (click on download button at the bottom to download).
-  //                   </p>
-  //                 </td>
-  //              </tr> 
-
-  //             </table> `);
-
-
-
-  //     }
-  //     $("#myTutButton_app1").html('<i class="icon-window-close1"></i>Close Tutorial'); //Change name of button to 'Close Tutorial'
-  //   }
-
-
-  // });
-
-  // // Function start
-  // $.fn.getFormObject = function() {
-  //   var object = $(this).serializeArray().reduce(function(obj, item) {
-  //     var name = item.name.replace("[]", "");
-  //     if (typeof obj[name] !== "undefined") {
-  //       if (!Array.isArray(obj[name])) {
-  //         obj[name] = [obj[name], item.value];
-  //       } else {
-  //         obj[name].push(item.value);
-  //       }
-  //     } else {
-  //       obj[name] = item.value;
-  //     }
-  //     return obj;
-  //   }, {});
-  //   return object;
-  // }
+    //If tutorial is not opened yet, then do this-------------------------------------------------------------->
+    else {
+      $this.data('clicked', true);
+      val = val + 1; //val counter to not duplicate prepend function
+
+
+      if (val == 1) //Only prepend the tutorial once
+      {
+        $('.tutorialbox_app1').show();
+        $('.tutorialbox_app1').html(`<table class="table table-bordered" style="text-align: center;"; id="app1networktable"> 
+              <thead>
+              <tr>
+                <th colspan="2" style="width:100%;">Tutorial</th>
+              </tr>
+              </thead>
+                <tr>
+                  <td name="tut" style="width:50%;">
+                    <h4 class="instructiontext" style="font-size:20px;">
+                    	Studies curated, differentially expressed genes (DEGs), and regulated pathways overview
+                    </h4>
+                    <p style="font-size:16px;">
+                    	Select a drug and a preview of the DEGs and pathway signatures from all studies (meta-analyzed and dose/time segregated) will appear. The top 50 genes and top 20 pathways are shown. To see studies curated in the PharmOmics database, click on the species and tissues that appear for the drug. Further information such as the dose and time regimens can be viewed in the PharmOmics dose/time segregated tables of the Gene/Pathway Regulation tabs. To download full signatures of the drug, click on 'Download drug gene signatures' at the bottom of the page.
+                    </p>
+                  </td>
+                  <td name="tut" style="width:50%;">
+                    <h4 class="instructiontext" style="font-size:20px;">
+                    	Run Species/Tissue Comparison
+                    </h4>
+                    <p style="font-size:16px;">
+                    	After selecting a drug, the species and tissues for which data is available will appear. For cross species comparison, choose MULTIPLE species and ONE tissue of interest. For cross tissue comparison, choose ONE species and MULTIPLE organs of interest. If multiple species and multiple tissues are selected, the analysis will not initiate. Click 'Run DEGs Comparison' or 'Run Pathways Comparison' to run the comparisons. Results will appear in the 'Species/Tissue Comparison' tab. If there are overlaps, a plot of the counts of species/tissue-specific genes/pathways and overlaps will apear in the 'Degree of DEG/Pathway Overlap' tab (click on plot to download). Regardless of whether there are overlaps, a summary table with the overlapped genes (if any) and those specific to a species/tissue will appear in the 'DEG/Pathway Overlap Summary' tab (click on download button at the bottom to download).
+                    </p>
+                  </td>
+               </tr> 
+
+              </table> `);
+
+
+
+      }
+      $("#myTutButton_app1").html('<i class="icon-window-close1"></i>Close Tutorial'); //Change name of button to 'Close Tutorial'
+    }
+
+
+  });
+
+  // Function start
+  $.fn.getFormObject = function() {
+    var object = $(this).serializeArray().reduce(function(obj, item) {
+      var name = item.name.replace("[]", "");
+      if (typeof obj[name] !== "undefined") {
+        if (!Array.isArray(obj[name])) {
+          obj[name] = [obj[name], item.value];
+        } else {
+          obj[name].push(item.value);
+        }
+      } else {
+        obj[name] = item.value;
+      }
+      return obj;
+    }, {});
+    return object;
+  }
 
-  // /*
-  //  * Convert data array to CSV string
-  //  * @param arr {Array} - the actual data
-  //  * @param columnCount {Number} - the amount to split the data into columns
-  //  * @param initial {String} - initial string to append to CSV string
-  //  * return {String} - ready CSV string
-  //  */
-  // function prepCSVRow(arr, columnCount, initial) {
-  //   var row = ''; // this will hold data
-  //   var delimeter = ','; // data slice separator, in excel it's `;`, in usual CSv it's `,`
-  //   var newLine = '\r\n'; // newline separator for CSV row
+  /*
+   * Convert data array to CSV string
+   * @param arr {Array} - the actual data
+   * @param columnCount {Number} - the amount to split the data into columns
+   * @param initial {String} - initial string to append to CSV string
+   * return {String} - ready CSV string
+   */
+  function prepCSVRow(arr, columnCount, initial) {
+    var row = ''; // this will hold data
+    var delimeter = ','; // data slice separator, in excel it's `;`, in usual CSv it's `,`
+    var newLine = '\r\n'; // newline separator for CSV row
 
-  //   /*
-  //    * Convert [1,2,3,4] into [[1,2], [3,4]] while count is 2
-  //    * @param _arr {Array} - the actual array to split
-  //    * @param _count {Number} - the amount to split
-  //    * return {Array} - splitted array
-  //    */
-  //   function splitArray(_arr, _count) {
-  //     var splitted = [];
-  //     var result = [];
-  //     _arr.forEach(function(item, idx) {
-  //       if ((idx + 1) % _count === 0) {
-  //         splitted.push(item);
-  //         result.push(splitted);
-  //         splitted = [];
-  //       } else {
-  //         splitted.push(item);
-  //       }
-  //     });
-  //     return result;
-  //   }
-  //   var plainArr = splitArray(arr, columnCount);
-  //   // don't know how to explain this
-  //   // you just have to like follow the code
-  //   // and you understand, it's pretty simple
-  //   // it converts `['a', 'b', 'c']` to `a,b,c` string
-  //   plainArr.forEach(function(arrItem) {
-  //     arrItem.forEach(function(item, idx) {
-  //       row += item + ((idx + 1) === arrItem.length ? '' : delimeter);
-  //     });
-  //     row += newLine;
-  //   });
-  //   return initial + row;
-  // }
-
-
-  // function downloadGenes(species, organs) {
-  //   var drug = $("#myDrugName option:selected").text(),
-  //     upgenes = '',
-  //     downgenes = '',
-  //     upgenes_arr = [],
-  //     downgenes_arr = [],
-  //     upgenes_arr_final = [],
-  //     downgenes_arr_final = [];
-
-  //   $.ajax({
-  //     type: "GET",
-  //     url: "include/pharmomics/PharmOmics_allDEG.json",
-  //     dataType: "json",
-  //     success: function(data) {
-
-
-  //       drug_list = $.grep(data, function(v) {
-
-  //         return v["drugs"] === drug && v["species"] === species && v["organs"] === organs;
-  //       });
-
-  //       $.each(drug_list, function(key, value) {
-  //         upgenes = upgenes + value['genes_up'];
-  //         upgenes_arr = upgenes.split(',');
-  //         upgenes_arr_final.push(upgenes_arr);
-  //         upgenes_arr = [];
-
-  //         downgenes = downgenes + value['genes_down'];
-  //         downgenes_arr = downgenes.split(',');
-  //         downgenes_arr_final.push(downgenes_arr);
-  //         downgenes_arr = [];
-  //       });
-
-  //       console.log(downgenes_arr_final);
-
-
-
-
-
-  //     },
-  //     error: function() {
-  //       alert("json not found");
-  //     }
-  //   });
-  // }
-
-  // $("#myComboButtons").on('click', '#drugclass_button', function(event) {
-
-  //   event.preventDefault();
-  //   var form = $("#app1dataform").getFormObject(),
-  //     species = form['species'],
-  //     organs = form['organs'],
-  //     titles = ['gene', 'species', 'organ', 'direction'],
-  //     data = [];
-
-  //   var form_data = new FormData(document.getElementById('app1dataform'));
-  //   form_data.append("sessionID", string);
-
-  //   if (Array.isArray(species) && typeof organs === 'string') {
-  //     form_data.append("type", "species");
-  //     $.ajax({
-  //       'url': 'app1Drug.php',
-  //       'type': 'POST',
-  //       'data': form_data,
-  //       processData: false,
-  //       contentType: false,
-  //       beforeSend: function() {
-  //         $('#preloader').append(`Running cross-species gene comparison...<br><img src="include/pictures/ajax-loader.gif">`).show();
-  //       },
-  //       complete: function() {
-  //         $('#preloader').empty().hide();
-  //       },
-  //       'success': function(data) {
-  //         $("#SpeciesOrganComparison").click();
-  //         $("#APP1_species_tab1").click();
-  //         if (data == "No similarities found between species" || !data.replace(/\s/g, '').length || data.includes("similarities")) {
-  //           $("#mySpecies_comparison").html('No similarities found between species');
-  //         } else {
+    /*
+     * Convert [1,2,3,4] into [[1,2], [3,4]] while count is 2
+     * @param _arr {Array} - the actual array to split
+     * @param _count {Number} - the amount to split
+     * return {Array} - splitted array
+     */
+    function splitArray(_arr, _count) {
+      var splitted = [];
+      var result = [];
+      _arr.forEach(function(item, idx) {
+        if ((idx + 1) % _count === 0) {
+          splitted.push(item);
+          result.push(splitted);
+          splitted = [];
+        } else {
+          splitted.push(item);
+        }
+      });
+      return result;
+    }
+    var plainArr = splitArray(arr, columnCount);
+    // don't know how to explain this
+    // you just have to like follow the code
+    // and you understand, it's pretty simple
+    // it converts `['a', 'b', 'c']` to `a,b,c` string
+    plainArr.forEach(function(arrItem) {
+      arrItem.forEach(function(item, idx) {
+        row += item + ((idx + 1) === arrItem.length ? '' : delimeter);
+      });
+      row += newLine;
+    });
+    return initial + row;
+  }
+
+
+  function downloadGenes(species, organs) {
+    var drug = $("#myDrugName option:selected").text(),
+      upgenes = '',
+      downgenes = '',
+      upgenes_arr = [],
+      downgenes_arr = [],
+      upgenes_arr_final = [],
+      downgenes_arr_final = [];
+
+    $.ajax({
+      type: "GET",
+      url: "include/pharmomics/PharmOmics_allDEG.json",
+      dataType: "json",
+      success: function(data) {
+
+
+        drug_list = $.grep(data, function(v) {
+
+          return v["drugs"] === drug && v["species"] === species && v["organs"] === organs;
+        });
+
+        $.each(drug_list, function(key, value) {
+          upgenes = upgenes + value['genes_up'];
+          upgenes_arr = upgenes.split(',');
+          upgenes_arr_final.push(upgenes_arr);
+          upgenes_arr = [];
+
+          downgenes = downgenes + value['genes_down'];
+          downgenes_arr = downgenes.split(',');
+          downgenes_arr_final.push(downgenes_arr);
+          downgenes_arr = [];
+        });
+
+        console.log(downgenes_arr_final);
+
+
+
+
+
+      },
+      error: function() {
+        alert("json not found");
+      }
+    });
+  }
+
+  $("#myComboButtons").on('click', '#drugclass_button', function(event) {
+
+    event.preventDefault();
+    var form = $("#app1dataform").getFormObject(),
+      species = form['species'],
+      organs = form['organs'],
+      titles = ['gene', 'species', 'organ', 'direction'],
+      data = [];
+
+    var form_data = new FormData(document.getElementById('app1dataform'));
+    form_data.append("sessionID", string);
+
+    if (Array.isArray(species) && typeof organs === 'string') {
+      form_data.append("type", "species");
+      $.ajax({
+        'url': 'app1Drug.php',
+        'type': 'POST',
+        'data': form_data,
+        processData: false,
+        contentType: false,
+        beforeSend: function() {
+          $('#preloader').append(`Running cross-species gene comparison...<br><img src="include/pictures/ajax-loader.gif">`).show();
+        },
+        complete: function() {
+          $('#preloader').empty().hide();
+        },
+        'success': function(data) {
+          $("#SpeciesOrganComparison").click();
+          $("#APP1_species_tab1").click();
+          if (data == "No similarities found between species" || !data.replace(/\s/g, '').length || data.includes("similarities")) {
+            $("#mySpecies_comparison").html('No similarities found between species');
+          } else {
             
-  //         $("#mySpecies_comparison").html('<a href="#" tooltip="Click me!"><img class="comparison_pic" src="data:image/png;base64,' + data + '" width="fit-content"></a>');
-  //         }
-  //         $("#speciesCompOverlapPreText").hide();
-  //         $("#downloadSpeciesDEG").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_genes_result.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
-  //         $("#datatable_speciesCompOverlap").dataTable({
-  //           destroy: true,
-  //           "dom": "Bfrtlip",
-  //           "ajax": './Data/Pipeline/Resources/shinyapp1_temp/' + string + '_gene_intersections.txt',
-  //           buttons: [{
-  //             extend: 'excelHtml5',
-  //             text: 'Download table'
-  //           }]
-  //         });
+          $("#mySpecies_comparison").html('<a href="#" tooltip="Click me!"><img class="comparison_pic" src="data:image/png;base64,' + data + '" width="fit-content"></a>');
+          }
+          $("#speciesCompOverlapPreText").hide();
+          $("#downloadSpeciesDEG").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_genes_result.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
+          $("#datatable_speciesCompOverlap").dataTable({
+            destroy: true,
+            "dom": "Bfrtlip",
+            "ajax": './Data/Pipeline/Resources/shinyapp1_temp/' + string + '_gene_intersections.txt',
+            buttons: [{
+              extend: 'excelHtml5',
+              text: 'Download table'
+            }]
+          });
 
-  //       }
-  //     });
-  //   } else if (Array.isArray(organs) && typeof species === 'string') {
-  //     form_data.append("type", "organs");
-  //     $.ajax({
-  //       'url': 'app1Drug.php',
-  //       'type': 'POST',
-  //       'data': form_data,
-  //       processData: false,
-  //       contentType: false,
-  //       beforeSend: function() {
-  //         $('#preloader').append(`Running cross-tissue gene comparison...<br><img src="include/pictures/ajax-loader.gif">`).show();
-  //       },
-  //       complete: function() {
-  //         $('#preloader').empty().hide();
-  //       },
-  //       'success': function(data) {
-  //         $("#SpeciesOrganComparison").click();
-  //         $("#APP1_organs_tab1").click();
-  //         if (data == "No similarities found between tissues" || !data.replace(/\s/g, '').length) {
-  //           $("#myOrgans_comparison").html('No similarities found between tissues');
-  //         } else {
-  //           $("#myOrgans_comparison").html('<a href="#" tooltip="Click me!"><img class="comparison_pic" src="data:image/png;base64,' + data + '" width="fit-content"></a>');
-  //         }
-  //         $("#downloadOrganDEG").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_genes_result.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
-  //         $("#tissCompOverlapPreText").hide();
-  //         $("#datatable_tissueCompOverlap").dataTable({
-  //           destroy: true,
-  //           "dom": "Bfrtlip",
-  //           "ajax": './Data/Pipeline/Resources/shinyapp1_temp/' + string + '_gene_intersections.txt',
-  //           buttons: [
-  //             'excelHtml5'
-  //           ]
-  //         });
-  //       }
-  //     });
-  //   } else {
-  //     $('#errorp_app1').html(`Invalid Selections <br>
-  //       For cross species comparison, choose MULTIPLE species and ONE tissue of interest <br>
-  //       For cross tissue comparison, choose ONE species and MULTIPLE organs of interest`);
-  //     $("#errormsg_app1").fadeTo(4000, 500).slideUp(500, function() {
-  //       $("#errormsg_app1").slideUp(500);
-  //     });
-  //   }
+        }
+      });
+    } else if (Array.isArray(organs) && typeof species === 'string') {
+      form_data.append("type", "organs");
+      $.ajax({
+        'url': 'app1Drug.php',
+        'type': 'POST',
+        'data': form_data,
+        processData: false,
+        contentType: false,
+        beforeSend: function() {
+          $('#preloader').append(`Running cross-tissue gene comparison...<br><img src="include/pictures/ajax-loader.gif">`).show();
+        },
+        complete: function() {
+          $('#preloader').empty().hide();
+        },
+        'success': function(data) {
+          $("#SpeciesOrganComparison").click();
+          $("#APP1_organs_tab1").click();
+          if (data == "No similarities found between tissues" || !data.replace(/\s/g, '').length) {
+            $("#myOrgans_comparison").html('No similarities found between tissues');
+          } else {
+            $("#myOrgans_comparison").html('<a href="#" tooltip="Click me!"><img class="comparison_pic" src="data:image/png;base64,' + data + '" width="fit-content"></a>');
+          }
+          $("#downloadOrganDEG").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_genes_result.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
+          $("#tissCompOverlapPreText").hide();
+          $("#datatable_tissueCompOverlap").dataTable({
+            destroy: true,
+            "dom": "Bfrtlip",
+            "ajax": './Data/Pipeline/Resources/shinyapp1_temp/' + string + '_gene_intersections.txt',
+            buttons: [
+              'excelHtml5'
+            ]
+          });
+        }
+      });
+    } else {
+      $('#errorp_app1').html(`Invalid Selections <br>
+        For cross species comparison, choose MULTIPLE species and ONE tissue of interest <br>
+        For cross tissue comparison, choose ONE species and MULTIPLE organs of interest`);
+      $("#errormsg_app1").fadeTo(4000, 500).slideUp(500, function() {
+        $("#errormsg_app1").slideUp(500);
+      });
+    }
 
-  // });
+  });
 
-  // $("#myComboButtons").on('click', '#pathways_button', function(event) {
-  //   event.preventDefault();
-  //   var form = $("#app1dataform").getFormObject(),
-  //     species = form['species'],
-  //     organs = form['organs'],
-  //     titles = ['gene', 'species', 'organ', 'direction'],
-  //     data = [];
+  $("#myComboButtons").on('click', '#pathways_button', function(event) {
+    event.preventDefault();
+    var form = $("#app1dataform").getFormObject(),
+      species = form['species'],
+      organs = form['organs'],
+      titles = ['gene', 'species', 'organ', 'direction'],
+      data = [];
 
-  //   var form_data = new FormData(document.getElementById('app1dataform'));
-  //   form_data.append("sessionID", string);
+    var form_data = new FormData(document.getElementById('app1dataform'));
+    form_data.append("sessionID", string);
 
-  //   if (Array.isArray(species) && typeof organs === 'string') {
-  //     form_data.append("type", "species");
+    if (Array.isArray(species) && typeof organs === 'string') {
+      form_data.append("type", "species");
 
-  //     $.ajax({
-  //       'url': 'app1KEGG.php',
-  //       'type': 'POST',
-  //       'data': form_data,
-  //       processData: false,
-  //       contentType: false,
-  //       beforeSend: function() {
+      $.ajax({
+        'url': 'app1KEGG.php',
+        'type': 'POST',
+        'data': form_data,
+        processData: false,
+        contentType: false,
+        beforeSend: function() {
 
-  //         $('#preloader').append(`Running cross-species pathway comparison...<br><img src="include/pictures/ajax-loader.gif">`).show();
-  //       },
-  //       complete: function() {
-  //         $('#preloader').empty().hide();
-  //       },
-  //       'success': function(data) {
-  //         $("#SpeciesOrganComparison").click();
-  //         $("#APP1_species_tab3").click();
-  //         if (data == "No similarities found between species" || !data.replace(/\s/g, '').length) {
-  //           $("#mySpecies_pathway").html('No similarities found between species');
-  //         } else {
-  //           $("#mySpecies_pathway").html('<a href="#" tooltip="Click me!"><img class="comparison_pic" src="data:image/png;base64,' + data + '" width="fit-content"></a>');
-  //         }
-  //         $("#speciesPathPreText").hide();
-  //         $("#downloadSpeciesPathAll").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_pathway_results.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
-  //         $("#speciesPathOverlapPreText").hide();
-  //         $("#downloadSpeciesPathIntersect").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_pathway_intersections.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
-  //         $("#datatable_speciesPathOverlap").dataTable({
-  //           destroy: true,
-  //           "dom": "Bfrtlip",
-  //           buttons: [
-  //             'excelHtml5',
-  //           ],
-  //           "ajax": './Data/Pipeline/Resources/shinyapp1_temp/' + string + '_pathway_intersections.txt'
-  //         });
-  //       }
-  //     });
-  //   } else if (Array.isArray(organs) && typeof species === 'string') {
-  //     form_data.append("type", "organs");
+          $('#preloader').append(`Running cross-species pathway comparison...<br><img src="include/pictures/ajax-loader.gif">`).show();
+        },
+        complete: function() {
+          $('#preloader').empty().hide();
+        },
+        'success': function(data) {
+          $("#SpeciesOrganComparison").click();
+          $("#APP1_species_tab3").click();
+          if (data == "No similarities found between species" || !data.replace(/\s/g, '').length) {
+            $("#mySpecies_pathway").html('No similarities found between species');
+          } else {
+            $("#mySpecies_pathway").html('<a href="#" tooltip="Click me!"><img class="comparison_pic" src="data:image/png;base64,' + data + '" width="fit-content"></a>');
+          }
+          $("#speciesPathPreText").hide();
+          $("#downloadSpeciesPathAll").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_pathway_results.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
+          $("#speciesPathOverlapPreText").hide();
+          $("#downloadSpeciesPathIntersect").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_pathway_intersections.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
+          $("#datatable_speciesPathOverlap").dataTable({
+            destroy: true,
+            "dom": "Bfrtlip",
+            buttons: [
+              'excelHtml5',
+            ],
+            "ajax": './Data/Pipeline/Resources/shinyapp1_temp/' + string + '_pathway_intersections.txt'
+          });
+        }
+      });
+    } else if (Array.isArray(organs) && typeof species === 'string') {
+      form_data.append("type", "organs");
 
-  //     $.ajax({
-  //       'url': 'app1KEGG.php',
-  //       'type': 'POST',
-  //       'data': form_data,
-  //       processData: false,
-  //       contentType: false,
-  //       beforeSend: function() {
-  //         $('#preloader').append(`Running cross-tissue pathway comparison...<br><img src="include/pictures/ajax-loader.gif">`).show();
-  //       },
-  //       complete: function() {
-  //         $('#preloader').empty().hide();
-  //       },
-  //       'success': function(data) {
-  //         $("#SpeciesOrganComparison").click();
-  //         $("#APP1_organs_tab3").click();
-  //         if (data == "No similarities found between organs" || !data.replace(/\s/g, '').length) {
-  //           $("#myOrgans_pathway").html('No similarities found between organs');
-  //         } else {
+      $.ajax({
+        'url': 'app1KEGG.php',
+        'type': 'POST',
+        'data': form_data,
+        processData: false,
+        contentType: false,
+        beforeSend: function() {
+          $('#preloader').append(`Running cross-tissue pathway comparison...<br><img src="include/pictures/ajax-loader.gif">`).show();
+        },
+        complete: function() {
+          $('#preloader').empty().hide();
+        },
+        'success': function(data) {
+          $("#SpeciesOrganComparison").click();
+          $("#APP1_organs_tab3").click();
+          if (data == "No similarities found between organs" || !data.replace(/\s/g, '').length) {
+            $("#myOrgans_pathway").html('No similarities found between organs');
+          } else {
 
-  //           $("#myOrgans_pathway").html('<a href="#" tooltip="Click me!"><img class="comparison_pic" src="data:image/png;base64,' + data + '" width="fit-content"></a>');
-  //         }
-  //         $("#tissPathPreText").hide();
-  //         $("#downloadOrganPath").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_pathway_results.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
-  //         $("#tissPathOverlapPreText").hide();
-  //         $("#downloadOrganPathIntersect").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_pathway_intersections.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
-  //         $("#datatable_organPathOverlap").dataTable({
-  //           destroy: true,
-  //           "dom": "Bfrtlip",
-  //           buttons: [
-  //             'excelHtml5',
-  //           ],
-  //           "ajax": './Data/Pipeline/Resources/shinyapp1_temp/' + string + '_pathway_intersections.txt'
-  //         });
-  //       }
-  //     });
-  //   } else {
-  //     $('#errorp_app1').html(`Invalid Selections <br>
-  //       For cross species comparison, choose MULTIPLE species and ONE tissue of interest <br>
-  //       For cross tissue comparison, choose ONE species and MULTIPLE organs of interest`);
-  //     $("#errormsg_app1").fadeTo(4000, 500).slideUp(500, function() {
-  //       $("#errormsg_app1").slideUp(500);
-  //     });
-  //   }
+            $("#myOrgans_pathway").html('<a href="#" tooltip="Click me!"><img class="comparison_pic" src="data:image/png;base64,' + data + '" width="fit-content"></a>');
+          }
+          $("#tissPathPreText").hide();
+          $("#downloadOrganPath").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_pathway_results.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
+          $("#tissPathOverlapPreText").hide();
+          $("#downloadOrganPathIntersect").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_pathway_intersections.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
+          $("#datatable_organPathOverlap").dataTable({
+            destroy: true,
+            "dom": "Bfrtlip",
+            buttons: [
+              'excelHtml5',
+            ],
+            "ajax": './Data/Pipeline/Resources/shinyapp1_temp/' + string + '_pathway_intersections.txt'
+          });
+        }
+      });
+    } else {
+      $('#errorp_app1').html(`Invalid Selections <br>
+        For cross species comparison, choose MULTIPLE species and ONE tissue of interest <br>
+        For cross tissue comparison, choose ONE species and MULTIPLE organs of interest`);
+      $("#errormsg_app1").fadeTo(4000, 500).slideUp(500, function() {
+        $("#errormsg_app1").slideUp(500);
+      });
+    }
 
-  // });
-
-
-
-  // $("#species_tab_containers").on('click', '.comparison_pic', function(e) {
-  //   e.preventDefault();
-  //   var a = $(this).parent().parent().attr('name');
-  //   var path = $(this).prop('src');
-
-  //   $(this).magnificPopup({
-  //     items: {
-  //       src: path
-  //     },
-  //     type: 'image',
-  //     closeOnContentClick: true,
-  //     closeBtnInside: true,
-  //     mainClass: 'mfp-no-margins',
-  //     image: {
-  //       markup: '<div class="mfp-figure">' +
-  //         '<div class="mfp-close"></div>' +
-  //         '<div class="mfp-img"></div>' +
-  //         '<div class="mfp-bottom-bar" style="text-align:center;">' +
-  //         '<div class="mfp-title">' + a + '</div>' +
-  //         '<a href="' + path + '" role="button" class="button button-3d button-rounded button" download="' + a + '"><i class="icon-download"></i>Download PNG Image</a>' +
-  //         '</div>' +
-  //         '</div>',
-  //       verticalFit: true
-  //     }
-
-  //   }).magnificPopup('open');
-
-  // });
-
-  // $("#organ_tab_containers").on('click', '.comparison_pic', function(e) {
-  //   e.preventDefault();
-  //   var a = $(this).parent().parent().attr('name');
-  //   var path = $(this).prop('src');
-
-  //   $(this).magnificPopup({
-  //     items: {
-  //       src: path
-  //     },
-  //     type: 'image',
-  //     closeOnContentClick: true,
-  //     closeBtnInside: true,
-  //     mainClass: 'mfp-no-margins',
-  //     image: {
-  //       markup: '<div class="mfp-figure">' +
-  //         '<div class="mfp-close"></div>' +
-  //         '<div class="mfp-img"></div>' +
-  //         '<div class="mfp-bottom-bar" style="text-align:center;">' +
-  //         '<div class="mfp-title">' + a + '</div>' +
-  //         '<a href="' + path + '" role="button" class="button button-3d button-rounded button" download="' + a + '"><i class="icon-download"></i>Download PNG Image</a>' +
-  //         '</div>' +
-  //         '</div>',
-  //       verticalFit: true
-  //     }
-
-  //   }).magnificPopup('open');
+  });
 
 
-  // });
+
+  $("#species_tab_containers").on('click', '.comparison_pic', function(e) {
+    e.preventDefault();
+    var a = $(this).parent().parent().attr('name');
+    var path = $(this).prop('src');
+
+    $(this).magnificPopup({
+      items: {
+        src: path
+      },
+      type: 'image',
+      closeOnContentClick: true,
+      closeBtnInside: true,
+      mainClass: 'mfp-no-margins',
+      image: {
+        markup: '<div class="mfp-figure">' +
+          '<div class="mfp-close"></div>' +
+          '<div class="mfp-img"></div>' +
+          '<div class="mfp-bottom-bar" style="text-align:center;">' +
+          '<div class="mfp-title">' + a + '</div>' +
+          '<a href="' + path + '" role="button" class="button button-3d button-rounded button" download="' + a + '"><i class="icon-download"></i>Download PNG Image</a>' +
+          '</div>' +
+          '</div>',
+        verticalFit: true
+      }
+
+    }).magnificPopup('open');
+
+  });
+
+  $("#organ_tab_containers").on('click', '.comparison_pic', function(e) {
+    e.preventDefault();
+    var a = $(this).parent().parent().attr('name');
+    var path = $(this).prop('src');
+
+    $(this).magnificPopup({
+      items: {
+        src: path
+      },
+      type: 'image',
+      closeOnContentClick: true,
+      closeBtnInside: true,
+      mainClass: 'mfp-no-margins',
+      image: {
+        markup: '<div class="mfp-figure">' +
+          '<div class="mfp-close"></div>' +
+          '<div class="mfp-img"></div>' +
+          '<div class="mfp-bottom-bar" style="text-align:center;">' +
+          '<div class="mfp-title">' + a + '</div>' +
+          '<a href="' + path + '" role="button" class="button button-3d button-rounded button" download="' + a + '"><i class="icon-download"></i>Download PNG Image</a>' +
+          '</div>' +
+          '</div>',
+        verticalFit: true
+      }
+
+    }).magnificPopup('open');
+
+
+  });
 </script>
