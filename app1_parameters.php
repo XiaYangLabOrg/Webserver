@@ -208,9 +208,7 @@ body.loading .ajaxloading {
             <select style="width: 100%;" name="drug_name" size="1" id="myDrugName">
               <?php
               foreach ($drug_list as $item) {
-                #debug_to_console("$item");
                 echo "<option value = \"$item\">$item</option>";
-                #echo $item;
               }
 
               ?>
@@ -866,7 +864,7 @@ $(document).on({
         var results = this.$element.children().map(function(i, elem) {
           if (contains(elem.innerText, params.term)) {
             return {
-              //This part was causing error in app1. -Dan
+              //This part was causing error in app1 because it was adding number[i] to drugname and then it was passed on to app1Drug.php - Dan
               //id: [elem.innerText, i].join(""),
               id: elem.innerText,
               text: elem.innerText
@@ -899,20 +897,19 @@ $(document).on({
 
   $('#myDrugName').on('change', function() { // show species for which that drug has data for
     var drug = $("#myDrugName option:selected").text(),
-      //organism_arr = new Array(),
-    //  drug_list = {};
+      organism_arr = new Array(),
+      drug_list = {};
 
-    drugdataname = drug;
-    
-    if(drugdataname.includes('/')){
-      drugdataname = drugdataname.replace("/"," and ");
-      //console.log(drugdataname);
-    }
+	drugdataname = drug;
+	if(drugdataname.includes('/')){
+	  drugdataname = drugdataname.replace("/"," and ");
+	  //console.log(drugdataname);
+	}
 
-    if(drugdataname!==""){
-      $("#downloadDrugData").html('<a href="./include/pharmomics/DEG_Pathway_Data/' + drugdataname + '_DEGs_Pathways_Signatures.txt" download class="button button-3d button-large" role="button" id="DEG_button" style="margin-top: 3%;"><i class="icon-download1"></i>Download drug gene signatures</a>');
-    }
-    
+	if(drugdataname!==""){
+		$("#downloadDrugData").html('<a href="./include/pharmomics/DEG_Pathway_Data/' + drugdataname + '_DEGs_Pathways_Signatures.txt" download class="button button-3d button-large" role="button" id="DEG_button" style="margin-top: 3%;"><i class="icon-download1"></i>Download drug gene signatures</a>');
+	}
+
     $.ajax({
       type: "GET",
       url: "include/pharmomics/PharmOmics_indexcatalog_Jan2021.json",
@@ -946,6 +943,7 @@ $(document).on({
         alert("json not found");
       }
     });
+
     var convert = [],
       convert_done = [];
 
@@ -1023,7 +1021,7 @@ $(document).on({
       table_pathway_doseSeg.rows.add(convert_done).draw();
       convert_done = [];
     }
-    
+
     $.ajax({ // Jess added
       type: "GET",
       url: "include/pharmomics/PharmOmicsMetaDEGSubset_Jan2022.json", // Doesn't work with Nov2020 for some reason
@@ -1042,6 +1040,7 @@ $(document).on({
         alert("json not found");
       }
     });
+
     $.ajax({ // Jess added
       type: "GET",
       url: "include/pharmomics/DoseSegregatedDEGSubset_Jan2022.json",
@@ -1151,8 +1150,13 @@ $(document).on({
       url: "include/pharmomics/PharmOmics_indexcatalog_Jan2021.json",
       dataType: "json",
       success: function(data) {
+
+
+
         var found_drug = $.grep(data, function(v) {
+
           return v["Drug name"] === drug;
+
         });
 
         if (species_arr.length == 1) {
@@ -1172,6 +1176,7 @@ $(document).on({
             organ2 = [],
             final_organ = [],
             found_organisms1 = $.grep(found_drug, function(v) {
+
               return v["organism"] === species_arr[0].toString();
             });
           $.each(found_organisms1, function(key, value) {
@@ -1179,6 +1184,7 @@ $(document).on({
           });
 
           found_organisms2 = $.grep(found_drug, function(v) {
+
             return v["organism"] === species_arr[1].toString();
           });
           $.each(found_organisms2, function(key, value) {
@@ -1205,7 +1211,14 @@ $(document).on({
             });
 
           });
+
+
+
+
           displayOrgans(final_organ);
+
+
+
         } else if (species_arr.length == 3) {
           var organ1 = [],
             organ2 = [],
@@ -1660,6 +1673,7 @@ $(document).on({
 
     if (Array.isArray(species) && typeof organs === 'string') {
       form_data.append("type", "species");
+      console.log(form_data);
       $.ajax({
         'url': 'app1Drug.php',
         'type': 'POST',
@@ -1673,6 +1687,7 @@ $(document).on({
           $('#preloader').empty().hide();
         },
         'success': function(data) {
+          console.log(data);
           $("#SpeciesOrganComparison").click();
           $("#APP1_species_tab1").click();
           if (data == "No similarities found between species" || !data.replace(/\s/g, '').length || data.includes("similarities")) {
@@ -1697,6 +1712,7 @@ $(document).on({
       });
     } else if (Array.isArray(organs) && typeof species === 'string') {
       form_data.append("type", "organs");
+      console.log(form_data);
       $.ajax({
         'url': 'app1Drug.php',
         'type': 'POST',
@@ -1741,6 +1757,7 @@ $(document).on({
   });
 
   $("#myComboButtons").on('click', '#pathways_button', function(event) {
+
     event.preventDefault();
     var form = $("#app1dataform").getFormObject(),
       species = form['species'],
