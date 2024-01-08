@@ -209,7 +209,7 @@ body.loading .ajaxloading {
               <?php
               foreach ($drug_list as $item) {
                 #debug_to_console("$item");
-                debug_to_console("<option value = \"$item\">$item</option>");
+                echo "<option value = \"$item\">$item</option>";
                 #echo $item;
               }
 
@@ -498,7 +498,6 @@ $(document).on({
 
   $(function() {
     $("#APP1_species_tabs").tabs();
-
     $("#APP1_organs_tabs").tabs();
   });
 
