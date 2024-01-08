@@ -1,5 +1,5 @@
 <?php
-
+include "functions.php";
 if(isset($_POST['sessionID']) ? $_POST['sessionID'] : null) 
 {
         $sessionID=$_POST['sessionID'];
@@ -8,6 +8,7 @@ if(isset($_POST['sessionID']) ? $_POST['sessionID'] : null)
 if(isset($_POST['drug_name']) ? $_POST['drug_name'] : null) 
 {
         $drug_name=$_POST['drug_name'];
+        debug_to_console("Drug name :". $drug_name);
         #????
         #$drug_name = preg_replace('/[0-9]+/', '', $drug_name);
 } 
