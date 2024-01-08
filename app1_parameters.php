@@ -1671,7 +1671,7 @@ $(document).on({
 
     if (Array.isArray(species) && typeof organs === 'string') {
       form_data.append("type", "species");
-
+      console.log(form_data);
       $.ajax({
         'url': 'app1Drug.php',
         'type': 'POST',
@@ -1710,7 +1710,7 @@ $(document).on({
       });
     } else if (Array.isArray(organs) && typeof species === 'string') {
       form_data.append("type", "organs");
-
+      console.log(form_data);
       $.ajax({
         'url': 'app1Drug.php',
         'type': 'POST',
