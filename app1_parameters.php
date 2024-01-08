@@ -915,6 +915,7 @@ $(document).on({
       url: "include/pharmomics/PharmOmics_indexcatalog_Jan2021.json",
       dataType: "json",
       success: function(data) {
+        console.log("line918"+data);
         var found_drugs = $.grep(data, function(v) {
           return v["Drug name"] === drug;
         });
