@@ -84,7 +84,7 @@ if($type == 'organs')
         #$imdata = base64_encode($im);
         #unlink("./Data/Pipeline/Resources/shinyapp1_temp/".$sessionID."_Cross_organs_comparison_upset.png");
         //unlink("./Data/Pipeline/Resources/shinyapp1_temp/".$sessionID."app1Drug.R");
-        echo "./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.'_Cross_organs_comparison_upset.png";
+        echo "./Data/Pipeline/Resources/shinyapp1_temp/$sessionID"."_Cross_organs_comparison_upset.png";
     }
     else
     {
@@ -100,7 +100,7 @@ else
         // $imdata = base64_encode($im);
         #unlink("./Data/Pipeline/Resources/shinyapp1_temp/".$sessionID."_Cross_species_comparison_upset.png");
         #unlink("./Data/Pipeline/Resources/shinyapp1_temp/".$sessionID."app1Drug.R");
-        echo "./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.'_Cross_species_comparison_upset.png"; 
+        echo "./Data/Pipeline/Resources/shinyapp1_temp/$sessionID"."_Cross_species_comparison_upset.png"; 
     }
     else
     {
