@@ -81,11 +81,11 @@ if($type == 'organs')
 {
     if(file_exists('./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.'_Cross_organs_comparison_upset.png'))
     {
-        $im = file_get_contents('./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.'_Cross_organs_comparison_upset.png');
-        $imdata = base64_encode($im);
+        #$im = file_get_contents('./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.'_Cross_organs_comparison_upset.png');
+        #$imdata = base64_encode($im);
         #unlink("./Data/Pipeline/Resources/shinyapp1_temp/".$sessionID."_Cross_organs_comparison_upset.png");
         //unlink("./Data/Pipeline/Resources/shinyapp1_temp/".$sessionID."app1Drug.R");
-        echo $imdata;
+        echo "./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.'_Cross_organs_comparison_upset.png";
     }
     else
     {
@@ -97,11 +97,11 @@ else
 {
     if(file_exists('./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.'_Cross_species_comparison_upset.png'))
     {
-    	$im = file_get_contents('./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.'_Cross_species_comparison_upset.png');
-        $imdata = base64_encode($im);
+    	// $im = file_get_contents('./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.'_Cross_species_comparison_upset.png');
+        // $imdata = base64_encode($im);
         #unlink("./Data/Pipeline/Resources/shinyapp1_temp/".$sessionID."_Cross_species_comparison_upset.png");
         #unlink("./Data/Pipeline/Resources/shinyapp1_temp/".$sessionID."app1Drug.R");
-        echo $imdata; 
+        echo "./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.'_Cross_species_comparison_upset.png"; 
     }
     else
     {

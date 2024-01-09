@@ -1687,14 +1687,13 @@ $(document).on({
           $('#preloader').empty().hide();
         },
         'success': function(data) {
-          console.log(data);
           $("#SpeciesOrganComparison").click();
           $("#APP1_species_tab1").click();
           if (data == "No similarities found between species" || !data.replace(/\s/g, '').length || data.includes("similarities")) {
             $("#mySpecies_comparison").html('No similarities found between species');
           } else {
             
-          $("#mySpecies_comparison").html('<a href="#" tooltip="Click me!"><img class="comparison_pic" src="data:image/png;base64,' + data + '" width="fit-content"></a>');
+          $("#mySpecies_comparison").html('<a href="#" tooltip="Click me!"><img class="comparison_pic" src="' + data + '" width="fit-content"></a>');
           }
           $("#speciesCompOverlapPreText").hide();
           $("#downloadSpeciesDEG").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_genes_result.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
@@ -1726,13 +1725,12 @@ $(document).on({
           $('#preloader').empty().hide();
         },
         'success': function(data) {
-          console.log(data);
           $("#SpeciesOrganComparison").click();
           $("#APP1_organs_tab1").click();
           if (data == "No similarities found between tissues" || !data.replace(/\s/g, '').length) {
             $("#myOrgans_comparison").html('No similarities found between tissues');
           } else {
-            $("#myOrgans_comparison").html('<a href="#" tooltip="Click me!"><img class="comparison_pic" src="data:image/png;base64,' + data + '" width="fit-content"></a>');
+            $("#myOrgans_comparison").html('<a href="#" tooltip="Click me!"><img class="comparison_pic" src="'+data+'" width="fit-content"></a>');
           }
           $("#downloadOrganDEG").html('<br><br><a href="./Data/Pipeline/Resources/shinyapp1_temp/' + string + '_genes_result.txt" download class="button button-3d button-large" role="button" id="DEG_button"><i class="icon-download1"></i>Download results</a>');
           $("#tissCompOverlapPreText").hide();
