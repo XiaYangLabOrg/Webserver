@@ -95,8 +95,8 @@ if(is.null(pathwayoutputs$final)){
     listresult <- fromList(organpathwaylist_combine)
     pathwayoutputs$final_intersections <- convertion(listresult)
     if(nrow(pathwayoutputs$final_intersections) > 0){
-      png("Cross_organs_comparison_upset.png", width = 950, height = 400, units = "px", res = 80)
-      upset(listresult, order.by = "freq", mainbar.y.label = "Pathway Count", text.scale = 2.5)
+      png("Cross_organs_comparison_upset.png", width = 1300, height = 400, units = "px", res = 80)
+      print(upset(listresult, order.by = "freq", mainbar.y.label = "Pathway Count", text.scale = 2.5))
       dev.off()
     }
   }
@@ -125,8 +125,8 @@ if(is.null(pathwayoutputs$final)){
     listresult <- fromList(speciespathwaylist_combine)
     pathwayoutputs$final_intersections <- convertion(listresult)
     if(nrow(pathwayoutputs$final_intersections) > 0){
-      png("Cross_species_comparison_upset.png", width = 950, height = 400, units = "px", res = 80)
-      upset(listresult, order.by = "freq", mainbar.y.label = "Pathway Count", text.scale = 2.5)
+      png("Cross_species_comparison_upset.png", width = 1300, height = 400, units = "px", res = 80)
+      print(upset(listresult, order.by = "freq", mainbar.y.label = "Pathway Count", text.scale = 2.5))
       dev.off()
     }
   }
