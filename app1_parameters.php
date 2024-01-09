@@ -1726,6 +1726,7 @@ $(document).on({
           $('#preloader').empty().hide();
         },
         'success': function(data) {
+          console.log(data);
           $("#SpeciesOrganComparison").click();
           $("#APP1_organs_tab1").click();
           if (data == "No similarities found between tissues" || !data.replace(/\s/g, '').length) {
