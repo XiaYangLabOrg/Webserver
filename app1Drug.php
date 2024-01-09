@@ -8,7 +8,6 @@ if(isset($_POST['sessionID']) ? $_POST['sessionID'] : null)
 if(isset($_POST['drug_name']) ? $_POST['drug_name'] : null) 
 {
         $drug_name=$_POST['drug_name'];
-        debug_to_console("Drug name :". $drug_name);
         #????
         #$drug_name = preg_replace('/[0-9]+/', '', $drug_name);
 } 
@@ -81,7 +80,7 @@ if($type == 'organs')
 {
     if(file_exists('./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.'_Cross_organs_comparison_upset.png'))
     {
-        #$im = file_get_contents('./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.'_Cross_organs_comparison_upset.png');
+        #$im = file_get_contents('./Data/Pipeline/Resources/shinyapp1_temp/'.$sessionID.' _Cross_organs_comparison_upset.png');
         #$imdata = base64_encode($im);
         #unlink("./Data/Pipeline/Resources/shinyapp1_temp/".$sessionID."_Cross_organs_comparison_upset.png");
         //unlink("./Data/Pipeline/Resources/shinyapp1_temp/".$sessionID."app1Drug.R");
