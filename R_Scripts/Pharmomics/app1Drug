@@ -109,7 +109,7 @@ if(is.null(geneoutputs$final)){
     listresult <- fromList(organgenelist_combine)
     geneoutputs$final_intersections <- convertion(listresult)
     if(nrow(geneoutputs$final_intersections) > 0){
-      png(paste0(sessionID,"_Cross_organs_comparison_upset.png"), width = 1300, height = 400, units = "px", res = 300)
+      png(paste0(sessionID,"_Cross_organs_comparison_upset.png"), width = 1300, height = 400, units = "px", res = 80)
       print(upset(listresult, order.by = "freq", mainbar.y.label = "DEG Count", text.scale = 2.5))
       dev.off()
     }
@@ -169,7 +169,7 @@ if(is.null(geneoutputs$final)){
     listresult <- fromList(speciesgenelist_combine)
     geneoutputs$final_intersections <- convertion(listresult)
     if(nrow(geneoutputs$final_intersections) > 0){
-      png(paste0(sessionID,"_Cross_species_comparison_upset.png"), width = 1300, height = 400, units = "px", res = 300)
+      png(paste0(sessionID,"_Cross_species_comparison_upset.png"), width = 1300, height = 400, units = "px", res = 80)
       print(upset(listresult, order.by = "freq", mainbar.y.label = "DEG Count", text.scale = 2.5))
       dev.off()
     }
