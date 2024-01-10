@@ -1,6 +1,5 @@
 <?php
 include "functions.php";
-include "config.php";
 $total_quota = 100;
 $individual_user_quota = 5;
 if (isset($_POST['sessionID']) ? $_POST['sessionID'] : null) {

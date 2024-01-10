@@ -127,13 +127,13 @@ if ($signature == 1) { //meta
     }
   }
 } else {
-  include('config.php');
+  #include('config.php');
   //include('mysql_conn.php');
-  $login_button = '';
-  $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=true";
-  $google_client->setRedirectUri($scriptUri);
+  // $login_button = '';
+  // $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=true";
+  // $google_client->setRedirectUri($scriptUri);
 
-  //This $_GET["code"] variable value received after user has login into their Google Account redirct to PHP script then this variable value has been received
+  // //This $_GET["code"] variable value received after user has login into their Google Account redirct to PHP script then this variable value has been received
   // if (isset($_GET["code"])) {
   //   //It will Attempt to exchange a code for an valid authentication token.
   //   #    $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
