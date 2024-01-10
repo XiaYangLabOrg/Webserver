@@ -10,8 +10,6 @@ if (isset($_POST['signature_select'])) {
     $signature = $_POST['signature_select'];
 }
 
-debug_to_console("Signature: ".$signature);
-
 if (isset($_POST['network_select']) and isset($_POST['species_select'])) {
     $network = $_POST['network_select'];
     $species = $_POST['species_select'];
@@ -53,7 +51,7 @@ $final = "GENE\n";
 foreach ($input as $line) {
     $final .= "$line" . "\n";
 }
-$filename = "./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_genes.txt";
+$filename = $ROOT_DIR."Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_genes.txt";
 $f = fopen($filename, 'w');
 fwrite($f, $final);
 fclose($f);
@@ -86,9 +84,9 @@ $data = $file2 . "\n" . $file3 . "\n";
 //$output = "\nwrite.table(tableresult, " . '"' . "" . $ROOT_DIR . "Data/Pipeline/Results/shinyapp2/$sessionID" . '_app2result.txt", ' . "row.names=FALSE, quote = FALSE, sep =" . '"\t")';
 
 if ($signature == 1) {
-    $fpathOut = "./Data/Pipeline/$sessionID" . "app2.R";
+    $fpathOut = $ROOT_DIR."Data/Pipeline/$sessionID" . "app2.R";
 } else {
-    $fpathOut = "./Data/Pipeline/$sessionID" . "_app2_seg.R";
+    $fpathOut = $ROOT_DIR."Data/Pipeline/$sessionID" . "_app2_seg.R";
 }
 
 
@@ -101,7 +99,7 @@ chmod($fpathOut, 0777);
 
 if ($signature == 2 or $signature == 3) {
     //append to file that this type of signature has run
-    $dose_seg_runs_file = "./Data/Pipeline/Resources/shinyapp2_temp/Dose_seg_runs" . date("Y.m.d") . ".txt";
+    $dose_seg_runs_file = $ROOT_DIR."Data/Pipeline/Resources/shinyapp2_temp/Dose_seg_runs" . date("Y.m.d") . ".txt";
     if (file_exists($dose_seg_runs_file)) {
         shell_exec("echo \"$sessionID" . "\" >> " . $dose_seg_runs_file);
     } else {
@@ -109,18 +107,14 @@ if ($signature == 2 or $signature == 3) {
     }
 
     // move files to hoffman2 server
-    echo "sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$fpathOut. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/";
-    echo "sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$filename. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/";
-    debug_to_console("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$fpathOut. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/");
-    debug_to_console("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$filename. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/");
-    
+    echo "sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$fpathOut. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/"."\n";
+    echo "sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$filename. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/"."\n";
     $logfile="./Data/Pipeline/Resources/shinyapp2_temp/$sessionID"."logfile.txt";
     shell_exec("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$fpathOut. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/ | tee " . $logfile);
     shell_exec("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$filename. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/ | tee " . $logfile);
     // move network if user uploaded
     if ($network == 1) {
         echo "sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp " . $network_str . " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/";
-        debug_to_console("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp " . $network_str . " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/");
         shell_exec("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp " . $network_str . " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/ | tee " . $logfile);
     }
 }
