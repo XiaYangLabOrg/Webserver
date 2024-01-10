@@ -107,10 +107,15 @@ if ($signature == 2 or $signature == 3) {
     }
 
     // move files to hoffman2 server
+    debug_to_console("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$fpathOut. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/");
+    debug_to_console("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$filename. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/");
+    
+
     shell_exec("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$fpathOut. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/");
     shell_exec("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$filename. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/");
     // move network if user uploaded
     if ($network == 1) {
+        debug_to_console("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp " . $network_str . " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/");
         shell_exec("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp " . $network_str . " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/");
     }
 }
