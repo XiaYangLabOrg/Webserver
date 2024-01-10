@@ -10,6 +10,8 @@ if (isset($_POST['signature_select'])) {
     $signature = $_POST['signature_select'];
 }
 
+debug_to_console("Signature: ".$signature);
+
 if (isset($_POST['network_select']) and isset($_POST['species_select'])) {
     $network = $_POST['network_select'];
     $species = $_POST['species_select'];
