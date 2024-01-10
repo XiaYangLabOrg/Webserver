@@ -1,4 +1,5 @@
 <?php
+include "functions.php";
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 
 if (isset($_POST['sessionID'])) {
@@ -106,11 +107,11 @@ if ($signature == 2 or $signature == 3) {
     }
 
     // move files to hoffman2 server
-    shell_exec("sshpass -p \"pharmomics129@\" scp " . $fpathOut . " mergeome@192.154.2.204:/u/scratch/m/mergeome/app2seg/");
-    shell_exec("sshpass -p \"pharmomics129@\" scp " . $filename . " mergeome@192.154.2.204:/u/scratch/m/mergeome/app2seg/");
+    shell_exec("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$fpathOut. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/");
+    shell_exec("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp ".$filename. " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/");
     // move network if user uploaded
     if ($network == 1) {
-        shell_exec("sshpass -p \"pharmomics129@\" scp " . $network_str . " mergeome@192.154.2.204:/u/scratch/m/mergeome/app2seg/");
+        shell_exec("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp " . $network_str . " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/");
     }
 }
 
@@ -245,37 +246,13 @@ $email = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
 
 if ((!(file_exists($email_sent)))) {
     if (file_exists($email)) {
-        require('./PHPMailer-master/class.phpmailer.php');
-        $mail = new PHPMailer();
-        $mail->Body = 'Your Network Based Drug Repositioning job is running. We will send you a notification with a link to your results after completion.';
-        $mail->Body .= "\n";
-        $mail->Body .= 'If you close your browser, you can get your results from: http://mergeomics.research.idre.ucla.edu/runpharmomics.php?sessionID=';
-        $mail->Body .= "$sessionID";
-        $mail->Body .= ' when the pipeline is complete';
-
-        $mail->SMTPAuth   = true;                  // enable SMTP authentication
-        $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-        $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-        $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-        $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-        $mail->Password   = "mergeomics729@";            // GMAIL password
-
-
-        $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
-
-        $mail->Subject    = "Network Based Drug Repositioning Execution Started";
-
-        $address = trim(file_get_contents($email));
-        $mail->AddAddress($address);
-
-        if (!$mail->Send()) {
-            echo "Mailer Error: " . $mail->ErrorInfo;
-        } else {
-
-            $myfile = fopen($email_sent, "w");
-            fwrite($myfile, $address);
-            fclose($myfile);
-        }
+        $recipient = trim(file_get_contents($email));
+        $title = "Network Based Drug Repositioning Execution Started";
+        $body  = "Your Network Based Drug Repositioning job is running. We will send you a notification with a link to your results after completion.\n";
+        $body .= "If you close your browser, you can get your results from: http://".$_SERVER["HTTP_HOST"]."/runpharmomics.php?sessionID=";
+        $body .= "$sessionID";
+        $body .= " when the pipeline is complete";
+        sendEmail($recipient,$title,$body,$email_sent);
     }
 }
 ?>

@@ -94,7 +94,6 @@ if ($signature == 1) { //meta
     if (!file_exists($resultfile) && !file_exists($frunning_status)) {
       $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2/" . $sessionID . "out.txt";
       shell_exec("touch " . $frunning_status);
-      debug_to_console($ROOT_DIR . "R-3.4.4/bin/Rscript " . $ROOT_DIR . "Data/Pipeline/" . $sessionID . "app2.R | tee " . $outfile);
       shell_exec("Rscript " . $ROOT_DIR . "Data/Pipeline/" . $sessionID . "app2.R | tee " . $outfile);
       #shell_exec("sh run_app2.sh $sessionID | tee " . $outfile);
       sleep(1);
@@ -117,44 +116,14 @@ if ($signature == 1) { //meta
     $email = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
     if ((!(file_exists($results_sent)))) {
       if (file_exists($email)) {
-        require('./PHPMailer-master/class.phpmailer.php');
-        $resultfile = "./Data/Pipeline/Results/shinyapp2/$sessionID" . "_app2result.txt";
-        $emailid = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
-        $mail = new PHPMailer();
-        $mail->Body = 'Congratulations! You have successfully executed our pipeline. Please download your results.';
-        $mail->Body .= "\n";
-        $mail->Body .= 'Your results are available at: http://mergeomics.research.idre.ucla.edu/runpharmomics.php?sessionID=';
-        $mail->Body .= "$sessionID";
-        $mail->Body .= "\n";
-        $mail->Body .= 'Note: Your results will be deleted from the server after 24 hours';
-
-        //$mail->IsSMTP(); // telling the class to use SMTP
-
-        $mail->SMTPAuth   = true;                  // enable SMTP authentication
-        $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-        $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-        $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-        $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-        $mail->Password   = "mergeomics729@";            // GMAIL password
-
-        $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
-
-        $mail->Subject    = "Network Based Drug Repositioning Execution Complete!";
-
-        //$mail->addAttachment($resultfile, 'Pharmomics_app2_results.txt');
-
-        //$address = "dougvarneson@gmail.com";
-        $address = trim(file_get_contents($emailid));
-        $mail->AddAddress($address);
-
-        if (!$mail->Send()) {
-          echo $address;
-          echo "Mailer Error: " . $mail->ErrorInfo;
-        } else {
-          $myfile = fopen("./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "sent_results", "w");
-          fwrite($myfile, $address);
-          fclose($myfile);
-        }
+        $recipient = trim(file_get_contents($email));
+        $title = "Network Based Drug Repositioning Execution Complete!";
+        $body  = "Congratulations! You have successfully executed our pipeline. Please download your results.\n";
+        $body .= "Your results are available at: http://".$_SERVER["HTTP_HOST"]."/runpharmomics.php?sessionID=";
+        $body .= "$sessionID";
+        $body .= "\n";
+        $body .= "Note: Your results will be deleted from the server after 24 hours";
+        sendEmail($recipient,$title,$body,$email_sent);
       }
     }
   }
@@ -214,27 +183,26 @@ if ($signature == 1) { //meta
   if (!file_exists($resultfile) && !file_exists($frunning_status)) {
     // $cmds1 = "sshpass -p \"mergeomics729@\" ssh smha118@192.154.2.201 ";
     // $cmds2 = "'source /etc/profile;module load R;cd /u/scratch/s/smha118/app2seg;qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp run_pharm_dose_seg.sh " . $sessionID . "'";
-    $cmds1 = "sshpass -p \"pharmomics129@\" ssh mergeome@192.154.2.201 ";
+    $cmds1 = "sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" ssh ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"]." ";
     $cmds2 = "'source /etc/profile; module load R/4.2.2; cd /u/scratch/m/mergeome/app2seg; qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp /u/home/m/mergeome/PharmOmics_resource/run_pharm_dose_seg.sh " . $sessionID . "'";
     shell_exec("touch " . $frunning_status);
     shell_exec($cmds1 . $cmds2);
-    $user_usage_count = $ROOT_DIR . "/User_usage/" . $user_email . "." . date("Y.m.d") . ".json";
-    debug_to_console($user_usage_count);
-    $json = array();
-    $json['session'] = $sessionID;
-    $json['user_name'] = $user_name;
-    $json['user_email'] = $user_email;
-    $json['submit_time'] = date("Y-m-d h:i:sa");
-    $json['cmds'] = $cmds2;
-    if (!file_exists($user_usage_count)) {
-      $jsondata[] = $json;
-    } else {
-      $jsondata = json_decode(file_get_contents($user_usage_count));
-      array_push($jsondata, $json);
-    }
-    $fp = fopen($user_usage_count, 'w');
-    fwrite($fp, json_encode($jsondata));
-    fclose($fp);
+#    $user_usage_count = $ROOT_DIR . "/User_usage/" . $user_email . "." . date("Y.m.d") . ".json";
+    // $json = array();
+    // $json['session'] = $sessionID;
+    // $json['user_name'] = $user_name;
+    // $json['user_email'] = $user_email;
+    // $json['submit_time'] = date("Y-m-d h:i:sa");
+    // $json['cmds'] = $cmds2;
+    // if (!file_exists($user_usage_count)) {
+    //   $jsondata[] = $json;
+    // } else {
+    //   $jsondata = json_decode(file_get_contents($user_usage_count));
+    //   array_push($jsondata, $json);
+    // }
+    // $fp = fopen($user_usage_count, 'w');
+    // fwrite($fp, json_encode($jsondata));
+    // fclose($fp);
     // $cmds = "qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00 run_pharm_dose_seg.sh " . $sessionID;
     // $sql = 'INSERT INTO hoffman2_logs (sessionID, user_email, user_name, cmds) 
     //     VALUES ("' . $sessionID . '", "' . $user_email . '", "' . $user_name . '","' . $cmds . '"); ';
@@ -251,44 +219,14 @@ if ($signature == 1) { //meta
     $email = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
     if ((!(file_exists($results_sent)))) {
       if (file_exists($email)) {
-        require('./PHPMailer-master/class.phpmailer.php');
-        $resultfile = "./Data/Pipeline/Results/shinyapp2/$sessionID" . "_app2result.txt";
-        $emailid = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
-        $mail = new PHPMailer();
-        $mail->Body = 'Congratulations! You have successfully executed our pipeline. Please download your results.';
-        $mail->Body .= "\n";
-        $mail->Body .= 'Your results are available at: http://mergeomics.research.idre.ucla.edu/runpharmomics.php?sessionID=';
-        $mail->Body .= "$sessionID";
-        $mail->Body .= "\n";
-        $mail->Body .= 'Note: Your results will be deleted from the server after 24 hours';
-
-        //$mail->IsSMTP(); // telling the class to use SMTP
-
-        $mail->SMTPAuth   = true;                  // enable SMTP authentication
-        $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-        $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-        $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-        $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-        $mail->Password   = "mergeomics729@";            // GMAIL password
-
-        $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
-
-        $mail->Subject    = "Network Based Drug Repositioning Execution Complete!";
-
-        //$mail->addAttachment($resultfile, 'Pharmomics_app2_results.txt');
-
-        //$address = "dougvarneson@gmail.com";
-        $address = trim(file_get_contents($emailid));
-        $mail->AddAddress($address);
-
-        if (!$mail->Send()) {
-          echo $address;
-          echo "Mailer Error: " . $mail->ErrorInfo;
-        } else {
-          $myfile = fopen("./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "sent_results", "w");
-          fwrite($myfile, $address);
-          fclose($myfile);
-        }
+        $recipient = trim(file_get_contents($email));
+        $title = "Network Based Drug Repositioning Execution Complete!";
+        $body  = "Congratulations! You have successfully executed our pipeline. Please download your results.\n";
+        $body .= "Your results are available at: http://".$_SERVER["HTTP_HOST"]."/runpharmomics.php?sessionID=";
+        $body .= "$sessionID";
+        $body .= "\n";
+        $body .= "Note: Your results will be deleted from the server after 24 hours";
+        sendEmail($recipient,$title,$body,$email_sent);
       }
     }
 
