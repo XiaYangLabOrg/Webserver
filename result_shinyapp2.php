@@ -177,8 +177,8 @@ if ($signature == 1) { //meta
       }
     }
   }
-  $user_name = $_SESSION['user_first_name'] . " " . $_SESSION['user_last_name'];
-  $user_email = $_SESSION['user_email_address'];
+  #$user_name = $_SESSION['user_first_name'] . " " . $_SESSION['user_last_name'];
+  #$user_email = $_SESSION['user_email_address'];
   // run commands on hoffman2
   if (!file_exists($resultfile) && !file_exists($frunning_status)) {
     // $cmds1 = "sshpass -p \"mergeomics729@\" ssh smha118@192.154.2.201 ";
