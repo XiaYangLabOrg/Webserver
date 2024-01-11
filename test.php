@@ -9,7 +9,7 @@ $env=parse_ini_file(".env");
 echo $env["HOFFMAN2_SERVER_IP"];
 $connection = ssh2_connect($env["HOFFMAN2_SERVER_IP"], 22);
 ssh2_auth_password($connection, $env["PHARMOMICS_USERNAME"], $env["PHMARMOMICS_PASSWORD"]);
-$fpathOut="./Data/Pipeline/7DEB5jWjP2_app2_seg.R";
+$fpathOut="/var/www/mergeomics/html/Data/Pipeline/7DEB5jWjP2_app2_seg.R";
 ssh2_scp_send($connection, $fpathOut, '/u/scratch/m/mergeome/app2seg/', 0644);
 
 ?>
