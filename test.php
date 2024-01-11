@@ -1,6 +1,6 @@
 <?php 
 include_once("functions.php");
-
+$env=parse_ini_file(".env");
 $connection = ssh2_connect($env["HOFFMAN2_SERVER_IP"], 22);
 ssh2_auth_password($connection, $env["PHARMOMICS_USERNAME"], $env["PHMARMOMICS_PASSWORD"]);
 $fpathOut="./Data/Pipeline/7DEB5jWjP2_app2_seg.R";
