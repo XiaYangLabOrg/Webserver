@@ -1,7 +1,7 @@
 <?php
 include "functions.php";
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
-
+$env=parse_ini_file(".env");
 if (isset($_POST['sessionID'])) {
     $sessionID = $_POST['sessionID'];
 }

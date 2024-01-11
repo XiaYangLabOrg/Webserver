@@ -2,7 +2,6 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-$env=parse_ini_file(".env");
 function generateRandomString($length = 10)
 {
   $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -40,6 +39,7 @@ function sendEmail( $recipient,$title, $body, $email_sent){
     require './PHPMailer/src/Exception.php';
     require './PHPMailer/src/PHPMailer.php';
     require './PHPMailer/src/SMTP.php';
+    $env=parse_ini_file(".env");
     $mail = new PHPMailer(true);
     try {
         //Server settings

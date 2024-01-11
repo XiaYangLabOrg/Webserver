@@ -1,6 +1,6 @@
 <?php
 include "functions.php";
-
+$env=parse_ini_file(".env");
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 
 if (isset($_GET['sessionID'])) {
