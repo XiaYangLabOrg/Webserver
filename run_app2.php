@@ -112,7 +112,7 @@ if ($signature == 2 or $signature == 3) {
     $logfile="./Data/Pipeline/Resources/shinyapp2_temp/$sessionID"."logfile.txt";
     $connection = ssh2_connect($env["HOFFMAN2_SERVER_IP"], 22);
     ssh2_auth_password($connection, $env["PHARMOMICS_USERNAME"], $env["PHMARMOMICS_PASSWORD"]);
-
+    
     ssh2_scp_send($connection, $fpathOut, '/u/scratch/m/mergeome/app2seg/', 0644);
     ssh2_scp_send($connection, $filename, '/u/scratch/m/mergeome/app2seg/', 0644);
 
