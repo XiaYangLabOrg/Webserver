@@ -292,7 +292,7 @@ $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=tr
         </ul>
 
       </nav>
-      <?php include_once("maintenance_modal.php") ?>
+      <?php include_once("announcement_modal.php") ?>
       <div class="margin_rm">
 
         <div class="container clearfix" id="myContainer">

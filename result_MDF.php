@@ -54,7 +54,7 @@ if($run == "T"){
   } else {
     $mapping = $mapping[0];
     if($MMFConvert!=="none"){
-      shell_exec($ROOT_DIR . 'R-3.4.4/bin/Rscript ./Data/Pipeline/geneConversion.R '. $sessionID . " " . $MMFConvert . " " . $mapping);
+      shell_exec('Rscript ./Data/Pipeline/geneConversion.R '. $sessionID . " " . $MMFConvert . " " . $mapping);
     }
   }
 }

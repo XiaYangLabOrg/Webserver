@@ -80,7 +80,7 @@
               <a href="Tutorial_MSEA.php" class="more-link">Learn More</a>
               </div> -->
             </div>
-            <?php include_once("maintenance_modal.php") ?>
+            <?php include_once("announcement_modal.php") ?>
             
 
             <!-- wKDA Column ===================================================-->
