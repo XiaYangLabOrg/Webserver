@@ -1,6 +1,6 @@
 <?php
 include "functions.php";
-include "config.php";
+
 
 if (isset($_GET['fromapp2']) ? $_GET['fromapp2'] : null) {
   $fromapp2 = $_GET['fromapp2'];
