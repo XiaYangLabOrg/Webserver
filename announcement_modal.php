@@ -117,14 +117,13 @@ input[type="checkbox"]:checked::after {
 
   var dontshow=sessionStorage.getItem("dontshow");
   // unmask this for maintenance notification -Dan
-  if(dontshow== null || dontshow=="null"){
-    modal.style.display="block";
-  }
+  // if(dontshow== null || dontshow=="null"){
+  //   modal.style.display="block";
+  // }
 
   //Change the key value to something else for next maintenance notification.
   $('#checkbox').click(function(){
       if ($('#checkbox').prop('checked')) {
-
         sessionStorage.setItem("dontshow", "True");
       }else{
         sessionStorage.setItem("dontshow", null);
