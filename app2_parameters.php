@@ -830,7 +830,7 @@ if (!file_exists($fsession)) {
       $('#APP2tab2').click();
       var form_data = new FormData(document.getElementById('app2dataform'));
       form_data.append("sessionID", string);
-
+      console.log(form_data);
       $.ajax({
         'url': 'run_app2.php',
         'type': 'POST',

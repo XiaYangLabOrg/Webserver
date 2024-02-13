@@ -1229,6 +1229,7 @@ Will create an error message at the top if user forgets or does not have all dat
         };
 
         xhr.onload = function() {
+          console.log(this.status);
           if (this.status == 200) {
             var resp = JSON.parse(this.response);
             $('#MAFprogresswidth').css('width', '0%').attr('aria-valuenow', 0);
