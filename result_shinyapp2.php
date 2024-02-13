@@ -2,6 +2,9 @@
 include "functions.php";
 $env=parse_ini_file(".env");
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
+$connection = ssh2_connect($env["HOFFMAN2_SERVER_IP"], 22);
+ssh2_auth_password($connection, $env["PHARMOMICS_USERNAME"], $env["PHMARMOMICS_PASSWORD"]);
+
 
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
@@ -184,8 +187,13 @@ if ($signature == 1) { //meta
     // $cmds2 = "'source /etc/profile;module load R;cd /u/scratch/s/smha118/app2seg;qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp run_pharm_dose_seg.sh " . $sessionID . "'";
     $cmds1 = "sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" ssh ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"]." ";
     $cmds2 = "'source /etc/profile; module load R/4.2.2; cd /u/scratch/m/mergeome/app2seg; qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp /u/home/m/mergeome/PharmOmics_resource/run_pharm_dose_seg.sh " . $sessionID . "'";
-    shell_exec("touch " . $frunning_status);
-    shell_exec($cmds1 . $cmds2);
+
+    $stream = ssh2_exec($connection, "touch " . $frunning_status);
+    fclose($stream);
+    $stream = ssh2_exec($connection, $cmds2);
+    fclose($stream);
+    #shell_exec("touch " . $frunning_status);
+    #shell_exec($cmds1 . $cmds2);
 #    $user_usage_count = $ROOT_DIR . "/User_usage/" . $user_email . "." . date("Y.m.d") . ".json";
     // $json = array();
     // $json['session'] = $sessionID;
