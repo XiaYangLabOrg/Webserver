@@ -187,7 +187,8 @@ if ($signature == 1) { //meta
     // $cmds2 = "'source /etc/profile;module load R;cd /u/scratch/s/smha118/app2seg;qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp run_pharm_dose_seg.sh " . $sessionID . "'";
     $cmds1 = "sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" ssh ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"]." ";
     $cmds2 = "'source /etc/profile; module load R/4.2.2; cd /u/scratch/m/mergeome/app2seg; qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp /u/home/m/mergeome/PharmOmics_resource/run_pharm_dose_seg.sh " . $sessionID . "'";
-
+    echo "touch " . $frunning_status;
+    echo $cmd2;
     $stream = ssh2_exec($connection, "touch " . $frunning_status);
     fclose($stream);
     $stream = ssh2_exec($connection, $cmds2);
