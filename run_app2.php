@@ -112,6 +112,8 @@ if ($signature == 2 or $signature == 3) {
     $logfile="./Data/Pipeline/Resources/shinyapp2_temp/$sessionID"."logfile.txt";
     $connection = ssh2_connect($env["HOFFMAN2_SERVER_IP"], 22);
     ssh2_auth_password($connection, $env["PHARMOMICS_USERNAME"], $env["PHMARMOMICS_PASSWORD"]);
+    echo '/u/scratch/m/mergeome/app2seg/'.basename($fpathOut);
+    echo '/u/scratch/m/mergeome/app2seg/'.basename($filename);
     debug_to_console('/u/scratch/m/mergeome/app2seg/'.basename($fpathOut));
     debug_to_console('/u/scratch/m/mergeome/app2seg/'.basename($filename));
     ssh2_scp_send($connection, $fpathOut, '/u/scratch/m/mergeome/app2seg/'.basename($fpathOut), 0644);
@@ -123,6 +125,7 @@ if ($signature == 2 or $signature == 3) {
     if ($network == 1) {
         #echo "sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp " . $network_str . " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/";
         debug_to_console('/u/scratch/m/mergeome/app2seg/'.basename($filename));
+        echo '/u/scratch/m/mergeome/app2seg/'.basename($filename);
         ssh2_scp_send($connection, $network_str, '/u/scratch/m/mergeome/app2seg/'.basename($network_str), 0644);
         #shell_exec("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp " . $network_str . " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/ | tee " . $logfile);
     }
