@@ -201,8 +201,14 @@ if ($signature == 1) { //meta
     $stream=ssh2_exec($connection, $cmds2);
     stream_set_blocking( $stream, true );
     $stream_out = ssh2_fetch_stream( $stream, SSH2_STREAM_STDIO );
-    echo stream_get_contents($stream_out);
+    $sshout = "./Data/Pipeline/Resources/session/$sessionID" . "sshout.txt";
+    $session_write = NULL;
+    $sessionfile = fopen($sshout, "w");
+    fwrite($sessionfile, stream_get_contents($stream_out));
+    fclose($sessionfile);
     fclose($stream);
+    #echo stream_get_contents($stream_out);
+ 
     #$stream = ssh2_exec($connection, "touch " . $frunning_status);
     #fclose($stream);
     #$stream = ssh2_exec($connection, $cmds2);

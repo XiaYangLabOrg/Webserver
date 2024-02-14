@@ -90,10 +90,15 @@ if ($signature == 1) {
     $fpathOut = $ROOT_DIR."Data/Pipeline/$sessionID" . "_app2_seg.R";
 }
 
-
+$sshpass_cmd_in_R="system(paste0(\"~/bin/sshpass -p '".$env["PHMARMOMICS_PASSWORD"]."' scp -r \", drugNetworksDir,\" ".$env["PHARMOMICS_USERNAME"]."@mergeomics2.research.idre.ucla.edu:/var/www/mergeomics/html/Data/Pipeline/Resources/shinyapp2_temp/\", folder,\"/\"))" .
+                  "system(paste0(\"~/bin/sshpass -p '".$env["PHMARMOMICS_PASSWORD"]."' scp \", data_dir, sessionID,\"_app2result.txt ".$env["PHARMOMICS_USERNAME"]."@mergeomics2.research.idre.ucla.edu:/var/www/mergeomics/html/Data/Pipeline/Results/shinyapp2/\"))" .
+                  "system(paste0(\"~/bin/sshpass -p '".$env["PHMARMOMICS_PASSWORD"]."' scp \", data_dir, sessionID,\"_app2result_hepatotox.txt ".$env["PHARMOMICS_USERNAME"]."@mergeomics2.research.idre.ucla.edu:/var/www/mergeomics/html/Data/Pipeline/Results/shinyapp2/\"))" .
+                  "system(paste0(\"touch \", sessionID, \"_is_done\"))".
+                  "system(paste0(\"~/bin/sshpass -p '".$env["PHMARMOMICS_PASSWORD"]."' scp \", sessionID, \"_is_done ".$env["PHARMOMICS_USERNAME"]."@mergeomics2.research.idre.ucla.edu:/var/www/mergeomics/html/Data/Pipeline/Resources/shinyapp2_temp/\"))";
 $fp = fopen($fpathOut, "w");
 fwrite($fp, $data);
 fwrite($fp, $analysis);
+fwrite($fp,$sshpass_cmd_in_R);
 //fwrite($fp, $output);
 fclose($fp);
 chmod($fpathOut, 0777);
