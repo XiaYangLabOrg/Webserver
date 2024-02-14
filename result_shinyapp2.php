@@ -189,12 +189,24 @@ if ($signature == 1) { //meta
     $cmds2 = "'source /etc/profile; module load R/4.2.2; cd /u/scratch/m/mergeome/app2seg; qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp /u/home/m/mergeome/PharmOmics_resource/run_pharm_dose_seg.sh " . $sessionID . "'";
     echo "touch " . $frunning_status;
     echo $cmd2;
+
+    $stream=ssh2_exec($connection, "touch " . $frunning_status);
+    stream_set_blocking( $stream, true );
+    $stream_out = ssh2_fetch_stream( $stream, SSH2_STREAM_STDIO );
+    echo stream_get_contents($stream_out);
+    fclose($stream);
+
+    $stream=ssh2_exec($connection, $cmds2);
+    stream_set_blocking( $stream, true );
+    $stream_out = ssh2_fetch_stream( $stream, SSH2_STREAM_STDIO );
+    echo stream_get_contents($stream_out);
+    fclose($stream);
     #$stream = ssh2_exec($connection, "touch " . $frunning_status);
     #fclose($stream);
     #$stream = ssh2_exec($connection, $cmds2);
     #fclose($stream);
-    shell_exec("touch " . $frunning_status);
-    shell_exec($cmds1 . $cmds2);
+    // shell_exec("touch " . $frunning_status);
+    // shell_exec($cmds1 . $cmds2);
 #    $user_usage_count = $ROOT_DIR . "/User_usage/" . $user_email . "." . date("Y.m.d") . ".json";
     // $json = array();
     // $json['session'] = $sessionID;
