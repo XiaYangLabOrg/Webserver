@@ -207,7 +207,7 @@ if ($signature == 1) { //meta
     $sshout = "./Data/Pipeline/Resources/session/$sessionID" . "sshout.txt";
     $session_write = NULL;
     $sessionfile = fopen($sshout, "w");
-    fwrite($sessionfile, stream_get_contents($cmds3));
+    fwrite($sessionfile, $cmds3);
     fwrite($sessionfile, stream_get_contents($stream_out));
     fclose($sessionfile);
     fclose($stream);
