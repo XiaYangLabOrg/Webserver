@@ -173,7 +173,6 @@ if ($signature == 2 or $signature == 3) {
 
 <script type="text/javascript">
     var signature = "<?php echo $signature; ?>";
-    console.log("signature:" + signature);
     if (signature == 1) {
         //setTimeout(function() {
         app2Ajax();
@@ -270,8 +269,6 @@ if ((!(file_exists($email_sent)))) {
 <script type="text/javascript">
     var string = "<?php echo $sessionID; ?>";
     var signature = "<?php echo $signature; ?>";
-    loadData();
-
     function loadData() {
         $.ajax({
             url: "result_shinyapp2.php",
@@ -310,4 +307,6 @@ if ((!(file_exists($email_sent)))) {
         //     }
         // });
     }
+
+    loadData();
 </script>
