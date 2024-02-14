@@ -35,6 +35,7 @@ if (isset($_GET['sessionID'])) {
           return $data;
         }
         $data = array_map('replace_a_line', $data);
+        echo $data;
         if (strpos($data[2], 'signature') !== false) {
           //do nothing
         } else {
