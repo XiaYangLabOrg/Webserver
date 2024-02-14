@@ -187,6 +187,7 @@ if ($signature == 1) { //meta
     // $cmds2 = "'source /etc/profile;module load R;cd /u/scratch/s/smha118/app2seg;qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp run_pharm_dose_seg.sh " . $sessionID . "'";
     $cmds1 = "sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" ssh ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"]." ";
     $cmds2 = "'source /etc/profile; module load R/4.2.2; cd /u/scratch/m/mergeome/app2seg; qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp /u/home/m/mergeome/PharmOmics_resource/run_pharm_dose_seg.sh " . $sessionID . "'";
+    $cmds3 = "qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp /u/home/m/mergeome/PharmOmics_resource/run_pharm_dose_seg.sh " . $sessionID . "'";
     echo "touch " . $frunning_status;
     echo $cmd2;
 
@@ -198,12 +199,13 @@ if ($signature == 1) { //meta
     echo stream_get_contents($stream_out);
     fclose($stream);
 
-    $stream=ssh2_exec($connection, $cmds2);
+    $stream=ssh2_exec($connection, $cmds3);
     stream_set_blocking( $stream, true );
     $stream_out = ssh2_fetch_stream( $stream, SSH2_STREAM_STDIO );
     $sshout = "./Data/Pipeline/Resources/session/$sessionID" . "sshout.txt";
     $session_write = NULL;
     $sessionfile = fopen($sshout, "w");
+    fwrite($sessionfile, stream_get_contents($cmds3));
     fwrite($sessionfile, stream_get_contents($stream_out));
     fclose($sessionfile);
     fclose($stream);
