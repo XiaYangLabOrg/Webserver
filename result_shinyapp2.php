@@ -190,7 +190,9 @@ if ($signature == 1) { //meta
     echo "touch " . $frunning_status;
     echo $cmd2;
 
-    $stream=ssh2_exec($connection, "touch " . $frunning_status);
+    shell_exec("touch " . $frunning_status);
+
+    $stream=ssh2_exec($connection, "echo " . $cmds2. " > test.txt");
     stream_set_blocking( $stream, true );
     $stream_out = ssh2_fetch_stream( $stream, SSH2_STREAM_STDIO );
     echo stream_get_contents($stream_out);
