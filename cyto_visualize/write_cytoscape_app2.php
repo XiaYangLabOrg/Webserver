@@ -3,6 +3,7 @@
     // GET THE SESSION ID
     $sessionID=trim($_GET['sessionID']);
     $drugname=trim($_GET['drugres']);
+    $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
     // $sessionID="M3uxS7BRXo";
 ?>
 
@@ -17,7 +18,7 @@
     <!-- GET EDGE NAME, SOURCE, TARGET, AND WEIGHT -->
 <?php
     $edge_list = "edges: [ ";
-    $edges="/home/www/abhatta3-webserver/Data/Pipeline/Resources/shinyapp2_temp/$sessionID"."_drug_networks/$drugname"."_cytoscape_edges.txt";
+    $edges=$ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID"."_drug_networks/$drugname"."_cytoscape_edges.txt";
     $edge_data = file_get_contents($edges);
     $edge_explode = explode("\n", $edge_data);
     for ($i=1;$i<(count($edge_explode)-1);$i++)
@@ -40,7 +41,7 @@
     $node_shapes = "";
     $node_size = "";
     $url_list = "";
-    $nodes="/home/www/abhatta3-webserver/Data/Pipeline/Resources/shinyapp2_temp/$sessionID"."_drug_networks/$drugname"."_cytoscape_nodes.txt";
+    $nodes=$ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID"."_drug_networks/$drugname"."_cytoscape_nodes.txt";
     $node_data = file_get_contents($nodes);
     $node_explode = explode("\n", $node_data);
     for ($i=1;$i<(count($node_explode)-1);$i++)
@@ -55,10 +56,10 @@
 
         $content = file_get_contents("$url");
         //Store in the filesystem.
-        $fp = fopen("/home/www/abhatta3-webserver/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", "w");
+        $fp = fopen($ROOT_DIR . "cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", "w");
         fwrite($fp, $content);
         fclose($fp);
-        chmod("/home/www/abhatta3-webserver/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", 0777);
+        chmod($ROOT_DIR . "cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", 0777);
 
         $node_list .= "{data: { id: \"$node\", type: \"$shape\", color: \"$color\", background: \"http://mergeomics.research.idre.ucla.edu/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_$i\", size: \"10\" }}, \n";
     }
@@ -76,7 +77,7 @@
     $text2 = file_get_contents("./make_file/cyto_text2.txt");
     $text3 = file_get_contents("./make_file/cyto_app2_text3.txt");
 
-    $file_path = fopen("/home/www/abhatta3-webserver/cyto_visualize/"."$sessionID"."_"."$drugname"."_cytoscape_network.php", "w");
+    $file_path = fopen($ROOT_DIR . "cyto_visualize/"."$sessionID"."_"."$drugname"."_cytoscape_network.php", "w");
     // fwrite($file_path, $text1);
     fwrite($file_path, $text1);
     fwrite($file_path, $module_list);
@@ -86,7 +87,7 @@
     fwrite($file_path, $text3);
 
     fclose($file_path);
-    chmod("/home/www/abhatta3-webserver/cyto_visualize/"."$sessionID"."_"."$drugname"."_cytoscape_network.php", 0777);
+    chmod($ROOT_DIR . "cyto_visualize/"."$sessionID"."_"."$drugname"."_cytoscape_network.php", 0777);
     header('Location: '."/cyto_visualize/"."$sessionID"."_"."$drugname"."_cytoscape_network.php?sessionID=$sessionID"); /* Redirect browser */
 ?>
 
