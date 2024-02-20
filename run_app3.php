@@ -1,12 +1,8 @@
 <?php
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
+include "functions.php";
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
+$env=parse_ini_file(".env");
 
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
 if (isset($_POST['sessionID'])) {
   $sessionID = $_POST['sessionID'];
 } else if (isset($_GET['sessionID'])) {

@@ -1,15 +1,9 @@
 <?php error_reporting(E_ALL);
 ini_set('display_errors', 1); ?>
 <?php
-
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
-
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
+include "functions.php";
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
+$env=parse_ini_file(".env");
 function scientificNotation($val)
 {
   $exp = floor(log($val, 10));
@@ -66,7 +60,6 @@ if (isset($_GET['type']) ? $_GET['type'] : null) {
 
 if (isset($_GET['run'])) {
   $run = $_GET['run'];
-  debug_to_console("run: ".$run);
 }
 
 
@@ -74,7 +67,6 @@ if (isset($_GET['run'])) {
 if (isset($_GET['run'])) {
   if($run=='T'){
     $outfile = "./Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
-    debug_to_console("sh run_app3.sh $sessionID | tee " . $outfile);
     shell_exec("sh run_app3.sh $sessionID | tee " . $outfile);
     sleep(1);
     if (file_exists($outfile)) {
