@@ -37,9 +37,6 @@ if (isset($_GET['sessionID'])) {
           return $data;
         }
         $data = array_map('replace_a_line', $data);
-        echo count($data);
-        echo $data[0];
-        echo $data[1];
 
         if (strpos($data[2], 'signature') == false) {
           array_push($data, 'signature:' . "\t$signature" . "\n", 'type:' . "\t$type" . "\n");
@@ -192,15 +189,12 @@ if ($signature == 1) { //meta
     $cmd1 = "sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" ssh ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"]." ";
     $cmd2 = "'source /etc/profile; module load R/4.2.2; cd /u/scratch/m/mergeome/app2seg; qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp /u/home/m/mergeome/PharmOmics_resource/run_pharm_dose_seg.sh " . $sessionID . "'";
     $cmd3 = "qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00,highp -N ".$sessionID. "_app2 /u/home/m/mergeome/PharmOmics_resource/run_pharm_dose_seg.sh " . $sessionID ;
-    echo "touch " . $frunning_status;
-    echo $cmd2;
 
     shell_exec("touch " . $frunning_status);
 
     $stream=ssh2_exec($connection, "echo " . $cmds2. " > test.txt");
     stream_set_blocking( $stream, true );
     $stream_out = ssh2_fetch_stream( $stream, SSH2_STREAM_STDIO );
-    echo stream_get_contents($stream_out);
     fclose($stream);
 
     $stream=ssh2_exec($connection, $cmd3);

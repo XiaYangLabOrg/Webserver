@@ -57,8 +57,8 @@ $f = fopen($filename, 'w');
 fwrite($f, $final);
 fclose($f);
 
-//$fpath2 = $network_str; //change to user input
-//$file2 = json_encode($fpath2); 
+$fpath2 = $network_str; //change to user input
+$file2 = json_encode($fpath2); 
 
 
 //$file1 = "Genes <- read.delim(\"/home/www/abhatta3-webserver/Data/Pipeline/Resources/shinyapp2_temp/$sessionID"."_genes.txt\", stringsAsFactors = FALSE)\nGenes <- Genes\$GENE";

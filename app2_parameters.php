@@ -396,26 +396,6 @@ if (!file_exists($fsession)) {
 </div>
 
 <div style="text-align: center;padding: 20px 20px 0 20px;font-size: 16px;">
-  <!-- <div id="userinfo" style="display:none; padding-bottom: 25px;">
-    <img src="<?php echo $_SESSION['user_image'] ?>" class="img-responsive img-circle img-thumbnail" />
-    <div><?php echo $_SESSION['user_email_address'] ?></div>
-    <button style="background-color: white;" onclick="window.location.href='logout.php';">Sign out</button>
-    <div>Your quota: <?php echo $userUsage
-                      ?>/ <?php echo $individual_user_quota
-                          ?></div> -->
-  <!-- <div>Total daily quota: <?php #echo $dailyUsage 
-                                ?>/ <?php #echo $total_quota 
-                                    ?></div> -->
-  <!-- </div> 
-   <div class="alert alert-danger" style="margin: 1% auto; width: 40%;">
-    <i class="icon-warning-sign" style="margin-right: 6px;font-size: 15px;"></i>
-    Network-based repositioning is undergoing construction until January 28. Please pause your analyses until after this date.
-  </div>
-
-  <div class="alert alert-warning" style="margin: 0 auto; width: 40%;">
-    <i class="icon-warning-sign" style="margin-right: 6px;font-size: 15px;"></i>
-    We are in the process of improving the sample data.
-  </div> -->
 
   <!-- Grid container for MDF=====================================================-->
   <div class="gridcontainer">
