@@ -86,7 +86,7 @@ function scientificNotation($val)
     return sprintf('%.3fE%+03d', $val / pow(10, $exp), $exp);
   }
 }
-$frunning_status = "./Data/Pipeline/$sessionID" . "app2_is_running";
+$frunning_status = $ROOT_DIR . "/Data/Pipeline/$sessionID" . "app2_is_running";
 if ($signature == 1) { //meta 
   if (isset($_GET['run'])) {
     if ($run == 'T' && !file_exists($frunning_status)) {
@@ -248,8 +248,9 @@ if ($signature == 1) { //meta
   //echo "Script began: " . date("d-m-Y h:i:s") . "<br>";
   if (file_exists("./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done")) {
     //echo "The file was found: " . date("d-m-Y h:i:s") . "<br>";
-    debug_to_console($frunning_status);
-    unlink($frunning_status);
+    if(file_exists($frunning_status)){
+      unlink($frunning_status);
+    }
     $results_sent = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "sent_results";
     $email = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
     if ((!(file_exists($results_sent)))) {
