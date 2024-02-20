@@ -248,6 +248,7 @@ if ($signature == 1) { //meta
   //echo "Script began: " . date("d-m-Y h:i:s") . "<br>";
   if (file_exists("./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done")) {
     //echo "The file was found: " . date("d-m-Y h:i:s") . "<br>";
+    echo $frunning_status;
     unlink($frunning_status);
     $results_sent = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "sent_results";
     $email = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
