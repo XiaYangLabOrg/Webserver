@@ -1,4 +1,5 @@
 <?php
+    include "functions.php";
     // GET THE SESSION ID
     $sessionID=trim($_GET['sessionID']);
     $drugname=trim($_GET['drugres']);
