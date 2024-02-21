@@ -1,6 +1,8 @@
 <?php error_reporting(E_ALL);
 ini_set('display_errors', 1); ?>
+
 <?php
+ini_set('memory_limit', '-1');
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 function debug_to_console($data)
 {
