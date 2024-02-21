@@ -102,7 +102,6 @@ if (file_exists($fsession)) {
       $pharmomics_arr2 = explode("|", $pharmomics_arr[1]);
       //$msea2pharmomics = $pharmomics_arr2[0];
       $kda2pharmomics = preg_replace('/\s+/', ' ', trim($pharmomics_arr2[1]));
-      debug_to_console($kda2pharmomics);
       if ($rmchoice == 1) {
         return 'Pharmomics_Path:' . "\t" . "SSEAtoPharmomics,1.5|" . $$kda2pharmomics . "\n";
       } else {

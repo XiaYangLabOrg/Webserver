@@ -376,52 +376,16 @@ $email = "./Data/Pipeline/Results/shinyapp3_email/$sessionID" . "email";
 
 if ((!(file_exists($results_sent)))) {
   if (file_exists($email)) {
-    require('./PHPMailer-master/class.phpmailer.php');
-
-    $resultfile = "./Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result.txt";
-
-    $emailid = "./Data/Pipeline/Results/shinyapp3_email/$sessionID" . "email";
-    $mail = new PHPMailer();
-
-    $mail->Body = 'Congratulations! You have successfully executed our pipeline. Please download your results.';
-    $mail->Body .= "\n";
-    $mail->Body .= 'Your results are available at: http://mergeomics.research.idre.ucla.edu/runpharmomics.php?sessionID=';
-    $mail->Body .= "$sessionID";
-    $mail->Body .= "\n";
-    $mail->Body .= 'Note: Your results will be deleted from the server after 24 hours';
-
-    //$mail->IsSMTP(); // telling the class to use SMTP
-
-    $mail->SMTPAuth   = true;                  // enable SMTP authentication
-    $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-    $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-    $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-    $mail->Username   = "smha118@g.ucla.edu";  // GMAIL username
-    $mail->Password   = "mergeomics729@";            // GMAIL password
-
-    $mail->SetFrom('smha118@g.ucla.edu', 'Daniel Ha');
-
-    $mail->Subject    = "Overlap Based Drug Repositioning Execution Complete!";
-
-    $file_to_attach = "$resultfile";
-
-    $mail->addAttachment($file_to_attach, "Pharmomics_app3_result.txt");
-
-    //$address = "dougvarneson@gmail.com";
-    $address = trim(file_get_contents($emailid));
-    $mail->AddAddress($address);
-
-    if (!$mail->Send()) {
-      echo "Mailer Error: " . $mail->ErrorInfo;
-    } else {
-
-      $myfile = fopen("./Data/Pipeline/Results/shinyapp3_email/$sessionID" . "sent_results", "w");
-      fwrite($myfile, $address);
-      fclose($myfile);
-    }
+    $recipient = trim(file_get_contents($email));
+    $title = "Overlap Based Drug Repositioning Execution Complete!";
+    $body  = "Congratulations! You have successfully executed our pipeline. Please download your results.\n";
+    $body .= "Your results are available at: http://".$_SERVER["HTTP_HOST"]."/runpharmomics.php?sessionID=";
+    $body .= "$sessionID";
+    $body .= "\n";
+    $body .= "Note: Your results will be deleted from the server after 24 hours";
+    sendEmail($recipient,$title,$body,$results_sent);
   }
 }
-
 
 if ($type == 'pharm') {
 ?>
