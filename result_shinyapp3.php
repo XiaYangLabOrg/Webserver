@@ -1,5 +1,9 @@
 <?php error_reporting(E_ALL);
-ini_set('display_errors', 1); ?>
+ini_set('display_errors', 1); 
+#App2 contains large result files, which throws fatal error for table to load. This is temporary fix. Will have to apply memory efficient loading in the future.
+ini_set('memory_limit', '-1');
+?>
+
 <?php
 include "functions.php";
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
