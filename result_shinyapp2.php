@@ -1,5 +1,6 @@
 <?php
 include "functions.php";
+
 #App2 contains large result files, which throws fatal error for table to load. This is temporary fix. Will have to apply memory efficient loading in the future.
 ini_set('memory_limit', '-1');
 $env=parse_ini_file(".env");
