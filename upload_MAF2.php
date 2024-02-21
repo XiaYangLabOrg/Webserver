@@ -30,7 +30,9 @@ function detect_utf_encoding($text) {
 // R output is us-ascii
 // textEdit output for UTF-8 is us-ascii
 // testEdit output for UTF-16 is utf-16le
-
+error_reporting(0);
+ini_set('display_errors', 'Off');
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 function _detectFileEncoding($filepath) {
     // VALIDATE $filepath !!!
     $output = array();
@@ -122,7 +124,7 @@ if ($fh) //check if the file was opened correctly
   		fwrite($newFile, $write);
   		fclose($newFile);
   		*/
-  		$newFileName = "./Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName;
+  		$newFileName = $ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName;
   		$utf8Contents = utf16_decode(file_get_contents($_FILES['afile']['tmp_name']));
   		$newFile = fopen($newFileName, 'w');
     	fwrite($newFile, pack("CCC",0xef,0xbb,0xbf));
@@ -157,7 +159,7 @@ if ($fh) //check if the file was opened correctly
 }
 
 if($incompatible_encoding){
-	$fh = fopen("./Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName, 'r');
+	$fh = fopen($ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName, 'r');
 }
 
 $index = 0;
