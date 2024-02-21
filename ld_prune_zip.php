@@ -1,23 +1,24 @@
 <?php include_once("analyticstracking.php") ?>
 <?php
-
+include "functions.php";
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 $random_string=trim($_GET['My_ses']);
 
-$assocation_file = "/home/www/abhatta3-webserver/Data/Pipeline/Resources/ldprune_temp/"."$random_string"."_output/MDF_corrected_association.txt";
-$mapping_file = "/home/www/abhatta3-webserver/Data/Pipeline/Resources/ldprune_temp/"."$random_string"."_output/MDF_corrected_mapping.txt";
-$overview_file = "/home/www/abhatta3-webserver/Data/Pipeline/Resources/ldprune_temp/"."$random_string"."_MDF_file_parameter_selection.txt";
-$out_file = "/home/www/abhatta3-webserver/Data/Pipeline/Resources/ldprune_temp/" . $random_string . ".MDF_joblog.txt";
+$assocation_file = $ROOT_DIR . "Data/Pipeline/Resources/ldprune_temp/"."$random_string"."_output/MDF_corrected_association.txt";
+$mapping_file = $ROOT_DIR . "Data/Pipeline/Resources/ldprune_temp/"."$random_string"."_output/MDF_corrected_mapping.txt";
+$overview_file =$ROOT_DIR . "Data/Pipeline/Resources/ldprune_temp/"."$random_string"."_MDF_file_parameter_selection.txt";
+$out_file = $ROOT_DIR . "Data/Pipeline/Resources/ldprune_temp/" . $random_string . ".MDF_joblog.txt";
 $ssea_json = $ROOT_DIR . "Data/Pipeline/Resources/ldprune_temp/$random_string" . "data.json";
 $data = json_decode(file_get_contents($ssea_json))->data;
 $mapping = $data[0]->marker;
-$geneconvertedfile = str_replace("Resources/ssea_temp/", "/home/www/abhatta3-webserver/Data/Pipeline/Resources/ssea_temp/Converted_", $mapping);
+$geneconvertedfile = str_replace("Resources/ssea_temp/", $ROOT_DIR . "Data/Pipeline/Resources/ssea_temp/Converted_", $mapping);
 
 $files = array($assocation_file, $mapping_file, $out_file, $geneconvertedfile[0]);
 
-$zipname = '/home/www/abhatta3-webserver/Data/Pipeline/Resources/ldprune_temp/'."$random_string".'_output/'.'MD_Prune.zip';
-$abspath = '/home/www/abhatta3-webserver/Data/Pipeline/Resources/ldprune_temp/'."$random_string".'_output/';
-$abspath1 = '/home/www/abhatta3-webserver/Data/Pipeline/Resources/ldprune_temp/';
-$abspath2 = '/home/www/abhatta3-webserver/Data/Pipeline/Resources/ssea_temp/';
+$zipname = $ROOT_DIR . 'Data/Pipeline/Resources/ldprune_temp/'."$random_string".'_output/'.'MD_Prune.zip';
+$abspath = $ROOT_DIR . 'Data/Pipeline/Resources/ldprune_temp/'."$random_string".'_output/';
+$abspath1 = $ROOT_DIR . 'Data/Pipeline/Resources/ldprune_temp/';
+$abspath2 = $ROOT_DIR . 'Data/Pipeline/Resources/ssea_temp/';
 $zip = new ZipArchive;
 $zip->open($zipname, ZipArchive::CREATE);
 foreach ($files as $file) {

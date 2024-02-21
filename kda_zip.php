@@ -1,27 +1,28 @@
 <?php include_once("analyticstracking.php") ?>
 <?php
-
+include "functions.php";
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 $random_string=trim($_GET['My_ses']);
 
-$hubs_file = "/home/www/abhatta3-webserver/Data/Pipeline/Results/kda/$random_string.wKDA_hubs_structure.txt";
-$pvalues_file = "/home/www/abhatta3-webserver/Data/Pipeline/Results/kda/$random_string.wKDA_kd_pval.txt";
-$results_file = "/home/www/abhatta3-webserver/Data/Pipeline/Results/kda/$random_string.wKDA_kd_full_results.txt";
-$tophits_file = "/home/www/abhatta3-webserver/Data/Pipeline/Results/kda/$random_string.wKDA_kd_tophits.txt";
-$overview_file = "/home/www/abhatta3-webserver/Data/Pipeline/Results/kda/$random_string.wKDA_file_parameter_selection.txt";
-$outfile = "/home/www/abhatta3-webserver/Data/Pipeline/Results/kda/$random_string.wKDA_joblog.txt";
+$hubs_file = $ROOT_DIR."Data/Pipeline/Results/kda/$random_string.wKDA_hubs_structure.txt";
+$pvalues_file = $ROOT_DIR."Data/Pipeline/Results/kda/$random_string.wKDA_kd_pval.txt";
+$results_file = $ROOT_DIR."Data/Pipeline/Results/kda/$random_string.wKDA_kd_full_results.txt";
+$tophits_file = $ROOT_DIR."Data/Pipeline/Results/kda/$random_string.wKDA_kd_tophits.txt";
+$overview_file = $ROOT_DIR."Data/Pipeline/Results/kda/$random_string.wKDA_file_parameter_selection.txt";
+$outfile = $ROOT_DIR."Data/Pipeline/Results/kda/$random_string.wKDA_joblog.txt";
 
-$edges_file = "/home/www/abhatta3-webserver/Data/Pipeline/Results/cytoscape/$random_string.wKDA_cytoscape_edges.txt";
-$nodes_file = "/home/www/abhatta3-webserver/Data/Pipeline/Results/cytoscape/$random_string.wKDA_cytoscape_nodes.txt";
-$topkds_file = "/home/www/abhatta3-webserver/Data/Pipeline/Results/cytoscape/$random_string.wKDA_cytoscape_top_kds.txt";
-$color_file = "/home/www/abhatta3-webserver/Data/Pipeline/Results/cytoscape/$random_string.wKDA_cytoscape_module_color_mapping.txt";
+$edges_file = $ROOT_DIR."Data/Pipeline/Results/cytoscape/$random_string.wKDA_cytoscape_edges.txt";
+$nodes_file = $ROOT_DIR."Data/Pipeline/Results/cytoscape/$random_string.wKDA_cytoscape_nodes.txt";
+$topkds_file = $ROOT_DIR."Data/Pipeline/Results/cytoscape/$random_string.wKDA_cytoscape_top_kds.txt";
+$color_file = $ROOT_DIR."Data/Pipeline/Results/cytoscape/$random_string.wKDA_cytoscape_module_color_mapping.txt";
 
 //$files1 = array($hubs_file, $pvalues_file, $results_file, $tophits_file, $overview_file);
 $files1 = array($results_file, $overview_file, $outfile);
 $files2 = array($edges_file, $nodes_file, $topkds_file, $color_file);
 
-$zipname = '/home/www/abhatta3-webserver/Data/Pipeline/Results/kda/'."$random_string".'_wKDA.zip';
-$abspath1 = '/home/www/abhatta3-webserver/Data/Pipeline/Results/kda/';
-$abspath2 = '/home/www/abhatta3-webserver/Data/Pipeline/Results/cytoscape/';
+$zipname = $ROOT_DIR.'Data/Pipeline/Results/kda/'."$random_string".'_wKDA.zip';
+$abspath1 = $ROOT_DIR.'Data/Pipeline/Results/kda/';
+$abspath2 = $ROOT_DIR.'Data/Pipeline/Results/cytoscape/';
 $zip = new ZipArchive;
 $zip->open($zipname, ZipArchive::CREATE);
 foreach ($files1 as $file) {

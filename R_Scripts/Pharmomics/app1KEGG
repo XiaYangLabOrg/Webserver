@@ -8,7 +8,7 @@
 # input$species <- c("Homo sapiens","Mus musculus")
 # input$species <- "Homo sapiens"
 
-#.libPaths(c("/home/www/abhatta3-webserver/Rnew2/lib64/R/library/",.libPaths()))
+
 options(stringsAsFactors = FALSE)
 
 library(UpSetR)

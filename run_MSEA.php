@@ -119,7 +119,7 @@ if (!file_exists($ROOT_DIR . "/Data/Pipeline/Results/ssea/$sessionID.MSEA_module
         $add = 'file <- "' . $marker_association . '"
             marker_associations <- read.delim(file, stringsAsFactors = FALSE)
             marker_associations_base = unlist(strsplit(file, split = "/"))[length(unlist(strsplit(file, split = "/")))]'."\n";
-        $add2 = 'if(file.exists(paste0("/home/www/abhatta3-webserver/Data/Pipeline/tmpFileEncoding/",marker_associations_base))){
+        $add2 = 'if(file.exists(paste0("'.$ROOT_DIR.'Data/Pipeline/tmpFileEncoding/",marker_associations_base))){
                 cat("genfile created in upload step\n")
             } else {
                 genfile = data.frame("GENE"=unique(marker_associations$MARKER), "MARKER" = unique(marker_associations$MARKER), stringsAsFactors = FALSE)

@@ -1,12 +1,6 @@
 <?php
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
-
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
+include "functions.php";
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
 }
@@ -28,11 +22,11 @@ $start4 = 'cat("80%' . '\n")';
 $start5 = 'cat("100%' . '\n")';
 
 //$fpath1="./Data/Pipeline/Resources/shinyapp3_temp/$sessionID".".KDA2PHARM_genes.txt"; 
-$fpath1 = "./Resources/shinyapp3_temp/$sessionID" . ".KDA2PHARM_genes.txt";
+$fpath1 = $ROOT_DIR . "Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".KDA2PHARM_genes.txt";
 
 //$fpath2="./Data/Pipeline/Resources/shinyapp3_temp/$sessionID".".KDA2PHARM_down_genes.txt"; 
 
-$fpathOut = "./Data/Pipeline/$sessionID" . "app3.R"; # change to pharmomics folder
+$fpathOut = $ROOT_DIR ."Data/Pipeline/$sessionID" . "app3.R"; # change to pharmomics folder
 
 //$file1 = json_encode(trim(file_get_contents($fpath1))); # hopefully this just outputs one string?
 $file2 = '""';
@@ -48,11 +42,11 @@ $file2 = "Genes_down <- unlist(strsplit(" . $file2 . "," . '"\n|\t|,| "' . "))";
 $data = $file1 . "\n" . $file2 . "\n";
 
 //$analysis=file_get_contents("./R_Scripts/app3_analysis");
-$analysis = file_get_contents("./Data/Pipeline/Resources/app3_analysis");
+$analysis = file_get_contents($ROOT_DIR ."Data/Pipeline/Resources/app3_analysis");
 
 #write.table(result, "app3result.txt", row.names=FALSE, quote = FALSE, sep = "\t")
 
-$output = "\nwrite.table(result, " . '"' . "/home/www/abhatta3-webserver/Data/Pipeline/Results/shinyapp3/$sessionID" . '.KDA2PHARM_app3result.txt", ' . "row.names=FALSE, quote = FALSE, sep =" . '"\t")';
+$output = "\nwrite.table(result, " . '"' . $ROOT_DIR ."Data/Pipeline/Results/shinyapp3/$sessionID" . '.KDA2PHARM_app3result.txt", ' . "row.names=FALSE, quote = FALSE, sep =" . '"\t")';
 
 
 $fp = fopen($fpathOut, "w");
@@ -80,7 +74,7 @@ if( ($fp = popen("sh run_app3.sh $sessionID | tee -a ./Data/Pipeline/Results/shi
 }
 echo "</pre>"; */
 
-$fsession = "./Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
+$fsession = $ROOT_DIR ."Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 if (file_exists($fsession)) {
   function replace_a_line($data, $rmchoice)
   {

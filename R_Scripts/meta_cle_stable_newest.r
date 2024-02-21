@@ -1801,7 +1801,7 @@ ssea.meta <- function(jobs, label, folder) {
   ######## ADDED BY DOUG
   modfile <- paste(meta_label,".ssea2kda.module.txt",sep="")
   detail_file_loc = paste(meta_folder,"/ssea/",meta_label,".details.txt",sep="")
-  detail_file <- tool.read("/home/www/abhatta3-webserver/Data/Pipeline/Results/meta_ssea/4ipkMUlaKa_meta_result/ssea/4ipkMUlaKa_META.details.txt", c("MODULE","GENE"))
+  detail_file <- tool.read("/var/www/mergeomics/html/Data/Pipeline/Results/meta_ssea/4ipkMUlaKa_meta_result/ssea/4ipkMUlaKa_META.details.txt", c("MODULE","GENE"))
   colnames(detail_file) <- c("MODULE", "NODE")
   tool.save(frame=detail_file, file=modfile, directory=meta_folder)
   ###########
@@ -2161,8 +2161,8 @@ ssea.start.configure <- function(plan) {
   cat("  Test quantiles:");
   names(tmploci)=c("LOCUS","VALUE")
   names(tmpgene)=c("GENE","LOCUS")
-  loci_file_name = paste("/home/www/abhatta3-webserver/Data/Pipeline/Resources/meta_temp/",plan$label,"_loci.txt",sep="")
-  gene_file_name = paste("/home/www/abhatta3-webserver/Data/Pipeline/Resources/meta_temp/",plan$label,"_gene.txt",sep="")
+  loci_file_name = paste("/var/www/mergeomics/html/Data/Pipeline/Resources/meta_temp/",plan$label,"_loci.txt",sep="")
+  gene_file_name = paste("/var/www/mergeomics/html/Data/Pipeline/Resources/meta_temp/",plan$label,"_gene.txt",sep="")
   write.table(tmploci,loci_file_name,quote = F,row.names = F,sep = "\t")
   write.table(tmpgene,gene_file_name,quote = F,row.names = F,sep = "\t")
   plan$locfile = loci_file_name

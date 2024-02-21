@@ -1,5 +1,6 @@
 <?php
-error_reporting(E_ERROR | E_PARSE);
+include "functions.php";
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 if (isset($_GET['sessionID'])) {
 	$sessionID = $_GET['sessionID'];
 }
@@ -26,8 +27,8 @@ if (file_exists($outfile)) {
 	$file = file_get_contents($outfile);
 	// $file = str_replace("/home/www/abhatta3-webserver/Data/Pipeline/Resources/ldprune_temp/", "", $file);
 	// $file = str_replace("/home/www/abhatta3-webserver/Data/Pipeline/Resources/LD_files/", "", $file);
-	$file = str_replace("./Data/Pipeline/Resources/ldprune_temp/", "", $file);
-	$file = str_replace("./Data/Pipeline/Resources/LD_files/", "", $file);
+	$file = str_replace($ROOT_DIR."Data/Pipeline/Resources/ldprune_temp/", "", $file);
+	$file = str_replace($ROOT_DIR."Data/Pipeline/Resources/LD_files/", "", $file);
 	print nl2br($file);
 }
 	

@@ -1,4 +1,6 @@
 <?php
+    include "functions.php";
+    $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
     // GET THE SESSION ID
     $sessionID=trim($_GET['sessionID']);
     // $sessionID="M3uxS7BRXo";
@@ -7,7 +9,7 @@
     <!-- GET THE COLORS OF THE MODULES TO CREATE THE TABLE AT THE BOTTOM OF SIDEBAR -->
 <?php
     $module_list = "";
-    $colors="/home/www/abhatta3-webserver/Data/Pipeline/Results/cytoscape/$sessionID"."_cytoscape_module_color_mapping.txt";
+    $colors=$ROOT_DIR."Data/Pipeline/Results/cytoscape/$sessionID"."_cytoscape_module_color_mapping.txt";
     $color_data = file_get_contents($colors);
     $color_explode = explode("\n", $color_data);
     for ($i=1;$i<(count($color_explode)-1);$i++)
@@ -25,7 +27,7 @@
 <?php
     $edge_list = "edges: [ ";
     $edge_weight = "";
-    $edges="/home/www/abhatta3-webserver/Data/Pipeline/Results/cytoscape/$sessionID"."_cytoscape_edges.txt";
+    $edges=$ROOT_DIR."Data/Pipeline/Results/cytoscape/$sessionID"."_cytoscape_edges.txt";
     $edge_data = file_get_contents($edges);
     $edge_explode = explode("\n", $edge_data);
     for ($i=1;$i<(count($edge_explode)-1);$i++)
@@ -48,7 +50,7 @@
     $node_shapes = "";
     $node_size = "";
     $url_list = "";
-    $nodes="/home/www/abhatta3-webserver/Data/Pipeline/Results/cytoscape/$sessionID"."_cytoscape_nodes.txt";
+    $nodes=$ROOT_DIR."Data/Pipeline/Results/cytoscape/$sessionID"."_cytoscape_nodes.txt";
     $node_data = file_get_contents($nodes);
     $node_explode = explode("\n", $node_data);
     for ($i=1;$i<(count($node_explode)-1);$i++)
@@ -66,10 +68,10 @@
 
             $content = file_get_contents("$url");
             //Store in the filesystem.
-            $fp = fopen("/home/www/abhatta3-webserver/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", "w");
+            $fp = fopen($ROOT_DIR."cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", "w");
             fwrite($fp, $content);
             fclose($fp);
-            chmod("/home/www/abhatta3-webserver/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", 0777);
+            chmod($ROOT_DIR."cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", 0777);
 
             $node_list .= "{data: { id: \"$node\", type: \"$shape\", color: \"$color\", background: \"http://mergeomics.research.idre.ucla.edu/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_$i\", size: \"10\" }}, \n";
         }
@@ -83,10 +85,10 @@
 
             $content = file_get_contents("$url");
             //Store in the filesystem.
-            $fp = fopen("/home/www/abhatta3-webserver/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", "w");
+            $fp = fopen($ROOT_DIR."cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", "w");
             fwrite($fp, $content);
             fclose($fp);
-            chmod("/home/www/abhatta3-webserver/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", 0777);
+            chmod($ROOT_DIR."cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", 0777);
 
             $node_list .= "{data: { id: \"$node\", type: \"$shape\", color: \"$color\", background: \"http://mergeomics.research.idre.ucla.edu/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_$i\", size: \"$size\" }}, \n";
         }
@@ -116,7 +118,7 @@
     $text2 = file_get_contents("./make_file/cyto_text2.txt");
     $text3 = file_get_contents("./make_file/cyto_text3.txt");
 
-    $file_path = fopen("/home/www/abhatta3-webserver/cyto_visualize/cytoscape_subnet_"."$sessionID".".php", "w");
+    $file_path = fopen($ROOT_DIR."cyto_visualize/cytoscape_subnet_"."$sessionID".".php", "w");
     // fwrite($file_path, $text1);
     fwrite($file_path, $text1);
     fwrite($file_path, $module_list);
@@ -126,6 +128,6 @@
     fwrite($file_path, $text3);
 
     fclose($file_path);
-    chmod("/home/www/abhatta3-webserver/cyto_visualize/cytoscape_subnet_"."$sessionID".".php", 0777);
+    chmod($ROOT_DIR."cyto_visualize/cytoscape_subnet_"."$sessionID".".php", 0777);
     header('Location: '."/cyto_visualize/cytoscape_subnet_"."$sessionID".".php?sessionID=$sessionID"); /* Redirect browser */
 ?>

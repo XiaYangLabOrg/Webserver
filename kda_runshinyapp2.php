@@ -1,12 +1,5 @@
 <?php
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
-
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
+include "functions.php";
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 if (isset($_GET['rmchoice'])) {
   $rmchoice = $_GET['rmchoice'];
@@ -49,11 +42,11 @@ if (isset($_GET['network']) and isset($_GET['species'])) {
   }
 }
 
-$fpath1 = "/home/www/abhatta3-webserver/Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . ".KDA2PHARM_genes.txt";
+$fpath1 = $ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . ".KDA2PHARM_genes.txt";
 //$fpath2 = $network; //change to user input
 
 
-$fpathOut = "./Data/Pipeline/$sessionID" . "app2.R"; # change to pharmomics folder
+$fpathOut = $ROOT_DIR ."Data/Pipeline/$sessionID" . "app2.R"; # change to pharmomics folder
 
 
 //$file1 = json_encode(trim(file_get_contents($fpath1))); # 
@@ -65,7 +58,7 @@ sessionID <- \"$sessionID" . "\"";
 //$file2 = "network <- " . $file2;
 
 $data = $file1 . "\n" . $file2 . "\n";
-$analysis = file_get_contents("./Data/Pipeline/Resources/app2_analysis_meta");
+$analysis = file_get_contents($ROOT_DIR ."Data/Pipeline/Resources/app2_analysis_meta");
 //$output = "\nwrite.table(tableresult, " . '"' . $ROOT_DIR . "Data/Pipeline/Results/shinyapp2/$sessionID" . '.KDA2PHARM_app2result.txt", ' . "row.names=FALSE, quote = FALSE, sep =" . '"\t")';
 
 $fp = fopen($fpathOut, "w");

@@ -2754,8 +2754,8 @@ ssea.start.configure <- function(plan) {
         tmpgene=tool.read(plan$genfile,c("GENE","MARKER"))
         names(tmploci)=c("LOCUS","VALUE")
         names(tmpgene)=c("GENE","LOCUS")
-        loci_file_name = paste("/home/www/abhatta3-webserver/Data/Pipeline/Resources/ssea_temp/",plan$label,"_loci.txt",sep="")
-        gene_file_name = paste("/home/www/abhatta3-webserver/Data/Pipeline/Resources/ssea_temp/",plan$label,"_gene.txt",sep="")
+        loci_file_name = paste("/var/www/mergeomics/html/Data/Pipeline/Resources/ssea_temp/",plan$label,"_loci.txt",sep="")
+        gene_file_name = paste("/var/www/mergeomics/html/Data/Pipeline/Resources/ssea_temp/",plan$label,"_gene.txt",sep="")
         write.table(tmploci,loci_file_name,quote = F,row.names = F,sep = "\t")
         write.table(tmpgene,gene_file_name,quote = F,row.names = F,sep = "\t")
         plan$locfile = loci_file_name
@@ -3949,9 +3949,9 @@ makeNewGeneSetFileOnlySNPMappedGenes <- function(geneset_file, details_file, ret
     }
   }
  if(!return_only_mod_genes){
-    write.table(result_all, "/home/www/abhatta3-webserver/Data/Pipeline/Results/ssea/New_GeneSets_SNP_mapped_all.txt", sep="\t", quote = FALSE, row.names = FALSE)
+    write.table(result_all, "/var/www/mergeomics/html/Data/Pipeline/Results/ssea/New_GeneSets_SNP_mapped_all.txt", sep="\t", quote = FALSE, row.names = FALSE)
   }
   else{
-    write.table(result, "/home/www/abhatta3-webserver/Data/Pipeline/Results/ssea/New_GeneSets_SNP_mapped.txt", sep="\t", quote = FALSE, row.names = FALSE)
+    write.table(result, "/var/www/mergeomics/html/Data/Pipeline/Results/ssea/New_GeneSets_SNP_mapped.txt", sep="\t", quote = FALSE, row.names = FALSE)
   }
 }
