@@ -17,7 +17,7 @@ $linecount=$linecount[0];
 $subsetfilename=$ROOT_DIR."Data/Pipeline/Results/shinyapp3/".generateRandomString() . ".txt";
 shell_exec("sed -n " . $start . "," . $end . "p ". $resultfile . " > " . $subsetfilename);
 
-$subsetdata = array("draw"=>$draw, "recordsTotal"=>$linecount, "recordsTotal"=>$linecount,"data"=>array());
+$subsetdata = array("draw"=>$draw, "recordsTotal"=>$linecount, "recordsFiltered"=>$linecount,"data"=>array());
 $handle = fopen($subsetfilename, "r");
 while(!feof($handle)){
     $line = fgets($handle);
