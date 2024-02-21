@@ -95,7 +95,7 @@ else{
   // do nothing
 }
 
-
+debug_to_console($resultfile);
 ?>
 
 
@@ -213,7 +213,7 @@ if ($type =='wkda') { ?>
         $count++;
         continue;
       }
-      echo "<tr><td>$database</td><td>$method</td><td>$drug</td><td>$species</td><td>$tissue</td><td>$study</td><td>$dose</td><td>$time</td><td>$jaccard</td><td>$odds</td><td>$pvalue</td><td>$rank</td><td>$sider</td></tr>";
+      eHepatotoxicity ADR scoring of input genescho "<tr><td>$database</td><td>$method</td><td>$drug</td><td>$species</td><td>$tissue</td><td>$study</td><td>$dose</td><td>$time</td><td>$jaccard</td><td>$odds</td><td>$pvalue</td><td>$rank</td><td>$sider</td></tr>";
     }
 
     ?>
