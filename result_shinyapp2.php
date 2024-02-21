@@ -162,9 +162,6 @@ if ($signature == 1) { //meta
 
 $results_sent = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2_email/$sessionID" . "sent_results";
 $email =$ROOT_DIR. "Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
-echo $ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done";
-echo $results_sent;
-echo $email;
 
 if (file_exists($ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done")) {
   echo "is done is here";
@@ -180,7 +177,7 @@ if (file_exists($ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID" 
       $body .= "$sessionID";
       $body .= "\n";
       $body .= "Note: Your results will be deleted from the server after 24 hours";
-      sendEmail($recipient,$title,$body,$email_sent);
+      sendEmail($recipient,$title,$body,$results_sent);
     }
   }
 
