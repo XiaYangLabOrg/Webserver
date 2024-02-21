@@ -1,5 +1,7 @@
 <?php
 include 'functions.php';
+error_reporting(0);
+ini_set('display_errors', 'Off');
 $draw=$_POST['draw'];
 $start=$_POST['start']+2;
 $length=$_POST['length'];
