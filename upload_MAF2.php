@@ -32,6 +32,7 @@ function detect_utf_encoding($text) {
 // testEdit output for UTF-16 is utf-16le
 error_reporting(0);
 ini_set('display_errors', 'Off');
+ini_set('memory_limit', -1);
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 function _detectFileEncoding($filepath) {
     // VALIDATE $filepath !!!
