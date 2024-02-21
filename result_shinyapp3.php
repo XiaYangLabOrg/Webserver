@@ -68,7 +68,6 @@ if (isset($_GET['type']) ? $_GET['type'] : null) {
 
 if (isset($_GET['run'])) {
   $run = $_GET['run'];
-  debug_to_console("run: ".$run);
 }
 
 
@@ -88,7 +87,6 @@ if (isset($_GET['run'])) {
 else if($type == 'pharm'){
   if (!file_exists($resultfile)) {
     $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
-    debug_to_console("sh run_app3.sh $sessionID | tee " . $outfile);
     shell_exec("sh run_app3.sh $sessionID | tee " . $outfile);
     sleep(1);
     if (file_exists($outfile)) {
