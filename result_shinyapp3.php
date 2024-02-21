@@ -89,8 +89,6 @@ else if($type == 'pharm'){
   }
 }
 
-
-debug_to_console($resultfile);
 ?>
 
 
