@@ -1,7 +1,7 @@
 <?php
-$draw=$_GET['draw'];
-$start=$_GET['start'];
-$length=$_GET['length'];
+$draw=$_POST['draw'];
+$start=$_POST['start'];
+$length=$_POST['length'];
 $end=$start+$length;
 $resultfile=$_POST['resultfile'];
 
