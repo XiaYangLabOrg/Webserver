@@ -38,7 +38,7 @@ while(!feof($handle)){
     if ($sider!="none") {
         $sider = '<a href=' . $sider . '> SIDER';
     }
-    array_push($subsetdata=>"data",$database,$method,$drug,$species,$tissue,$study,$dose,$time,$jaccard,$odds,$pvalue,$rank,$sider);
+    array_push($subsetdata["data"],$database,$method,$drug,$species,$tissue,$study,$dose,$time,$jaccard,$odds,$pvalue,$rank,$sider);
 }
 fclose($handle);
 echo json_encode($subsetdata);
