@@ -2401,7 +2401,8 @@ body.stretched #header.full-header .container {
 -----------------------------------------------------------------*/
 
 
-#primary-menu { float: right; }
+#primary-menu { float: none;
+  max-width: none; }
 
 #primary-menu ul.mobile-primary-menu { display: none; }
 
