@@ -126,18 +126,22 @@ echo "</pre>"; */
           text = $http.responseText;
           text = text.replace(/\s/g, '');
           if (text.indexOf("100%") == -1) {
-            setTimeout(function() {
+            timeOutVar=setTimeout(function() {
               $self();
-            }, 1500);
-
+            }, 10000);
+            
+          }else{
+            clearTimeout(timeOutVar);
+            $('#myAPP3_run').load("/result_shinyapp3.php?sessionID=" + string + "&type=pharm");
           }
-          if (text == "100%") {
-            setTimeout(function() {
-              var string = "<?php echo $sessionID; ?>";
-              $('#myAPP3_run').load("/result_shinyapp3.php?sessionID=" + string + "&type=pharm");
-            }, 20000)
+          // if (text == "100%") {
+          //   clearTimeout(timeOutVar);
+          //   setTimeout(function() {
+          //     var string = "<?php echo $sessionID; ?>";
+             
+          //   }, 20000)
 
-          }
+          // }
 
 
           $('#app3progresswidth').width(text);
