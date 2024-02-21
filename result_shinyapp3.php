@@ -48,16 +48,16 @@ if (isset($_GET['type']) ? $_GET['type'] : null) {
 
   $type = $_GET['type'];
   if ($type == 'ssea' || $type == 'msea') {
-    $resultfile = "./Data/Pipeline/Results/shinyapp3/$sessionID" . ".SSEA2PHARM_app3result.txt";
-    $genefile = "./Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
+    $resultfile =$ROOT_DIR ."Data/Pipeline/Results/shinyapp3/$sessionID" . ".SSEA2PHARM_app3result.txt";
+    $genefile = $ROOT_DIR ."Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
   } else {
-    $resultfile = "./Data/Pipeline/Results/shinyapp3/$sessionID" . ".KDA2PHARM_app3result.txt";
-    $genefile = "./Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".KDA2PHARM_genes.txt";
+    $resultfile =$ROOT_DIR . "Data/Pipeline/Results/shinyapp3/$sessionID" . ".KDA2PHARM_app3result.txt";
+    $genefile = $ROOT_DIR ."Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".KDA2PHARM_genes.txt";
   }
 
   if ($type == 'pharm') {
-    $resultfile = "./Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result.txt";
-    $resultfiletox = "./Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result_hepatotox.txt";
+    $resultfile = $ROOT_DIR ."Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result.txt";
+    $resultfiletox = $ROOT_DIR ."Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result_hepatotox.txt";
   }
 }
 
@@ -70,7 +70,7 @@ if (isset($_GET['run'])) {
 
 if (isset($_GET['run'])) {
   if($run=='T'){
-    $outfile = "./Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
+    $outfile =$ROOT_DIR . "Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
     shell_exec("sh run_app3.sh $sessionID | tee " . $outfile);
     sleep(1);
     if (file_exists($outfile)) {
@@ -81,8 +81,7 @@ if (isset($_GET['run'])) {
 }
 else if($type == 'pharm'){
   if (!file_exists($resultfile)) {
-    $outfile = "./Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
-    debug_to_console("sh run_app3.sh $sessionID | tee " . $outfile);
+    $outfile = $ROOT_DIR ."Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
     shell_exec("sh run_app3.sh $sessionID | tee " . $outfile);
     sleep(1);
     if (file_exists($outfile)) {
@@ -91,9 +90,7 @@ else if($type == 'pharm'){
     chmod($resultfile, 0777);
   }
 }
-else{
-  // do nothing
-}
+
 
 debug_to_console($resultfile);
 ?>
