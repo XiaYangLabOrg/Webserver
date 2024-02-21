@@ -95,9 +95,9 @@ else if($type == 'pharm'){
     chmod($resultfile, 0777);
   }
 }
-else{
-  // do nothing
-}
+
+
+debug_to_console($resultfile);
 
 
 ?>
