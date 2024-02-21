@@ -2,25 +2,9 @@
 ini_set('display_errors', 1); ?>
 
 <?php
-ini_set('memory_limit', '-1');
+#ini_set('memory_limit', '-1');
+include "functions.php";
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
-function debug_to_console($data)
-{
-  $output = $data;
-  if (is_array($output))
-    $output = implode(',', $output);
-
-  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
-function scientificNotation($val)
-{
-  $exp = floor(log($val, 10));
-  if ($val == 0) {
-    return 0;
-  } else {
-    return sprintf('%.4fE%+03d', $val / pow(10, $exp), $exp);
-  }
-}
 
 
 if (isset($_GET['sessionID'])) {

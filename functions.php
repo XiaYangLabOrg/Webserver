@@ -4,6 +4,15 @@ ini_set('display_errors', 'On');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+function scientificNotation($val)
+{
+  $exp = floor(log($val, 10));
+  if ($val == 0) {
+    return 0;
+  } else {
+    return sprintf('%.4fE%+03d', $val / pow(10, $exp), $exp);
+  }
+}
 function generateRandomString($length = 10)
 {
   $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
