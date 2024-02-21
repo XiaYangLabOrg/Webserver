@@ -3,7 +3,7 @@ include 'functions.php';
 $draw=$_POST['draw'];
 $start=$_POST['start']+2;
 $length=$_POST['length'];
-$end=$start+$length;
+$end=$start+$length-1;
 $resultfile=$_POST['resultfile'];
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 #echo $resultfile;
@@ -16,7 +16,7 @@ $subsetfilename=$ROOT_DIR."Data/Pipeline/Results/shinyapp3/".generateRandomStrin
 shell_exec("sed -n " . $start . "," . $end . "p ". $resultfile . " > " . $subsetfilename);
 
 $subsetdata = array("draw"=>$draw, "recordsTotal"=>$linecount, "recordsTotal"=>$linecount,"data"=>array());
-$handle = fopen($resultfile, "r");
+$handle = fopen($subsetfilename, "r");
 while(!feof($handle)){
     $line = fgets($handle);
     $line_array = explode("\t", $line);
