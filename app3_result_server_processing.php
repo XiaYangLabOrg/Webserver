@@ -5,14 +5,14 @@ $start=$_POST['start']+2;
 $length=$_POST['length'];
 $end=$start+$length;
 $resultfile=$_POST['resultfile'];
-
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 #echo $resultfile;
 $sed_cmd="sed -";
 $linecount=shell_exec("wc -l ".$resultfile);
 $linecount=explode(" ",$linecount);
 $linecount=$linecount[0];
 
-$subsetfilename=generateRandomString() . ".txt";
+$subsetfilename=$ROOT_DIR."Data/Pipeline/Results/shinyapp3/".generateRandomString() . ".txt";
 shell_exec("sed -n " . $start . "," . $end . "p ". $resultfile . " > " . $subsetfilename);
 
 $subsetdata = array("draw"=>$draw, "recordsTotal"=>$linecount, "recordsTotal"=>$linecount,"data"=>array());
