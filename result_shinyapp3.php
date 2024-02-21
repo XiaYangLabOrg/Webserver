@@ -99,9 +99,6 @@ else if($type == 'pharm'){
 }
 
 
-echo "FILE:".$resultfile;
-
-
 ?>
 
 
