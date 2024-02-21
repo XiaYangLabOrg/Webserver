@@ -278,8 +278,7 @@ if ($type =='wkda') { ?>
     $count = 0;
     #$result = file($resultfile);
 
-    $file="largefile.txt";
-    $handle = fopen($file, "r");
+    $handle = fopen($resultfile, "r");
     while(!feof($handle)){
       if ($count != 0) {
         $line = fgets($handle);
