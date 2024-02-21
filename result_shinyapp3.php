@@ -433,6 +433,7 @@ if ($type == 'pharm') {
       } ,
       processing: true,
       serverSide: true,
+      searching: false,
       "order": [
         [10, 'asc']
       ],
