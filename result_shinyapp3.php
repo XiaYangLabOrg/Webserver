@@ -278,33 +278,36 @@ if ($type =='wkda') { ?>
     $count = 0;
     #$result = file($resultfile);
 
-    $handle = fopen($resultfile, "r");
-    while(!feof($handle)){
-      if ($count != 0) {
-        $line = fgets($handle);
-        $line_array = explode("\t", $line);
-        $database = trim($line_array[0]);
-        $method = trim($line_array[1]);
-        $drug = trim($line_array[2]);
-        $species = trim($line_array[3]);
-        $tissue = trim($line_array[4]);
-        $study = trim($line_array[5]);
-        $dose = trim($line_array[6]);
-        $time = trim($line_array[7]);
-        $jaccard = number_format(floatval($line_array[8]), 3, ".", "");
-        $odds = number_format(floatval($line_array[9]), 3, ".", "");
-        $pvalue = scientificNotation(trim((float)$line_array[10]));
-        $rank = number_format(floatval($line_array[11]), 5, ".", "");
-        $sider = trim($line_array[17]);
-        if ($sider!="none") {
-          $sider = '<a href=' . $sider . '> SIDER';
-        }
-        echo "<tr><td>$database</td><td>$method</td><td>$drug</td><td>$species</td><td>$tissue</td><td>$study</td><td>$dose</td><td>$time</td><td>$jaccard</td><td>$odds</td><td>$pvalue</td><td>$rank</td><td>$sider</td></tr>";
-      }
-      $count++;
-    }
+    // $handle = fopen($resultfile, "r");
+    // while(!feof($handle)){
+    //   if ($count != 0) {
+    //     $line = fgets($handle);
+    //     $line_array = explode("\t", $line);
+    //     $database = trim($line_array[0]);
+    //     $method = trim($line_array[1]);
+    //     $drug = trim($line_array[2]);
+    //     $species = trim($line_array[3]);
+    //     $tissue = trim($line_array[4]);
+    //     $study = trim($line_array[5]);
+    //     $dose = trim($line_array[6]);
+    //     $time = trim($line_array[7]);
+    //     $jaccard = number_format(floatval($line_array[8]), 3, ".", "");
+    //     $odds = number_format(floatval($line_array[9]), 3, ".", "");
+    //     $pvalue = scientificNotation(trim((float)$line_array[10]));
+    //     $rank = number_format(floatval($line_array[11]), 5, ".", "");
+    //     $sider = trim($line_array[17]);
+    //     if ($sider!="none") {
+    //       $sider = '<a href=' . $sider . '> SIDER';
+    //     }
+    //     echo "<tr><td>$database</td><td>$method</td><td>$drug</td><td>$species</td><td>$tissue</td><td>$study</td><td>$dose</td><td>$time</td><td>$jaccard</td><td>$odds</td><td>$pvalue</td><td>$rank</td><td>$sider</td></tr>";
+    //   }
+    //   $count++;
+    // }
 
-    fclose($handle);
+    // fclose($handle);
+
+
+
     // foreach ($result as $line) {
     //   $line_array = explode("\t", $line);
     //   $database = trim($line_array[0]);
@@ -442,6 +445,9 @@ if ($type == 'pharm') {
   }
   else{
     $("#shinyapp3_results").dataTable({
+      ajax: "app3_result_server_processing.php",
+      processing: true,
+      serverSide: true,
       "order": [
         [10, 'asc']
       ],
