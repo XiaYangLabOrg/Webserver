@@ -1,11 +1,15 @@
+<?php error_reporting(E_ALL);
+ini_set('display_errors', 1); ?>
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1); 
-#App2 contains large result files, which throws fatal error for table to load. This is temporary fix. Will have to apply memory efficient loading in the future.
-ini_set('memory_limit', '-1');
-include "functions.php";
-$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
-$env=parse_ini_file(".env");
+
+function debug_to_console($data)
+{
+  $output = $data;
+  if (is_array($output))
+    $output = implode(',', $output);
+
+  echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
 function scientificNotation($val)
 {
   $exp = floor(log($val, 10));
@@ -46,29 +50,31 @@ if (isset($_GET['type']) ? $_GET['type'] : null) {
 
   $type = $_GET['type'];
   if ($type == 'ssea' || $type == 'msea') {
-    $resultfile =$ROOT_DIR ."Data/Pipeline/Results/shinyapp3/$sessionID" . ".SSEA2PHARM_app3result.txt";
-    $genefile = $ROOT_DIR ."Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
+    $resultfile = "./Data/Pipeline/Results/shinyapp3/$sessionID" . ".SSEA2PHARM_app3result.txt";
+    $genefile = "./Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
   } else {
-    $resultfile =$ROOT_DIR . "Data/Pipeline/Results/shinyapp3/$sessionID" . ".KDA2PHARM_app3result.txt";
-    $genefile = $ROOT_DIR ."Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".KDA2PHARM_genes.txt";
+    $resultfile = "./Data/Pipeline/Results/shinyapp3/$sessionID" . ".KDA2PHARM_app3result.txt";
+    $genefile = "./Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".KDA2PHARM_genes.txt";
   }
 
   if ($type == 'pharm') {
-    $resultfile = $ROOT_DIR ."Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result.txt";
-    $resultfiletox = $ROOT_DIR ."Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result_hepatotox.txt";
+    $resultfile = "./Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result.txt";
+    $resultfiletox = "./Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result_hepatotox.txt";
   }
 }
 
 
 if (isset($_GET['run'])) {
   $run = $_GET['run'];
+  debug_to_console("run: ".$run);
 }
 
 
 
 if (isset($_GET['run'])) {
   if($run=='T'){
-    $outfile =$ROOT_DIR . "Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
+    $outfile = "./Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
+    debug_to_console("sh run_app3.sh $sessionID | tee " . $outfile);
     shell_exec("sh run_app3.sh $sessionID | tee " . $outfile);
     sleep(1);
     if (file_exists($outfile)) {
@@ -79,7 +85,8 @@ if (isset($_GET['run'])) {
 }
 else if($type == 'pharm'){
   if (!file_exists($resultfile)) {
-    $outfile = $ROOT_DIR ."Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
+    $outfile = "./Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
+    debug_to_console("sh run_app3.sh $sessionID | tee " . $outfile);
     shell_exec("sh run_app3.sh $sessionID | tee " . $outfile);
     sleep(1);
     if (file_exists($outfile)) {
@@ -88,6 +95,10 @@ else if($type == 'pharm'){
     chmod($resultfile, 0777);
   }
 }
+else{
+  // do nothing
+}
+
 
 ?>
 
@@ -206,7 +217,7 @@ if ($type =='wkda') { ?>
         $count++;
         continue;
       }
-      eHepatotoxicity ADR scoring of input genescho "<tr><td>$database</td><td>$method</td><td>$drug</td><td>$species</td><td>$tissue</td><td>$study</td><td>$dose</td><td>$time</td><td>$jaccard</td><td>$odds</td><td>$pvalue</td><td>$rank</td><td>$sider</td></tr>";
+      echo "<tr><td>$database</td><td>$method</td><td>$drug</td><td>$species</td><td>$tissue</td><td>$study</td><td>$dose</td><td>$time</td><td>$jaccard</td><td>$odds</td><td>$pvalue</td><td>$rank</td><td>$sider</td></tr>";
     }
 
     ?>
