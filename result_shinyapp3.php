@@ -436,10 +436,10 @@ if ($type == 'pharm') {
       "order": [
         [10, 'asc']
       ],
-      "dom": "Bfrtlip",
-      "buttons": [
-        'excelHtml5',
-      ]
+      //"dom": "Bfrtlip",
+      //"buttons": [
+      //  'excelHtml5',
+      //]
     });
   }
 
