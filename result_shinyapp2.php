@@ -238,44 +238,36 @@ if ($signature == 1) { //meta
     // mysqli_query($conn, $sql);
     // mysqli_close($conn);
   }
-  //set_time_limit(0);
 
-  //echo "Script began: " . date("d-m-Y h:i:s") . "<br>";
-  if (file_exists("./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done")) {
-    //echo "The file was found: " . date("d-m-Y h:i:s") . "<br>";
-    if(file_exists($frunning_status)){
-      unlink($frunning_status);
-    }
-    $results_sent = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "sent_results";
-    $email = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
-    if ((!(file_exists($results_sent)))) {
-      if (file_exists($email)) {
-        $recipient = trim(file_get_contents($email));
-        $title = "Network Based Drug Repositioning Execution Complete!";
-        $body  = "Congratulations! You have successfully executed our pipeline. Please download your results.\n";
-        $body .= "Your results are available at: http://".$_SERVER["HTTP_HOST"]."/runpharmomics.php?sessionID=";
-        $body .= "$sessionID";
-        $body .= "\n";
-        $body .= "Note: Your results will be deleted from the server after 24 hours";
-        sendEmail($recipient,$title,$body,$email_sent);
-      }
-    }
 
-    //break;
-  } else {
-    echo "Not ready!!";
+
+}
+if (file_exists("./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done")) {
+  //echo "The file was found: " . date("d-m-Y h:i:s") . "<br>";
+  if(file_exists($frunning_status)){
+    unlink($frunning_status);
+  }
+  $results_sent = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "sent_results";
+  $email = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
+  if ((!(file_exists($results_sent)))) {
+    if (file_exists($email)) {
+      $recipient = trim(file_get_contents($email));
+      $title = "Network Based Drug Repositioning Execution Complete!";
+      $body  = "Congratulations! You have successfully executed our pipeline. Please download your results.\n";
+      $body .= "Your results are available at: http://".$_SERVER["HTTP_HOST"]."/runpharmomics.php?sessionID=";
+      $body .= "$sessionID";
+      $body .= "\n";
+      $body .= "Note: Your results will be deleted from the server after 24 hours";
+      sendEmail($recipient,$title,$body,$email_sent);
+    }
   }
 
-
-
-  // do {
-  //   //if (file_exists($resultfile)) {
-  //   if (file_exists("./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done")) {
-  //     echo "The file was found: " . date("d-m-Y h:i:s") . "<br>";
-  //     break;
-  //   }
-  // } while (true);
+  //break;
+} else {
+  echo "Not ready!!";
 }
+
+
 
 ?>
 
