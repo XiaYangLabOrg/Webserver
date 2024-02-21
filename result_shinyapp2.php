@@ -132,57 +132,6 @@ if ($signature == 1) { //meta
     }
   }
 } else {
-  #include('config.php');
-  //include('mysql_conn.php');
-  // $login_button = '';
-  // $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=true";
-  // $google_client->setRedirectUri($scriptUri);
-
-  // //This $_GET["code"] variable value received after user has login into their Google Account redirct to PHP script then this variable value has been received
-  // if (isset($_GET["code"])) {
-  //   //It will Attempt to exchange a code for an valid authentication token.
-  //   #    $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
-  //   $google_client->authenticate($_GET['code']);
-  //   $_SESSION['access_token'] = $google_client->getAccessToken();
-
-  //   //This condition will check there is any error occur during geting authentication token. If there is no any error occur then it will execute if block of code/
-  //   if (!isset($token['error'])) {
-  //     //Set the access token used for requests
-  //     $google_client->setAccessToken($token['access_token']);
-
-  //     //Store "access_token" value in $_SESSION variable for future use.
-  //     $_SESSION['access_token'] = $token['access_token'];
-
-  //     //Create Object of Google Service OAuth 2 class
-  //     $google_service = new Google_Service_Oauth2($google_client);
-
-  //     //Get user profile data from google
-  //     $data = $google_service->userinfo->get();
-  //     //debug_to_console($data);
-  //     //Below you can find Get profile data and store into $_SESSION variable
-  //     if (!empty($data['given_name'])) {
-  //       $_SESSION['user_first_name'] = $data['given_name'];
-  //     }
-
-  //     if (!empty($data['family_name'])) {
-  //       $_SESSION['user_last_name'] = $data['family_name'];
-  //     }
-
-  //     if (!empty($data['email'])) {
-  //       $_SESSION['user_email_address'] = $data['email'];
-  //     }
-
-  //     if (!empty($data['gender'])) {
-  //       $_SESSION['user_gender'] = $data['gender'];
-  //     }
-
-  //     if (!empty($data['picture'])) {
-  //       $_SESSION['user_image'] = $data['picture'];
-  //     }
-  //   }
-  // }
-  #$user_name = $_SESSION['user_first_name'] . " " . $_SESSION['user_last_name'];
-  #$user_email = $_SESSION['user_email_address'];
   // run commands on hoffman2
   if (!file_exists($resultfile) && !file_exists($frunning_status)) {
     // $cmds1 = "sshpass -p \"mergeomics729@\" ssh smha118@192.154.2.201 ";
@@ -208,44 +157,18 @@ if ($signature == 1) { //meta
     fwrite($sessionfile, stream_get_contents($stream_out));
     fclose($sessionfile);
     fclose($stream);
-    #echo stream_get_contents($stream_out);
- 
-    #$stream = ssh2_exec($connection, "touch " . $frunning_status);
-    #fclose($stream);
-    #$stream = ssh2_exec($connection, $cmds2);
-    #fclose($stream);
-    // shell_exec("touch " . $frunning_status);
-    // shell_exec($cmds1 . $cmds2);
-#    $user_usage_count = $ROOT_DIR . "/User_usage/" . $user_email . "." . date("Y.m.d") . ".json";
-    // $json = array();
-    // $json['session'] = $sessionID;
-    // $json['user_name'] = $user_name;
-    // $json['user_email'] = $user_email;
-    // $json['submit_time'] = date("Y-m-d h:i:sa");
-    // $json['cmds'] = $cmds2;
-    // if (!file_exists($user_usage_count)) {
-    //   $jsondata[] = $json;
-    // } else {
-    //   $jsondata = json_decode(file_get_contents($user_usage_count));
-    //   array_push($jsondata, $json);
-    // }
-    // $fp = fopen($user_usage_count, 'w');
-    // fwrite($fp, json_encode($jsondata));
-    // fclose($fp);
-    // $cmds = "qsub -cwd -V -m bea -l h_data=4G,h_rt=12:00:00 run_pharm_dose_seg.sh " . $sessionID;
-    // $sql = 'INSERT INTO hoffman2_logs (sessionID, user_email, user_name, cmds) 
-    //     VALUES ("' . $sessionID . '", "' . $user_email . '", "' . $user_name . '","' . $cmds . '"); ';
-    // mysqli_query($conn, $sql);
-    // mysqli_close($conn);
   }
 }
 
+$results_sent = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2_email/$sessionID" . "sent_results";
+$email =$ROOT_DIR. "Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
+echo $ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done";
+echo $results_sent;
+echo $email;
 
-if (file_exists("./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done")) {
+if (file_exists($ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done")) {
   echo "is done is here";
   //echo "The file was found: " . date("d-m-Y h:i:s") . "<br>";
-  $results_sent = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "sent_results";
-  $email = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
   if ((!(file_exists($results_sent)))) {
     echo "sentresult not here";
     if (file_exists($email)) {
