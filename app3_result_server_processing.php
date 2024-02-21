@@ -36,7 +36,7 @@ while(!feof($handle)){
     $rank = number_format(floatval($line_array[11]), 5, ".", "");
     $sider = trim($line_array[17]);
     if ($sider!="none") {
-        $sider = '<a href=' . $sider . '> SIDER';
+        $sider = '<a target=\'_blank\' href=' . $sider . '> SIDER';
     }
     $row=array($database,$method,$drug,$species,$tissue,$study,$dose,$time,$jaccard,$odds,$pvalue,$rank,$sider);
     array_push($subsetdata["data"],$row);
