@@ -164,12 +164,9 @@ $results_sent = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2_email/$sessionID" .
 $email =$ROOT_DIR. "Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
 
 if (file_exists($ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done")) {
-  echo "is done is here";
   //echo "The file was found: " . date("d-m-Y h:i:s") . "<br>";
   if ((!(file_exists($results_sent)))) {
-    echo "sentresult not here";
     if (file_exists($email)) {
-      echo "email here";
       $recipient = trim(file_get_contents($email));
       $title = "Network Based Drug Repositioning Execution Complete!";
       $body  = "Congratulations! You have successfully executed our pipeline. Please download your results.\n";
