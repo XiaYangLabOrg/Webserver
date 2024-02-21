@@ -445,7 +445,13 @@ if ($type == 'pharm') {
   }
   else{
     $("#shinyapp3_results").dataTable({
-      ajax: "app3_result_server_processing.php",
+      ajax: {
+        url:"app3_result_server_processing.php",
+        type:"POST",
+        data:{
+          resultfile:"<?php echo $resultfile;?>"
+        }
+      } ,
       processing: true,
       serverSide: true,
       "order": [
