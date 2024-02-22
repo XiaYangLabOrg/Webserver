@@ -51,15 +51,15 @@ if (file_exists($fsession)) {
   }
 }
 
-if (!empty($_POST)) {
-  $fp = fopen($fpostOut, "w");
-  foreach ($_POST as $key => $value) {
-    $postwrite .= $key . "\t" . $value . "\n";
-  }
-  fwrite($fp, $postwrite);
-  fclose($fp);
-  chmod($fpostOut, 0774);
-}
+// if (!empty($_POST)) {
+//   $fp = fopen($fpostOut, "w");
+//   foreach ($_POST as $key => $value) {
+//     $postwrite .= $key . "\t" . $value . "\n";
+//   }
+//   fwrite($fp, $postwrite);
+//   fclose($fp);
+//   chmod($fpostOut, 0774);
+// }
 
 
 
@@ -977,8 +977,6 @@ if ($rmchoice == 1) {
       var genetype = $("input[name='genegroup']:checked").val();
       var analysis = $("input[name='analysistype']:checked").val();
       var rm = 3;
-      console.log("haha");
-      console.log(analysis);
       if (moduletype == 1) {
         var sigmeasure = $('#measure option:selected').val();
         var sigthreshold = $('#threshold').val();
