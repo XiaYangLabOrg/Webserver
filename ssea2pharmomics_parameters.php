@@ -52,6 +52,7 @@ if (file_exists($fsession)) {
 }
 
 if (!empty($_POST)) {
+  echo $fpostOut;
   $fp = fopen($fpostOut, "w");
   foreach ($_POST as $key => $value) {
     $postwrite .= $key . "\t" . $value . "\n";
