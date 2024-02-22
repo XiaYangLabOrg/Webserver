@@ -52,7 +52,6 @@ if (file_exists($fsession)) {
 }
 
 if (!empty($_POST)) {
-  echo $fpostOut;
   $fp = fopen($fpostOut, "w");
   foreach ($_POST as $key => $value) {
     $postwrite .= $key . "\t" . $value . "\n";
@@ -972,13 +971,14 @@ if ($rmchoice == 1) {
     function meta2pharmreview() //This function gets the review table for wKDA
     {
 
-      var choice = $('select[name=network_select] option').filter(':selected').val(),
-        species = $('select[name=species_select] option').filter(':selected').val(),
-        moduletype = $("input[name='modulegroup']:checked").val(),
-        genetype = $("input[name='genegroup']:checked").val(),
-        analysis = $("input[name='analysistype']:checked").val(),
-        rm = 3;
-
+      var choice = $('select[name=network_select] option').filter(':selected').val();
+      var species = $('select[name=species_select] option').filter(':selected').val();
+      var moduletype = $("input[name='modulegroup']:checked").val();
+      var genetype = $("input[name='genegroup']:checked").val();
+      var analysis = $("input[name='analysistype']:checked").val();
+      var rm = 3;
+      console.log("haha");
+      console.log(analysis);
       if (moduletype == 1) {
         var sigmeasure = $('#measure option:selected').val();
         var sigthreshold = $('#threshold').val();
