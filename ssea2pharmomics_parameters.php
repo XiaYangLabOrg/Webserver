@@ -1,5 +1,6 @@
 <?php
-
+include "functions.php";
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 function scientificNotation($val)
 {
   $exp = floor(log($val, 10));
@@ -26,7 +27,7 @@ if (isset($_POST['sessionID'])) {
 }
 
 
-$fsession = "./Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
+$fsession = $ROOT_DIR."Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 if (file_exists($fsession)) {
   function replace_a_line($data, $rmchoice)
   {
@@ -80,8 +81,8 @@ if (isset($_POST['analysistype']) ? $_POST['analysistype'] : null) {
 
 
   if ($pharmtype == 1) {
-    $fpostOut = "./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_shinyapp2_postdata.txt";
-    $overview_fp = "./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . ".SSEA2PHARM_overview.txt";
+    $fpostOut = $ROOT_DIR."Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_shinyapp2_postdata.txt";
+    $overview_fp = $ROOT_DIR."Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . ".SSEA2PHARM_overview.txt";
     $overview_file = fopen($overview_fp, "w");
     $overview_write .= "Pharmomics Analysis Type" . "\t" . "Network Based Drug Positioning" . "\n";
     $net_fp = $_POST['network_select'];
@@ -101,8 +102,8 @@ if (isset($_POST['analysistype']) ? $_POST['analysistype'] : null) {
     else
       $overview_write .= "Species" . "\t" . "Mouse" . "\n";
   } else {
-    $fpostOut = "./Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . "_shinyapp3_postdata.txt";
-    $overview_fp = "./Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_overview.txt";
+    $fpostOut = $ROOT_DIR."Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . "_shinyapp3_postdata.txt";
+    $overview_fp = $ROOT_DIR."Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_overview.txt";
     $overview_file = fopen($overview_fp, "w");
     $overview_write .= "Pharmomics Analysis Type" . "\t" . "Overlap Based Drug Positioning" . "\n";
   }
@@ -149,9 +150,9 @@ if (!empty($_POST)) {
 
 
 if ($rmchoice == 1 || $rmchoice == 2)
-  $fullresults = "./Data/Pipeline/Results/ssea/$sessionID" . ".MSEA_modules_full_result.txt";
+  $fullresults = $ROOT_DIR."Data/Pipeline/Results/ssea/$sessionID" . ".MSEA_modules_full_result.txt";
 else
-  $fullresults = "./Data/Pipeline/Results/meta_ssea/" . "$sessionID" . "_meta_result/ssea/" . "$sessionID" . ".MSEA_modules_full_result.txt";
+  $fullresults = $ROOT_DIR."Data/Pipeline/Results/meta_ssea/" . "$sessionID" . "_meta_result/ssea/" . "$sessionID" . ".MSEA_modules_full_result.txt";
 
 $count = 1;
 $json = array();
@@ -724,28 +725,28 @@ if (isset($_POST['modulegroup']) ? $_POST['modulegroup'] : null) {
   $g = $_POST['genegroup'];
   $a = $_POST['analysistype'];
   if ($a == 1) {
-    $fselectpathOut = "./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . ".SSEA2PHARM_selectedmodules.txt";
-    $fgenespathOut = "./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
+    $fselectpathOut = $ROOT_DIR."Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . ".SSEA2PHARM_selectedmodules.txt";
+    $fgenespathOut = $ROOT_DIR."Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
   } else {
-    $fselectpathOut = "./Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_selectedmodules.txt";
-    $fgenespathOut = "./Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
+    $fselectpathOut = $ROOT_DIR."Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_selectedmodules.txt";
+    $fgenespathOut = $ROOT_DIR."Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
   }
 
   if ($m == 1 && $g == 1) //All modules from gene sets + All genes
   {
     if ($rmchoice == 1)
       //$geneset_file = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "MODULE";
-      $geneset_file = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
+      $geneset_file = $ROOT_DIR."Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
     else if ($rmchoice == 2)
       //$geneset_file = "./Data/Pipeline/Resources/msea_temp/$sessionID" . "MODULE";
-      $geneset_file = "./Data/Pipeline/Resources/msea_temp/$sessionID" . "data.json";
+      $geneset_file =$ROOT_DIR."Data/Pipeline/Resources/msea_temp/$sessionID" . "data.json";
     else
-      $geneset_file = "./Data/Pipeline/Resources/meta_temp/$sessionID" . "data.json"; // will need to work on this
+      $geneset_file = $ROOT_DIR."Data/Pipeline/Resources/meta_temp/$sessionID" . "data.json"; // will need to work on this
 
     //$geneset = trim(file_get_contents($geneset_file)); edited by JD Dec
     $datajson = json_decode(file_get_contents($geneset_file))->data;
     $genesets = $datajson[0]->geneset;
-    $fgeneset = "./Data/Pipeline/" . $genesets;
+    $fgeneset = $ROOT_DIR."Data/Pipeline/" . $genesets;
     $genearray = file($fgeneset);
     $genearr = array();
 
@@ -756,9 +757,9 @@ if (isset($_POST['modulegroup']) ? $_POST['modulegroup'] : null) {
   } elseif ($m == 1 && $g == 2) //All modules from gene set + Only genes mapped from SNPs
   {
     if ($rmchoice == 1 || $rmchoice == 2)
-      $geneset_file = "./Data/Pipeline/Results/ssea/$sessionID" . ".GeneSets_SNP_mapped.txt";
+      $geneset_file = $ROOT_DIR."Data/Pipeline/Results/ssea/$sessionID" . ".GeneSets_SNP_mapped.txt";
     else
-      $geneset_file = "./Data/Pipeline/Results/meta_ssea/$sessionID" . ".GeneSets_SNP_mapped.txt";
+      $geneset_file = $ROOT_DIR."Data/Pipeline/Results/meta_ssea/$sessionID" . ".GeneSets_SNP_mapped.txt";
 
     $genearray = file($geneset_file);
     $genearr = array();
@@ -771,17 +772,17 @@ if (isset($_POST['modulegroup']) ? $_POST['modulegroup'] : null) {
   {
     if ($rmchoice == 1)
       //$geneset_file = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "MODULE";
-      $geneset_file = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
+      $geneset_file = $ROOT_DIR."Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
     else if ($rmchoice == 2)
       //$geneset_file = "./Data/Pipeline/Resources/msea_temp/$sessionID" . "MODULE";
-      $geneset_file = "./Data/Pipeline/Resources/msea_temp/$sessionID" . "data.json";
+      $geneset_file = $ROOT_DIR."Data/Pipeline/Resources/msea_temp/$sessionID" . "data.json";
     else
       //$geneset_file = "./Data/Pipeline/Resources/meta_temp/$sessionID" . "MODULE";
-      $geneset_file = "./Data/Pipeline/Resources/meta_temp/$sessionID" . "data.json";
+      $geneset_file = $ROOT_DIR."Data/Pipeline/Resources/meta_temp/$sessionID" . "data.json";
 
     $datajson = json_decode(file_get_contents($geneset_file))->data;
     $genesets = $datajson[0]->geneset;
-    $filename = "./Data/Pipeline/" . $genesets;
+    $filename = $ROOT_DIR."Data/Pipeline/" . $genesets;
     //$geneset = trim(file_get_contents($geneset_file));
     //$filename = "./Data/Pipeline/" . $geneset;
 
@@ -789,9 +790,9 @@ if (isset($_POST['modulegroup']) ? $_POST['modulegroup'] : null) {
   } else //Select specific modules + Only genes mapped from SNPs
   {
     if ($rmchoice == 1 || $rmchoice == 2)
-      $filename = "./Data/Pipeline/Results/ssea/$sessionID" . ".GeneSets_SNP_mapped.txt";
+      $filename = $ROOT_DIR."Data/Pipeline/Results/ssea/$sessionID" . ".GeneSets_SNP_mapped.txt";
     else
-      $filename = "./Data/Pipeline/Results/meta_ssea/$sessionID" . ".GeneSets_SNP_mapped.txt";
+      $filename = $ROOT_DIR."Data/Pipeline/Results/meta_ssea/$sessionID" . ".GeneSets_SNP_mapped.txt";
 
     getGenesFromSelectModules($fselectpathOut, $fgenespathOut, $filename, $data);
   }

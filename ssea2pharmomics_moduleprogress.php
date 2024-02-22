@@ -37,7 +37,7 @@ $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
   if (isset($_GET['sig_threshold'])) {
     $threshold = $_GET['sig_threshold'];
   }
-  $fjson = "./Data/Pipeline/Resources/session/$sessionID" . "_pharmomics.json";
+  $fjson = $ROOT_DIR."Data/Pipeline/Resources/session/$sessionID" . "_pharmomics.json";
   if (isset($_GET['analysistype'])) {
     $analysis = $_GET['analysistype'];
     $json = array();
@@ -68,15 +68,15 @@ $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
     $analysis = $json->analysis;
   }
   if ($analysis == 1) {
-    $genefile = "./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . ".SSEA2PHARM_selectedmodules.txt";
-    $geneinputfile = "./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
-    $femail = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
-    $email_sent = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "sent_email";
+    $genefile = $ROOT_DIR."Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . ".SSEA2PHARM_selectedmodules.txt";
+    $geneinputfile = $ROOT_DIR."Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
+    $femail = $ROOT_DIR."Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
+    $email_sent = $ROOT_DIR."Data/Pipeline/Results/shinyapp2_email/$sessionID" . "sent_email";
   } else {
-    $genefile = "./Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_selectedmodules.txt";
-    $geneinputfile = "./Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
-    $femail = "./Data/Pipeline/Results/shinyapp3_email/$sessionID" . "email";
-    $email_sent = "./Data/Pipeline/Results/shinyapp3_email/$sessionID" . "sent_email";
+    $genefile = $ROOT_DIR."Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_selectedmodules.txt";
+    $geneinputfile = $ROOT_DIR."Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
+    $femail = $ROOT_DIR."Data/Pipeline/Results/shinyapp3_email/$sessionID" . "email";
+    $email_sent = $ROOT_DIR."Data/Pipeline/Results/shinyapp3_email/$sessionID" . "sent_email";
   }
 
   $geneinputfilesize = filesize($geneinputfile);
