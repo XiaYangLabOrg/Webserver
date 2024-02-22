@@ -75,19 +75,11 @@ if (isset($_GET['run'])) {
 }
 
 
-function scientificNotation($val)
-{
-  $exp = floor(log($val, 10));
-  if ($val == 0) {
-    return 0;
-  } else {
-    return sprintf('%.3fE%+03d', $val / pow(10, $exp), $exp);
-  }
-}
+
 $frunning_status = $ROOT_DIR . "/Data/Pipeline/$sessionID" . "app2_is_running";
 if ($signature == 1) { //meta 
   if (isset($_GET['run'])) {
-    if ($run == 'T' && !file_exists($frunning_status)) {
+    if (!file_exists($frunning_status)) {
       $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2/" . $sessionID . "out.txt";
       shell_exec("touch " . $frunning_status);
       shell_exec("Rscript " . $ROOT_DIR . "Data/Pipeline/" . $sessionID . "app2.R | tee " . $outfile);

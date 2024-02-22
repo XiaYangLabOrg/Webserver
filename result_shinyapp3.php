@@ -57,7 +57,6 @@ if (isset($_GET['run'])) {
 
 
 if (isset($_GET['run'])) {
-  if($run=='T'){
     $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
     debug_to_console("sh run_app3.sh $sessionID | tee " . $outfile);
     shell_exec("sh run_app3.sh $sessionID | tee " . $outfile);
@@ -66,7 +65,6 @@ if (isset($_GET['run'])) {
       unlink($outfile);
     }
     chmod($resultfile, 0777);
-  }
 }
 else if($type == 'pharm'){
   if (!file_exists($resultfile)) {

@@ -120,9 +120,13 @@ if (file_exists($fsession)) {
                     if (text.indexOf("100%") == -1) {
                         setTimeout(function() {
                             $self();
-                        }, 50);
+                        }, 10000);
 
+                    }else{
+                        clearTimeout(timeOutVar);
+                        $('#myssea2pharm_review').load("/result_shinyapp3.php?sessionID=" + string + "&type=ssea&run=<?php echo $rmchoice ?>");
                     }
+                    
 
 
 
@@ -200,16 +204,17 @@ if (file_exists($fsession)) {
 
 <script type="text/javascript">
     var string = "<?php echo $sessionID; ?>";
+    $('#myssea2pharm_review').load("/result_shinyapp3.php?sessionID=" + string + "&type=ssea&run=<?php echo $rmchoice ?>");
 </script>
-<?php
-if ($rmchoice == 1) //from SSEA pipeline i.e. GWAS
-{
+<!-- <?php
+#if ($rmchoice == 1) //from SSEA pipeline i.e. GWAS
+#{
 ?>
     <script type="text/javascript">
         $('#myssea2pharm_review').load("/result_shinyapp3.php?sessionID=" + string + "&type=ssea&run=<?php echo $run ?>");
     </script>
 <?php
-} else if ($rmchoice == 2) {
+#} else if ($rmchoice == 2) {
 ?>
     <script type="text/javascript">
         $('#mymsea2pharm_review').load("/result_shinyapp3.php?sessionID=" + string + "&type=msea&run=<?php echo $run ?>");
@@ -217,13 +222,13 @@ if ($rmchoice == 1) //from SSEA pipeline i.e. GWAS
 
 
 <?php
-} else {
+#} else {
 ?>
     <script type="text/javascript">
         $('#myMETAMSEA2PHARM_review').load("/result_shinyapp3.php?sessionID=" + string + "&type=ssea&run=<?php echo $run ?>");
     </script>
 
 <?php
-}
+#}
 
-?>
+?> -->

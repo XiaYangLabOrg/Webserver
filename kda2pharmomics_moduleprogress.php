@@ -1,4 +1,6 @@
  <?php
+  include "functions.php";
+  $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
   if (isset($_GET['sessionID'])) {
     $sessionID = $_GET['sessionID'];
   }
