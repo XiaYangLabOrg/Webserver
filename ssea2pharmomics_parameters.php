@@ -1,16 +1,6 @@
 <?php
 include "functions.php";
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
-function scientificNotation($val)
-{
-  $exp = floor(log($val, 10));
-  if ($val == 0) {
-    return 0;
-  } else {
-    return sprintf('%.3fE%+03d', $val / pow(10, $exp), $exp);
-  }
-}
-
 if (isset($_GET['rmchoice'])) {
   $rmchoice = $_GET['rmchoice'];
 }
