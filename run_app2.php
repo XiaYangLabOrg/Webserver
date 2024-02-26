@@ -11,7 +11,7 @@ if (isset($_POST['signature_select'])) {
     $signature = $_POST['signature_select'];
 }
 
-if (isset($_POST['network_select']) and isset($_POST['species_select'])) {
+if (isset($_POST['network_select']) && isset($_POST['species_select'])) {
     $network = $_POST['network_select'];
     $species = $_POST['species_select'];
     if ($network == 1) {
