@@ -58,22 +58,13 @@ if (isset($_GET['run'])) {
 
 if (isset($_GET['run'])) {
     $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
-    debug_to_console("sh run_app3.sh $sessionID | tee " . $outfile);
     shell_exec("sh run_app3.sh $sessionID | tee " . $outfile);
-    sleep(1);
-    if (file_exists($outfile)) {
-      unlink($outfile);
-    }
     chmod($resultfile, 0777);
 }
 else if($type == 'pharm'){
   if (!file_exists($resultfile)) {
     $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
     shell_exec("sh run_app3.sh $sessionID | tee " . $outfile);
-    sleep(1);
-    if (file_exists($outfile)) {
-      unlink($outfile);
-    }
     chmod($resultfile, 0777);
   }
 }
