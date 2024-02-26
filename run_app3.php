@@ -83,6 +83,7 @@ sessionID <- \"$sessionID" . "\"";
   fwrite($fp, "\n" . $start1 . "\n");
   fwrite($fp, $data);
   fwrite($fp, $analysis);
+  fwrite($fp, "\n" . $start5 . "\n");
   fclose($fp);
   chmod($fpathOut, 0777);
 }
