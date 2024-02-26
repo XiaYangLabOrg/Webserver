@@ -56,7 +56,7 @@ fwrite($fp, $data);
 fwrite($fp, $analysis);
 //fwrite($fp, "\n".$start4."\n");
 fwrite($fp, $output);
-//fwrite($fp, "\n".$start5."\n");
+fwrite($fp, "\n".$start5."\n");
 fclose($fp);
 chmod($fpathOut, 0777);
 
@@ -117,7 +117,7 @@ if (file_exists($fsession)) {
 
                     text = $http.responseText;
                     text = text.replace(/\s/g, '');
-                    if (text.indexOf("100%") == -1) {
+                    if (!text.includes("100%") {
                         setTimeout(function() {
                             $self();
                         }, 10000);
