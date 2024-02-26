@@ -94,6 +94,66 @@ if (file_exists($fsession)) {
 
 ?>
 
+<script type="text/javascript">
+    var sessionID="<?php echo $sessionID; ?>";
+    var rmchoice="<?php echo $rmchoice; ?>";
+    var run="<?php echo $run; ?>";
+    function ssea2jaccardAjax() {
+        var $http;
+        var text;
+        var $self = arguments.callee;
+
+        if (window.XMLHttpRequest) {
+            $http = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            try {
+                $http = new ActiveXObject('Msxml2.XMLHTTP');
+            } catch (e) {
+                $http = new ActiveXObject('Microsoft.XMLHTTP');
+            }
+        }
+
+        if ($http) {
+            $http.onreadystatechange = function() {
+                if (/4|^complete$/.test($http.readyState)) {
+
+                    text = $http.responseText;
+                    text = text.replace(/\s/g, '');
+                    if (!text.includes("100%") {
+                        timeOutVar=setTimeout(function() {
+                            $self();
+                        }, 10000);
+
+                    }else{
+                        clearTimeout(timeOutVar);
+                        if(rmchoice==1){
+                            $("#myssea2pharm_review").load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=ssea");
+                        }else if(rmchoice==2){
+                            $("#mymsea2pharm_review").load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=msea");
+                        }else{
+                            $("#myMETAMSEA2PHARM_review").load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=ssea");
+                        }
+
+                    }
+                    $('#ssea2jaccardprogresswidth').width(text);
+                    $('#ssea2jaccardprogresspercent').html(text);
+                }
+            };
+            $http.open('GET', 'pharmomics_loadbar.php' + '?sessionID=' + sessionID + "&date=" + new Date().getTime(), true);
+            $http.send(null);
+
+        }
+
+    }
+</script>
+
+<script type="text/javascript">
+  setTimeout(function() {
+    ssea2jaccardAjax();
+  }, 50);
+</script>
+
+
 
 <!-- Description ===================================================== -->
 <table class="table table-bordered" style="text-align: center;">
@@ -103,8 +163,6 @@ if (file_exists($fsession)) {
         </tr>
     </thead>
     <tbody>
-
-
         <tr>
             <td>
                 <div class="loading-window">
@@ -144,78 +202,7 @@ if (file_exists($fsession)) {
     </tbody>
 </table>
 
-<?php
-$email_sent = "./Data/Pipeline/Results/shinyapp3_email/$sessionID" . "sent_email";
-$email = "./Data/Pipeline/Results/shinyapp3_email/$sessionID" . "email";
-if ((!(file_exists($email_sent)))) {
-  if (file_exists($email)) {
-    $recipient = trim(file_get_contents($email));
-    $title = "Network Based Drug Repositioning Execution Started";
-    $body  = "Your Overlap Based Drug Repositioning job is running. We will send you a notification with a link to your results after completion.\n";
-    $body .= "If you close your browser, you can get your results from: http://".$_SERVER["HTTP_HOST"]."/runpharmomics.php?sessionID=";
-    $body .= "$sessionID";
-    $body .= " when the pipeline is complete";
-    sendEmail($recipient,$title,$body,$email_sent);
-  }
-}
-?>
-
-
 <script type="text/javascript">
-    var sessionID="<?php echo $sessionID; ?>";
-    var rmchoice="<?php echo $rmchoice; ?>";
-    var run="<?php echo $run; ?>";
-    function ssea2jaccardAjax() {
-        var $http;
-        var text;
-        var $self = arguments.callee;
-
-        if (window.XMLHttpRequest) {
-            $http = new XMLHttpRequest();
-        } else if (window.ActiveXObject) {
-            try {
-                $http = new ActiveXObject('Msxml2.XMLHTTP');
-            } catch (e) {
-                $http = new ActiveXObject('Microsoft.XMLHTTP');
-            }
-        }
-
-        if ($http) {
-            $http.onreadystatechange = function() {
-                if (/4|^complete$/.test($http.readyState)) {
-
-                    text = $http.responseText;
-                    text = text.replace(/\s/g, '');
-                    if (!text.includes("100%") {
-                        timeOutVar=setTimeout(function() {
-                            $self();
-                        }, 10000);
-
-                    }else{
-                        clearTimeout(timeOutVar);
-                        if(rmchoice==1){
-                            $('#myssea2pharm_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=ssea);
-                        }else if(rmchoice==2){
-                            $('#mymsea2pharm_review').load("/result_shinyapp3.php?sessionID=" + string + "&type=msea");
-                        }else{
-                            $('#myMETAMSEA2PHARM_review').load("/result_shinyapp3.php?sessionID=" + string + "&type=ssea");
-                        }
-
-                    }
-                    $('#ssea2jaccardprogresswidth').width(text);
-                    $('#ssea2jaccardprogresspercent').html(text);
-                }
-            };
-            $http.open('GET', 'pharmomics_loadbar.php' + '?sessionID=' + string + "&date=" + new Date().getTime(), true);
-            $http.send(null);
-
-        }
-
-    }
-
-    setTimeout(function() {
-        ssea2jaccardAjax();
-    }, 50);
     if(rmchoice==1){
         $('#myssea2pharm_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=ssea&run="+run);
     }else if(rmchoice==2){
