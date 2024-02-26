@@ -169,6 +169,7 @@ if (file_exists($ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID" 
       sendEmail($recipient,$title,$body,$results_sent);
     }
   }
+  echo "100%";
 
   //break;
 } else {

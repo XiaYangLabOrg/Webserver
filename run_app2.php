@@ -154,15 +154,15 @@ if ($signature == 2 or $signature == 3) {
         if ($http) {
             $http.onreadystatechange = function() {
                 if (/4|^complete$/.test($http.readyState)) {
-
                     text = $http.responseText;
                     text = text.replace(/\s/g, '');
-
-                    if (text.indexOf("100%") == -1) {
-                        setTimeout(function() {
+                    if (!text.includes("100%")) {
+                        timeOutVar=setTimeout(function() {
                             $self();
                         }, 10000);
-
+                    }else{
+                        clearTimeout(timeOutVar);
+                        $('#myAPP2_run').load("/result_shinyapp2.php?sessionID="+string+"&type=pharm&signature="+signature);
                     }
                     $('#app2progresswidth').width(text);
                     $('#app2progresspercent').html(text);
@@ -285,13 +285,6 @@ if ((!(file_exists($email_sent)))) {
                 signature: signature,
             },
             success: function(data) {
-                if (data.includes("Not ready!!")) {
-                    setTimeout(function() {
-                        loadData();
-                    }, 5000)
-                } else {
-                    $('#myAPP2_run').html(data);
-                }
             }
         })
         // $.ajax({
