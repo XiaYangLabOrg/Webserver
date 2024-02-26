@@ -136,8 +136,7 @@ if ($signature == 2 or $signature == 3) {
 
 <script type="text/javascript">
     function app2Ajax() {
-        var
-            $http,
+        var $http,
             text,
             $self = arguments.callee;
         var string = "<?php echo $sessionID; ?>";

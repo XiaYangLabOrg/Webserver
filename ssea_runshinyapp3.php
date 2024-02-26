@@ -45,8 +45,6 @@ $analysis = file_get_contents($ROOT_DIR."Data/Pipeline/Resources/app3_analysis")
 #write.table(result, "app3result.txt", row.names=FALSE, quote = FALSE, sep = "\t")
 
 $output = "\nwrite.table(result, " . '"' . $ROOT_DIR."Data/Pipeline/Results/shinyapp3/$sessionID" . '.SSEA2PHARM_app3result.txt", ' . "row.names=FALSE, quote = FALSE, sep =" . '"\t")';
-
-
 $fp = fopen($fpathOut, "w");
 //fwrite($fp, "\n".$start."\n");
 fwrite($fp, "\n" . $start1 . "\n");
@@ -64,7 +62,6 @@ $fsession = $ROOT_DIR."Data/Pipeline/Resources/session/$sessionID" . "_session.t
 if (file_exists($fsession)) {
     function replace_a_line($data, $rmchoice)
     {
-
         if (strpos($data, 'Pharmomics_Path') !== false) {
             $pharmomics_arr = preg_split("/[\t]/", $data);
             $pharmomics_arr2 = explode("|", $pharmomics_arr[1]);
@@ -91,9 +88,7 @@ if (file_exists($fsession)) {
         file_put_contents($fsession, $new_session_contetns);
     }
 }
-
 ?>
-
 <script type="text/javascript">
     var sessionID="<?php echo $sessionID; ?>";
     var rmchoice="<?php echo $rmchoice; ?>";
@@ -102,7 +97,6 @@ if (file_exists($fsession)) {
         var $http;
         var text;
         var $self = arguments.callee;
-
         if (window.XMLHttpRequest) {
             $http = new XMLHttpRequest();
         } else if (window.ActiveXObject) {
@@ -116,14 +110,12 @@ if (file_exists($fsession)) {
         if ($http) {
             $http.onreadystatechange = function() {
                 if (/4|^complete$/.test($http.readyState)) {
-
                     text = $http.responseText;
                     text = text.replace(/\s/g, '');
-                    if (!text.includes("100%") {
+                    if (!text.includes("100%")){
                         timeOutVar=setTimeout(function() {
-                            $self();
+                        $self();
                         }, 10000);
-
                     }else{
                         clearTimeout(timeOutVar);
                         if(rmchoice==1){
@@ -141,16 +133,12 @@ if (file_exists($fsession)) {
             };
             $http.open('GET', 'pharmomics_loadbar.php' + '?sessionID=' + sessionID + "&date=" + new Date().getTime(), true);
             $http.send(null);
-
         }
-
     }
 </script>
 
 <script type="text/javascript">
-  setTimeout(function() {
-    ssea2jaccardAjax();
-  }, 50);
+  ssea2jaccardAjax();
 </script>
 
 
