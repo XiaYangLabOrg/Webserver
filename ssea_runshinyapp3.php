@@ -191,11 +191,18 @@ if (file_exists($fsession)) {
 </table>
 
 <script type="text/javascript">
+
     if(rmchoice==1){
+        console.log("haha")
+        console.log(rmchoice);
         $('#myssea2pharm_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=ssea&run="+run);
     }else if(rmchoice==2){
+        console.log("haha2")
+        console.log(rmchoice);
         $('#mymsea2pharm_review').load("/result_shinyapp3.php?sessionID=" + string + "&type=msea&run="+run);
     }else{
+        console.log("haha3")
+        console.log(rmchoice);
         $('#myMETAMSEA2PHARM_review').load("/result_shinyapp3.php?sessionID=" + string + "&type=ssea&run="+run);
     }
 </script>
