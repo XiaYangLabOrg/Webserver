@@ -125,13 +125,11 @@ echo "</pre>"; */
 
           text = $http.responseText;
           text = text.replace(/\s/g, '');
-          if (text.indexOf("100%") == -1) {
+          if (!text.includes("100%")){
             timeOutVar=setTimeout(function() {
               $self();
             }, 10000);
-            
           }else{
-            console.log("timeout!");
             clearTimeout(timeOutVar);
             $('#myAPP3_run').load("/result_shinyapp3.php?sessionID=" + string + "&type=pharm");
           }
