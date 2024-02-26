@@ -251,7 +251,7 @@ if ((!(file_exists($email_sent)))) {
   if (!file_exists($frunning_status)) {
   ?>
     var string = "<?php echo $sessionID; ?>";
-    $('#myAPP3_run').load("/result_shinyapp3.php?sessionID=" + string + "&type=pharm");
+    $('#myAPP3_run').load("/result_shinyapp3.php?sessionID=" + string + "&type=pharm&run=T");
   <?php
   }
   ?>

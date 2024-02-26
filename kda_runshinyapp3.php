@@ -107,57 +107,7 @@ if (file_exists($fsession)) {
     file_put_contents($fsession, $new_session_contetns);
   }
 }
-
-
 ?>
-
-<script type="text/javascript">
-  var sessionID="<?php echo $sessionID ?>";
-  var rmchoice="<?php echo $rmchoice ?>";
-  var run="<?php echo $run ?>";
-
-  function kda2jaccardAjax() {
-    var $http;
-    var text;
-    var $self = arguments.callee;
-    if (window.XMLHttpRequest) {
-      $http = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-      try {
-        $http = new ActiveXObject('Msxml2.XMLHTTP');
-      } catch (e) {
-        $http = new ActiveXObject('Microsoft.XMLHTTP');
-      }
-    }
-    if ($http) {
-      $http.onreadystatechange = function() {
-        if (/4|^complete$/.test($http.readyState)) {
-          text = $http.responseText;
-          text = text.replace(/\s/g, '');
-          if (!text.includes("100%") {
-            timeOutVar=setTimeout(function() {
-              $self();
-            }, 10000);
-          }else{
-            clearTimeout(timeOutVar);
-            $('#mypharmOmics_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda");
-          }
-          $('#kda2jaccardprogresswidth').width(text);
-          $('#kda2jaccardprogresspercent').html(text);
-        }
-      };
-      $http.open('GET', 'pharmomics_loadbar.php' + '?sessionID=' + string + "&date=" + new Date().getTime(), true);
-      $http.send(null);
-    }
-  }
-
-</script>
-
-<script type="text/javascript">
-  setTimeout(function() {
-    kda2jaccardAjax();
-  }, 50);
-</script>
 
 
 <table class="table table-bordered" style="text-align: center">
@@ -208,12 +158,8 @@ if (file_exists($fsession)) {
 
 
 <?php
-
 $email_sent = "./Data/Pipeline/Results/shinyapp3_email/$sessionID" . "sent_email";
 $email = "./Data/Pipeline/Results/shinyapp3_email/$sessionID" . "email";
-
-
-
 if ((!(file_exists($email_sent)))) {
   if (file_exists($email)) {
     $recipient = trim(file_get_contents($email));
@@ -225,9 +171,59 @@ if ((!(file_exists($email_sent)))) {
     sendEmail($recipient,$title,$body,$email_sent);
   }
 }
-    
 ?>
 <script type="text/javascript">
+  var sessionID="<?php echo $sessionID; ?>";
+  var rmchoice="<?php echo $rmchoice; ?>";
+  var run="<?php echo $run; ?>";
+
+  function kda2jaccardAjax() {
+    var $http;
+    var text;
+    var $self = arguments.callee;
+    if (window.XMLHttpRequest) {
+      $http = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+      try {
+        $http = new ActiveXObject('Msxml2.XMLHTTP');
+      } catch (e) {
+        $http = new ActiveXObject('Microsoft.XMLHTTP');
+      }
+    }
+    if ($http) {
+      $http.onreadystatechange = function() {
+        if (/4|^complete$/.test($http.readyState)) {
+          text = $http.responseText;
+          text = text.replace(/\s/g, '');
+          if (!text.includes("100%") {
+            timeOutVar=setTimeout(function() {
+              $self();
+            }, 10000);
+          }else{
+            clearTimeout(timeOutVar);
+            if(rmchoice==1){
+              $('#mypharmOmics_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda);
+            }else if(rmchoice==2){
+              $('#myKDA2PHARM_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda);
+            }else if(rmchoice==3){
+              $('#myMETAKDA2PHARM_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda);
+            }else{
+              $('#myKDASTART2PHARM_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda);
+            }
+          }
+          $('#kda2jaccardprogresswidth').width(text);
+          $('#kda2jaccardprogresspercent').html(text);
+        }
+      };
+      $http.open('GET', 'pharmomics_loadbar.php' + '?sessionID=' + string + "&date=" + new Date().getTime(), true);
+      $http.send(null);
+    }
+  }
+
+  setTimeout(function() {
+    kda2jaccardAjax();
+  }, 50);
+
   if(rmchoice==1){
     $('#mypharmOmics_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda&run="+run);
   }else if(rmchoice==2){
