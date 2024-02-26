@@ -118,7 +118,7 @@ if (file_exists($fsession)) {
                     text = $http.responseText;
                     text = text.replace(/\s/g, '');
                     if (!text.includes("100%") {
-                        setTimeout(function() {
+                        timeOutVar=setTimeout(function() {
                             $self();
                         }, 10000);
 

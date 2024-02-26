@@ -61,13 +61,13 @@ if (isset($_GET['run'])) {
     shell_exec("sh run_app3.sh $sessionID | tee " . $outfile);
     chmod($resultfile, 0777);
 }
-else if($type == 'pharm'){
-  if (!file_exists($resultfile)) {
-    $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
-    shell_exec("sh run_app3.sh $sessionID | tee " . $outfile);
-    chmod($resultfile, 0777);
-  }
-}
+// else if($type == 'pharm'){
+//   if (!file_exists($resultfile)) {
+//     $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
+//     shell_exec("sh run_app3.sh $sessionID | tee " . $outfile);
+//     chmod($resultfile, 0777);
+//   }
+// }
 
 
 ?>
