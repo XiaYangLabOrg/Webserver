@@ -108,8 +108,57 @@ if (file_exists($fsession)) {
   }
 }
 ?>
-
-
+<script type="text/javascript">
+  var sessionID="<?php echo $sessionID; ?>";
+  var rmchoice="<?php echo $rmchoice; ?>";
+  function kda2jaccardAjax() {
+    var $http;
+    var text;
+    var $self = arguments.callee;
+    if (window.XMLHttpRequest) {
+      $http = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+      try {
+        $http = new ActiveXObject('Msxml2.XMLHTTP');
+      } catch (e) {
+        $http = new ActiveXObject('Microsoft.XMLHTTP');
+      }
+    }
+    if ($http) {
+      $http.onreadystatechange = function() {
+        if (/4|^complete$/.test($http.readyState)) {
+          text = $http.responseText;
+          text = text.replace(/\s/g, '');
+          if (!text.includes("100%")) {
+            timeOutVar=setTimeout(function() {
+              $self();
+            }, 10000);
+          }else{
+            clearTimeout(timeOutVar);
+            if(rmchoice==1){
+              $('#mypharmOmics_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda");
+            }else if(rmchoice==2){
+              $('#myKDA2PHARM_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda");
+            }else if(rmchoice==3){
+              $('#myMETAKDA2PHARM_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda");
+            }else{
+              $('#myKDASTART2PHARM_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda");
+            }
+          }
+          $('#kda2jaccardprogresswidth').width(text);
+          $('#kda2jaccardprogresspercent').html(text);
+        }
+      };
+      $http.open('GET', 'pharmomics_loadbar.php' + '?sessionID=' + string + "&date=" + new Date().getTime(), true);
+      $http.send(null);
+    }
+  }
+</script>
+<script type="text/javascript">
+  //setTimeout(function() {
+    kda2jaccardAjax();
+  //}, 50);
+</script>
 <table class="table table-bordered" style="text-align: center">
   <thead>
     <tr>
@@ -173,57 +222,9 @@ if ((!(file_exists($email_sent)))) {
 }
 ?>
 <script type="text/javascript">
-  var sessionID="<?php echo $sessionID; ?>";
-  var rmchoice="<?php echo $rmchoice; ?>";
-  var run="<?php echo $run; ?>";
-
-  function kda2jaccardAjax() {
-    var $http;
-    var text;
-    var $self = arguments.callee;
-    if (window.XMLHttpRequest) {
-      $http = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-      try {
-        $http = new ActiveXObject('Msxml2.XMLHTTP');
-      } catch (e) {
-        $http = new ActiveXObject('Microsoft.XMLHTTP');
-      }
-    }
-    if ($http) {
-      $http.onreadystatechange = function() {
-        if (/4|^complete$/.test($http.readyState)) {
-          text = $http.responseText;
-          text = text.replace(/\s/g, '');
-          if (!text.includes("100%") {
-            timeOutVar=setTimeout(function() {
-              $self();
-            }, 10000);
-          }else{
-            clearTimeout(timeOutVar);
-            if(rmchoice==1){
-              $('#mypharmOmics_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda);
-            }else if(rmchoice==2){
-              $('#myKDA2PHARM_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda);
-            }else if(rmchoice==3){
-              $('#myMETAKDA2PHARM_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda);
-            }else{
-              $('#myKDASTART2PHARM_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda);
-            }
-          }
-          $('#kda2jaccardprogresswidth').width(text);
-          $('#kda2jaccardprogresspercent').html(text);
-        }
-      };
-      $http.open('GET', 'pharmomics_loadbar.php' + '?sessionID=' + string + "&date=" + new Date().getTime(), true);
-      $http.send(null);
-    }
-  }
-
-  setTimeout(function() {
-    kda2jaccardAjax();
-  }, 50);
-
+  var sessionID = "<?php echo $sessionID;?>";
+  var rmchoice = "<?php echo $rmchoice;?>";
+  var run ="<?php echo $run;?>";
   if(rmchoice==1){
     $('#mypharmOmics_review').load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=wkda&run="+run);
   }else if(rmchoice==2){

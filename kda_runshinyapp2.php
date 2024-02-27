@@ -106,6 +106,9 @@ if (file_exists($fsession)) {
 
 ?>
 <script type="text/javascript">
+  var sessionID = "<?php echo $sessionID;?>";
+  var rmchoice = "<?php echo $rmchoice;?>";
+  
   function kda2networkAjax() {
     var
       $http,
@@ -128,21 +131,24 @@ if (file_exists($fsession)) {
 
           text = $http.responseText;
           text = text.replace(/\s/g, '');
-          if (text.indexOf("100%") == -1) {
-            setTimeout(function() {
-              $self();
-            }, 50);
-
+          if (!text.includes("100%")) {
+            timeOutVar=setTimeout(function() {
+                        $self();
+                        }, 10000);
+          }else{
+            clearTimeout(timeOutVar);
+            if(rmchoice==1){
+              $('#mypharmOmics_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=wkda&signature=1");
+            }else if(rmchoice==2){
+              $('#myKDA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=wkda&signature=1");
+            }else if(rmchoice==3){
+              $('#myMETAKDA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=wkda&signature=1");
+            }else{
+              $('#myKDASTART2PHARM_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=wkda&signature=1");
+            }
           }
-
-
-
           $('#kda2networkprogresswidth').width(text);
           $('#kda2networkprogresspercent').html(text);
-
-
-
-
         }
       };
       $http.open('GET', 'pharmomics_loadbar.php' + '?sessionID=' + string + "&date=" + new Date().getTime(), true);
@@ -154,9 +160,9 @@ if (file_exists($fsession)) {
 </script>
 
 <script type="text/javascript">
-  setTimeout(function() {
+  //setTimeout(function() {
     kda2networkAjax();
-  }, 50);
+  //}, 50);
 </script>
 
 <!-- Description ===================================================== -->
@@ -223,122 +229,29 @@ $email = "./Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
 
 if ((!(file_exists($email_sent)))) {
   if (file_exists($email)) {
-    require('./PHPMailer-master/class.phpmailer.php');
+    $recipient = trim(file_get_contents($email));
+    $title = "Network Based Drug Repositioning Execution Started";
+    $body  = "Your Network Based Drug Repositioning job is running. We will send you a notification with a link to your results after completion.\n";
+    $body .= "If you close your browser, you can get your results from: http://".$_SERVER["HTTP_HOST"]."/runpharmomics.php?sessionID=";
+    $body .= "$sessionID";
+    $body .= " when the pipeline is complete";
+    sendEmail($recipient,$title,$body,$email_sent);  
+  }
+}  
 
 
-
-    $mail = new PHPMailer();
-
-    $mail->Body = 'Your network based drug repositioning job is running. We will send you a notification with a link to your results after completion.';
-    $mail->Body .= "\n";
-    $mail->Body .= 'If you close your browser, you can get your results from: http://mergeomics.research.idre.ucla.edu/resultshinyapp3.php?My_key=';
-    $mail->Body .= "$sessionID";
-    $mail->Body .= ' when the pipeline is complete';
-
-    $mail->SMTPAuth   = true;                  // enable SMTP authentication
-    $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-    $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-    $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-    $mail->Username   = "darneson@g.ucla.edu";  // GMAIL username
-    $mail->Password   = "friday180";            // GMAIL password
-
-
-    $mail->SetFrom('darneson@g.ucla.edu', 'Daniel Ha');
-
-    $mail->Subject    = "Network Based Drug Repositioning Execution Started";
-
-    $address = trim(file_get_contents($email));
-    $mail->AddAddress($address);
-
-    if (!$mail->Send()) {
-      echo "Mailer Error: " . $mail->ErrorInfo;
-    } else {
-
-      $myfile = fopen($email_sent, "w");
-      fwrite($myfile, $address);
-      fclose($myfile);
-    }
-
-    if ($rmchoice == 1) {
 ?>
-      <script type="text/javascript">
-        $('#mypharmOmics_review').load("/result_shinyapp2.php?sessionID=" + localStorage.getItem("on_load_session") + "&type=wkda&signature=1&run=<?php echo $run ?>");
-      </script>
-    <?php
-    } else if ($rmchoice == 2) {
-    ?>
-      <script type="text/javascript">
-        $('#myKDA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + localStorage.getItem("on_load_session") + "&type=wkda&signature=1&run=<?php echo $run ?>");
-      </script>
-
-    <?php
-    } else if ($rmchoice == 3) {
-    ?>
-      <script type="text/javascript">
-        $('#myMETAKDA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + localStorage.getItem("on_load_session") + "&type=wkda&signature=1&run=<?php echo $run ?>");
-      </script>
-    <?php
-    } else {
-    ?>
-      <script type="text/javascript">
-        $('#myKDASTART2PHARM_review').load("/result_shinyapp2.php?sessionID=" + localStorage.getItem("on_load_session") + "&type=wkda&signature=1&run=<?php echo $run ?>");
-      </script>
-    <?php
-    }
-  } else {
-
-    if ($rmchoice == 1) {
-    ?>
-      <script type="text/javascript">
-        $('#mypharmOmics_review').load("/result_shinyapp2.php?sessionID=" + localStorage.getItem("on_load_session") + "&type=wkda&signature=1&run=<?php echo $run ?>");
-      </script>
-    <?php
-    } else if ($rmchoice == 2) {
-    ?>
-      <script type="text/javascript">
-        $('#myKDA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + localStorage.getItem("on_load_session") + "&type=wkda&signature=1&run=<?php echo $run ?>");
-      </script>
-
-    <?php
-    } else if ($rmchoice == 3) {
-    ?>
-      <script type="text/javascript">
-        $('#myMETAKDA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + localStorage.getItem("on_load_session") + "&type=wkda&signature=1&run=<?php echo $run ?>");
-      </script>
-    <?php
-    } else {
-    ?>
-      <script type="text/javascript">
-        $('#myKDASTART2PHARM_review').load("/result_shinyapp2.php?sessionID=" + localStorage.getItem("on_load_session") + "&type=wkda&signature=1&run=<?php echo $run ?>");
-      </script>
-    <?php
-    }
+<script type="text/javascript">
+  var sessionID = "<?php echo $sessionID;?>";
+  var rmchoice = "<?php echo $rmchoice;?>";
+  var run ="<?php echo $run;?>";
+  if(rmchoice==1){
+    $('#mypharmOmics_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=wkda&signature=1&run="+run);
+  }else if(rmchoice==2){
+    $('#myKDA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=wkda&signature=1&run="+run);
+  }else if(rmchoice==3){
+    $('#myMETAKDA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=wkda&signature=1&run="+run);
+  }else{
+    $('#myKDASTART2PHARM_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=wkda&signature=1&run="+run);
   }
-} else {
-  if ($rmchoice == 1) {
-    ?>
-    <script type="text/javascript">
-      $('#mypharmOmics_review').load("/result_shinyapp2.php?sessionID=" + localStorage.getItem("on_load_session") + "&type=wkda&signature=1&run=<?php echo $run ?>");
-    </script>
-  <?php
-  } else if ($rmchoice == 2) {
-  ?>
-    <script type="text/javascript">
-      $('#myKDA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + localStorage.getItem("on_load_session") + "&type=wkda&signature=1&run=<?php echo $run ?>");
-    </script>
-
-  <?php
-  } else if ($rmchoice == 3) {
-  ?>
-    <script type="text/javascript">
-      $('#myMETAKDA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + localStorage.getItem("on_load_session") + "&type=wkda&signature=1&run=<?php echo $run ?>");
-    </script>
-  <?php
-  } else {
-  ?>
-    <script type="text/javascript">
-      $('#myKDASTART2PHARM_review').load("/result_shinyapp2.php?sessionID=" + localStorage.getItem("on_load_session") + "&type=wkda&signature=1&run=<?php echo $run ?>");
-    </script>
-<?php
-  }
-}
+</script>
