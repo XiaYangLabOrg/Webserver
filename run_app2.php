@@ -175,11 +175,11 @@ if ($signature == 2 or $signature == 3) {
 
 <script type="text/javascript">
     var signature = "<?php echo $signature; ?>";
-    if (signature == 1) {
+    // if (signature == 1) {
         //setTimeout(function() {
         app2Ajax();
         //}, 100);
-    }
+    // }
 </script>
 
 

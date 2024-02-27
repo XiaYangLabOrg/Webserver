@@ -119,6 +119,8 @@ if (file_exists($fsession)) {
 ?>
 
 <script type="text/javascript">
+  var sessionID = "<?php echo $sessionID; ?>";
+  var rmchoice = "<?php echo $rmchoice; ?>";
   function ssea2networkAjax() {
     var
       $http,
@@ -141,35 +143,35 @@ if (file_exists($fsession)) {
 
           text = $http.responseText;
           text = text.replace(/\s/g, '');
-          if (text.indexOf("100%") == -1) {
-            setTimeout(function() {
-              $self();
-            }, 50);
+          if (!text.includes("100%")) {
+            timeOutVar=setTimeout(function() {
+                        $self();
+                        }, 10000);
 
+          }else{
+            clearTimeout(timeOutVar);
+            if(rmchoice==1){
+              $('#myssea2pharm_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=ssea&signature=1");
+            }else if(rmchoice==2){
+              $('#mymsea2pharm_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=msea&signature=1");
+            }else{
+              $('#myMETAMSEA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=ssea&signature=1");
+            }
           }
-
-
-
           $('#ssea2networkprogresswidth').width(text);
           $('#ssea2networkprogresspercent').html(text);
-
-
-
-
         }
       };
       $http.open('GET', 'pharmomics_loadbar.php' + '?sessionID=' + string + "&date=" + new Date().getTime(), true);
       $http.send(null);
-
     }
-
   }
 </script>
 
 <script type="text/javascript">
-  setTimeout(function() {
+  //setTimeout(function() {
     ssea2networkAjax();
-  }, 50);
+  //}, 50);
 </script>
 
 
@@ -225,31 +227,14 @@ if (file_exists($fsession)) {
 
 
 <script type="text/javascript">
-  var string = "<?php echo $sessionID; ?>";
+  var sessionID = "<?php echo $sessionID; ?>";
+  var rmchoice = "<?php echo $rmchoice; ?>";
+  var run = "<?php echo $run; ?>";
+  if(rmchoice==1){
+    $('#myssea2pharm_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=ssea&signature=1&run="+run);
+  }else if(rmchoice==2){
+    $('#mymsea2pharm_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=msea&signature=1&run="+run);
+  }else{
+    $('#myMETAMSEA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + sessionID + "&type=ssea&signature=1&run="+run);
+  }
 </script>
-
-<?php
-if ($rmchoice == 1) {
-?>
-  <script type="text/javascript">
-    $('#myssea2pharm_review').load("/result_shinyapp2.php?sessionID=" + string + "&type=ssea&signature=1&run=<?php echo $run ?>");
-  </script>
-<?php
-} else if ($rmchoice == 2) {
-?>
-  <script type="text/javascript">
-    $('#mymsea2pharm_review').load("/result_shinyapp2.php?sessionID=" + string + "&type=msea&signature=1&run=<?php echo $run ?>");
-  </script>
-
-
-<?php
-} else {
-?>
-  <script type="text/javascript">
-    $('#myMETAMSEA2PHARM_review').load("/result_shinyapp2.php?sessionID=" + string + "&type=ssea&signature=1&run=<?php echo $run ?>");
-  </script>
-
-<?php
-}
-
-?>
