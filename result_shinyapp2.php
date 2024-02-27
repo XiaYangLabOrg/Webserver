@@ -134,10 +134,10 @@ if ($signature == 1) { //meta
 
     shell_exec("touch " . $frunning_status);
 
-    $stream=ssh2_exec($connection, "echo " . $cmds2. " > test.txt");
-    stream_set_blocking( $stream, true );
-    $stream_out = ssh2_fetch_stream( $stream, SSH2_STREAM_STDIO );
-    fclose($stream);
+    // $stream=ssh2_exec($connection, "echo " . $cmds2. " > test.txt");
+    // stream_set_blocking( $stream, true );
+    // $stream_out = ssh2_fetch_stream( $stream, SSH2_STREAM_STDIO );
+    // fclose($stream);
 
     $stream=ssh2_exec($connection, $cmd3);
     stream_set_blocking( $stream, true );
