@@ -2189,7 +2189,7 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
     ?>
       <script type="text/javascript">
         var n = localStorage.getItem('on_load_session');
-
+        console.log(n);
         //add data we are interested in tracking to an array
         var values = new Array();
         var oneday = new Date();
