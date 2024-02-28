@@ -585,17 +585,20 @@ $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=tr
 
   <script src="include/js/functions.js?20200803"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js"></script>
-  <script>
+  <script type="text/javascript">
     /*Sidebar Jquery Event handlers *
 
 1) Change the container width and sidebar active state based on window side
 
-*/
-
+*/    
+    var string=<?php echo $sessionID; ?>;
     $(document).ready(function() {
       if ($(window).width() < 992) {
         $('.container').addClass('no_sidebar');
         $('.margin_rm').addClass('no_margin');
+        localStorage.setItem("on_load_session", string);
+        $('#session_id').html("<p style='margin: 0px;font-size: 12px;padding: 0px;'>Session ID: </p>" + string);
+        $('#session_id').css("padding", "17px 30px");
       }
     });
 
