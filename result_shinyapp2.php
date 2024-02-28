@@ -104,6 +104,7 @@ if ($signature == 1) { //meta
     if ($type == 'pharm') {
       $resultfile = "./Data/Pipeline/Results/shinyapp2/$sessionID" . "_app2result.txt";
     }
+    echo "100%";
   }
   chmod($resultfile, 0777);
 

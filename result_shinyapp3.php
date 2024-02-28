@@ -163,32 +163,32 @@ if ($type =='wkda') { ?>
       </tr>
     </thead>
     <?php
-    $count = 1;
-    $result = file($resultfile);
-    foreach ($result as $line) {
-      $line_array = explode("\t", $line);
-      $database = trim($line_array[0]);
-      $method = trim($line_array[1]);
-      $drug = trim($line_array[2]);
-      $species = trim($line_array[3]);
-      $tissue = trim($line_array[4]);
-      $study = trim($line_array[5]);
-      $dose = trim($line_array[6]);
-      $time = trim($line_array[7]);
-      $jaccard = number_format(floatval($line_array[8]), 3, ".", "");
-      $odds = number_format(floatval($line_array[9]), 3, ".", "");
-      $pvalue = scientificNotation(trim((float)$line_array[10]));
-      $rank = number_format(floatval($line_array[11]), 5, ".", "");
-      $sider = trim($line_array[17]);
-      if ($sider!="none") {
-        $sider = '<a href=' . $sider . '> SIDER';
-      }
-      if ($count == 1) {
-        $count++;
-        continue;
-      }
-      echo "<tr><td>$database</td><td>$method</td><td>$drug</td><td>$species</td><td>$tissue</td><td>$study</td><td>$dose</td><td>$time</td><td>$jaccard</td><td>$odds</td><td>$pvalue</td><td>$rank</td><td>$sider</td></tr>";
-    }
+    // $count = 1;
+    // $result = file($resultfile);
+    // foreach ($result as $line) {
+    //   $line_array = explode("\t", $line);
+    //   $database = trim($line_array[0]);
+    //   $method = trim($line_array[1]);
+    //   $drug = trim($line_array[2]);
+    //   $species = trim($line_array[3]);
+    //   $tissue = trim($line_array[4]);
+    //   $study = trim($line_array[5]);
+    //   $dose = trim($line_array[6]);
+    //   $time = trim($line_array[7]);
+    //   $jaccard = number_format(floatval($line_array[8]), 3, ".", "");
+    //   $odds = number_format(floatval($line_array[9]), 3, ".", "");
+    //   $pvalue = scientificNotation(trim((float)$line_array[10]));
+    //   $rank = number_format(floatval($line_array[11]), 5, ".", "");
+    //   $sider = trim($line_array[17]);
+    //   if ($sider!="none") {
+    //     $sider = '<a href=' . $sider . '> SIDER';
+    //   }
+    //   if ($count == 1) {
+    //     $count++;
+    //     continue;
+    //   }
+    //   echo "<tr><td>$database</td><td>$method</td><td>$drug</td><td>$species</td><td>$tissue</td><td>$study</td><td>$dose</td><td>$time</td><td>$jaccard</td><td>$odds</td><td>$pvalue</td><td>$rank</td><td>$sider</td></tr>";
+    // }
 
     ?>
   </table>
@@ -402,13 +402,25 @@ if ($type == 'pharm') {
 
   if (type=="wkda") {
     $("#shinyapp3_resultskda").dataTable({
+      ajax: {
+        url:"app3_result_server_processing.php",
+        type:"POST",
+        data:{
+          resultfile:"<?php echo $resultfile;?>"
+        }
+      } ,
+      processing: true,
+      serverSide: true,
+      searching: false,
       "order": [
         [8, 'desc']
       ],
-      "dom": "Bfrtlip",
-      "buttons": [
-        'excelHtml5',
-      ]
+      //"dom": "Bfrtlip",
+      //"buttons": [
+      //  'excelHtml5',
+      //]
+    
+
     }); //change column widths in .dataTable()
   }
   else{
