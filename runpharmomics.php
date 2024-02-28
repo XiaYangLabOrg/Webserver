@@ -920,7 +920,7 @@ $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=tr
   <?php
 
 
-  if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
+  if (!empty($_GET['sessionID'])) {
 
 
   ?>
