@@ -591,11 +591,7 @@ $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=tr
 1) Change the container width and sidebar active state based on window side
 
 */    
-    var string=<?php echo $sessionID; ?>;
     $(document).ready(function() {
-      localStorage.setItem("on_load_session", string);
-      $('#session_id').html("<p style='margin: 0px;font-size: 12px;padding: 0px;'>Session ID: </p>" + string);
-      $('#session_id').css("padding", "17px 30px");
       if ($(window).width() < 992) {
         $('.container').addClass('no_sidebar');
         $('.margin_rm').addClass('no_margin');
