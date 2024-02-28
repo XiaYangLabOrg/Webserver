@@ -77,10 +77,10 @@ if (isset($_GET['run'])) {
 
 
 $frunning_status = $ROOT_DIR . "/Data/Pipeline/$sessionID" . "app2_is_running";
+$outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2/" . $sessionID . "out.txt";
 if ($signature == 1) { //meta 
   if (isset($_GET['run'])) {
     if (!file_exists($frunning_status)) {
-      $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2/" . $sessionID . "out.txt";
       shell_exec("touch " . $frunning_status);
       shell_exec("Rscript " . $ROOT_DIR . "Data/Pipeline/" . $sessionID . "app2.R | tee " . $outfile);
       #shell_exec("sh run_app2.sh $sessionID | tee " . $outfile);
@@ -88,7 +88,6 @@ if ($signature == 1) { //meta
     }
   } else if ($type == 'pharm') {
     if (!file_exists($resultfile) && !file_exists($frunning_status)) {
-      $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2/" . $sessionID . "out.txt";
       shell_exec("touch " . $frunning_status);
       shell_exec("Rscript " . $ROOT_DIR . "Data/Pipeline/" . $sessionID . "app2.R | tee " . $outfile);
       #shell_exec("sh run_app2.sh $sessionID | tee " . $outfile);
