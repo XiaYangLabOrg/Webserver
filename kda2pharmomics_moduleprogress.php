@@ -426,8 +426,6 @@ if ($geneinputfilesize == 0) {
            $('#pharmOmicstab2').html('Network Based Drug Repositioning Results');
            $("#pharmOmicstogglet").css("background-color", "#c5ebd4");
            $("#pharmOmicstogglet").html(`<i class="toggle-closed icon-ok-circle"></i><i class="toggle-open icon-ok-circle"></i><div class="capital">Step 3B - PharmOmics</div>`);
-
-
            return false;
 
          });

@@ -97,14 +97,7 @@ if ($signature == 1) { //meta
     //do nothing
   }
 
-  if (file_exists($outfile)) {
-    unlink($frunning_status);
-    unlink($outfile);
-    if ($type == 'pharm') {
-      $resultfile = "./Data/Pipeline/Results/shinyapp2/$sessionID" . "_app2result.txt";
-    }
-    echo "100%";
-  }
+
   chmod($resultfile, 0777);
 
   if (file_exists($resultfile)) {
@@ -156,6 +149,8 @@ $results_sent = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2_email/$sessionID" .
 $email =$ROOT_DIR. "Data/Pipeline/Results/shinyapp2_email/$sessionID" . "email";
 
 if (file_exists($ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done")) {
+  unlink($frunning_status);
+  unlink($outfile);
   //echo "The file was found: " . date("d-m-Y h:i:s") . "<br>";
   if ((!(file_exists($results_sent)))) {
     if (file_exists($email)) {
