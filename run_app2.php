@@ -100,8 +100,8 @@ $sshpass_cmd_in_R="cat(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASS
                   "system(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", sessionID, \"_is_done ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Resources/shinyapp2_temp/\"))"."\n".
                   "cat(paste0(\"echo 100% > \", sessionID,\"out.txt\n\"))"."\n".
                   "system(paste0(\"echo 100% > \", sessionID,\"out.txt\"))"."\n".
-                  "cat(paste0(\"~/bin/sshpass -p 'Yanglab2024@' scp \", sessionID, \"out.txt smha118@164.67.172.119:/var/www/mergeomics/html/Data/Pipeline/Results/shinyapp2/\n\"))"."\n".
-                  "system(paste0(\"~/bin/sshpass -p 'Yanglab2024@' scp \", sessionID, \"out.txt smha118@164.67.172.119:/var/www/mergeomics/html/Data/Pipeline/Results/shinyapp2/\"))"."\n";
+                  "cat(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", sessionID, \"out.txt ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Results/shinyapp2/\n\"))"."\n".
+                  "system(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", sessionID, \"out.txt ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Results/shinyapp2/\"))"."\n";
 $fp = fopen($fpathOut, "w");
 fwrite($fp, $data);
 fwrite($fp, $analysis);
