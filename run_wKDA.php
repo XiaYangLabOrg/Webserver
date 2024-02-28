@@ -263,7 +263,7 @@ if (file_exists($fsession)) {
             } else if (rmchoice==3){
               $('#myMETA2KDA_review').load("/result_wKDA.php?sessionID=" + sessionID + "&rmchoice="+rmchoice);
             } else{
-              $('#myKDASTART_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice="+rmchoice);
+              $('#myKDASTART_review').load("/result_wKDA.php?sessionID=" + sessionID + "&rmchoice="+rmchoice);
             } 
           }
           $('#kdaruntime').html(text);
