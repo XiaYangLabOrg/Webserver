@@ -2176,18 +2176,8 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
 
 
 <?php
-}
-
-if (isset($_GET['message']) ? $_GET['message'] : null) {
+}else{
 ?>
-    <script type="text/javascript">
-      console.log("msg");
-      alert("Session ID does not exist!");
-    </script>
-<?php
-  } 
-?>
-
 <script type="text/javascript">
     var n = localStorage.getItem('on_load_session');
     console.log(n);
@@ -2226,6 +2216,20 @@ if (isset($_GET['message']) ? $_GET['message'] : null) {
 
     }
 </script>
+<?php  
+}
+
+if (isset($_GET['message']) ? $_GET['message'] : null) {
+?>
+    <script type="text/javascript">
+      console.log("msg");
+      alert("Session ID does not exist!");
+    </script>
+<?php
+  } 
+?>
+
+
 
 </body>
 
