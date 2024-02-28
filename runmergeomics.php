@@ -2175,66 +2175,57 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
     </script>
 
 
-  <?php
-  }
+<?php
+}
 
-  if (isset($_GET['message']) ? $_GET['message'] : null) {
-  ?>
+if (isset($_GET['message']) ? $_GET['message'] : null) {
+?>
     <script type="text/javascript">
       console.log("msg");
       alert("Session ID does not exist!");
     </script>
-    <?php
-  } else {
-    if (!empty($_GET['sessionID'])) {
-    ?>
-      <script type="text/javascript">
-        var n = localStorage.getItem('on_load_session');
-        console.log(n);
-        //add data we are interested in tracking to an array
-        var values = new Array();
-        var oneday = new Date();
-        oneday.setHours(oneday.getHours() + 24); //one day from now
-        values.push(n);
-        values.push(oneday);
-        try {
-          localStorage.setItem(0, values.join(";"));
-        } catch (e) {}
+<?php
+  } 
+?>
 
-        //check if past expiration date
-        var values = localStorage.getItem(0).split(";");
+<script type="text/javascript">
+    var n = localStorage.getItem('on_load_session');
+    console.log(n);
+    //add data we are interested in tracking to an array
+    var values = new Array();
+    var oneday = new Date();
+    oneday.setHours(oneday.getHours() + 24); //one day from now
+    values.push(n);
+    values.push(oneday);
+    try {
+      localStorage.setItem(0, values.join(";"));
+    } catch (e) {}
 
-        if (values[1] < new Date()) {
+    //check if past expiration date
+    var values = localStorage.getItem(0).split(";");
+
+    if (values[1] < new Date()) {
+      localStorage.clear();
+    }
+
+    if (n === null) {
+      //do nothing
+    } else {
+      $(window).on('load', function() {
+        // Run code
+        var result = confirm("Would you like to resume where you left off? \nSession ID: " + n + "\n(Note: Your session is available for 48 hrs)");
+
+        if (result) {
+          $(location).attr('href', '/runmergeomics.php?sessionID=' + n);
+          localStorage.clear();
+        } else {
           localStorage.clear();
         }
-
-        if (n === null) {
-          //do nothing
-        } else {
-          $(window).on('load', function() {
-            // Run code
-            var result = confirm("Would you like to resume where you left off? \nSession ID: " + n + "\n(Note: Your session is available for 48 hrs)");
-
-            if (result) {
-              $(location).attr('href', '/runmergeomics.php?sessionID=' + n);
-              localStorage.clear();
-            } else {
-              localStorage.clear();
-            }
-          });
+      });
 
 
-        }
-      </script>
-
-  <?php
     }
-  }
-
-
-  ?>
-
-
+</script>
 
 </body>
 
