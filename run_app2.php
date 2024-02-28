@@ -10,7 +10,7 @@ if (isset($_POST['sessionID'])) {
 if (isset($_POST['signature_select'])) {
     $signature = $_POST['signature_select'];
 }
-
+$file2="";
 if (isset($_POST['network_select']) && isset($_POST['species_select'])) {
     $network = $_POST['network_select'];
     $species = $_POST['species_select'];
@@ -64,7 +64,6 @@ fclose($f);
 
 $file3 = "sessionID <- \"$sessionID" . "\"";
 
-$file2="";
 if ($signature == 1) {
     $analysis = file_get_contents("./Data/Pipeline/Resources/app2_analysis_meta");
 } else {
