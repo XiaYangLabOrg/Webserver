@@ -163,7 +163,9 @@ if ($signature == 2 or $signature == 3) {
                             $self();
                         }, 10000);
                     }else{
-                        clearTimeout(timeOutVar);
+                        if (typeof timeOutVar !== 'undefined'){
+                            clearTimeout(timeOutVar);
+                        }
                         $('#myAPP2_run').load("/result_shinyapp2.php?sessionID="+string+"&type=pharm&signature="+signature);
                     }
                     $('#app2progresswidth').width(text);
