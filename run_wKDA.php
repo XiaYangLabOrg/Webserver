@@ -225,12 +225,13 @@ if (file_exists($fsession)) {
 ?>
 
 <script type="text/javascript">
+  var sessionID=<?php echo $sessionID; ?>;
+  var rmchoice=<?php echo $rmchoice; ?>;
   function kda2networkAjaxtest() {
     var
       $http,
       text,
       $self = arguments.callee;
-    var string = "<?php echo $sessionID; ?>";
     if (window.XMLHttpRequest) {
       $http = new XMLHttpRequest();
     } else if (window.ActiveXObject) {
@@ -249,21 +250,26 @@ if (file_exists($fsession)) {
           //text = text.replace(/\s/g, '');
           
           timeOutVar=null;
-          console.log(text);
           if (!text.includes("WKDA COMPLETE")) {
-            console.log("h1");
             timeOutVar=setTimeout(function() {
                         $self();
                       }, 10000);
           }else{
-            console.log("h2");
             clearTimeout(timeOutVar);
-            $('#mywKDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=<?php echo $rmchoice ?>")
+            if(rmchoice==1){
+              $('#mywKDA_review').load("/result_wKDA.php?sessionID=" + sessionID + "&rmchoice="+rmchoice)
+            } else if (rmchoice==2){
+              $('#myMSEA2KDA_review').load("/result_wKDA.php?sessionID=" + sessionID + "&rmchoice="+rmchoice);
+            } else if (rmchoice==3){
+              $('#myMETA2KDA_review').load("/result_wKDA.php?sessionID=" + sessionID + "&rmchoice="+rmchoice);
+            } else{
+              $('#myKDASTART_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice="+rmchoice);
+            } 
           }
           $('#kdaruntime').html(text);
         }
       };
-      $http.open('GET', 'runtime.php' + '?sessionID=' + string + "&pipeline=kda&date=" + new Date().getTime(), true);
+      $http.open('GET', 'runtime.php' + '?sessionID=' + sessionID + "&pipeline=kda&date=" + new Date().getTime(), true);
       $http.send(null);
 
     }
@@ -331,8 +337,8 @@ if (file_exists($fsession)) {
   </div>
 </div>
 
-<script>
-  var string = "<?php echo $sessionID; ?>";
+<script type="text/javascript">
+  var sessionID = "<?php echo $sessionID; ?>";
 
   $("#KDARtToggle").on('click', function(e) {
     var x = document.getElementById("KDArt");
@@ -369,108 +375,20 @@ if ((!(file_exists($email_sent)))) {
     $body .= "$sessionID";
     $body .= " when the pipeline is complete";
     sendEmail($recipient,$title,$body,$email_sent);
-
-    if ($rmchoice == 1) {
-?>
-      <script>
-        $('#mywKDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=1&run= <?php echo $run ?>");
-      </script>
-
-    <?php
-    } else if ($rmchoice == 2) {
-    ?>
-
-      <script>
-        $('#myMSEA2KDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=2&run=<?php echo $run ?>");
-      </script>
-
-    <?php
-    } else if ($rmchoice == 3) {
-    ?>
-
-      <script>
-        $('#myMETA2KDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=3&run= <?php echo $run ?>");
-      </script>
-
-    <?php
-    } else {
-    ?>
-      <script>
-        $('#myKDASTART_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=4&run=<?php echo $run ?>");
-      </script>
-
-    <?php
-    }
-  } else {
-
-    if ($rmchoice == 1) {
-    ?>
-
-      <script>
-        $('#mywKDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=1&run=<?php echo $run ?>");
-      </script>
-
-
-    <?php
-    } else if ($rmchoice == 2) {
-    ?>
-
-      <script>
-        $('#myMSEA2KDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=2&run=<?php echo $run ?>");
-      </script>
-
-    <?php
-    } else if ($rmchoice == 3) {
-    ?>
-
-      <script>
-        $('#myMETA2KDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=3&run=<?php echo $run ?>");
-      </script>
-
-    <?php
-    } else {
-    ?>
-      <script>
-        $('#myKDASTART_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=4&run=<?php echo $run ?>");
-      </script>
-
-    <?php
-    }
-  }
-} else {
-
-  if ($rmchoice == 1) {
-    ?>
-
-    <script>
-      $('#mywKDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=1&run=<?php echo $run ?>");
-    </script>
-
-
-  <?php
-  } else if ($rmchoice == 2) {
-  ?>
-
-    <script>
-      $('#myMSEA2KDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=2&run=<?php echo $run ?>");
-    </script>
-
-  <?php
-  } else if ($rmchoice == 3) {
-  ?>
-
-    <script>
-      $('#myMETA2KDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=3&run=<?php echo $run ?>");
-    </script>
-
-  <?php
-  } else {
-  ?>
-    <script>
-      $('#myKDASTART_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=4&run=<?php echo $run ?>");
-    </script>
-
-<?php
   }
 }
 ?>
+<script type="text/javascript">
+  var sessionID=<?php echo $sessionID;?>;
+  var rmchoice=<?php echo $rmchoice;?>;
+  var run=<?php echo $run;?>;
+  if(rmchoice==1){
+    $('#mywKDA_review').load("/result_wKDA.php?sessionID=" + sessionID + "&rmchoice=1&run="+run);
+  }else if(rmchoice==2){
+    $('#myMSEA2KDA_review').load("/result_wKDA.php?sessionID=" + sessionID + "&rmchoice=2&run="+run);
+  }else if(rmchoice==3){
+    $('#myMETA2KDA_review').load("/result_wKDA.php?sessionID=" + sessionID + "&rmchoice=3&run="+run);
+  }else{
+    $('#myKDASTART_review').load("/result_wKDA.php?sessionID=" + sessionID + "&rmchoice=4&run="+run);
+  }
+</script>
