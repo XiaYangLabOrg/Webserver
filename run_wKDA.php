@@ -270,7 +270,9 @@ if (file_exists($fsession)) {
 </script>
 
 <script type="text/javascript">
-  kda2networkAjaxtest();
+  setTimeout(function() {
+    kda2networkAjaxtest();
+  },50);
 </script>
 
 
