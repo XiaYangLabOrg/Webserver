@@ -922,7 +922,8 @@ $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=tr
 
   ?>
 
-    <script>
+    <script type="text/javascript">
+      console.log("hh");
       var string = "<?php echo $sessionID; ?>";
       var url = "/Data/Pipeline/Resources/session/" + string + "pharmomicsurl.js";
       $('#content').css('opacity', '0%');
@@ -955,6 +956,7 @@ $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=tr
   ?>
     <script type="text/javascript">
       var n = localStorage.getItem('on_load_session');
+      console.log("haha");
       if (n != null) {
         $(window).on('load', function() {
             // Run code
