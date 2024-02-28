@@ -158,6 +158,7 @@ if ($signature == 2 or $signature == 3) {
                 if (/4|^complete$/.test($http.readyState)) {
                     text = $http.responseText;
                     text = text.replace(/\s/g, '');
+                    console.log(text);
                     if (!text.includes("100%")) {
                         timeOutVar=setTimeout(function() {
                             $self();
