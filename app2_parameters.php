@@ -113,23 +113,23 @@ $session_write = NULL;
 
 //initiate session file
 if (!file_exists($fsession)) {
-  $dose_seg_runs_file = "./Data/Pipeline/Resources/shinyapp2_temp/Dose_seg_runs" . date("Y.m.d") . ".txt";
-  if (file_exists($dose_seg_runs_file)) {
-    $linecount = 0;
-    $handle = fopen($dose_seg_runs_file, "r");
-    while (!feof($handle)) {
-      $line = fgets($handle);
-      $linecount++;
-    }
-    fclose($handle);
-    if ($linecount > 50) {
-      $reached_doseseg_limit = "yes";
-    } else {
-      $reached_doseseg_limit = "no";
-    }
-  } else {
-    $reached_doseseg_limit = "no";
-  }
+  // $dose_seg_runs_file = "./Data/Pipeline/Resources/shinyapp2_temp/Dose_seg_runs" . date("Y.m.d") . ".txt";
+  // if (file_exists($dose_seg_runs_file)) {
+  //   $linecount = 0;
+  //   $handle = fopen($dose_seg_runs_file, "r");
+  //   while (!feof($handle)) {
+  //     $line = fgets($handle);
+  //     $linecount++;
+  //   }
+  //   fclose($handle);
+  //   if ($linecount > 50) {
+  //     $reached_doseseg_limit = "yes";
+  //   } else {
+  //     $reached_doseseg_limit = "no";
+  //   }
+  // } else {
+  //   $reached_doseseg_limit = "no";
+  // }
 
 
 
@@ -776,9 +776,9 @@ if (!file_exists($fsession)) {
         errorlist.push('No input genes has been entered!');
 
       if (signaturetype == 1 | signaturetype == 2) {
-        if (reached_doseseg_limit == "yes") {
-          errorlist.push('Maximum number of dose/time segregated analyses reached for the day! Please try again tomorrow.');
-        }
+        // if (reached_doseseg_limit == "yes") {
+        //   errorlist.push('Maximum number of dose/time segregated analyses reached for the day! Please try again tomorrow.');
+        // }
       }
 
 
