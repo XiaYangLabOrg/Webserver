@@ -915,14 +915,10 @@ $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=tr
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
   <script type="text/javascript">
-  console.log("check");
+
   </script>
   <?php
-
-
-  if (!empty($_GET['sessionID'])) {
-
-
+  if (!empty($_GET['sessionID'])){
   ?>
 
     <script type="text/javascript">
@@ -956,6 +952,7 @@ $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=tr
 
   <?php
   } else {
+    echo "no sessionID";
   ?>
     <script type="text/javascript">
       var n = localStorage.getItem('on_load_session');
