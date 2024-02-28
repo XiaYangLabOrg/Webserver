@@ -649,7 +649,7 @@ if (!file_exists($fsession)) {
     });
 
     var string = "<?php echo $sessionID; ?>";
-    var reached_doseseg_limit = "<?php echo $reached_doseseg_limit; ?>";
+    //var reached_doseseg_limit = "<?php #echo $reached_doseseg_limit; ?>";
     var islogin = <?php echo json_encode($islogin) ?>;
 
 
