@@ -276,6 +276,9 @@ if ((!(file_exists($email_sent)))) {
 <script type="text/javascript">
     var string = "<?php echo $sessionID; ?>";
     var signature = "<?php echo $signature; ?>";
+    localStorage.setItem("on_load_session", string);
+    $('#session_id').html("<p style='margin: 0px;font-size: 12px;padding: 0px;'>Session ID: </p>" + string);
+    $('#session_id').css("padding", "17px 30px");
     function loadData() {
         $.ajax({
             url: "result_shinyapp2.php",
