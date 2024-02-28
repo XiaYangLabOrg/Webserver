@@ -642,15 +642,16 @@ if (!file_exists($fsession)) {
   <script>
     $(document).ready(function() {
       $("#flowchart_div").hide();
+      localStorage.setItem("on_load_session", string);
+      $('#session_id').html("<p style='margin: 0px;font-size: 12px;padding: 0px;'>Session ID: </p>" + string);
+      $('#session_id').css("padding", "17px 30px");
+
     });
 
     var string = "<?php echo $sessionID; ?>";
     var reached_doseseg_limit = "<?php echo $reached_doseseg_limit; ?>";
     var islogin = <?php echo json_encode($islogin) ?>;
 
-    localStorage.setItem("on_load_session", string);
-    $('#session_id').html("<p style='margin: 0px;font-size: 12px;padding: 0px;'>Session ID: </p>" + string);
-    $('#session_id').css("padding", "17px 30px");
 
     $("#emailSubmit").on('click', function() {
       var email = $("input[name=email]").val();

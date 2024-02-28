@@ -217,9 +217,12 @@ click to manually input genes" required="required"></textarea>
 
 <script>
   var string = "<?php echo $sessionID; ?>";
-  localStorage.setItem("on_load_session", string);
-  $('#session_id').html("<p style='margin: 0px;font-size: 12px;padding: 0px;'>Session ID: </p>" + string);
-  $('#session_id').css("padding", "17px 30px");
+  $(document).ready(function() {
+    localStorage.setItem("on_load_session", string);
+    $('#session_id').html("<p style='margin: 0px;font-size: 12px;padding: 0px;'>Session ID: </p>" + string);
+    $('#session_id').css("padding", "17px 30px");
+  }
+
 
   $("#emailSubmit").on('click', function() {
     var email = $("input[name=email]").val();
