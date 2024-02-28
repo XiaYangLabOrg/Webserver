@@ -161,9 +161,9 @@ echo "</pre>"; */
 </script>
 
 <script type="text/javascript">
-  //setTimeout(function() {
+  setTimeout(function() {
     app3Ajax();
-  //}, 50);
+  }, 50);
 </script>
 
 

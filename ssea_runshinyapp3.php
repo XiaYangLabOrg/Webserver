@@ -138,7 +138,9 @@ if (file_exists($fsession)) {
 </script>
 
 <script type="text/javascript">
+setTimeout(function() {
   ssea2jaccardAjax();
+}, 50);
 </script>
 
 

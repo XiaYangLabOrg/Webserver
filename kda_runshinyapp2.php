@@ -160,9 +160,9 @@ if (file_exists($fsession)) {
 </script>
 
 <script type="text/javascript">
-  //setTimeout(function() {
+  setTimeout(function() {
     kda2networkAjax();
-  //}, 50);
+  }, 50);
 </script>
 
 <!-- Description ===================================================== -->
