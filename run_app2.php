@@ -64,7 +64,7 @@ fclose($f);
 
 $file3 = "sessionID <- \"$sessionID" . "\"";
 
-
+$file2="";
 if ($signature == 1) {
     $analysis = file_get_contents("./Data/Pipeline/Resources/app2_analysis_meta");
 } else {
