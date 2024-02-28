@@ -259,14 +259,18 @@ if ($signature == 1 && file_exists($resultfile) && $type == 'wkda') { ?>
       $count = 1;
       $result = file($resultfile);
       foreach ($result as $line) {
+        if ($count == 1) {
+          $count++;
+          continue;
+        }
         $line_array = explode("\t", $line);
         $drugname = trim($line_array[0]);
         $species = trim($line_array[1]);
         $tissue = trim($line_array[2]);
-        $zscore = number_format($line_array[5], 3, ".", "");
-        $rank = number_format($line_array[6], 3, ".", "");
-        $pvalue = scientificNotation(trim((float)$line_array[7]));
-        $drug = trim($line_array[11]);
+        $zscore = number_format($line_array[9], 3, ".", "");
+        $rank = number_format($line_array[10], 3, ".", "");
+        $pvalue = scientificNotation(trim((float)$line_array[11]));
+        $drug = trim($line_array[16]);
 
         if (file_exists("./Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_drug_networks/$drug" . "_cytoscape_edges.txt")) {
           $link = '<span style="text-align: center;margin:0px;">
@@ -283,10 +287,7 @@ if ($signature == 1 && file_exists($resultfile) && $type == 'wkda') { ?>
           $download = "None created";
         }
 
-        if ($count == 1) {
-          $count++;
-          continue;
-        }
+
         echo "<tr><td>$drugname</td><td>$species</td><td>$tissue</td><td>$zscore</td><td>$rank</td><td>$pvalue</td><td>$link</td><td>$download</td></tr>"; //changed 07312020 JD
       }
 
@@ -334,6 +335,10 @@ if ($signature == 1 && file_exists($resultfile) && $type == 'wkda') { ?>
       $count = 1;
       $result = file($resultfile);
       foreach ($result as $line) {
+        if ($count == 1) {
+          $count++;
+          continue;
+        }
         $line_array = explode("\t", $line);
         $drugname = trim($line_array[0]);
         $species = trim($line_array[1]);
@@ -363,10 +368,6 @@ if ($signature == 1 && file_exists($resultfile) && $type == 'wkda') { ?>
           $sider = '<a href=' . $sider . '> SIDER';
         }
 
-        if ($count == 1) {
-          $count++;
-          continue;
-        }
         echo "<tr><td>$drugname</td><td>$species</td><td>$tissue</td><td>$zscore</td><td>$rank</td><td>$pvalue</td><td>$link</td><td>$download</td><td>$sider</td></tr>"; //changed 07312020 JD
       }
 
