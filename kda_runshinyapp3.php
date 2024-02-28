@@ -149,7 +149,7 @@ if (file_exists($fsession)) {
           $('#kda2jaccardprogresspercent').html(text);
         }
       };
-      $http.open('GET', 'pharmomics_loadbar.php' + '?sessionID=' + string + "&date=" + new Date().getTime(), true);
+      $http.open('GET', 'pharmomics_loadbar.php' + '?sessionID=' + sessionID + "&date=" + new Date().getTime(), true);
       $http.send(null);
     }
   }
