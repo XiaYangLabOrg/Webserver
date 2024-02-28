@@ -2181,6 +2181,7 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
   if (isset($_GET['message']) ? $_GET['message'] : null) {
   ?>
     <script type="text/javascript">
+      console.log("msg");
       alert("Session ID does not exist!");
     </script>
     <?php
