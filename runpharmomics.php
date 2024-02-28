@@ -1,4 +1,6 @@
 <?php
+error_reporting(0);
+ini_set('display_errors', 'Off');
 include "functions.php";
 
 
@@ -914,10 +916,10 @@ $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=tr
   <script src="include/js/functions.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
-  <script type="text/javascript">
-    var string = "<?php echo $sessionID; ?>";
-    console.log("sessionID:"+string);
-  </script>
+
+
+    
+
   <?php
   if (!empty($_GET['sessionID'])){
   ?>
