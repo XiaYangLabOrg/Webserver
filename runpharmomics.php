@@ -923,9 +923,7 @@ $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=tr
   <?php
   if (!empty($_GET['sessionID'])){
   ?>
-
     <script type="text/javascript">
-      console.log("hh");
       var string = "<?php echo $sessionID; ?>";
       var url = "/Data/Pipeline/Resources/session/" + string + "pharmomicsurl.js";
       $('#content').css('opacity', '0%');
@@ -951,20 +949,16 @@ $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=tr
 
       });
     </script>
-
-
   <?php
   } else {
     echo "no sessionID";
   ?>
     <script type="text/javascript">
       var n = localStorage.getItem('on_load_session');
-      console.log("haha");
       if (n != null) {
         $(window).on('load', function() {
             // Run code
             var result = confirm("Would you like to resume where you left off? \nSession ID: " + n + "\n(Note: Your session is available for 48 hrs)");
-
             if (result) {
               $(location).attr('href', '/runpharmomics.php?sessionID=' + n);
               localStorage.clear();
@@ -973,7 +967,7 @@ $scriptUri = "http://" . $_SERVER["HTTP_HOST"] . "/runpharmomics.php?fromapp2=tr
             }
           });
       }
-      var fromapp2 = "<?php echo $fromapp2 ?>";
+      var fromapp2 = "<?php echo $fromapp2; ?>";
       if (fromapp2 == "true") {
         $(location).attr('href', '/runpharmomics.php?sessionID=' + n);
       } else {
