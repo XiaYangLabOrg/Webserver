@@ -251,10 +251,12 @@ if (file_exists($fsession)) {
           timeOutVar=null;
           console.log(text);
           if (!text.includes("WKDA COMPLETE")) {
+            console.log("h1");
             timeOutVar=setTimeout(function() {
                         $self();
                       }, 10000);
           }else{
+            console.log("h2");
             clearTimeout(timeOutVar);
             $('#mywKDA_review').load("/result_wKDA.php?sessionID=" + string + "&rmchoice=<?php echo $rmchoice ?>")
           }
