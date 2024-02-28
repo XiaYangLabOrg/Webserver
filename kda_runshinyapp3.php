@@ -155,9 +155,9 @@ if (file_exists($fsession)) {
   }
 </script>
 <script type="text/javascript">
-  //setTimeout(function() {
+  setTimeout(function() {
     kda2jaccardAjax();
-  //}, 50);
+  }, 50);
 </script>
 <table class="table table-bordered" style="text-align: center">
   <thead>
