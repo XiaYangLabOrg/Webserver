@@ -225,8 +225,8 @@ if (file_exists($fsession)) {
 ?>
 
 <script type="text/javascript">
-  var sessionID=<?php echo $sessionID; ?>;
-  var rmchoice=<?php echo $rmchoice; ?>;
+  var sessionID="<?php echo $sessionID; ?>";
+  var rmchoice="<?php echo $rmchoice; ?>";
   function kda2networkAjaxtest() {
     var
       $http,
@@ -379,9 +379,9 @@ if ((!(file_exists($email_sent)))) {
 }
 ?>
 <script type="text/javascript">
-  var sessionID=<?php echo $sessionID;?>;
-  var rmchoice=<?php echo $rmchoice;?>;
-  var run=<?php echo $run;?>;
+  var sessionID="<?php echo $sessionID;?>";
+  var rmchoice="<?php echo $rmchoice;?>";
+  var run="<?php echo $run;?>";
   if(rmchoice==1){
     $('#mywKDA_review').load("/result_wKDA.php?sessionID=" + sessionID + "&rmchoice=1&run="+run);
   }else if(rmchoice==2){
