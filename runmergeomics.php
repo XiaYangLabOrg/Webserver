@@ -2180,7 +2180,6 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
 ?>
 <script type="text/javascript">
     var n = localStorage.getItem('on_load_session');
-    console.log(n);
     //add data we are interested in tracking to an array
     var values = new Array();
     var oneday = new Date();
@@ -2222,7 +2221,6 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
 if (isset($_GET['message']) ? $_GET['message'] : null) {
 ?>
     <script type="text/javascript">
-      console.log("msg");
       alert("Session ID does not exist!");
     </script>
 <?php
