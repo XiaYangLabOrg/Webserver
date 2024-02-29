@@ -96,11 +96,11 @@ $sshpass_cmd_in_R="cat(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASS
                   "cat(paste0(\"touch \", data_dir, sessionID, \"_is_done\"))"."\n".
                   "system(paste0(\"touch \", data_dir, sessionID, \"_is_done\"))"."\n".
                   "cat(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", data_dir, sessionID, \"_is_done ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Resources/shinyapp2_temp/\",sessionID, \"_is_done\"))"."\n".
-                  "system(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", data_dir, sessionID, \"_is_done ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Resources/shinyapp2_temp/\",sessionID, \"_is_done\"))"."\n".
-                  "cat(paste0(\"echo 100% > \", data_dir, sessionID,\"out.txt\"))"."\n".
-                  "system(paste0(\"echo 100% > \", data_dir, sessionID,\"out.txt\"))"."\n".
-                  "cat(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", data_dir, sessionID, \"out.txt ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Results/shinyapp2/\",sessionID, \"out.txt\"))"."\n".
-                  "system(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", data_dir, sessionID, \"out.txt ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Results/shinyapp2/\",sessionID, \"out.txt\"))"."\n";
+                  "system(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", data_dir, sessionID, \"_is_done ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Resources/shinyapp2_temp/\",sessionID, \"_is_done\"))"."\n";
+                  
+                  
+                  
+                  
 $fp = fopen($fpathOut, "w");
 fwrite($fp, $data);
 fwrite($fp, $analysis);
