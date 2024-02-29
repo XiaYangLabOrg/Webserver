@@ -157,11 +157,6 @@ if (file_exists($ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID" 
   unlink($frunning_status);
   unlink($outfile);
   //echo "The file was found: " . date("d-m-Y h:i:s") . "<br>";
-  $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2/" . $sessionID . "out.txt";
-  $outfile_f = fopen($outfile, "w");
-  fwrite($outfile_f, "100%");
-  fclose($outfile_f);
-
   if ((!(file_exists($results_sent)))) {
     if (file_exists($email)) {
       $recipient = trim(file_get_contents($email));

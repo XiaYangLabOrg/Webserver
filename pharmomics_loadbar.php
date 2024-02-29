@@ -5,6 +5,12 @@
 	}
 	$networkfile = "./Data/Pipeline/Results/shinyapp2/" . $sessionID . "out.txt";
 	$jaccardfile = "./Data/Pipeline/Results/shinyapp3/" . $sessionID . "out.txt";
+	if (file_exists($ROOT_DIR . "Data/Pipeline/Resources/shinyapp2_temp/$sessionID" . "_is_done")) {
+        $outfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp2/" . $sessionID . "out.txt";
+        $outfile_f = fopen($outfile, "w");
+        fwrite($outfile_f, "100%");
+        fclose($outfile_f);
+    }
 	if (file_exists($networkfile)) {
 		$file = $networkfile;
 			$line = '';

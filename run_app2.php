@@ -135,6 +135,8 @@ if ($signature == 2 or $signature == 3) {
         ssh2_scp_send($connection, $network_str, '/u/scratch/m/mergeome/app2seg/'.basename($network_str), 0644);
         #shell_exec("sshpass -p \"".$env["PHMARMOMICS_PASSWORD"]."\" scp " . $network_str . " ".$env["PHARMOMICS_USERNAME"]."@".$env["HOFFMAN2_SERVER_IP"].":/u/scratch/m/mergeome/app2seg/ | tee " . $logfile);
     }
+
+
 }
 
 
