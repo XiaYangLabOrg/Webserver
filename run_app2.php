@@ -93,8 +93,8 @@ $sshpass_cmd_in_R="cat(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASS
                   "system(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", data_dir, sessionID,\"_app2result.txt ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Results/shinyapp2/\"))" ."\n".
                   "cat(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", data_dir, sessionID,\"_app2result_hepatotox.txt ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Results/shinyapp2/\"))"."\n".
                   "system(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", data_dir, sessionID,\"_app2result_hepatotox.txt ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Results/shinyapp2/\"))" ."\n".
-                  "cat(paste0(\"touch \", sessionID, \"_is_done\n\"))"."\n".
-                  "system(paste0(\"touch \", sessionID, \"_is_done\"))"."\n".
+                  "cat(paste0(\"touch \", data_dir, sessionID, \"_is_done\"))"."\n".
+                  "system(paste0(\"touch \", data_dir, sessionID, \"_is_done\"))"."\n".
                   "cat(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", data_dir, sessionID, \"_is_done ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Resources/shinyapp2_temp/\"))"."\n".
                   "system(paste0(\"~/bin/sshpass -p '".$env["MERGEOMICS_SERVER_PASSWORD"]."' scp \", data_dir, sessionID, \"_is_done ".$env["MERGEOMICS_SERVER_USERNAME"]."@".$env["MERGEOMICS_SERVER_IP"].":/var/www/mergeomics/html/Data/Pipeline/Resources/shinyapp2_temp/\"))"."\n".
                   "cat(paste0(\"echo 100% > \", data_dir, sessionID,\"out.txt\"))"."\n".
