@@ -138,6 +138,11 @@ if ($signature == 1) { //meta
     $sshout = "./Data/Pipeline/Resources/session/$sessionID" . "sshout.txt";
     $session_write = NULL;
     $sessionfile = fopen($sshout, "w");
+    while(!str_contains(stream_get_contents($stream_out),"has been submitted")){
+      $stream=ssh2_exec($connection, $cmd3);
+      stream_set_blocking( $stream, true );
+      $stream_out = ssh2_fetch_stream( $stream, SSH2_STREAM_STDIO );
+    }
     fwrite($sessionfile, $cmd3);
     fwrite($sessionfile, stream_get_contents($stream_out));
     fclose($sessionfile);
