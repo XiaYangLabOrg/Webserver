@@ -1862,7 +1862,7 @@ upload/alert variables & success alerts -- functions for when you select an inpu
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
             $('#alert_MAF').show();
-            marker_association_file = fullPath.replace("./Data/Pipeline/", "");
+            marker_association_file = fullPath;
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#MAFfilereturn').html(filename);
             $('#MAF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
