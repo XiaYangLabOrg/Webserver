@@ -1,5 +1,4 @@
-<?php 
-header('Location: '."http://164.67.172.118/PVDSingleCell/");
+<script type="text/javascript">
+window.location.replace("http://164.67.172.118/PVDSingleCell/");
 
-
-?>
+</script>
