@@ -1503,7 +1503,7 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
           $('#MMFprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            mapping_file.push(fullPath.replace("./Data/Pipeline/", ""));
+            mapping_file.push(fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", ""));
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#MMFfilereturn').html(filename);
             $('#MMF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
@@ -1561,7 +1561,7 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
           $('#MDFprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            mdffile = fullPath.replace("./Data/Pipeline/", "");
+            mdffile = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#MDFfilereturn').html(filename);
             $('#MDF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
