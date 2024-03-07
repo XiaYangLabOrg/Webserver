@@ -1028,7 +1028,7 @@ Upload functions -- uses AJAX to send data to a PHP file and then upload the fil
           $('#GSETprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            module_set_file = fullPath.replace("/^.*[\\\/]/Resourcecs", "Resources");
+            module_set_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#GSETfilereturn').html(filename);
             $('#GSET_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);

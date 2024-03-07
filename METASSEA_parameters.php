@@ -1472,8 +1472,8 @@ You can technically extract it and just call it externally if you want to keep t
             $('#MAFprogressbar').hide();
             if (resp.status == 1) {
               var fullPath = resp.targetPath;
-              marker_association_file = fullPath.replace("/^.*[\\\/]/Resourcecs", "Resources");
-              var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
+              marker_association_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
+              var filename = fullPath.replace("/^.*[\\\/]/", "").replace(session_id, "");
               $('#MAFfilereturn').html(filename);
               $('#MAF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
             } else {
