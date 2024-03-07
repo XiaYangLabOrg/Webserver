@@ -1923,7 +1923,7 @@ upload/alert variables & success alerts -- functions for when you select an inpu
           $('#MMFprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            mapping_file = fullPath.replace("./Data/Pipeline/", "");
+            mapping_file = fullPath.replace("/^.*[\\\/]/Resourcecs", "Resources");
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#MMFfilereturn').html(filename);
             $("#alertMMF").show();
