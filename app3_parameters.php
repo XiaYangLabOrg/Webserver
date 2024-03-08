@@ -283,6 +283,7 @@ click to manually input genes" required="required"></textarea>
     $('#APP3tab2').click();
     var form_data = new FormData(document.getElementById('app3dataform'));
     form_data.append("sessionID", string);
+    form_data.append("run","T")
 
     $.ajax({
       'url': 'run_app3.php',
@@ -290,7 +291,6 @@ click to manually input genes" required="required"></textarea>
       'data': form_data,
       processData: false,
       contentType: false,
-      run:"T",
       'success': function(data) {
         $("#myAPP3_run").html(data);
       }
