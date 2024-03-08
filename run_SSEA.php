@@ -266,7 +266,9 @@ if (file_exists($fsession)) {
             $self();
           }, 10000);   
         }else{
-          clearTimeout(timeOutVar);
+          if (typeof timeOutVar !== 'undefined'){
+            clearTimeout(timeOutVar);
+          }
           $('#mySSEA_review').load("/result_SSEA.php?sessionID=" + string + "&rmchoice=1"); 
         }
 

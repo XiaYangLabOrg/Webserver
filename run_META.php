@@ -142,7 +142,10 @@ if ((!(file_exists($email_sent)))) {
                             $self();
                         }, 10000);
                     }else{
-                        clearTimeout(timeOutVar);
+                        if (typeof timeOutVar !== 'undefined'){
+                            clearTimeout(timeOutVar);
+                        }
+                        
                         $('#myMETA_review').load("/result_META.php?metasessionID=" + meta_sessionId + "&sessionID=" + sessonId+"&sessionload=T");
                     }
                     $('#metaruntime').html(text);

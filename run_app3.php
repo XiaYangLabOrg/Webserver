@@ -133,7 +133,9 @@ echo "</pre>"; */
               $self();
             }, 10000);
           }else{
-            clearTimeout(timeOutVar);
+            if (typeof timeOutVar !== 'undefined'){
+              clearTimeout(timeOutVar);
+            }
             $('#myAPP3_run').load("/result_shinyapp3.php?sessionID=" + string + "&type=pharm");
           }
           // if (text == "100%") {

@@ -117,7 +117,9 @@ if (file_exists($fsession)) {
                         $self();
                         }, 10000);
                     }else{
-                        clearTimeout(timeOutVar);
+                        if (typeof timeOutVar !== 'undefined'){
+                            clearTimeout(timeOutVar);
+                        }
                         if(rmchoice==1){
                             $("#myssea2pharm_review").load("/result_shinyapp3.php?sessionID=" + sessionID + "&type=ssea");
                         }else if(rmchoice==2){

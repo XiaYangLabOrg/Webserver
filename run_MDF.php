@@ -217,7 +217,10 @@ function mdfAjax() {
                     $self();
                 }, 10000);
             }else{
-                clearTimeout(timeOutVar);
+                if (typeof timeOutVar !== 'undefined'){
+                    clearTimeout(timeOutVar);
+                }
+                $('#myLDPrune_review').load("/result_MDF.php?sessionID=<?php echo $sessionID ?>");
             }
           
           //text = text.replace(/\s/g, '');

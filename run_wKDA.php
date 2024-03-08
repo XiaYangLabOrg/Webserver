@@ -255,7 +255,9 @@ if (file_exists($fsession)) {
                         $self();
                       }, 10000);
           }else{
-            clearTimeout(timeOutVar);
+            if (typeof timeOutVar !== 'undefined'){
+              clearTimeout(timeOutVar);
+            }
             if(rmchoice==1){
               $('#mywKDA_review').load("/result_wKDA.php?sessionID=" + sessionID + "&rmchoice="+rmchoice)
             } else if (rmchoice==2){

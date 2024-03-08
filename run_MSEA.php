@@ -218,7 +218,9 @@ function kda2networkAjaxtest() {
                     $self();
                 }, 10000);   
             }else{
-                clearTimeout(timeOutVar);
+                if (typeof timeOutVar !== 'undefined'){
+                    clearTimeout(timeOutVar);
+                }
                 $('#myMSEA_review').load("/result_SSEA.php?sessionID=" + string + "&rmchoice=2");
             }
           
