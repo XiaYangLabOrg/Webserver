@@ -36,14 +36,14 @@ if (isset($_GET['type']) ? $_GET['type'] : null) {
 
   $type = $_GET['type'];
   if ($type == 'ssea' || $type == 'msea') {
-    $resultfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp3/$sessionID" . ".SSEA2PHARM_app3result.txt";
-    $genefile = $ROOT_DIR . "Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
+    $resultfile =  "./Data/Pipeline/Results/shinyapp3/$sessionID" . ".SSEA2PHARM_app3result.txt";
+    $genefile =  "./Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".SSEA2PHARM_genes.txt";
   } else if ($type == 'pharm'){
-    $resultfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result.txt";
-    $resultfiletox = $ROOT_DIR . "Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result_hepatotox.txt";
+    $resultfile =   "./Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result.txt";
+    $resultfiletox =  "./Data/Pipeline/Results/shinyapp3/$sessionID" . "_app3result_hepatotox.txt";
   }else {
-    $resultfile = $ROOT_DIR . "Data/Pipeline/Results/shinyapp3/$sessionID" . ".KDA2PHARM_app3result.txt";
-    $genefile = $ROOT_DIR . "Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".KDA2PHARM_genes.txt";
+    $resultfile =  "./Data/Pipeline/Results/shinyapp3/$sessionID" . ".KDA2PHARM_app3result.txt";
+    $genefile =   "./Data/Pipeline/Resources/shinyapp3_temp/$sessionID" . ".KDA2PHARM_genes.txt";
   }
 }
 
