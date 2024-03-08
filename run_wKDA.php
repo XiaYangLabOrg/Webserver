@@ -250,7 +250,7 @@ if (file_exists($fsession)) {
           //text = text.replace(/\s/g, '');
           
           timeOutVar=null;
-          if (!text.includes("WKDA COMPLETE")) {
+          if (!text.includes("WKDA COMPLETE")|| !text.includes("Execution Halted")) {
             timeOutVar=setTimeout(function() {
                         $self();
                       }, 10000);

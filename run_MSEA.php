@@ -213,7 +213,7 @@ function kda2networkAjaxtest() {
 
             text = $http.responseText;
           //text = text.replace(/\s/g, '');
-            if(!text.includes("MSEA COMPLETE")) {
+            if(!text.includes("MSEA COMPLETE") || !text.includes("Execution Halted")) {
                 timeOutVar=setTimeout(function() {
                     $self();
                 }, 10000);   
