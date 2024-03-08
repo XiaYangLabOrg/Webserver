@@ -290,6 +290,7 @@ click to manually input genes" required="required"></textarea>
       'data': form_data,
       processData: false,
       contentType: false,
+      run:"T",
       'success': function(data) {
         $("#myAPP3_run").html(data);
       }

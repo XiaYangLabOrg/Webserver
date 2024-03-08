@@ -18,6 +18,9 @@ if (isset($_POST['downregulatedgenes'])) {
   $downregulated = $_POST['downregulatedgenes'];
   //$downregulated = str_replace("\r\n",'\n', $downregulated);
 }
+if(isset($_POST['run'])){
+  $run = $_POST['run'];
+}
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 
 
@@ -38,7 +41,6 @@ if (!file_exists($frunning_status) & !file_exists($resultfile)) {
   //$fpath2="./Data/Pipeline/Resources/shinyapp3_temp/$sessionID".".KDA2PHARM_down_genes.txt"; 
 
   $fpathOut = $ROOT_DIR . "Data/Pipeline/$sessionID" . "app3.R"; # change to pharmomics folder
-  debug_to_console($fpathOut);
   $array_up = explode("\n", $upregulated);
   $array_down = explode("\n", $downregulated);
 
@@ -65,7 +67,7 @@ if (!file_exists($frunning_status) & !file_exists($resultfile)) {
   $f = fopen($filename, 'w');
   fwrite($f, $final);
   fclose($f);
-
+ 
   //$file1 = "Genes_up <- unlist(strsplit(".'"'.$upregulated.'"'.",".'"\n|\t|,| "'."))";
   //$file2 = "Genes_down <- unlist(strsplit(".'"'.$downregulated.'"'.",".'"\n|\t|,| "'."))";
 
@@ -251,7 +253,8 @@ if ((!(file_exists($email_sent)))) {
   if (!file_exists($frunning_status)) {
   ?>
     var string = "<?php echo $sessionID; ?>";
-    $('#myAPP3_run').load("/result_shinyapp3.php?sessionID=" + string + "&type=pharm&run=T");
+    var run="<?php echo $run; ?>";
+    $('#myAPP3_run').load("/result_shinyapp3.php?sessionID=" + string + "&type=pharm&run="+run);
   <?php
   }
   ?>
