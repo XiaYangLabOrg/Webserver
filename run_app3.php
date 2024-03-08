@@ -254,7 +254,10 @@ if ((!(file_exists($email_sent)))) {
   ?>
     var string = "<?php echo $sessionID; ?>";
     var run="<?php echo $run; ?>";
-    $('#myAPP3_run').load("/result_shinyapp3.php?sessionID=" + string + "&type=pharm&run="+run);
+    if(run=="T"){
+      $('#myAPP3_run').load("/result_shinyapp3.php?sessionID=" + string + "&type=pharm&run="+run);
+    }
+    
   <?php
   }
   ?>
