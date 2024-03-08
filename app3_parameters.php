@@ -221,7 +221,7 @@ click to manually input genes" required="required"></textarea>
     localStorage.setItem("on_load_session", string);
     $('#session_id').html("<p style='margin: 0px;font-size: 12px;padding: 0px;'>Session ID: </p>" + string);
     $('#session_id').css("padding", "17px 30px");
-  }
+  });
 
 
   $("#emailSubmit").on('click', function() {
