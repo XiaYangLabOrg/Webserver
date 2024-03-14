@@ -75,6 +75,7 @@ if (!file_exists($fsession) || $rollback == 'T') {
 
 	</div>
 </div>
+<script src="include/js/jquery.js"></script>
 <script type="text/javascript">
 	var meta_string = "<?php echo $meta_sessionID; ?>";
 	var n = localStorage.getItem('on_load_session');
