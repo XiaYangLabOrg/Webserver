@@ -319,7 +319,7 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
             <select class="SSEA" name="formChoice" size="1" id="marker_association">
               <option value="0">Please select option</option>
               <option value="private_data">Upload your association data</option>
-              <option value="Resources/sample_GWAS/loci.hdlc_040kb_ld70.human.txt">Sample Human GWAS</option>
+              <option value="Resources/sample_GWAS/Sample_human_HDL_cholesterol_GWAS.txt">Sample Human GWAS</option>
               <option value="Resources/sample_GWAS/AD_IGAP.txt">Alzheimer's disease GWAS</option>
               <option value="Resources/sample_GWAS/EAGLE_ADHD.txt">ADHD GWAS</option>
               <option value="Resources/sample_GWAS/SAGE_AlcoholDependence.txt">Alcohol Dependence GWAS</option>
