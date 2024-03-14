@@ -1,4 +1,5 @@
 <?php
+include "functions.php";
 //This parameters files is for when the user chooses META - SSEA in mergeomics
 
 
@@ -31,15 +32,7 @@ There is a "list_strings" file that gets generated during each session
 */
 
 //This function creates a random session ID string
-function generatesessionIDing($length = 10)
-{
-  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  $sessionIDing = '';
-  for ($i = 0; $i < $length; $i++) {
-    $sessionIDing .= $characters[rand(0, strlen($characters) - 1)];
-  }
-  return $sessionIDing;
-}
+
 
 if (isset($_POST['sessionID']) ? $_POST['sessionID'] : null) {
   $sessionID = $_POST['sessionID'];

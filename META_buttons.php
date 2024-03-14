@@ -1,6 +1,6 @@
 <?php
 include "functions.php";
-
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 if (isset($_GET['oldsession']) ? $_GET['oldsession'] : null) {
 	$old_meta_session = $_GET["oldsession"];
 }
@@ -18,9 +18,9 @@ if (isset($_GET['metasessionID']) ? $_GET['metasessionID'] : null) {
 
 
 
-$fsession = "./Data/Pipeline/Resources/session/$meta_sessionID" . "_session.txt";
+$fsession = $ROOT_DIR."Data/Pipeline/Resources/session/$meta_sessionID" . "_session.txt";
 $session_write = NULL;
-
+debug_to_console($fsession);
 //if session.txt file does not exist or rollback is called from Meta_Moduleprogress.php
 if (!file_exists($fsession) || $rollback == 'T') {
 	$sessionfile = fopen($fsession, "w");
