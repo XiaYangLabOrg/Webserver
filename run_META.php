@@ -136,7 +136,6 @@ if ((!(file_exists($email_sent)))) {
                 if (/4|^complete$/.test($http.readyState)) {
 
                     text = $http.responseText;
-                    console.log(text);
                     //text = text.replace(/\s/g, '');
                     if (!text.includes("META-MSEA COMPLETE") || !text.includes("Execution halted")) {
                         timeOutVar=setTimeout(function() {
