@@ -674,7 +674,7 @@ $pv = "";
           metasessionID: meta_string,
           module: module_set_file,
           module_info: module_info_file,
-          perm_type: permtype,
+          // perm_type: permtype,
           max_gene: maxgene,
           min_gene: mingene,
           minoverlap: minoverlap,
