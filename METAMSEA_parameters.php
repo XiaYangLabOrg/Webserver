@@ -101,7 +101,7 @@ $data1 = (isset($_POST['formChoice_mapping']) ? $_POST['formChoice_mapping'] : n
 
 
 
-if (strlen($data) < 3) {
+if (strlen($data??'') < 3) {
   $gwasformChoice = 0;
   $locformChoice = 0;
   $moduleformChoice = 0;
@@ -115,7 +115,7 @@ if (strlen($data) < 3) {
   $sessionID = $pieces[4];
 }
 
-if (strlen($data1) < 3) {
+if (strlen($data1??'') < 3) {
   $gwasformChoice1 = 0;
   $locformChoice1 = 0;
   $moduleformChoice1 = 0;

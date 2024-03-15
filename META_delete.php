@@ -85,8 +85,8 @@ if (count($newjson) == 0) {
     //$data["data"] = $json->data;
     $fp_list_strings = fopen($fpath_random, "w");
     fwrite($fp_list_strings, $list_strings);
-    fclose($fp);
-    chmod($fp_list_strings, 0775);
+    fclose($fp_list_strings);
+    chmod($fpath_random, 0775);
     $fjson = "./Data/Pipeline/Resources/meta_temp/$meta_sessionID" . "data.json";
     $fp = fopen($fjson, 'w');
     fwrite($fp, json_encode($json));

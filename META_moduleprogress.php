@@ -1,18 +1,31 @@
 <?php
-include "functions.php";
-if (isset($_GET['sessionID'])) {
-  $sessionID = $_GET["sessionID"];
-}
+$sessionID="";
 if (isset($_GET['metasessionID'])) {
   $meta_sessionID = $_GET["metasessionID"];
+  $fjson = "./Data/Pipeline/Resources/meta_temp/$meta_sessionID" . "data.json";
+  if (file_exists($fjson)) {
+    $data = json_decode(file_get_contents($fjson));
+  }
 }
-
 if (isset($_GET['marker_association'])) {
   $marker_association = $_GET["marker_association"];
 }
 
 if (isset($_GET['mapping'])) {
   $mapping = $_GET["mapping"];
+  if (count($mapping) > 1) {
+    foreach ($mapping as &$value) {
+      //$newMappingcontent .= readMappingFile($value);
+      $mapping_val .= ", " . basename($value);
+    }
+    $mapping_val = substr($mapping_val, 2);
+  } else {
+    if (gettype($mapping) == "array") {
+      $mapping_val = basename($mapping[0]);
+    } else {
+      $mapping_val = basename($mapping);
+    }
+  }
 }
 
 if (isset($_GET['perm_type'])) {
@@ -55,54 +68,8 @@ if (isset($_GET['MMFConvert'])) {
   $MMFConvert = "none";
 }
 
-
-
-$femail = "./Data/Pipeline/Results/meta_email/$meta_sessionID" . "email";
-$email_sent = "./Data/Pipeline/Results/meta_email/$meta_sessionID" . "sent_email";
-
-
-if (isset($_GET['METAemail'])) {
-  $emailid = $_GET['METAemail'];
-} else {
-  $emailid = "";
-}
-
-
-if ($emailid != "") {
-  $parts = explode("@", $emailid);
-  $name = $parts[0];
-  $domain = $parts[1];
-  if (trim($domain) == 'ucla.edu') {
-    $newid = "$name" . "@g.ucla.edu";
-  } else {
-    $newid = $emailid;
-  }
-  $myfile = fopen($femail, "w");
-  fwrite($myfile, $newid);
-  fclose($myfile);
-}
-
-
-
-
-
-if ((!(file_exists($email_sent)))) {
-  if (file_exists($femail)) {
-    $sendemail = 'Yes';
-  } else {
-    $sendemail = 'No';
-  }
-}
-
-// $fpath = "./Data/Pipeline/Resources/meta_temp/$sessionID";
-$pv = "";
-
-if ($sessionID != null) {
-  $fjson = "./Data/Pipeline/Resources/meta_temp/$meta_sessionID" . "data.json";
-  if (file_exists($fjson)) {
-    $data = json_decode(file_get_contents($fjson));
-  }
-
+if (isset($_GET['sessionID'])) {
+  $sessionID = $_GET["sessionID"];
   $json = array();
 
   //$fpath_random = "./Data/Pipeline/Resources/meta_temp/$meta_sessionID" . "list_strings";
@@ -191,20 +158,48 @@ Since we don't have a database, we have to update the txt file with the path inf
     // }
   }
 }
-if (count($mapping) > 1) {
-  foreach ($mapping as &$value) {
-    //$newMappingcontent .= readMappingFile($value);
-    $mapping_val .= ", " . basename($value);
-  }
-  $mapping_val = substr($mapping_val, 2);
-} else {
 
-  if (gettype($mapping) == "array") {
-    $mapping_val = basename($mapping[0]);
+$femail = "./Data/Pipeline/Results/meta_email/$meta_sessionID" . "email";
+$email_sent = "./Data/Pipeline/Results/meta_email/$meta_sessionID" . "sent_email";
+
+
+if (isset($_GET['METAemail'])) {
+  $emailid = $_GET['METAemail'];
+} else {
+  $emailid = "";
+}
+
+
+if ($emailid != "") {
+  $parts = explode("@", $emailid);
+  $name = $parts[0];
+  $domain = $parts[1];
+  if (trim($domain) == 'ucla.edu') {
+    $newid = "$name" . "@g.ucla.edu";
   } else {
-    $mapping_val = basename($mapping);
+    $newid = $emailid;
+  }
+  $myfile = fopen($femail, "w");
+  fwrite($myfile, $newid);
+  fclose($myfile);
+}
+
+
+
+
+
+if ((!(file_exists($email_sent)))) {
+  if (file_exists($femail)) {
+    $sendemail = 'Yes';
+  } else {
+    $sendemail = 'No';
   }
 }
+
+// $fpath = "./Data/Pipeline/Resources/meta_temp/$sessionID";
+$pv = "";
+
+
 
 ?>
 <style type="text/css">

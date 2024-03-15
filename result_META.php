@@ -119,7 +119,6 @@ if ($redirectedFromSessionLoad != "T") {
 			if ($MMFConvert !== "none") {
 				shell_exec('Rscript ./Data/Pipeline/geneConversion.R ' . $sessionID . " " . $MMFConvert . " " . $mapping);
 				$mapping = "Resources/meta_temp/Converted_" . basename($mapping);
-				debug_to_console($mapping);
 			}
 			$outpath = str_replace($ROOT_DIR . "Data/Pipeline/", "", runMDFscript($session, $marker_association, $mapping, $mdf_file, $mdf_ntop, $meta_sessionID));
 			$marker_association = $outpath . "marker.txt";

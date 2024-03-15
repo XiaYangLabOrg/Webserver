@@ -20,7 +20,6 @@ if (isset($_GET['metasessionID']) ? $_GET['metasessionID'] : null) {
 
 $fsession = $ROOT_DIR."Data/Pipeline/Resources/session/$meta_sessionID" . "_session.txt";
 $session_write = NULL;
-debug_to_console($fsession);
 //if session.txt file does not exist or rollback is called from Meta_Moduleprogress.php
 if (!file_exists($fsession) || $rollback == 'T') {
 	$sessionfile = fopen($fsession, "w");
