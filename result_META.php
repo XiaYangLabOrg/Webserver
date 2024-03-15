@@ -927,9 +927,6 @@ $outfile = "./Data/Pipeline/Results/meta_ssea/" . $meta_sessionID . "_joblog.txt
 
 <?php
 
-require('./PHPMailer-master/class.phpmailer.php');
-
-
 if (file_exists("./Data/Pipeline/Results/meta_ssea/" . "$meta_sessionID" . "_meta_result/ssea/" . "$meta_sessionID" . "_META.pvalues.txt")) {
 	$resultfile = "./Data/Pipeline/Results/meta_ssea/" . "$meta_sessionID" . "_meta_result/ssea/" . "$meta_sessionID" . "_META.pvalues.txt";
 } else {
@@ -992,34 +989,34 @@ if ((file_exists($results_sent))) {
 	var string = "<?php echo $sessionID; ?>";
 
 	$('#module').dataTable({
-		//"paging": true,
+		"paging": true,
 		"order": [
 			[1, 'asc']
 		],
-		// "lengthMenu": [
-		// 	[5, 10, 25, 50, -1],
-		// 	[5, 10, 25, 50, "All"]
-		// ]
+		 "lengthMenu": [
+		 	[5, 10, 25, 50, -1],
+		 	[5, 10, 25, 50, "All"]
+		 ]
 	});
 	$('#merge_module').dataTable({
-		//"paging": true,
+		"paging": true,
 		"order": [
 			[1, 'asc']
 		],
-		// "lengthMenu": [
-		// 	[5, 10, 25, 50, -1],
-		// 	[5, 10, 25, 50, "All"]
-		// ]
+		 "lengthMenu": [
+		 	[5, 10, 25, 50, -1],
+		 	[5, 10, 25, 50, "All"]
+		 ]
 	});
 	$('#combined_meta').dataTable({
-		//"paging": true,
+		"paging": true,
 		"order": [
 			[5, 'asc']
 		],
-		// "lengthMenu": [
-		// 	[5, 10, 25, 50, -1],
-		// 	[5, 10, 25, 50, "All"]
-		// ]
+		"lengthMenu": [
+		 	[5, 10, 25, 50, -1],
+		 	[5, 10, 25, 50, "All"]
+		 ]
 	});
 	$("#tabs").tabs();
 

@@ -1628,8 +1628,8 @@ You can technically extract it and just call it externally if you want to keep t
       $("#MDFuploadInput").focus();
     });
     $(document).ready(function() {
-      $('#session_id').html("<p style='margin: 0px;font-size: 12px;padding: 0px;'>Session ID: </p>" + session_id);
-      $('#session_id').css("padding", "17px 30px");
+      // $('#session_id').html("<p style='margin: 0px;font-size: 12px;padding: 0px;'>Session ID: </p>" + session_id);
+      // $('#session_id').css("padding", "17px 30px");
       window.prettyPrint() && prettyPrint();
       $('#mapping_file').multiselect({
         enableCaseInsensitiveFiltering: true,
