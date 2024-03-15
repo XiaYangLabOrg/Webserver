@@ -1,12 +1,4 @@
 <?php
-function debug_to_console($data)
-{
-    $output = $data;
-    if (is_array($output))
-        $output = implode(',', $output);
-
-    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
 if (isset($_GET['metasessionID'])) {
     $meta_sessionID = $_GET["metasessionID"];
     $fjson = "./Data/Pipeline/Resources/meta_temp/$meta_sessionID" . "data.json";
@@ -85,10 +77,10 @@ if (count($newjson) == 0) {
         unlink($fjson);
     }
 } else {
-    if (empty($data->data)) {
-        $data['data'] = $newjson;
+    if (empty($json->data)) {
+        $json['data'] = $newjson;
     } else {
-        $data->data = $newjson;
+        $json->data = $newjson;
     }
     //$data["data"] = $json->data;
     $fp_list_strings = fopen($fpath_random, "w");
@@ -97,13 +89,13 @@ if (count($newjson) == 0) {
     chmod($fp_list_strings, 0775);
     $fjson = "./Data/Pipeline/Resources/meta_temp/$meta_sessionID" . "data.json";
     $fp = fopen($fjson, 'w');
-    fwrite($fp, json_encode($data));
+    fwrite($fp, json_encode($json));
     fclose($fp);
     chmod($fjson, 0775);
 }
 
 
-
-        
-
  // Encoding array in JSON format
+?> 
+
+
