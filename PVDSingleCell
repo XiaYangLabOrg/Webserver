@@ -1,4 +1,6 @@
 <script type="text/javascript">
-window.location.replace("http://164.67.172.118/PVDSingleCell/");
+//window.location.replace("http://164.67.172.118/PVDSingleCell/");
+window.location.replace("https://mergeomics.research.idre.ucla.edu/PVDSingleCell/");
+
 
 </script>
