@@ -136,17 +136,17 @@ if ((!(file_exists($email_sent)))) {
                 if (/4|^complete$/.test($http.readyState)) {
 
                     text = $http.responseText;
+                    timeOutVar=null;
                     //text = text.replace(/\s/g, '');
-                    if (!text.includes("META-MSEA COMPLETE") || !text.includes("Execution halted")) {
-                        timeOutVar=setTimeout(function() {
-                            $self();
-                        }, 10000);
-                    }else{
-                        
+                    if (text.includes("META-MSEA COMPLETE") || text.includes("Execution halted")) {
                         if (typeof timeOutVar !== 'undefined'){
                             clearTimeout(timeOutVar);
                         }
                         $('#myMETA_review').load("/result_META.php?metasessionID=" + meta_sessionId + "&sessionID=" + sessonId+"&sessionload=T");
+                    }else{
+                        timeOutVar=setTimeout(function() {
+                            $self();
+                        }, 10000);
                     }
                     $('#metaruntime').html(text);
 

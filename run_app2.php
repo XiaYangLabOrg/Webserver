@@ -163,16 +163,16 @@ if ($signature == 2 or $signature == 3) {
                 if (/4|^complete$/.test($http.readyState)) {
                     text = $http.responseText;
                     text = text.replace(/\s/g, '');
-                    console.log(text);
-                    if (!text.includes("100%")) {
-                        timeOutVar=setTimeout(function() {
-                            $self();
-                        }, 10000);
-                    }else{
+                    timeOutVar=null;
+                    if (text.includes("100%")) {
                         if (typeof timeOutVar !== 'undefined'){
                             clearTimeout(timeOutVar);
                         }
                         $('#myAPP2_run').load("/result_shinyapp2.php?sessionID="+string+"&type=pharm&signature="+signature);
+                    }else{
+                        timeOutVar=setTimeout(function() {
+                            $self();
+                        }, 10000);
                     }
                     $('#app2progresswidth').width(text);
                     $('#app2progresspercent').html(text);

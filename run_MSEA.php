@@ -213,15 +213,16 @@ function kda2networkAjaxtest() {
 
             text = $http.responseText;
           //text = text.replace(/\s/g, '');
-            if(!text.includes("MSEA COMPLETE") || !text.includes("Execution Halted")) {
-                timeOutVar=setTimeout(function() {
-                    $self();
-                }, 10000);   
-            }else{
+            timeOutVar=null;
+            if(text.includes("MSEA COMPLETE") || text.includes("Execution Halted")) {
                 if (typeof timeOutVar !== 'undefined'){
                     clearTimeout(timeOutVar);
                 }
                 $('#myMSEA_review').load("/result_SSEA.php?sessionID=" + string + "&rmchoice=2");
+            }else{
+                timeOutVar=setTimeout(function() {
+                    $self();
+                }, 10000);   
             }
           
 

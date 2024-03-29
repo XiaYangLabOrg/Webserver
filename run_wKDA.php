@@ -250,11 +250,7 @@ if (file_exists($fsession)) {
           //text = text.replace(/\s/g, '');
           
           timeOutVar=null;
-          if (!text.includes("WKDA COMPLETE")|| !text.includes("Execution Halted")) {
-            timeOutVar=setTimeout(function() {
-                        $self();
-                      }, 10000);
-          }else{
+          if (text.includes("WKDA COMPLETE")|| text.includes("Execution Halted")) {
             if (typeof timeOutVar !== 'undefined'){
               clearTimeout(timeOutVar);
             }
@@ -267,6 +263,10 @@ if (file_exists($fsession)) {
             } else{
               $('#myKDASTART_review').load("/result_wKDA.php?sessionID=" + sessionID + "&rmchoice="+rmchoice);
             } 
+          }else{
+            timeOutVar=setTimeout(function() {
+                        $self();
+                      }, 10000);
           }
           $('#kdaruntime').html(text);
         }

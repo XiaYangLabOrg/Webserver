@@ -128,15 +128,16 @@ echo "</pre>"; */
 
           text = $http.responseText;
           text = text.replace(/\s/g, '');
-          if (!text.includes("100%")){
-            timeOutVar=setTimeout(function() {
-              $self();
-            }, 10000);
-          }else{
+          timeOutVar=null;
+          if (text.includes("100%")){
             if (typeof timeOutVar !== 'undefined'){
               clearTimeout(timeOutVar);
             }
             $('#myAPP3_run').load("/result_shinyapp3.php?sessionID=" + string + "&type=pharm");
+          }else{
+            timeOutVar=setTimeout(function() {
+              $self();
+            }, 10000);
           }
           // if (text == "100%") {
           //   clearTimeout(timeOutVar);
