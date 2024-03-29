@@ -266,6 +266,7 @@ if (file_exists($fsession)) {
             $self();
           }, 10000);   
         }else{
+          console.log(text);
           if (typeof timeOutVar !== 'undefined'){
             clearTimeout(timeOutVar);
           }
