@@ -262,16 +262,15 @@ if (file_exists($fsession)) {
           //check mdf log has finished with "MDF COMPLETE" string at the end and terminate the loop Dec 26. 2023 -Dan
         timeOutVar=null;
         console.log(text);
-        if(!text.includes("MSEA COMPLETE") || !text.includes("Execution Halted")) {
-          timeOutVar=setTimeout(function() {
-            $self();
-          }, 10000);   
-        }else{
-   
+        if(text.includes("MSEA COMPLETE<br />") || text.includes("Execution Halted")) {
           if (typeof timeOutVar !== 'undefined'){
             clearTimeout(timeOutVar);
           }
           $('#mySSEA_review').load("/result_SSEA.php?sessionID=" + string + "&rmchoice=1"); 
+        }else{
+          timeOutVar=setTimeout(function() {
+            $self();
+          }, 10000);   
         }
 
           // if (text.indexOf("100%") == -1) {
