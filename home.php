@@ -148,7 +148,7 @@
 
             <div class="widget clearfix">
 
-              <h5 class="mfront_h5">Citation</h5>
+              <h5 class="mfront_h5">Citation-Jade,Cameron</h5>
               <div class="footerdivider"></div>
 
               <p class="mfront_p">If you use the Mergeomics or PharmOmics web server or R package in published research, please be sure to cite appropriately.</p>
