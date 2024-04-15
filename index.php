@@ -218,9 +218,9 @@
             <div class="footerdivider" style="width: 14%;"></div>
             <p style="margin-bottom: 0.5%;font-size: 20px;">We will make monthly screens for updated public resources and make functionality updates as necessary, which will be reported here.</p>
             <p style="margin-bottom: 0.5%;font-size: 20px;">Updates for large sample data releases will be made yearly.</p>
-            <h4 style="font-size: 22px;">June 2020</h4>
-            <p style="font-size: 20px;margin-bottom: 1%;">Mergeomics Web Server 2.0 is released</p>
-            <h4 style="font-size: 22px;margin-bottom: 4%;">Next major update for sample resources: December 2021</h4>
+            <h4 style="font-size: 22px;">Apr 2024</h4>
+            <p style="font-size: 20px;margin-bottom: 1%;">The web server has been migrated to a new server. Mergeomics is now compatible with the HTTPS protocol.</p>
+            <h4 style="font-size: 22px;margin-bottom: 4%;"> </h4>
             </div>
           </div>
 

@@ -79,12 +79,12 @@ $MMFConvert =  $json[0]->MMFConvert;
 
 if (is_string($mapping)) {
     //File will be generated in result_MDF.php
-    $mapping = "Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
+    $mapping = "Data/Pipeline/Resources/ssea_temp/" . $sessionID . ".mappingfile.txt";
 } else {
     $mapping = $mapping[0];
     if($MMFConvert!=="none"){
         //File will be generated in result_MDF.php
-        $mapping = "Resources/ssea_temp/Converted_" . basename($mapping);
+        $mapping = "Data/Pipeline/Resources/ssea_temp/Converted_" . basename($mapping);
     }
 }
 
