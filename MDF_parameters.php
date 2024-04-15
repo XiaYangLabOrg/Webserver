@@ -1235,7 +1235,7 @@ Will create an error message at the top if user forgets or does not have all dat
             $('#MAFprogressbar').hide();
             if (resp.status == 1) {
               var fullPath = resp.targetPath;
-              marker_association_file = fullPath;
+              marker_association_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/","");
               var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
               $('#MAFfilereturn').html(filename);
               $('#MAF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
@@ -1294,7 +1294,7 @@ Will create an error message at the top if user forgets or does not have all dat
             $('#MMFprogressbar').hide();
             if (resp.status == 1) {
               var fullPath = resp.targetPath;
-              mapping_file.push(fullPath); // get error with this
+              mapping_file.push(fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "")); // get error with this
               //mapping_file = fullPath.replace("./Data/Pipeline/", ""); // should only be one file?
               var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
               $('#MMFfilereturn').html(filename);
@@ -1355,7 +1355,7 @@ Will create an error message at the top if user forgets or does not have all dat
             $('#MDFprogressbar').hide();
             if (resp.status == 1) {
               var fullPath = resp.targetPath;
-              mdffile = fullPath;
+              mdffile = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
               var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
               $('#MDFfilereturn').html(filename);
               $('#MDF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
