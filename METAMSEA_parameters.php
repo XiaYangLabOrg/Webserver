@@ -1584,7 +1584,7 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
     $("#MDFuploadInput").focus();
   });
 
-  
+  /*
   $("#GSETuploadInput").on('change', function() {
     $("#GSETlabelname").html("Select another file?");
     var name = this.files[0].name;
@@ -1683,9 +1683,7 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
           $('#GSETDprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            console.log(fullPath);
             module_info_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
-            console.log(module_info_file);
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#GSETDfilereturn').html(filename);
             $('#GSETD_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
@@ -1706,5 +1704,5 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
   $("#GSETDlabelname").on("click", function(event) {
     $("#GSETDuploadInput").focus();
   });
-
+*/
 </script>
