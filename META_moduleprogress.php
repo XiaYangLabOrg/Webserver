@@ -963,6 +963,7 @@ $pv = "";
         xhr.onload = function() {
           if (this.status == 200) {
             var resp = JSON.parse(this.response);
+            console.log(resp);
             $('#GSETprogresswidth').css('width', '0%').attr('aria-valuenow', 0);
             $('#GSETprogressbar').hide();
             if (resp.status == 1) {
