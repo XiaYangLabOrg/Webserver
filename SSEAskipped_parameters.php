@@ -325,6 +325,7 @@ $pv = "";
                           <option value="Resources/mappings/gene2loci.050kb.txt">Chromosomal distance 50Kb</option>
                           <option value="Resources/GTEx_v8_eQTL/combined_49esnps.txt">GTEx 49 Combined eQTLs</option>
                           <option value="Resources/GTEx_v8_sQTL/combined_49ssnps.txt">GTEx 49 Combined sQTLs</option>
+                          <option value="Resources/mappings/combined_eqtl_sqtl_pqtl_distance.txt">Combined eQTLs, sQTLs, and pQTLs</option>
                         </optgroup>
                         <optgroup class="multiple_mapping" label="Multiple (up to 5) Mapping file(s) can be selected">
                           <option value="Resources/mappings/gene2loci.regulome.txt">Regulome mapping</option>
