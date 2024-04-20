@@ -951,6 +951,8 @@ $pv = "";
         fd.append("path", GSET_target_path);
         fd.append("data_type", "gene_set");
         fd.append("session_id", session_id);
+        console.log(GSET_target_path);
+        console.log(session_id);
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'upload_MAF2.php', true);
         xhr.upload.onprogress = function(e) {
@@ -965,6 +967,7 @@ $pv = "";
         xhr.onload = function() {
           if (this.status == 200) {
             var resp = JSON.parse(this.response);
+            
             console.log(resp);
             $('#GSETprogresswidth').css('width', '0%').attr('aria-valuenow', 0);
             $('#GSETprogressbar').hide();
