@@ -950,9 +950,9 @@ $pv = "";
         fd.append("afile", file);
         fd.append("path", GSET_target_path);
         fd.append("data_type", "gene_set");
-        fd.append("session_id", session_id);
+        fd.append("session_id", meta_string);
         console.log(GSET_target_path);
-        console.log(session_id);
+        console.log(meta_string);
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'upload_MAF2.php', true);
         xhr.upload.onprogress = function(e) {
