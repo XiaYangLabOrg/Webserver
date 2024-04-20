@@ -1,5 +1,7 @@
 <?php
 $sessionID="";
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
+$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/meta_temp/";
 if (isset($_GET['metasessionID'])) {
   $meta_sessionID = $_GET["metasessionID"];
   $fjson = "./Data/Pipeline/Resources/meta_temp/$meta_sessionID" . "data.json";
@@ -663,7 +665,7 @@ $pv = "";
     var minoverlap = null;
     var metafdr = null;
     var GSETConvert = null;
-
+    var GSET_target_path="<?php echo $FILE_UPLOAD;?>";
     function METAdone() //This function starts the submission of the job
     {
       $.ajax({
@@ -946,7 +948,7 @@ $pv = "";
       } else {
         var fd = new FormData();
         fd.append("afile", file);
-        fd.append("path", "./Data/Pipeline/Resources/meta_temp/");
+        fd.append("path", GSET_target_path);
         fd.append("data_type", "gene_set");
         fd.append("session_id", session_id);
         var xhr = new XMLHttpRequest();
