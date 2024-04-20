@@ -179,29 +179,29 @@ Function to skip MDF
             <select class="LDPrune" name="formChoice" size="1" id="marker_association">
               <option value="0">Please select option</option>
               <option value="private_data">Upload your association data</option>
-              <option value="Resources/sample_GWAS/Sample_human_HDL_cholesterol_GWAS.txt">Sample Human GWAS</option>
-              <option value="Resources/sample_GWAS/AD_IGAP.txt">Alzheimer's disease GWAS</option>
-              <option value="Resources/sample_GWAS/EAGLE_ADHD.txt">ADHD GWAS</option>
-              <option value="Resources/sample_GWAS/SAGE_AlcoholDependence.txt">Alcohol Dependence GWAS</option>
-              <option value="Resources/sample_GWAS/GIANT_BMIall.txt">Body mass index GWAS</option>
-              <option value="Resources/sample_GWAS/RashkinS_BreastCancer.txt">Breast Cancer GWAS</option>
-              <option value="Resources/sample_GWAS/CARDIOGRAM_CAD.txt">Coronary Artery Disease GWAS</option>
-              <option value="Resources/sample_GWAS/MAGIC.fastingglucose.txt">Fasting Glucose GWAS</option>
-              <option value="Resources/sample_GWAS/ShahS_HeartFailure.txt">Heart Failure GWAS</option>
-              <option value="Resources/sample_GWAS/glgc.hdl.txt">GLGC HDL GWAS</option>
-              <option value="Resources/sample_GWAS/glgc.ldl.txt">GLGC LDL GWAS</option>
-              <option value="Resources/sample_GWAS/ColemanJ_MDD.txt">Major Depressive Disorder GWAS</option>
-              <option value="Resources/sample_GWAS/TimmersP_Lifespan.txt">Parental Lifespan GWAS</option>
-              <option value="Resources/sample_GWAS/IPDGC_PD.txt">Parkinson's Disease GWAS</option>
-              <option value="Resources/sample_GWAS/GWAS_Psoriasis.txt">Psoriasis GWAS</option>
-              <option value="Resources/sample_GWAS/Pairo-CastineiraE_COVID.txt">Severe illness in COVID GWAS</option>
-              <option value="Resources/sample_GWAS/PGC_Schizophrenia.txt">Schizophrenia GWAS</option>
-              <option value="Resources/sample_GWAS/MalikR_Stroke.txt">Stroke GWAS</option>
-              <option value="Resources/sample_GWAS/WangY_SLE.txt">Systemic Lupus Erythematosus GWAS</option>
-              <option value="Resources/sample_GWAS/DIAGRAM_T2D.txt">Type 2 Diabetes GWAS</option>
-              <option value="Resources/sample_GWAS/glgc.tc.txt">GLGC Total Cholesterol GWAS</option>
-              <option value="Resources/sample_GWAS/glgc.tg.txt">GLGC Triglycerides GWAS</option>
-              <option value="Resources/sample_GWAS/Mouse_Sample_GWAS.txt">Sample Mouse GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/Sample_human_HDL_cholesterol_GWAS.txt">Sample Human GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/AD_IGAP.txt">Alzheimer's disease GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/EAGLE_ADHD.txt">ADHD GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/SAGE_AlcoholDependence.txt">Alcohol Dependence GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/GIANT_BMIall.txt">Body mass index GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/RashkinS_BreastCancer.txt">Breast Cancer GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/CARDIOGRAM_CAD.txt">Coronary Artery Disease GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/MAGIC.fastingglucose.txt">Fasting Glucose GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/ShahS_HeartFailure.txt">Heart Failure GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/glgc.hdl.txt">GLGC HDL GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/glgc.ldl.txt">GLGC LDL GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/ColemanJ_MDD.txt">Major Depressive Disorder GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/TimmersP_Lifespan.txt">Parental Lifespan GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/IPDGC_PD.txt">Parkinson's Disease GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/GWAS_Psoriasis.txt">Psoriasis GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/Pairo-CastineiraE_COVID.txt">Severe illness in COVID GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/PGC_Schizophrenia.txt">Schizophrenia GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/MalikR_Stroke.txt">Stroke GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/WangY_SLE.txt">Systemic Lupus Erythematosus GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/DIAGRAM_T2D.txt">Type 2 Diabetes GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/glgc.tc.txt">GLGC Total Cholesterol GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/glgc.tg.txt">GLGC Triglycerides GWAS</option>
+              <option value="Data/Pipeline/Resources/sample_GWAS/Mouse_Sample_GWAS.txt">Sample Mouse GWAS</option>
             </select>
 
 
@@ -924,10 +924,6 @@ Function to skip MDF
 
     function review() //This function will send form data with an AJAX call to moduleprogress.php
     {
-      console.log("Review");
-      console.log(marker_association_file);
-      console.log(mapping_file);
-      console.log(mdffile);
       $.ajax({
         url: "MDF_moduleprogress.php",
         method: "GET",
