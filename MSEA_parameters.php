@@ -23,6 +23,8 @@ function generatesessionIDing($length = 10)
 }
 
 
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
+$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/msea_temp/";
 
 //Check if the sessionID exists and the user has returned to the form
 if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
@@ -1100,6 +1102,7 @@ Javascript functions/scripts (These are inlined because it was easier to do)
 You can technically extract it and just call it externally if you want to keep the php page cleaner, but not needed
 ***********************************************************************************************/
   var session_id = "<?php echo $sessionID; ?>";
+  var target_path="<?php echo $FILE_UPLOAD;?>";
   var marker_association_file = null;
   var mapping_file = null;
   var mdffile = null;
@@ -1839,7 +1842,7 @@ upload/alert variables & success alerts -- functions for when you select an inpu
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/msea_temp/");
+      fd.append("path", target_path);
       fd.append("data_type", "marker_association");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1862,7 +1865,7 @@ upload/alert variables & success alerts -- functions for when you select an inpu
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
             $('#alert_MAF').show();
-            marker_association_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/","");
+            marker_association_file = fullPath;
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#MAFfilereturn').html(filename);
             $('#MAF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
@@ -1902,7 +1905,7 @@ upload/alert variables & success alerts -- functions for when you select an inpu
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/msea_temp/");
+      fd.append("path", target_path);
       fd.append("data_type", "mapping");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1923,7 +1926,7 @@ upload/alert variables & success alerts -- functions for when you select an inpu
           $('#MMFprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            mapping_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
+            mapping_file = fullPath;
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#MMFfilereturn').html(filename);
             $("#alertMMF").show();
@@ -1963,7 +1966,7 @@ upload/alert variables & success alerts -- functions for when you select an inpu
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/msea_temp/");
+      fd.append("path", target_path);
       fd.append("data_type", "mdf");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1985,7 +1988,7 @@ upload/alert variables & success alerts -- functions for when you select an inpu
           $('#MDFprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            mdffile = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
+            mdffile = fullPath;
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#MDFfilereturn').html(filename);
             //$("#alertMMF").show();
@@ -2024,7 +2027,7 @@ upload/alert variables & success alerts -- functions for when you select an inpu
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/msea_temp/");
+      fd.append("path", target_path);
       fd.append("data_type", "gene_set");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -2045,7 +2048,7 @@ upload/alert variables & success alerts -- functions for when you select an inpu
           $('#GSETprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            module_set_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
+            module_set_file = fullPath;
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#GSETfilereturn').html(filename);
             $('#GSET_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
@@ -2086,7 +2089,7 @@ upload/alert variables & success alerts -- functions for when you select an inpu
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/msea_temp/");
+      fd.append("path", target_path);
       fd.append("data_type", "gene_set_desc");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -2107,7 +2110,7 @@ upload/alert variables & success alerts -- functions for when you select an inpu
           $('#GSETDprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            module_info_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
+            module_info_file = fullPath;
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#GSETDfilereturn').html(filename);
             $('#GSETD_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);

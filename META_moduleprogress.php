@@ -936,7 +936,6 @@ $pv = "";
     //GeneSet UPLOAD EVENT HANDLER
     $('#GSETuploadInput').on("change", function() {
       $("#GSETlabelname").html("Select another file?");
-      console.log(this.files[0]);
       var name = this.files[0].name;
       var file = this.files[0];
       var ext = name.split('.').pop().toLowerCase();
