@@ -90,9 +90,9 @@ if (!file_exists($ROOT_DIR . "/Data/Pipeline/Results/ssea/$sessionID.MSEA_module
         $out .= "GSETConvert <- \"$GSETConvert\"" . "\n"; //label
     }
 
-    $file1 = "job.msea\$genfile <- \"$absolute_path" . "$mapping\""; //genfile (mapping file/path_to_cat_GWAS)
-    $file2 = "job.msea\$marfile <- \"$absolute_path" . "$marker_association\""; //marfile (Associationfile)
-    $file3 = "job.msea\$modfile <- \"$absolute_path" . "$module\""; //modfile (modulefile)
+    $file1 = "job.msea\$genfile <- \"" . "$mapping\""; //genfile (mapping file/path_to_cat_GWAS)
+    $file2 = "job.msea\$marfile <- \"" . "$marker_association\""; //marfile (Associationfile)
+    $file3 = "job.msea\$modfile <- \"" . "$module\""; //modfile (modulefile)
 
     //if the user did not select an information file
     if (empty($module_info)) {
