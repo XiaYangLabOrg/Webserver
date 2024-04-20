@@ -59,7 +59,7 @@ if (!file_exists($ROOT_DIR . "/Data/Pipeline/Results/ssea/$sessionID.MSEA_module
     // $associationfile = $ROOT_DIR . "/Data/Pipeline/" . $enrichment; //Association file
     // $checkmapping = $ROOT_DIR . "/Data/Pipeline/Resources/msea_temp/$sessionID" . "MAPPING"; //check if a mapping file exists
     if (empty($mapping)) {
-        $mapping = "/Resources/msea_temp/" . $sessionID . "genfile_for_geneEnrichment.txt"; //create fake mapping file
+        $mapping = "Resources/msea_temp/" . $sessionID . "genfile_for_geneEnrichment.txt"; //create fake mapping file
     }
 
     // $modulefile = trim(file_get_contents($fpath2)); //Gene sets
