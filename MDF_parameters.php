@@ -924,7 +924,10 @@ Function to skip MDF
 
     function review() //This function will send form data with an AJAX call to moduleprogress.php
     {
-
+      console.log("Review");
+      console.log(marker_association_file);
+      console.log(mapping_file);
+      console.log(mdffile);
       $.ajax({
         url: "MDF_moduleprogress.php",
         method: "GET",
