@@ -1236,6 +1236,7 @@ Will create an error message at the top if user forgets or does not have all dat
             $('#MAFprogressbar').hide();
             if (resp.status == 1) {
               var fullPath = resp.targetPath;
+              console.log(fullPath);
               marker_association_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/","");
               var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
               $('#MAFfilereturn').html(filename);
