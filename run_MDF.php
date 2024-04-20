@@ -71,10 +71,10 @@ $linecount = intval(exec("wc -l '$tocountlines'"));
 //$fjson = "./Data/Pipeline/Resources/ssea_temp/$sessionID" . "data.json";
 $fjson = "./Data/Pipeline/Resources/ldprune_temp/$sessionID" . "data.json";
 $json = json_decode(file_get_contents($fjson))->data;
-$mdf = $ROOT_DIR . $json[0]->mdf;
+$mdf = $ROOT_DIR . "Data/Pipeline/" . basename($json[0]->mdf);
 $mdf_ntop = $json[0]->mdf_ntop;
-$marker_association = $ROOT_DIR . $json[0]->association;
-$mapping =  $json[0]->marker;
+$marker_association = $ROOT_DIR . "Data/Pipeline/" . basename($json[0]->association);
+$mapping =  $ROOT_DIR . "Data/Pipeline/" . basename($json[0]->marker);
 $MMFConvert =  $json[0]->MMFConvert;
 
 if (is_string($mapping)) {
