@@ -41,7 +41,8 @@ function generatesessionIDing($length = 10)
   return $sessionIDing;
 }
 
-
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
+$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/meta_temp/";
 if (isset($_POST['sessionID']) ? $_POST['sessionID'] : null) {
   $sessionID = $_POST['sessionID'];
 } else {
@@ -858,7 +859,7 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
   var mdf_ntop = null;
   var MAFConvert = null;
   var MMFConvert = null;
-
+  var file_upload_target_path="<?php echo $FILE_UPLOAD;?>";
   function MSEAdone() //This function gets the review table for MSEA
   {
     $.ajax({
@@ -1421,7 +1422,7 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/meta_temp/");
+      fd.append("path", file_upload_target_path);
       fd.append("data_type", "marker_association");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1482,7 +1483,7 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/meta_temp/");
+      fd.append("path", file_upload_target_path);
       fd.append("data_type", "mapping");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1540,7 +1541,7 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/meta_temp/");
+      fd.append("path", file_upload_target_path);
       fd.append("data_type", "mdf");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();

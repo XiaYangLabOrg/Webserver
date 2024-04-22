@@ -41,6 +41,8 @@ function generatesessionIDing($length = 10)
   return $sessionIDing;
 }
 
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
+$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/meta_temp/";
 if (isset($_POST['sessionID']) ? $_POST['sessionID'] : null) {
   $sessionID = $_POST['sessionID'];
 } else {
@@ -1005,6 +1007,7 @@ You can technically extract it and just call it externally if you want to keep t
 
     var session_id = "<?php echo $sessionID; ?>";
     var meta_session_id = "<?php echo $meta_sessionID; ?>";
+    var file
     var marker_association_file = null;
     var mapping_file = [];
     //var module_set_file = null;
@@ -1019,6 +1022,7 @@ You can technically extract it and just call it externally if you want to keep t
     var mdffile = null;
     var mdf_ntop = null;
     var MMFConvert = null;
+    var file_upload_target_path="<?php echo $FILE_UPLOAD;?>";
 
 
     function SSEAdone() //This function gets the review table for MSEA
@@ -1451,7 +1455,7 @@ You can technically extract it and just call it externally if you want to keep t
       } else {
         var fd = new FormData();
         fd.append("afile", file);
-        fd.append("path", "./Data/Pipeline/Resources/meta_temp/");
+        fd.append("path", file_upload_target_path);
         fd.append("data_type", "marker_association");
         fd.append("session_id", session_id);
         var xhr = new XMLHttpRequest();
@@ -1513,7 +1517,7 @@ You can technically extract it and just call it externally if you want to keep t
       } else {
         var fd = new FormData();
         fd.append("afile", file);
-        fd.append("path", "./Data/Pipeline/Resources/meta_temp/");
+        fd.append("path", file_upload_target_path);
         fd.append("data_type", "mapping");
         fd.append("session_id", session_id);
         var xhr = new XMLHttpRequest();
@@ -1585,7 +1589,7 @@ You can technically extract it and just call it externally if you want to keep t
       } else {
         var fd = new FormData();
         fd.append("afile", file);
-        fd.append("path", "./Data/Pipeline/Resources/meta_temp/");
+        fd.append("path", file_upload_target_path);
         fd.append("data_type", "mdf");
         fd.append("session_id", session_id);
         var xhr = new XMLHttpRequest();
