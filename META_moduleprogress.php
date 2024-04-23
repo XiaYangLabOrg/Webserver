@@ -1011,7 +1011,7 @@ $pv = "";
       } else {
         var fd = new FormData();
         fd.append("afile", file);
-        fd.append("path", "./Data/Pipeline/Resources/meta_temp/");
+        fd.append("path", GSET_target_path);
         fd.append("data_type", "gene_set_desc");
         fd.append("session_id", session_id);
         var xhr = new XMLHttpRequest();
