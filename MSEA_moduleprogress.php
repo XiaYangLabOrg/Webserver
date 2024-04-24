@@ -498,7 +498,7 @@ You can technically extract it and just call it externally if you want to keep t
      $("#MSEAemailSubmit").on('click', function(e) {
          var email = $("input[name=MSEAemail]").val();
          $('#myMSEA_review').empty();
-         $('#myMSEA_review').load("/MSEA_moduleprogress.php?sessionID=" + string + "&MSEAemail=" + email);
+         $('#myMSEA_review').load("/MSEA_moduleprogress.php?sessionID=" + string + "&MSEAemail=" + email+"&rerun=T");
          e.preventDefault();
          return false; //stops page from refreshing
 
