@@ -1,4 +1,5 @@
 <?php
+include "functions.php";
 $sessionID="";
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 $FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/meta_temp/";
