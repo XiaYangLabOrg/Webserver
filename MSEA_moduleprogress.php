@@ -104,8 +104,8 @@ This grabs the email from the email form and stores it in a variable
     /* 
 Sets path to email file and sent_email file
 */
-    $femail = "./Data/Pipeline/Results/msea_email/$sessionID" . "email";
-    $email_sent = "./Data/Pipeline/Results/msea_email/$sessionID" . "sent_email";
+    $femail = "./Data/Pipeline/Results/ssea_email/$sessionID" . "email";
+    $email_sent = "./Data/Pipeline/Results/ssea_email/$sessionID" . "sent_email";
 
     //Doug added this. I don't think it's needed. You will always get the email regardless.
     if ($emailid != "") {
