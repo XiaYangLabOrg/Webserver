@@ -325,8 +325,8 @@ $("#MSEARtToggle").on('click', function(e){
 Email php block'
 
 */
-$email_sent = "./Data/Pipeline/Results/msea_email/$sessionID" . "sent_email";
-$email = "./Data/Pipeline/Results/msea_email/$sessionID" . "email";
+$email_sent = "./Data/Pipeline/Results/ssea_email/$sessionID" . "sent_email";
+$email = "./Data/Pipeline/Results/ssea_email/$sessionID" . "email";
 
 
 //check if the email has been sent
