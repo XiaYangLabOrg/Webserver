@@ -498,7 +498,7 @@ You can technically extract it and just call it externally if you want to keep t
      $("#MSEAemailSubmit").on('click', function(e) {
          var email = $("input[name=MSEAemail]").val();
          $('#myMSEA_review').empty();
-         $('#myMSEA_review').load("/MSEA_moduleprogress.php?sessionID=" + string + "&MSEAemail=" + email+"&rerun=T");
+         $('#myMSEA_review').load("/MSEA_moduleprogress.php?sessionID=" + string + "&MSEAemail=" + email);
          e.preventDefault();
          return false; //stops page from refreshing
 
@@ -506,7 +506,7 @@ You can technically extract it and just call it externally if you want to keep t
 
      /*This is the submit event listener. Will load run_SSEA */
      $("#RunMSEAPipeline").on('click', function() {
-         $('#myMSEA_review').load("/run_MSEA.php?sessionID=" + string + "&run=" + run);
+         $('#myMSEA_review').load("/run_MSEA.php?sessionID=" + string + "&run=T");
          $('#MSEAtab2').html('Results');
          $("#MSEAtab2").click();
          $("#MSEAtogglet").css("background-color", "#c5ebd4");
