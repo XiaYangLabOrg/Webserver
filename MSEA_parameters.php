@@ -1681,18 +1681,18 @@ upload/alert variables & success alerts -- functions for when you select an inpu
     if (select == 5 || select == 6 || select == 7 || select == 8 || select == 9) {
       $('#alert_MAF').show();
     } else if(select == 2){
-      $("#MDF_Yes").css({
+      $("#MMF_Yes").css({
       'background-color': 'internal-light-dark( rgb(74, 74, 74));',
       'border': 'rgb(74, 74, 74);',
       'box-shadow': 'inset 0 1px 0 rgb(74, 74, 74), inset 0 -1px 0 rgb(74, 74, 74), inset 0 0 0 1px rgb(74, 74, 74), 0 2px 4px rgba(0, 0, 0, 0.2)'
       });
-      $("#MDF_No").css({
+      $("#MMF_No").css({
         'background-color': '',
         'border': '',
         'box-shadow': ''
       });
-      $('#mdf_row').addClass("yes_map");
-      $('#mdf_row').fadeIn('slow');
+      $('#marker_mapping').addClass("yes_map");
+      $('#marker_mapping').fadeIn('slow');
     } else {
       $('#alert_MAF').hide();
     }
