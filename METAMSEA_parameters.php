@@ -1302,9 +1302,22 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
 
   $('#marker_association').on('change', function() {
     var select = $(this).find('option:selected').index();
-    if (select == 2 || select == 5 || select == 6 || select == 7 || select == 8 || select == 9) {
+    if (select == 5 || select == 6 || select == 7 || select == 8 || select == 9) {
       $('#alert_MAF').show();
-    } else {
+    } else if(select == 2){
+      $("#MMF_Yes").css({
+      'background-color': 'internal-light-dark( rgb(74, 74, 74));',
+      'border': 'rgb(74, 74, 74);',
+      'box-shadow': 'inset 0 1px 0 rgb(74, 74, 74), inset 0 -1px 0 rgb(74, 74, 74), inset 0 0 0 1px rgb(74, 74, 74), 0 2px 4px rgba(0, 0, 0, 0.2)'
+      });
+      $("#MMF_No").css({
+        'background-color': '',
+        'border': '',
+        'box-shadow': ''
+      });
+      $('#marker_mapping').addClass("yes_map");
+      $('#marker_mapping').fadeIn('slow');
+    }else {
       $('#alert_MAF').hide();
     }
   });
