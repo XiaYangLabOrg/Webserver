@@ -658,7 +658,7 @@ if (file_exists($resultfile) and !(file_exists($edges_file))) { ?>
             $recipient = trim(file_get_contents($email));
             $title = "Mergeomics - Weighted Key Driver Analysis (wKDA) Execution Complete!";
             $body  = "Congratulations! You have successfully executed our pipeline. Please download your results.\n";
-            $body .= "Your results are available at: http://mergeomics.research.idre.ucla.edu/result_wKDA.php?sessionID=";
+            $body .= "Your results are available at: http://mergeomics.research.idre.ucla.edu/runmergeomics.php?sessionID=";
             $body .= "$sessionID";
             $body .= "\nNote: Your results will be deleted from the server after 24 hours";
             sendEmail($recipient,$title,$body,$results_sent);
