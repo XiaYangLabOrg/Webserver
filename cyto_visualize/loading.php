@@ -36,6 +36,7 @@
         $.ajax({
         url: "/cyto_visualize/write_cytoscape.php",
         global: false, type: "GET", 
+        timeout: 50000,
         data: ({"sessionID":sessionID}), 
         cache: false,
         success: function(html) {
