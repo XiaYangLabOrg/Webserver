@@ -1,5 +1,6 @@
 <?php
     $sessionID=trim($_GET['sessionID']); 
+    $run=trim($_GET('run'));
 ?>
 <html dir="ltr" lang="en-US">
 <head>
@@ -32,15 +33,6 @@
             <div class="nucleobase"></div>
             <div class="nucleobase"></div>
             <div class="nucleobase"></div>
-            <div class="nucleobase"></div>
-            <div class="nucleobase"></div>
-            <div class="nucleobase"></div>
-            <div class="nucleobase"></div>
-            <div class="nucleobase"></div>
-            <div class="nucleobase"></div>
-            <div class="nucleobase"></div>
-            <div class="nucleobase"></div>
-            <div class="nucleobase"></div>
         </div>
 
         <div class="text">
@@ -49,11 +41,12 @@
 
     <script type="text/javascript">
         var sessionID="<?php echo $sessionID;?>";
+        var run="<?php echo $run;?>";
         $.ajax({
             url: "/cyto_visualize/write_cytoscape.php",
             global: false, type: "GET", 
             timeout: 1000 * 60 * 20,
-            data: ({"sessionID":sessionID}), 
+            data: ({"sessionID":sessionID,"run":run}), 
             cache: false,
             success: function(html) {
                 window.location = "cytoscape_network_"+sessionID+".php?sessionID="+sessionID;
@@ -64,7 +57,7 @@
             url: "/cyto_visualize/write_cytoscape.php",
             global: false, type: "GET", 
             timeout: 1000 * 60 * 20,
-            data: ({"sessionID":sessionID}), 
+            data: ({"sessionID":sessionID,"run":run}), 
             cache: false,
             success: function(html) {
                 window.location = "cytoscape_network_"+sessionID+".php?sessionID="+sessionID;
