@@ -47,7 +47,8 @@
         data: ({"sessionID":sessionID}), 
         cache: false,
         success: function(html) {
-            window.location = "/cyto_visualize/cytoscape_network_"+sessionID+".php?sessionID="+sessionID;
+            console.log(html);
+            window.location = html;
         }
         });
     </script>
