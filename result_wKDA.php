@@ -9,6 +9,8 @@ if (isset($_GET['rmchoice']) ? $_GET['rmchoice'] : null) {
 }
 if (isset($_GET['run'])) {
   $run = $_GET['run'];
+}else{
+  $run = "F";
 }
 
 

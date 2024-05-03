@@ -1,6 +1,5 @@
 <?php
     $sessionID=trim($_GET['sessionID']); 
-    $run=trim($_GET('run'));
     if (isset($_GET['run'])) {
         $run = trim($_GET['run']);
     }else{
