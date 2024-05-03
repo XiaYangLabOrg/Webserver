@@ -10,6 +10,12 @@
 <head>
 <link rel="stylesheet" href="/include/style.css?v=05022024" type="text/css"/>
 <link rel="stylesheet" href="/include/running_animation.css?v=05022024" type="text/css"/>
+<style>
+.DNA_cont {
+    margin: 70px 50px 0px 90px !important;
+}
+</style>
+
 <script type="text/javascript" src="/include/js/jquery.js"></script>
 </head>
 <body class="stretched">
