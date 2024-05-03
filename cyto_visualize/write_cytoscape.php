@@ -2,7 +2,7 @@
     // GET THE SESSION ID
     $sessionID=trim($_GET['sessionID']);
     // $sessionID="M3uxS7BRXo";
-
+    $outfile="cytoscape_network_".$sessionID.".php?sessionID=".$sessionID;
 // GET THE COLORS OF THE MODULES TO CREATE THE TABLE AT THE BOTTOM OF SIDEBAR -->
     $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
     if(!file_exists($ROOT_DIR."cyto_visualize/cytoscape_network_"."$sessionID".".php")){

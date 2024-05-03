@@ -56,8 +56,7 @@
             data: ({"sessionID":sessionID}), 
             cache: false,
             success: function(html) {
-                console.log(html);
-                window.location = html;
+                window.location = "cytoscape_network_"+$sessionID+".php?sessionID="+$sessionID;
             }
             });
         setTimeout(function() {
@@ -68,8 +67,7 @@
             data: ({"sessionID":sessionID}), 
             cache: false,
             success: function(html) {
-                console.log(html);
-                window.location = html;
+                window.location = "cytoscape_network_"+$sessionID+".php?sessionID="+$sessionID;
             }
             });
         }, 1000*60*5);   
