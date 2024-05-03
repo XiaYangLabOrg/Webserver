@@ -4,9 +4,9 @@
     // $sessionID="M3uxS7BRXo";
 
 // GET THE COLORS OF THE MODULES TO CREATE THE TABLE AT THE BOTTOM OF SIDEBAR -->
+    $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
+    if(!file_exists($ROOT_DIR."cyto_visualize/cytoscape_network_"."$sessionID".".php")){
 
-    if(!file_exists("/cyto_visualize/cytoscape_network_"."$sessionID".".php")){
-        $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
         $module_list = "";
         $colors=$ROOT_DIR . "Data/Pipeline/Results/cytoscape/$sessionID.wKDA_cytoscape_module_color_mapping.txt";
         $color_data = file_get_contents($colors);
