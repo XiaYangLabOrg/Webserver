@@ -20,16 +20,21 @@
             <div class="nucleobase"></div>
             <div class="nucleobase"></div>
             <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
         </div>
 
         <div class="text">
-            <span>Loading KDA subnetwork</span><span class="dots">...</span>
+            <span>Running</span><span class="dots">...</span>
     </div>
 
     <script type="text/javascript">
         var sessionID="<?php echo $sessionID;?>";
         $.ajax({
-        url: "/cyto_visualize/wrtie_cytoscape.php",
+        url: "/cyto_visualize/write_cytoscape.php",
         global: false, type: "GET", 
         data: ({"sessionID":sessionID}), 
         cache: false,
