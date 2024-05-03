@@ -1102,7 +1102,7 @@ Sidebar
     color: #fff;
     padding: 20px; }
   #sidebar.active {
-    margin-left: -250px; }
+    margin-left: -200px; }
   #sidebar h1 {
     margin-bottom: 20px;
     font-weight: 700;

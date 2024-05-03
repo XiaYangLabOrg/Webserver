@@ -12,7 +12,7 @@
   <!-- Stylesheets -->
 
   <link rel="stylesheet" href="include/bootstrap.css" type="text/css" />
-  <link rel="stylesheet" href="include/style.css?v=1" type="text/css" />
+  <link rel="stylesheet" href="include/style.css?v=05022024" type="text/css" />
   <link rel="stylesheet" href="include/dark.css" type="text/css" />
   <link rel="stylesheet" href="include/docs.css" type="text/css" />
 

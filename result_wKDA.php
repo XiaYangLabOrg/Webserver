@@ -610,7 +610,7 @@ if (file_exists($resultfile) and !(file_exists($edges_file))) { ?>
           <span style="text-align: center;">
             <form action="/cyto_visualize/write_cytoscape.php" name="figkda" target="_blank">
               <input type="hidden" name='sessionID' value="<?php print($sessionID); ?>">
-              <input type="submit" class="button button-3d button-large" value="Display KDA Subnetwork" />
+              <input type="submit" class="button button-3d button-large kda_subnet" value="Display KDA Subnetwork" />
             </form>
           </span>
         <?php }
@@ -628,7 +628,7 @@ if (file_exists($resultfile) and !(file_exists($edges_file))) { ?>
           <span style="text-align: center;">
             <form action="/cyto_visualize/write_cytoscape_subnet.php" name="networkfig" target="_blank">
               <input type="hidden" name='sessionID' value="<?php print($sessionID); ?>">
-              <input type="submit" class="button button-3d button-large" value="Display Network Graph" />
+              <input type="submit" class="button button-3d button-large kda_subnet" value="Display Network Graph" />
             </form>
           </span>
         <?php }
