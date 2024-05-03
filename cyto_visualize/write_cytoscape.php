@@ -1,7 +1,12 @@
 <?php
     // GET THE SESSION ID
     $sessionID=trim($_GET['sessionID']);
-    $run=trim($_GET['run']);
+    if (isset($_GET['run'])) {
+        $run = trim($_GET['run']);
+    }else{
+        $run = "F";
+    }
+
     // $sessionID="M3uxS7BRXo";
     $outfile="cytoscape_network_".$sessionID.".php?sessionID=".$sessionID;
 // GET THE COLORS OF THE MODULES TO CREATE THE TABLE AT THE BOTTOM OF SIDEBAR -->
