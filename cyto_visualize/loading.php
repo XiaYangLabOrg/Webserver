@@ -32,6 +32,15 @@
             <div class="nucleobase"></div>
             <div class="nucleobase"></div>
             <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
+            <div class="nucleobase"></div>
         </div>
 
         <div class="text">
