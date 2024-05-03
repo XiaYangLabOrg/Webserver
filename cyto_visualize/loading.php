@@ -61,7 +61,7 @@
                 window.location = html;
             }
             });
-        }, 10000);   
+        }, 1000*60*5);   
         
     </script>
 </body>
