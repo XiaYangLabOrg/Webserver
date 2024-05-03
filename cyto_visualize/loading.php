@@ -2,7 +2,11 @@
     $sessionID=trim($_GET['sessionID']); 
 ?>
 <html dir="ltr" lang="en-US">
-<link rel="stylesheet" href="include/style.css?v=05022024" type="text/css"/>
+<head>
+<link rel="stylesheet" href="/include/style.css?v=05022024" type="text/css"/>
+<link rel="stylesheet" href="/include/running_animation.css?v=05022024" type="text/css"/>
+<script type="text/javascript" src="/include/js/jquery.js"></script>
+</head>
 <body class="stretched">
     <div class="loading-window">
         <div class="DNA_cont">
@@ -19,7 +23,7 @@
         </div>
 
         <div class="text">
-            <span>Running</span><span class="dots">...</span>
+            <span>Loading KDA subnetwork</span><span class="dots">...</span>
     </div>
 
     <script type="text/javascript">
