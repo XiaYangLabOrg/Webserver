@@ -5,9 +5,7 @@
 
 // GET THE COLORS OF THE MODULES TO CREATE THE TABLE AT THE BOTTOM OF SIDEBAR -->
 
-    if(!file_exists("/cyto_visualize/cytoscape_network_"."$sessionID".".php?sessionID=$sessionID")){
-
-    
+    if(!file_exists("/cyto_visualize/cytoscape_network_"."$sessionID".".php")){
         $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
         $module_list = "";
         $colors=$ROOT_DIR . "Data/Pipeline/Results/cytoscape/$sessionID.wKDA_cytoscape_module_color_mapping.txt";
@@ -139,7 +137,10 @@
 
         fclose($file_path);
         chmod($ROOT_DIR . "cyto_visualize/cytoscape_network_"."$sessionID".".php", 0777);
+        echo json_encode("/cyto_visualize/cytoscape_network_"."$sessionID".".php?sessionID=$sessionID");
+    }else{
+        echo json_encode("/cyto_visualize/cytoscape_network_"."$sessionID".".php?sessionID=$sessionID");
     }
-    echo json_encode("/cyto_visualize/cytoscape_network_"."$sessionID".".php?sessionID=$sessionID");
+
     //header('Location: '.); /* Redirect browser */
 ?>
