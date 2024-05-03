@@ -143,5 +143,6 @@
 
     fclose($file_path);
     chmod($ROOT_DIR . "cyto_visualize/cytoscape_network_"."$sessionID".".php", 0777);
-    header('Location: '."/cyto_visualize/cytoscape_network_"."$sessionID".".php?sessionID=$sessionID"); /* Redirect browser */
+    echo json_encode("/cyto_visualize/cytoscape_network_"."$sessionID".".php?sessionID=$sessionID");
+    //header('Location: '.); /* Redirect browser */
 ?>
