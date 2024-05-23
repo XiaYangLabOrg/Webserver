@@ -515,7 +515,7 @@ You can technically extract it and just call it externally if you want to keep t
   var sseanperm = null;
   var sseafdr = null;
   var GSETConvert = null;
-  var file_upload_target_path="Resources/ssea_temp/";
+  var file_upload_target_path="<?php echo $FILE_UPLOAD;?>";
   $("#MDFflowChart").next().addClass("activeArrow");
   $("#MSEAflowChart").addClass("activePipe").html('<a href="#SSEAtoggle" class="pipelineNav" id="SSEAtoggleNav">MSEA</a>').css("opacity","1");
 
@@ -1028,6 +1028,7 @@ Upload functions -- uses AJAX to send data to a PHP file and then upload the fil
           $('#GSETprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
+            console.log(fullPath);
             module_set_file = fullPath;
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#GSETfilereturn').html(filename);
