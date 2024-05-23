@@ -14,7 +14,7 @@ POST = if PHP enters the link
 
 */
 
-$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/ssea_temp/";
+#$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/ssea_temp/";
 //This function creates a random session ID string
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
@@ -515,7 +515,7 @@ You can technically extract it and just call it externally if you want to keep t
   var sseanperm = null;
   var sseafdr = null;
   var GSETConvert = null;
-  var file_upload_target_path="<?php echo $FILE_UPLOAD;?>";
+  var file_upload_target_path="Resources/ssea_temp/";
   $("#MDFflowChart").next().addClass("activeArrow");
   $("#MSEAflowChart").addClass("activePipe").html('<a href="#SSEAtoggle" class="pipelineNav" id="SSEAtoggleNav">MSEA</a>').css("opacity","1");
 
