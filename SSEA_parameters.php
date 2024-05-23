@@ -14,7 +14,7 @@ POST = if PHP enters the link
 
 */
 
-
+$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/ssea_temp/";
 //This function creates a random session ID string
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
@@ -515,7 +515,7 @@ You can technically extract it and just call it externally if you want to keep t
   var sseanperm = null;
   var sseafdr = null;
   var GSETConvert = null;
-
+  var file_upload_target_path="<?php echo $FILE_UPLOAD;?>";
   $("#MDFflowChart").next().addClass("activeArrow");
   $("#MSEAflowChart").addClass("activePipe").html('<a href="#SSEAtoggle" class="pipelineNav" id="SSEAtoggleNav">MSEA</a>').css("opacity","1");
 
@@ -1008,7 +1008,7 @@ Upload functions -- uses AJAX to send data to a PHP file and then upload the fil
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/ssea_temp/");
+      fd.append("path", file_upload_target_path);
       fd.append("data_type", "gene_set");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1028,7 +1028,7 @@ Upload functions -- uses AJAX to send data to a PHP file and then upload the fil
           $('#GSETprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            module_set_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
+            module_set_file = fullPath;
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#GSETfilereturn').html(filename);
             $('#GSET_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
@@ -1069,7 +1069,7 @@ Upload functions -- uses AJAX to send data to a PHP file and then upload the fil
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/ssea_temp/");
+      fd.append("path", file_upload_target_path);
       fd.append("data_type", "gene_set_desc");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1090,7 +1090,7 @@ Upload functions -- uses AJAX to send data to a PHP file and then upload the fil
           $('#GSETDprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            module_info_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
+            module_info_file = fullPath;
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#GSETDfilereturn').html(filename);
             $('#GSETD_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);

@@ -7,7 +7,7 @@
     }
 ?>
 <html dir="ltr" lang="en-US">
-<head>
+<head> 
 <link rel="stylesheet" href="/include/style.css?v=05022024" type="text/css"/>
 <link rel="stylesheet" href="/include/running_animation.css?v=05022024" type="text/css"/>
 <style>
