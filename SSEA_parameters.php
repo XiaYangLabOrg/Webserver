@@ -14,7 +14,7 @@ POST = if PHP enters the link
 
 */
 
-$FILE_UPLOAD="/Resources/ssea_temp/";
+$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/ssea_temp/";
 //This function creates a random session ID string
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
