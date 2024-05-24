@@ -14,7 +14,7 @@ POST = if PHP enters the link
 
 */
 
-#$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/ssea_temp/";
+$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/ssea_temp/";
 //This function creates a random session ID string
 if (isset($_GET['sessionID'])) {
   $sessionID = $_GET['sessionID'];
@@ -516,6 +516,9 @@ You can technically extract it and just call it externally if you want to keep t
   var sseafdr = null;
   var GSETConvert = null;
   var file_upload_target_path="<?php echo $FILE_UPLOAD;?>";
+  function basename(path) {
+   return path.split('/').reverse()[0];
+  }
   $("#MDFflowChart").next().addClass("activeArrow");
   $("#MSEAflowChart").addClass("activePipe").html('<a href="#SSEAtoggle" class="pipelineNav" id="SSEAtoggleNav">MSEA</a>').css("opacity","1");
 
@@ -1028,7 +1031,7 @@ Upload functions -- uses AJAX to send data to a PHP file and then upload the fil
           $('#GSETprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            module_set_file = "Resources/ssea_temp/"+fullPath;
+            module_set_file = "Resources/ssea_temp/"+basename(fullPath);
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#GSETfilereturn').html(filename);
             $('#GSET_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);

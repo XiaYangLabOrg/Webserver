@@ -15,6 +15,7 @@ function scientificNotation($val)
     return sprintf('%.4fE%+03d', $val / pow(10, $exp), $exp);
   }
 }
+
 function generateRandomString($length = 10)
 {
   $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -157,3 +158,6 @@ function runMDFscript($sessionID, $marker, $mapping, $mdffile, $ntop, $metasessi
 
     return $OUTPATH;
 }
+
+
+?>
