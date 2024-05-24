@@ -1023,7 +1023,9 @@ You can technically extract it and just call it externally if you want to keep t
     var mdf_ntop = null;
     var MMFConvert = null;
     var file_upload_target_path="<?php echo $FILE_UPLOAD;?>";
-
+    function basename(path) {
+      return path.split('/').reverse()[0];
+    }
 
     function SSEAdone() //This function gets the review table for MSEA
     {
@@ -1477,7 +1479,7 @@ You can technically extract it and just call it externally if you want to keep t
             $('#MAFprogressbar').hide();
             if (resp.status == 1) {
               var fullPath = resp.targetPath;
-              marker_association_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
+              marker_association_file = "Resources/meta_temp/"+basename(fullPath);
               var filename = fullPath.replace("/^.*[\\\/]/", "").replace(session_id, "");
               $('#MAFfilereturn').html(filename);
               $('#MAF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
@@ -1539,7 +1541,7 @@ You can technically extract it and just call it externally if you want to keep t
             if (resp.status == 1) {
               var fullPath = resp.targetPath;
               //mapping_file = fullPath.replace("./Data/Pipeline/", "");
-              mapping_file.push(fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", ""));
+              mapping_file.push("Resources/meta_temp/"+basename(fullPath));
               var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
               $('#MMFfilereturn').html(filename);
               //$('#MMF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
@@ -1610,7 +1612,7 @@ You can technically extract it and just call it externally if you want to keep t
             $('#MDFprogressbar').hide();
             if (resp.status == 1) {
               var fullPath = resp.targetPath;
-              mdffile = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
+              mdffile = "Resources/meta_temp/"+basename(fullPath);
               var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
               $('#MDFfilereturn').html(filename);
               $('#MDF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
