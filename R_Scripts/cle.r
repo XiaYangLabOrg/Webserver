@@ -702,6 +702,7 @@ hex_to_rgb <- function(hex) {
 }
 kda2cytoscape.colorize <- function(noddata, moddata, modpool, palette) {
     require(jsonlite)
+    require(stringr)
     # Google chart service.
     urlbase <- "https://quickchart.io/chart?c"
     #urlbase <- paste(urlbase, "{type:'pie',data:{labels:[],datasets:", sep="&")
