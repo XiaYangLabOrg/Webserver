@@ -702,7 +702,6 @@ hex_to_rgb <- function(hex) {
 }
 kda2cytoscape.colorize <- function(noddata, moddata, modpool, palette) {
     require(jsonlite)
-    require(stringr)
     # Google chart service.
     urlbase <- "https://quickchart.io/chart?c"
     #urlbase <- paste(urlbase, "{type:'pie',data:{labels:[],datasets:", sep="&")
@@ -763,7 +762,7 @@ kda2cytoscape.colorize <- function(noddata, moddata, modpool, palette) {
             json <- gsub('"false"', 'false', json)
             json <- gsub('\"(\\w+)\":', '\\1:', json)
             json <- gsub('\"', '\'', json)   
-            json <- str_replace(json, "data:1,", "data:[1],")
+            json <- gsub("data:1,", "data:[1],",json)
             
             urls[k] <- paste(urlbase,json,sep="=")
         }
