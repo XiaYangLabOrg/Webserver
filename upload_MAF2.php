@@ -169,7 +169,7 @@ if($incompatible_encoding){
 }
 
 $index = 0;
-
+$antimalware="Not tested";
 if ($fh) //check if the file was opened correctly
 {
     while ($index++ < 2) //run the loop twice
@@ -220,6 +220,13 @@ if ($fh) //check if the file was opened correctly
             } else {
                 $msg = "Data not detected! <br> Please refer to the sample file format and reupload!";
             }
+            exec('clamscan --infected --remove --quiet ' . escapeshellarg($target_path), $output, $return);
+            if ($return != 0) {
+                $msg = "Malicious file detected: " . $fileName;
+                $antimalware="not passed";
+            }else{
+                $antimalware="Passed";
+            }
         } else {
             $msg = "No data or empty file: " . $fileName;
         }
@@ -230,12 +237,7 @@ if ($fh) //check if the file was opened correctly
 }
 fclose($fh);
 $output=$ROOT_DIR."Data/Pipeline/tmpFileEncoding/";
-exec('clamscan --infected --remove --quiet ' . escapeshellarg($target_path), $output, $return);
-$antimalware="passed";
-if ($return != 0) {
-    $msg = "Malicious file detected: " . $fileName;
-    $antimalware="not passed";
-}
+
 
 
 $json = json_encode(array(
