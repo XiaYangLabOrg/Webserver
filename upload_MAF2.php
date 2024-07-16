@@ -231,10 +231,10 @@ if ($fh) //check if the file was opened correctly
 fclose($fh);
 $output=$ROOT_DIR."Data/Pipeline/tmpFileEncoding/";
 exec('clamscan --infected --remove --quiet ' . escapeshellarg($target_path), $output, $return);
+$antimalware="passed";
 if ($return != 0) {
     $msg = "Malicious file detected: " . $fileName;
-}else{
-    $antimalware="passed";
+    $antimalware="not passed";
 }
 
 
