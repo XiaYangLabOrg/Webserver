@@ -30,8 +30,12 @@ function detect_utf_encoding($text) {
 // R output is us-ascii
 // textEdit output for UTF-8 is us-ascii
 // testEdit output for UTF-16 is utf-16le
-error_reporting(0);
-ini_set('display_errors', 'Off');
+// error_reporting(0);
+// ini_set('display_errors', 'Off');
+// ini_set('memory_limit', -1);
+
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 ini_set('memory_limit', -1);
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 function _detectFileEncoding($filepath) {
@@ -98,6 +102,7 @@ $target_path = $_POST['path'] . $session_id . basename($fileName);
 $data_type = $_POST['data_type'];
 //$fileContent = file_get_contents($_FILES['afile']['tmp_name']);
 //$dataUrl = 'data:' . $fileType . ';base64,' . base64_encode($fileContent);
+echo($_FILES['afile']['tmp_name']);
 $fh = fopen($_FILES['afile']['tmp_name'], 'r');
 $index = 0;
 $msg = "";
