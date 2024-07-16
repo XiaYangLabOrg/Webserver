@@ -164,67 +164,78 @@ if($incompatible_encoding){
 	$fh = fopen($ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName, 'r');
 }
 
-$index = 0;
+//antimalware run
+exec('clamscan --infected --remove --quiet ' . escapeshellarg($ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName), $ROOT_DIR."Data/Pipeline/tmpFileEncoding/". "$session_id".$fileName.".clam.out", $return);
+if ($return == 0) {
+    // No virus found
+    $index = 0;
 
-if ($fh) //check if the file was opened correctly
-{
-    while ($index++ < 2) //run the loop twice
+    if ($fh) //check if the file was opened correctly
     {
-        $line = fgets($fh); //read each line individually
-
-
-        if ($data_type == "marker_association") {
-            $check = "MARKER\tVALUE";
-        } else if ($data_type == "mapping") {
-            $check = "GENE\tMARKER";
-        } else if ($data_type == "gene_set") {
-            $check = "MODULE\tGENE";
-        } else if ($data_type == "gene_set_desc") {
-            $check = "MODULE\tSOURCE\tDESCR";
-        } else if ($data_type == "mdf") {
-            $check = "MARKERa\tMARKERb\tWEIGHT";
-        }
-        /*
-        if($test == 'UTF-8'){
-            $msg = "utf 8";
-            break;
-        }
-        */
-        if(!(preg_match("/\t/", $line))){
-            $msg = "File not tab delimited. Please use tabs as the file separators.";
-            break;
-        }
-        else if ($line == true && $index == 1) {
-            if (strstr($line, $check)) {
-                $msg = "Header is correct";
-            } else {
-                $msg = "Column headers are incorrect! <br> Please refer to the sample file format and reupload!";
+        while ($index++ < 2) //run the loop twice
+        {
+            $line = fgets($fh); //read each line individually
+            if ($data_type == "marker_association") {
+                $check = "MARKER\tVALUE";
+            } else if ($data_type == "mapping") {
+                $check = "GENE\tMARKER";
+            } else if ($data_type == "gene_set") {
+                $check = "MODULE\tGENE";
+            } else if ($data_type == "gene_set_desc") {
+                $check = "MODULE\tSOURCE\tDESCR";
+            } else if ($data_type == "mdf") {
+                $check = "MARKERa\tMARKERb\tWEIGHT";
+            }
+            /*
+            if($test == 'UTF-8'){
+                $msg = "utf 8";
                 break;
             }
-        } else if ($line == false && $index == 2) {
-            $msg = "No data or empty file";
-        } else if ($line == true && $index == 2) {
-            if (preg_match('/\S/', $line)) {
-                $msg = "Header is correct and secondline does have data" . $fileEncode;
-                if($incompatible_encoding){
-                	copy($newFileName, $target_path);
-                	$status = 1;
-                }
-                else{
-                	$status = move_uploaded_file($_FILES['afile']['tmp_name'], $target_path);
-            	}
-            } else {
-                $msg = "Data not detected! <br> Please refer to the sample file format and reupload!";
+            */
+            if(!(preg_match("/\t/", $line))){
+                $msg = "File not tab delimited. Please use tabs as the file separators.";
+                break;
             }
-        } else {
-            $msg = "No data or empty file: " . $fileName;
+            else if ($line == true && $index == 1) {
+                if (strstr($line, $check)) {
+                    $msg = "Header is correct";
+                } else {
+                    $msg = "Column headers are incorrect! <br> Please refer to the sample file format and reupload!";
+                    break;
+                }
+            } else if ($line == false && $index == 2) {
+                $msg = "No data or empty file";
+            } else if ($line == true && $index == 2) {
+                if (preg_match('/\S/', $line)) {
+                    $msg = "Header is correct and secondline does have data" . $fileEncode;
+                    if($incompatible_encoding){
+                        copy($newFileName, $target_path);
+                        $status = 1;
+                    }
+                    else{
+                        $status = move_uploaded_file($_FILES['afile']['tmp_name'], $target_path);
+                    }
+                } else {
+                    $msg = "Data not detected! <br> Please refer to the sample file format and reupload!";
+                }
+            } else {
+                $msg = "No data or empty file: " . $fileName;
+            }
         }
+    } else {
+        // error opening the file.
+        $msg = "Could not open file: " . $fileName . $fileEncode;
     }
+    fclose($fh);
 } else {
-    // error opening the file.
-    $msg = "Could not open file: " . $fileName . $fileEncode;
+    fclose($fh);
+    unlink($fh);
+    $msg = "malicious file detected: " . $fileName;
+    // Virus found   
 }
-fclose($fh);
+
+
+
 
 $json = json_encode(array(
     'name' => $fileName,
