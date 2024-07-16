@@ -226,15 +226,13 @@ if ($return == 0) {
         // error opening the file.
         $msg = "Could not open file: " . $fileName . $fileEncode;
     }
-    fclose($fh);
 } else {
-    fclose($fh);
-    unlink($fh);
+
     $msg = "malicious file detected: " . $fileName;
     // Virus found   
 }
 
-
+fclose($fh);
 
 
 $json = json_encode(array(
