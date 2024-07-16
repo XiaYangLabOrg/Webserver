@@ -233,6 +233,8 @@ $output=$ROOT_DIR."Data/Pipeline/tmpFileEncoding/";
 exec('clamscan --infected --remove --quiet ' . escapeshellarg($target_path), $output, $return);
 if ($return != 0) {
     $msg = "Malicious file detected: " . $fileName;
+}else{
+    $antimalware="passed";
 }
 
 
@@ -242,6 +244,7 @@ $json = json_encode(array(
     'msg' => $msg,
     'status' => $status,
     'targetPath' => $target_path,
+    'antimalware' => $antimalware
 ));
 
 echo $json;
