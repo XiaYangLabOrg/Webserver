@@ -99,77 +99,76 @@ $data_type = $_POST['data_type'];
 //$fileContent = file_get_contents($_FILES['afile']['tmp_name']);
 //$dataUrl = 'data:' . $fileType . ';base64,' . base64_encode($fileContent);
 $fh = fopen($_FILES['afile']['tmp_name'], 'r');
-$index = 0;
-$msg = "";
-$staus = 0;
 
-$incompatible_encoding=FALSE;
-
-if ($fh) //check if the file was opened correctly
-{
-    $fileEncode = _detectFileEncoding($_FILES['afile']['tmp_name']);
-    if($fileEncode=="utf-16le"){
-    // write new file in utf-8 format
-    	/*
-        $write = NULL;
-        $nLines = count(file($_FILES['afile']['tmp_name'])); 
-
-        while ($index++ < $nLines)
-        {
-            $line = fgets($fh);
-            //$write .= str_replace("\n","",str_replace("ÿþ","",utf8_encode($line))); // put byte order mark in front of header ÿþ
-            //$write .= mb_convert_encoding($line, 'UTF-16LE', 'UTF-8');
-            $write .= iconv($in_charset ='UTF-16LE',$out_charset = 'UTF-8', $line);
-        }
-        $newFileName = "./Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName;
-        $newFile = fopen($newFileName, "w");
-  		fwrite($newFile, $write);
-  		fclose($newFile);
-  		*/
-  		$newFileName = $ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName;
-  		$utf8Contents = utf16_decode(file_get_contents($_FILES['afile']['tmp_name']));
-  		$newFile = fopen($newFileName, 'w');
-    	fwrite($newFile, pack("CCC",0xef,0xbb,0xbf));
-    	fwrite($newFile, $utf8Contents);
-    	fclose($newFile);
-
-        // if ETPMWAS, create genfile
-        if(strpos($target_path, "msea_temp") !== false){
-            $nLines = count(file($newFileName));
-            $convertedfile = fopen($newFileName, 'r');
-            $index = 0;
+exec('clamscan --infected --remove --quiet ' . escapeshellarg($_FILES['afile']['tmp_name']), $ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id".".clam.out", $return);
+if ($return == 0) {
+    $index = 0;
+    $msg = "";
+    $staus = 0;
+    
+    $incompatible_encoding=FALSE;
+    
+    if ($fh) //check if the file was opened correctly
+    {
+        $fileEncode = _detectFileEncoding($_FILES['afile']['tmp_name']);
+        if($fileEncode=="utf-16le"){
+        // write new file in utf-8 format
+            /*
             $write = NULL;
-            $write .= "GENE" . "\t" . "MARKER" . "\n";
+            $nLines = count(file($_FILES['afile']['tmp_name'])); 
+    
             while ($index++ < $nLines)
             {
-                $line = fgets($convertedfile);
-                $line_arr = explode("\t", $line);
-                $marker = $line_arr[0];
-                $write .= $marker . "\t" . $marker . "\n";
+                $line = fgets($fh);
+                //$write .= str_replace("\n","",str_replace("ÿþ","",utf8_encode($line))); // put byte order mark in front of header ÿþ
+                //$write .= mb_convert_encoding($line, 'UTF-16LE', 'UTF-8');
+                $write .= iconv($in_charset ='UTF-16LE',$out_charset = 'UTF-8', $line);
             }
-            $genfile = $_POST['path'] . $session_id . "genfile_for_geneEnrichment.txt";
-            $genfile_file = fopen($genfile, "w");
-            fwrite($genfile_file, $write);
-            fclose($overview_file);
-            chmod($genfile, 0777);
+            $newFileName = "./Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName;
+            $newFile = fopen($newFileName, "w");
+              fwrite($newFile, $write);
+              fclose($newFile);
+              */
+              $newFileName = $ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName;
+              $utf8Contents = utf16_decode(file_get_contents($_FILES['afile']['tmp_name']));
+              $newFile = fopen($newFileName, 'w');
+            fwrite($newFile, pack("CCC",0xef,0xbb,0xbf));
+            fwrite($newFile, $utf8Contents);
+            fclose($newFile);
+    
+            // if ETPMWAS, create genfile
+            if(strpos($target_path, "msea_temp") !== false){
+                $nLines = count(file($newFileName));
+                $convertedfile = fopen($newFileName, 'r');
+                $index = 0;
+                $write = NULL;
+                $write .= "GENE" . "\t" . "MARKER" . "\n";
+                while ($index++ < $nLines)
+                {
+                    $line = fgets($convertedfile);
+                    $line_arr = explode("\t", $line);
+                    $marker = $line_arr[0];
+                    $write .= $marker . "\t" . $marker . "\n";
+                }
+                $genfile = $_POST['path'] . $session_id . "genfile_for_geneEnrichment.txt";
+                $genfile_file = fopen($genfile, "w");
+                fwrite($genfile_file, $write);
+                fclose($overview_file);
+                chmod($genfile, 0777);
+            }
+    
+            $incompatible_encoding=TRUE;
+            fclose($fh);
         }
-
-        $incompatible_encoding=TRUE;
-        fclose($fh);
+        
     }
     
-}
-
-if($incompatible_encoding){
-	$fh = fopen($ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName, 'r');
-}
-
-//antimalware run
-exec('clamscan --infected --remove --quiet ' . escapeshellarg($ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName), $ROOT_DIR."Data/Pipeline/tmpFileEncoding/". "$session_id".$fileName.".clam.out", $return);
-if ($return == 0) {
-    // No virus found
+    if($incompatible_encoding){
+        $fh = fopen($ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName, 'r');
+    }
+    
     $index = 0;
-
+    
     if ($fh) //check if the file was opened correctly
     {
         while ($index++ < 2) //run the loop twice
@@ -226,13 +225,13 @@ if ($return == 0) {
         // error opening the file.
         $msg = "Could not open file: " . $fileName . $fileEncode;
     }
+    fclose($fh);
 } else {
-
-    $msg = "malicious file detected: " . $fileName;
-    // Virus found   
+    $msg = "Malicious file detected: " . $fileName;
 }
 
-fclose($fh);
+
+
 
 
 $json = json_encode(array(
