@@ -30,11 +30,8 @@ function detect_utf_encoding($text) {
 // R output is us-ascii
 // textEdit output for UTF-8 is us-ascii
 // testEdit output for UTF-16 is utf-16le
-// error_reporting(0);
-// ini_set('display_errors', 'Off');
-// ini_set('memory_limit', -1);
-error_reporting(E_ALL);
-ini_set('display_errors', 'on');
+error_reporting(0);
+ini_set('display_errors', 'Off');
 ini_set('memory_limit', -1);
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 function _detectFileEncoding($filepath) {
@@ -102,140 +99,132 @@ $data_type = $_POST['data_type'];
 //$fileContent = file_get_contents($_FILES['afile']['tmp_name']);
 //$dataUrl = 'data:' . $fileType . ';base64,' . base64_encode($fileContent);
 $fh = fopen($_FILES['afile']['tmp_name'], 'r');
+$index = 0;
+$msg = "";
+$staus = 0;
 
-exec('clamscan --infected --remove --quiet ' . escapeshellarg($_FILES['afile']['tmp_name']), $ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id".".clam.out", $return);
-if ($return == 0) {
-    $index = 0;
-    $msg = "";
-    $staus = 0;
-    
-    $incompatible_encoding=FALSE;
-    
-    if ($fh) //check if the file was opened correctly
-    {
-        $fileEncode = _detectFileEncoding($_FILES['afile']['tmp_name']);
-        if($fileEncode=="utf-16le"){
-        // write new file in utf-8 format
-            /*
+$incompatible_encoding=FALSE;
+
+if ($fh) //check if the file was opened correctly
+{
+    $fileEncode = _detectFileEncoding($_FILES['afile']['tmp_name']);
+    if($fileEncode=="utf-16le"){
+    // write new file in utf-8 format
+    	/*
+        $write = NULL;
+        $nLines = count(file($_FILES['afile']['tmp_name'])); 
+
+        while ($index++ < $nLines)
+        {
+            $line = fgets($fh);
+            //$write .= str_replace("\n","",str_replace("ÿþ","",utf8_encode($line))); // put byte order mark in front of header ÿþ
+            //$write .= mb_convert_encoding($line, 'UTF-16LE', 'UTF-8');
+            $write .= iconv($in_charset ='UTF-16LE',$out_charset = 'UTF-8', $line);
+        }
+        $newFileName = "./Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName;
+        $newFile = fopen($newFileName, "w");
+  		fwrite($newFile, $write);
+  		fclose($newFile);
+  		*/
+  		$newFileName = $ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName;
+  		$utf8Contents = utf16_decode(file_get_contents($_FILES['afile']['tmp_name']));
+  		$newFile = fopen($newFileName, 'w');
+    	fwrite($newFile, pack("CCC",0xef,0xbb,0xbf));
+    	fwrite($newFile, $utf8Contents);
+    	fclose($newFile);
+
+        // if ETPMWAS, create genfile
+        if(strpos($target_path, "msea_temp") !== false){
+            $nLines = count(file($newFileName));
+            $convertedfile = fopen($newFileName, 'r');
+            $index = 0;
             $write = NULL;
-            $nLines = count(file($_FILES['afile']['tmp_name'])); 
-    
+            $write .= "GENE" . "\t" . "MARKER" . "\n";
             while ($index++ < $nLines)
             {
-                $line = fgets($fh);
-                //$write .= str_replace("\n","",str_replace("ÿþ","",utf8_encode($line))); // put byte order mark in front of header ÿþ
-                //$write .= mb_convert_encoding($line, 'UTF-16LE', 'UTF-8');
-                $write .= iconv($in_charset ='UTF-16LE',$out_charset = 'UTF-8', $line);
+                $line = fgets($convertedfile);
+                $line_arr = explode("\t", $line);
+                $marker = $line_arr[0];
+                $write .= $marker . "\t" . $marker . "\n";
             }
-            $newFileName = "./Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName;
-            $newFile = fopen($newFileName, "w");
-              fwrite($newFile, $write);
-              fclose($newFile);
-              */
-              $newFileName = $ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName;
-              $utf8Contents = utf16_decode(file_get_contents($_FILES['afile']['tmp_name']));
-              $newFile = fopen($newFileName, 'w');
-            fwrite($newFile, pack("CCC",0xef,0xbb,0xbf));
-            fwrite($newFile, $utf8Contents);
-            fclose($newFile);
-    
-            // if ETPMWAS, create genfile
-            if(strpos($target_path, "msea_temp") !== false){
-                $nLines = count(file($newFileName));
-                $convertedfile = fopen($newFileName, 'r');
-                $index = 0;
-                $write = NULL;
-                $write .= "GENE" . "\t" . "MARKER" . "\n";
-                while ($index++ < $nLines)
-                {
-                    $line = fgets($convertedfile);
-                    $line_arr = explode("\t", $line);
-                    $marker = $line_arr[0];
-                    $write .= $marker . "\t" . $marker . "\n";
-                }
-                $genfile = $_POST['path'] . $session_id . "genfile_for_geneEnrichment.txt";
-                $genfile_file = fopen($genfile, "w");
-                fwrite($genfile_file, $write);
-                fclose($overview_file);
-                chmod($genfile, 0777);
-            }
-    
-            $incompatible_encoding=TRUE;
-            fclose($fh);
+            $genfile = $_POST['path'] . $session_id . "genfile_for_geneEnrichment.txt";
+            $genfile_file = fopen($genfile, "w");
+            fwrite($genfile_file, $write);
+            fclose($overview_file);
+            chmod($genfile, 0777);
         }
-        
+
+        $incompatible_encoding=TRUE;
+        fclose($fh);
     }
     
-    if($incompatible_encoding){
-        $fh = fopen($ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName, 'r');
-    }
-    
-    $index = 0;
-    
-    if ($fh) //check if the file was opened correctly
-    {
-        while ($index++ < 2) //run the loop twice
-        {
-            $line = fgets($fh); //read each line individually
-            if ($data_type == "marker_association") {
-                $check = "MARKER\tVALUE";
-            } else if ($data_type == "mapping") {
-                $check = "GENE\tMARKER";
-            } else if ($data_type == "gene_set") {
-                $check = "MODULE\tGENE";
-            } else if ($data_type == "gene_set_desc") {
-                $check = "MODULE\tSOURCE\tDESCR";
-            } else if ($data_type == "mdf") {
-                $check = "MARKERa\tMARKERb\tWEIGHT";
-            }
-            /*
-            if($test == 'UTF-8'){
-                $msg = "utf 8";
-                break;
-            }
-            */
-            if(!(preg_match("/\t/", $line))){
-                $msg = "File not tab delimited. Please use tabs as the file separators.";
-                break;
-            }
-            else if ($line == true && $index == 1) {
-                if (strstr($line, $check)) {
-                    $msg = "Header is correct";
-                } else {
-                    $msg = "Column headers are incorrect! <br> Please refer to the sample file format and reupload!";
-                    break;
-                }
-            } else if ($line == false && $index == 2) {
-                $msg = "No data or empty file";
-            } else if ($line == true && $index == 2) {
-                if (preg_match('/\S/', $line)) {
-                    $msg = "Header is correct and secondline does have data" . $fileEncode;
-                    if($incompatible_encoding){
-                        copy($newFileName, $target_path);
-                        $status = 1;
-                    }
-                    else{
-                        $status = move_uploaded_file($_FILES['afile']['tmp_name'], $target_path);
-                    }
-                } else {
-                    $msg = "Data not detected! <br> Please refer to the sample file format and reupload!";
-                }
-            } else {
-                $msg = "No data or empty file: " . $fileName;
-            }
-        }
-    } else {
-        // error opening the file.
-        $msg = "Could not open file: " . $fileName . $fileEncode;
-    }
-    fclose($fh);
-} else {
-    $msg = "Malicious file detected: " . $fileName;
 }
 
+if($incompatible_encoding){
+	$fh = fopen($ROOT_DIR."Data/Pipeline/tmpFileEncoding/" . "$session_id" . $fileName, 'r');
+}
+
+$index = 0;
+
+if ($fh) //check if the file was opened correctly
+{
+    while ($index++ < 2) //run the loop twice
+    {
+        $line = fgets($fh); //read each line individually
 
 
-
+        if ($data_type == "marker_association") {
+            $check = "MARKER\tVALUE";
+        } else if ($data_type == "mapping") {
+            $check = "GENE\tMARKER";
+        } else if ($data_type == "gene_set") {
+            $check = "MODULE\tGENE";
+        } else if ($data_type == "gene_set_desc") {
+            $check = "MODULE\tSOURCE\tDESCR";
+        } else if ($data_type == "mdf") {
+            $check = "MARKERa\tMARKERb\tWEIGHT";
+        }
+        /*
+        if($test == 'UTF-8'){
+            $msg = "utf 8";
+            break;
+        }
+        */
+        if(!(preg_match("/\t/", $line))){
+            $msg = "File not tab delimited. Please use tabs as the file separators.";
+            break;
+        }
+        else if ($line == true && $index == 1) {
+            if (strstr($line, $check)) {
+                $msg = "Header is correct";
+            } else {
+                $msg = "Column headers are incorrect! <br> Please refer to the sample file format and reupload!";
+                break;
+            }
+        } else if ($line == false && $index == 2) {
+            $msg = "No data or empty file";
+        } else if ($line == true && $index == 2) {
+            if (preg_match('/\S/', $line)) {
+                $msg = "Header is correct and secondline does have data" . $fileEncode;
+                if($incompatible_encoding){
+                	copy($newFileName, $target_path);
+                	$status = 1;
+                }
+                else{
+                	$status = move_uploaded_file($_FILES['afile']['tmp_name'], $target_path);
+            	}
+            } else {
+                $msg = "Data not detected! <br> Please refer to the sample file format and reupload!";
+            }
+        } else {
+            $msg = "No data or empty file: " . $fileName;
+        }
+    }
+} else {
+    // error opening the file.
+    $msg = "Could not open file: " . $fileName . $fileEncode;
+}
+fclose($fh);
 
 $json = json_encode(array(
     'name' => $fileName,
