@@ -102,7 +102,6 @@ $target_path = $_POST['path'] . $session_id . basename($fileName);
 $data_type = $_POST['data_type'];
 //$fileContent = file_get_contents($_FILES['afile']['tmp_name']);
 //$dataUrl = 'data:' . $fileType . ';base64,' . base64_encode($fileContent);
-echo($_FILES['afile']['tmp_name']);
 $fh = fopen($_FILES['afile']['tmp_name'], 'r');
 $index = 0;
 $msg = "";
@@ -230,6 +229,12 @@ if ($fh) //check if the file was opened correctly
     $msg = "Could not open file: " . $fileName . $fileEncode;
 }
 fclose($fh);
+$output=$ROOT_DIR."Data/Pipeline/tmpFileEncoding/";
+exec('clamscan --infected --remove --quiet ' . escapeshellarg($target_path), $output, $return);
+if ($return != 0) {
+    $msg = "Malicious file detected: " . $fileName;
+}
+
 
 $json = json_encode(array(
     'name' => $fileName,
