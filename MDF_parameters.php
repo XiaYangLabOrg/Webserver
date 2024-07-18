@@ -315,7 +315,7 @@ Function to skip MDF
                         <option value="Data/Pipeline/Resources/GTEx_v8_sQTL/combined_49ssnps.txt">GTEx 49 Combined sQTLs</option>
                         <option value="Data/Pipeline/Resources/mappings/combined_eqtl_sqtl_pqtl_distance.txt">Combined eQTLs, sQTLs, and pQTLs</option>
                       </optgroup>
-                      <optgroup class="multiple_mapping" label="Multiple (up to 5) Mapping file(s) can be selected">
+                      <optgroup class="multiple_mapping" label="Multiple (up to 10) Mapping file(s) can be selected">
                         <option value="Data/Pipeline/Resources/mappings/gene2loci.regulome.txt">Regulome mapping</option>
                         <option value="Data/Pipeline/Resources/mappings/Mouse_Sample_Locus_Mapping.txt">Mouse GWAS Mapping</option>
                         <option value="Data/Pipeline/Resources/GTEx_v8_eQTL/Adipose_Subcutaneous.txt">GTEx Adipose Subcutaneous eQTL</option>
@@ -754,7 +754,7 @@ Function to skip MDF
           </div>
           <div class="modal-body" style="text-align: center;">
             <div style="text-align: center;padding: 20px 20px 0 20px;font-size: 16px;">
-              <div class="style-msg infomsg" style="margin: 0 auto; width: 90%;padding:30px;font-size: 18px;"> SNP to gene mapping file. We provide distance-based, regulome, and tissue-specific e/sQTLs from GTEx. You may combine up to 5 of select mapping files but one is recommended. To choose a sample mapping, click on "Please select option" and then "None selected" on the window that pops up.
+              <div class="style-msg infomsg" style="margin: 0 auto; width: 90%;padding:30px;font-size: 18px;"> SNP to gene mapping file. We provide distance-based, regulome, and tissue-specific e/sQTLs from GTEx. You may combine up to 10 of select mapping files but one is recommended. To choose a sample mapping, click on "Please select option" and then "None selected" on the window that pops up.
               </div>
             </div>
           </div>
@@ -1414,7 +1414,8 @@ Will create an error message at the top if user forgets or does not have all dat
               $("#MMFupload2").show();
               $("#mapping_btn").html(selectedOptions.length + " selected");
             }
-            if (selectedOptions.length >= 5) {
+            //multi select option changed from 5 to 10 - 07.18.202 Dan
+            if (selectedOptions.length >= 10) {
               // Disable all other checkboxes.
               var nonSelectedOptions = $('#mapping_file option').filter(function() {
                 return !$(this).is(':selected');

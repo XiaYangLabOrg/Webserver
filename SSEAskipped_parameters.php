@@ -327,7 +327,7 @@ $pv = "";
                           <option value="Resources/GTEx_v8_sQTL/combined_49ssnps.txt">GTEx 49 Combined sQTLs</option>
                           <option value="Resources/mappings/combined_eqtl_sqtl_pqtl_distance.txt">Combined eQTLs, sQTLs, and pQTLs</option>
                         </optgroup>
-                        <optgroup class="multiple_mapping" label="Multiple (up to 5) Mapping file(s) can be selected">
+                        <optgroup class="multiple_mapping" label="Multiple (up to 10) Mapping file(s) can be selected">
                           <option value="Resources/mappings/gene2loci.regulome.txt">Regulome mapping</option>
                           <option value="Resources/mappings/Mouse_Sample_Locus_Mapping.txt">Mouse GWAS Mapping</option>
                           <option value="Resources/GTEx_v8_eQTL/Adipose_Subcutaneous.txt">GTEx Adipose Subcutaneous eQTL</option>
@@ -1643,7 +1643,8 @@ Set up Select slide down js function
           $("#MMFupload2").show();
           $("#mapping_btn").html(selectedOptions.length + " selected");
         }
-        if (selectedOptions.length >= 5) {
+        // multi select was changed from 5 to 10 - 07.18.2024 Dan
+        if (selectedOptions.length >= 10) {
           // Disable all other checkboxes.
           var nonSelectedOptions = $('#mapping_file option').filter(function() {
             return !$(this).is(':selected');
