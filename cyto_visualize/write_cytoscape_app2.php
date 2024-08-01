@@ -76,7 +76,7 @@
     $text1 = file_get_contents("./make_file/cyto_app2_text1.txt");
     $text2 = file_get_contents("./make_file/cyto_text2.txt");
     $text3 = file_get_contents("./make_file/cyto_app2_text3.txt");
-
+    $drugname=preg_replace('/\s+/', '_', $drugname);
     $file_path = fopen($ROOT_DIR . "cyto_visualize/"."$sessionID"."_"."$drugname"."_cytoscape_network.php", "w");
     // fwrite($file_path, $text1);
     fwrite($file_path, $text1);
