@@ -893,6 +893,7 @@ $pv = "";
   var MMFConvert = null;
   var GSETConvert = null;
   var target_path="<?php echo $FILE_UPLOAD;?>";
+  console.log(target_path);
 
   $("#MDFflowChart").hide();
   $("#MDFflowChart").next().hide();
