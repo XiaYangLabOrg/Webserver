@@ -1404,7 +1404,7 @@ Set up Select slide down js function
             //marker_association_file = fullPath.replace("./Data/Pipeline/", "");
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#MAFfilereturn').html(filename);
-            $('#MAF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong>'</div>`);
+            $('#MAF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
             $("#MAF_uploaded_file").show()
           } else {
             $('#MAF_uploaded_file').html('<div class="alert alert-danger"><i class="icon-remove-sign"></i><strong>Error</strong>' + resp.msg + '</div>');
