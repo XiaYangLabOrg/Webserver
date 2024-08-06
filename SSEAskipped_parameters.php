@@ -22,8 +22,8 @@ if (isset($_POST['sessionID'])) {
 //get the paths of stored sessionID information
 $fsession = "./Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 $fpostOut = "./Data/Pipeline/Resources/ldprune_temp/$sessionID" . "_MDFskipped_postdata.txt";
-$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
-$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/ssea_temp/";
+#$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
+$FILE_UPLOAD="Resources/ssea_temp/";
 /***************************************
 Session ID
 Need to update the session for the user
