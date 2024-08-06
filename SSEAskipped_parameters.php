@@ -1376,7 +1376,7 @@ Set up Select slide down js function
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/ssea_temp/");
+      //fd.append("path", "./Data/Pipeline/Resources/ssea_temp/");
       fd.append("data_type", "marker_association");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1396,7 +1396,7 @@ Set up Select slide down js function
           $('#MAFprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            marker_association_file = fullPath.replace("./Data/Pipeline/", "");
+            //marker_association_file = fullPath.replace("./Data/Pipeline/", "");
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#MAFfilereturn').html(filename);
             $('#MAF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong>'</div>`);
@@ -1498,7 +1498,7 @@ Set up Select slide down js function
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/ssea_temp/");
+      //fd.append("path", "./Data/Pipeline/Resources/ssea_temp/");
       fd.append("data_type", "gene_set");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1561,7 +1561,7 @@ Set up Select slide down js function
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/ssea_temp/");
+      //fd.append("path", "./Data/Pipeline/Resources/ssea_temp/");
       fd.append("data_type", "gene_set_desc");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
