@@ -1382,6 +1382,7 @@ Set up Select slide down js function
     } else {
       var fd = new FormData();
       fd.append("afile", file);
+      console.log(target_path);
       fd.append("path", target_path);
       fd.append("data_type", "marker_association");
       fd.append("session_id", session_id);
