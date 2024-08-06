@@ -22,8 +22,8 @@ if (isset($_POST['sessionID'])) {
 //get the paths of stored sessionID information
 $fsession = "./Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 $fpostOut = "./Data/Pipeline/Resources/ldprune_temp/$sessionID" . "_MDFskipped_postdata.txt";
-#$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
-$FILE_UPLOAD="Resources/ssea_temp/";
+$ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
+$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/ssea_temp/";
 /***************************************
 Session ID
 Need to update the session for the user
@@ -1404,7 +1404,7 @@ Set up Select slide down js function
           $('#MAFprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            marker_association_file = fullPath;
+            marker_association_file = "Resources/ssea_temp/"+fullPath.replace(/^.*[\\\/]/, "");
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#MAFfilereturn').html(filename);
             $('#MAF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
