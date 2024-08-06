@@ -1331,10 +1331,16 @@ Set up Select slide down js function
     if (select == 1)
       $(this).parent().next().show(); //show the upload form
 
-    if (select > 1) //sample has been chosen
+    if (select > 1){
+      console.log(select)
       $(this).parent().nextAll(".alert-SSEA").eq(0).html(successalert).hide().fadeIn(300);
-    else if (select == 1) //upload has been chosen
+    } //sample has been chosen
+
+    else if (select == 1){ //upload has been chosen
+      $("#MAF_uploaded_file").hide()
+      //$(this).parent().nextAll(".alert-SSEA").eq(0).html('').hide();
       $(this).parent().nextAll(".alert-SSEA").eq(0).html(uploadalert).hide().fadeIn(300);
+    }
     else //nothing has been chosen
       $(this).parent().nextAll(".alert-SSEA").eq(0).empty();
 
