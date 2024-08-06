@@ -1332,7 +1332,6 @@ Set up Select slide down js function
       $(this).parent().next().show(); //show the upload form
 
     if (select > 1){
-      console.log(select)
       $(this).parent().nextAll(".alert-SSEA").eq(0).html(successalert).hide().fadeIn(300);
     } //sample has been chosen
 
@@ -1406,6 +1405,7 @@ Set up Select slide down js function
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#MAFfilereturn').html(filename);
             $('#MAF_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong>'</div>`);
+            $("#MAF_uploaded_file").show()
           } else {
             $('#MAF_uploaded_file').html('<div class="alert alert-danger"><i class="icon-remove-sign"></i><strong>Error</strong>' + resp.msg + '</div>');
             //var control = $("#MAFskippeduploadInput"); //get the id
