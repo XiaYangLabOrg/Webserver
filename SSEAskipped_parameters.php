@@ -23,7 +23,7 @@ if (isset($_POST['sessionID'])) {
 $fsession = "./Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 $fpostOut = "./Data/Pipeline/Resources/ldprune_temp/$sessionID" . "_MDFskipped_postdata.txt";
 
-
+$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/msea_temp/";
 /***************************************
 Session ID
 Need to update the session for the user
@@ -892,6 +892,7 @@ $pv = "";
   var sseafdr = null;
   var MMFConvert = null;
   var GSETConvert = null;
+  var target_path="<?php echo $FILE_UPLOAD;?>";
 
   $("#MDFflowChart").hide();
   $("#MDFflowChart").next().hide();
@@ -1381,7 +1382,7 @@ Set up Select slide down js function
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      //fd.append("path", "./Data/Pipeline/Resources/ssea_temp/");
+      fd.append("path", target_path);
       fd.append("data_type", "marker_association");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1442,7 +1443,7 @@ Set up Select slide down js function
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      fd.append("path", "./Data/Pipeline/Resources/ssea_temp/");
+      fd.append("path", target_path);
       fd.append("data_type", "mapping");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1504,7 +1505,7 @@ Set up Select slide down js function
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      //fd.append("path", "./Data/Pipeline/Resources/ssea_temp/");
+      fd.append("path", target_path);
       fd.append("data_type", "gene_set");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1567,7 +1568,7 @@ Set up Select slide down js function
     } else {
       var fd = new FormData();
       fd.append("afile", file);
-      //fd.append("path", "./Data/Pipeline/Resources/ssea_temp/");
+      fd.append("path", target_path);
       fd.append("data_type", "gene_set_desc");
       fd.append("session_id", session_id);
       var xhr = new XMLHttpRequest();
@@ -1622,7 +1623,6 @@ Set up Select slide down js function
       maxHeight: 600,
       onChange: function(option, checked) {
         // Get selected options.
-        console.log(option.val());
         if (option.parent().attr('class') == "only_one_mapping") {
           $('#mapping_file').multiselect('deselectAll', false);
           $("#mapping_file").multiselect('select', option.val());
