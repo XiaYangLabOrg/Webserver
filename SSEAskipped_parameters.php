@@ -23,7 +23,7 @@ if (isset($_POST['sessionID'])) {
 $fsession = "./Data/Pipeline/Resources/session/$sessionID" . "_session.txt";
 $fpostOut = "./Data/Pipeline/Resources/ldprune_temp/$sessionID" . "_MDFskipped_postdata.txt";
 
-$FILE_UPLOAD=$ROOT_DIR."Data/Pipeline/Resources/ssea_temp/";
+$FILE_UPLOAD=$ROOT_DIR."Resources/ssea_temp/";
 /***************************************
 Session ID
 Need to update the session for the user
