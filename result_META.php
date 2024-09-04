@@ -265,6 +265,7 @@ for (trait.item in trait){
 		job.ssea$mingenes <- minimum_genes     #optional
 		job.ssea$maxoverlap <- overlap_threshold[index] #optional
 		job.ssea$nperm <- numperm[index]        #optional
+		job.ssea$trim <- trim_list[index]        #optional
 		job.ssea <- ssea.start(job.ssea)
 		job.ssea <- ssea.prepare(job.ssea)
 		job.ssea <- ssea.control(job.ssea)
