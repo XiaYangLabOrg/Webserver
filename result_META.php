@@ -68,6 +68,7 @@ if ($redirectedFromSessionLoad != "T") {
 	$cutoff_list = "cutoff=c(";
 	$MAFConvert_list = "MAFConvert_list=c(";
 	$MMFConvert_list = "MMFConvert_list=c(";
+	$trim_list = "trim_list=c(";
 	// echo "$fpath1";
 	foreach ($json as $element) {
 		$session = $element->session;
@@ -77,6 +78,7 @@ if ($redirectedFromSessionLoad != "T") {
 		$marker_association = $element->association;
 		$mapping = $element->marker;
 		$cutoff = $element->fdrcutoff;
+		$trim = $element->trim;
 		$MAFConvert = $element->MAFConvert;
 		$MMFConvert = $element->MMFConvert;
 		if (count($mapping) > 1) {
@@ -141,6 +143,9 @@ if ($redirectedFromSessionLoad != "T") {
 		$cutoff_list .= "$cutoff";
 		$cutoff_list .= ',';
 
+		$trim_list .= "$trim";
+		$trim_list .= ",";
+
 		$MAFConvert_list .= "\"$MAFConvert\"";
 		$MAFConvert_list .= ',';
 
@@ -155,6 +160,9 @@ if ($redirectedFromSessionLoad != "T") {
 	$perm_list = rtrim($perm_list, ',');
 	$perm_list .= ')' . "\r\n";
 	// echo "$perm_list";
+
+	$trim_list = rtrim($trim_list, ',');
+	$trim_list .= ')' . "\r\n";
 
 	//$overlap_list = str_replace(array("\r", "\n"), '', $overlap_list);
 	$max_overlap_list = rtrim($max_overlap_list, ',');
@@ -187,7 +195,6 @@ if ($redirectedFromSessionLoad != "T") {
 	$max_list = "maximum_genes <- $max_gene\n";
 	$min_list = "minimum_genes <- $min_gene\n";
 	$rmax_list = "rmax <- $minoverlap\n";
-	$trim_list = "trim <- $trim\n";
 	$metafdrcutoff = "fdr_cutoff <- $fdrval/100\n";
 	$metafdrcutoff .= "GSETConvert <- \"$GSETConvert\"\n";
 
@@ -455,6 +462,7 @@ write.table(fullData_site, "' . $ROOT_DIR . 'Data/Pipeline/Results/meta_ssea/' .
 			fwrite($fp, "Permutation Type\t" . $item->perm . "\n");
 			fwrite($fp, "Max Gene Overlap Allowed for Merging\t" . $item->maxoverlap . "\n");
 			fwrite($fp, "Number of Permutations\t" . $item->numperm . "\n");
+			fwrite($fp, "Trim extremes\t" . $item->trim . "\n");
 			fwrite($fp, "Individual MSEA to KDA FDR Cutoff\t" . $item->fdrcutoff . "\n\n");
 		}
 
