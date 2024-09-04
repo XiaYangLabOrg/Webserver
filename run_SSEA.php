@@ -92,6 +92,7 @@ $min_gene = $json["mingenes"];
 $minoverlap = $json["minoverlap"];
 $maxoverlap = $json["maxoverlap"];
 $sseanperm = $json["numperm"];
+$sseatrim = $json["trim"];
 $sseafdr = $json["fdrcutoff"];
 $marker_association = $json["association"];
 $mapping = $json["marker"];
@@ -134,6 +135,7 @@ $par = "job.msea\$permtype<-\"$perm_type\"" . "\n" .
   "rmax<-$minoverlap" . "\n" .
   "job.msea\$maxoverlap<-$maxoverlap" . "\n" .
   "job.msea\$nperm<-$sseanperm" . "\n" .
+  "job.msea\$trim<-$sseatrim" . "\n" .
   "job.msea\$label<-\"$sessionID\"" . "\n";
 
 

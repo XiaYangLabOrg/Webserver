@@ -42,6 +42,9 @@ if (isset($_GET['maxoverlap'])) {
 if (isset($_GET['sseanperm'])) {
   $sseanperm = $_GET["sseanperm"];
 }
+if (isset($_GET['sseatrim'])) {
+  $sseatrim = $_GET["sseatrim"];
+}
 
 if (isset($_GET['sseafdr'])) {
   $sseafdr = $_GET["sseafdr"];
@@ -87,6 +90,7 @@ if (isset($_GET['sessionID'])) {
   $json['perm'] = $perm_type;
   $json['maxoverlap'] = $maxoverlap;
   $json['numperm'] = $sseanperm;
+  $json['trim'] = $sseatrim;
   $json['fdrcutoff'] = $sseafdr;
   if (!empty($mdf)) {
 
@@ -588,12 +592,17 @@ $pv = "";
 
         <td>Min Module Overlap Allowed for Merging:</td>
 
-        <td name="val5"><input class='METAparameter' id="minoverlap" type="text" name="overlap" id="minoverlap" value="0.33">
+        <td name="val5"><input class='METAparameter' type="text" name="overlap" id="minoverlap" value="0.33">
         </td>
 
 
       </tr>
-
+      <!-- <tr name="META TRIM cutoff">
+        <td>
+            Trim extremes
+        </td>
+        <td name="val6"><input class='METAparameter' type="text" name="metatrim" id="metatrim" value="0.002">
+      </tr> -->
       <tr name="MSEA FDR cutoff">
 
         <td>
@@ -680,6 +689,7 @@ $pv = "";
           // perm_type: permtype,
           max_gene: maxgene,
           min_gene: mingene,
+
           minoverlap: minoverlap,
           GSETConvert: GSETConvert,
           metafdr: metafdr,

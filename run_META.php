@@ -28,6 +28,10 @@ if (isset($_GET['minoverlap'])) {
     $minoverlap = $_GET["minoverlap"];
 }
 
+if (isset($_GET['metatrim'])) {
+    $metatrim = $_GET["metatrim"];
+}
+
 if (isset($_GET['metafdr'])) {
     $metafdr = $_GET["metafdr"];
 }
@@ -48,6 +52,7 @@ if (!file_exists($fjson)) {
     $json['maxgenes'] = $max_gene;
     $json['mingenes'] = $min_gene;
     $json['minoverlap'] = $minoverlap;
+    $json['trim'] = $metatrim;
     $json['fdrcutoff'] = $metafdr;
     $json['geneset'] =  $module;
     $json['GSETConvert'] =  $GSETConvert;

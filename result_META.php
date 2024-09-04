@@ -178,6 +178,7 @@ if ($redirectedFromSessionLoad != "T") {
 	$max_gene = $json[0]->maxgenes;
 	$min_gene = $json[0]->mingenes;
 	$minoverlap = $json[0]->minoverlap;
+	$trim = $json[0]->trim;
 	$fdrval = $json[0]->fdrcutoff;
 	$module_file = $json[0]->geneset;
 	$module_info = $json[0]->genedesc;
@@ -186,6 +187,7 @@ if ($redirectedFromSessionLoad != "T") {
 	$max_list = "maximum_genes <- $max_gene\n";
 	$min_list = "minimum_genes <- $min_gene\n";
 	$rmax_list = "rmax <- $minoverlap\n";
+	$trim_list = "trim <- $trim\n";
 	$metafdrcutoff = "fdr_cutoff <- $fdrval/100\n";
 	$metafdrcutoff .= "GSETConvert <- \"$GSETConvert\"\n";
 
@@ -347,6 +349,7 @@ write.table(fullData_site, "' . $ROOT_DIR . 'Data/Pipeline/Results/meta_ssea/' .
 	fwrite($fp, $max_overlap_list);
 	fwrite($fp, $nperm_list);
 	fwrite($fp, $cutoff_list);
+	fwrite($fp,$trim_list);
 	fwrite($fp, $metafdrcutoff);
 	fwrite($fp, $MAFConvert_list);
 	fwrite($fp, $MMFConvert_list);

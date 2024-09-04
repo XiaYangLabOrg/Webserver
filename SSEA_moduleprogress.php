@@ -46,6 +46,9 @@ POST = if PHP enters the link
   if (isset($_GET['sseanperm'])) {
     $sseanperm = $_GET["sseanperm"];
   }
+  if (isset($_GET['sseatrim'])) {
+    $sseatrim = $_GET["sseatrim"];
+  }
   if (isset($_GET['sseafdr'])) {
     $sseafdr = $_GET["sseafdr"];
   }
@@ -205,6 +208,7 @@ Since we don't have a database, we create a txt file with the path information
     $json['minoverlap'] = $minoverlap;
     $json['maxoverlap'] = $maxoverlap;
     $json['numperm'] = $sseanperm;
+    $json['trim']=$sseatrim;
     $json['fdrcutoff'] = $sseafdr;
     $json['GSETConvert'] = $GSETConvert;
     $json['MMFConvert'] = $MMFConvert;
@@ -249,6 +253,7 @@ Since we don't have a database, we create a txt file with the path information
     $minoverlap = $json["minoverlap"];
     $maxoverlap = $json["maxoverlap"];
     $sseanperm = $json["numperm"];
+    $sseatrim = $json["trim"];
     $sseafdr = $json["fdrcutoff"];
     $marker_association = $json["association"];
     $mapping = $json["marker"];
@@ -420,6 +425,18 @@ Since we don't have a database, we create a txt file with the path information
           $overview_write .= "Number of Permutations" . "\t" . trim("$sseanperm") . "\n"; ?>
        </td>
      </tr>
+     <tr>
+        <td>
+            Trim extremes
+        </td>
+        <!--  Number of Permutations column ------->
+        <td style="font-weight: bold;"> 
+          <?php 
+              echo "$sseatrim"; 
+              $overview_write .= "Trim extremes" . "\t" . trim("$sseatrim") . "\n";
+          ?>
+        </td>
+    </tr>
      <tr>
        <td>
          MSEA to KDA export FDR cutoff

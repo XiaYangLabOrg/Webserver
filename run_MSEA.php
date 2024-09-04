@@ -31,6 +31,7 @@ if (!file_exists($ROOT_DIR . "/Data/Pipeline/Results/ssea/$sessionID.MSEA_module
     $maxoverlap = $data["maxoverlap"];
     $mseanperm = $data["numperm"];
     $mseafdr = $data["fdrcutoff"];
+    $mseatrim = $data["trim"];
     $marker_association = $data["association"];
     $mapping = $data["marker"];
     $mdf = $data["mdf"];
@@ -78,6 +79,7 @@ if (!file_exists($ROOT_DIR . "/Data/Pipeline/Results/ssea/$sessionID.MSEA_module
     $out .= "rmax<-$minoverlap" . "\n";
     $out .= "job.msea\$maxoverlap <-$maxoverlap" . "\n";
     $out .= "job.msea\$nperm <- $mseanperm" . "\n";
+    $out .= "job.msea\$trim<- $mseatrim" . "\n";
     $out .= "job.msea\$label <- \"$sessionID\"" . "\n"; //label
 
     if($MAFConvert!=="none"){

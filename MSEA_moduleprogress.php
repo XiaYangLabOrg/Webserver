@@ -56,6 +56,9 @@ POST = if PHP enters the link
     if (isset($_GET['mseanperm'])) {
         $mseanperm = $_GET["mseanperm"];
     }
+    if (isset($_GET['mseatrim'])) {
+        $mseatrim = $_GET["mseatrim"];
+    }
     if (isset($_GET['mseafdr'])) {
         $mseafdr = $_GET["mseafdr"];
     }
@@ -151,6 +154,7 @@ Since we don't have a database, we create a txt file with the path information
             $json['minoverlap'] = $minoverlap;
             $json['maxoverlap'] = $maxoverlap;
             $json['numperm'] = $mseanperm;
+            $json['trim'] = $mseatrim;
             $json['fdrcutoff'] = $mseafdr;
 
             if ($mdf != "0") {
@@ -227,6 +231,7 @@ Since we don't have a database, we create a txt file with the path information
                 $minoverlap = $data[0]->minoverlap;
                 $maxoverlap = $data[0]->maxoverlap;
                 $mseanperm = $data[0]->numperm;
+                $mseatrim = $data[0]->trim;
                 $mseafdr = $data[0]->fdrcutoff;
                 $marker_association = $data[0]->association;
                 $mapping = $data[0]->marker;
@@ -406,6 +411,18 @@ Since we don't have a database, we create a txt file with the path information
                 <?php 
                     echo "$mseanperm"; 
                     $overview_write .= "Number of Permutations" . "\t" . trim("$mseanperm") . "\n";
+                ?>
+            </td>
+         </tr>
+         <tr>
+             <td>
+                 Trim extremes
+             </td>
+             <!--  Number of Permutations column ------->
+             <td style="font-weight: bold;"> 
+                <?php 
+                    echo "$mseatrim"; 
+                    $overview_write .= "Trim extremes" . "\t" . trim("$mseatrim") . "\n";
                 ?>
             </td>
          </tr>

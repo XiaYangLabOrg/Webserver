@@ -867,7 +867,21 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
         <td name="val6"><input class='sseaparameter' id="sseanperm" type="text" name="permu" value="2000"></td>
 
       </tr>
+      <tr name="Trim">
 
+        <td>Trim extremes:
+          <div class="alert alert-warning" style="margin: 0 auto; width: 90%;margin-top: 10px;">
+            <i class="icon-warning-sign" style="margin-right: 6px;font-size: 12px;"></i>Percentile of markers taken from beginning and end of trait associations to avoid signal inflation of null background in gene permutation
+          </div>  
+
+        </td>  
+
+        <td name="val8"><input class='MSEAparameter' type="text" name="trim" id="sseatrim" value="<?php if (isset($_POST['trim']) ? $_POST['trim'] : null) {
+                                                                                                      print($_POST['trim']);
+                                                                                                    } else {
+                                                                                                      print("0.002");
+                                                                                                    } ?>"></td>
+      </tr>      
       <tr name="MSEA FDR cutoff">
 
         <td>
@@ -1018,6 +1032,7 @@ You can technically extract it and just call it externally if you want to keep t
     var maxoverlap = null;
     //var minoverlap = null;
     var sseanperm = null;
+    var sseatrim= null;
     var sseafdr = null;
     var mdffile = null;
     var mdf_ntop = null;
@@ -1045,6 +1060,7 @@ You can technically extract it and just call it externally if you want to keep t
           maxoverlap: maxoverlap,
           //minoverlap: minoverlap,
           sseanperm: sseanperm,
+          sseatrim: sseatrim,
           sseafdr: sseafdr,
           mdf: mdffile,
           MMFConvert: MMFConvert,
@@ -1149,6 +1165,7 @@ You can technically extract it and just call it externally if you want to keep t
           maxoverlap = $("#maxoverlap").val();
           //minoverlap = $("#minoverlap").val();
           sseanperm = $("#sseanperm").val();
+          sseatrim = $("#sseatrim").val();
           sseafdr = $("#sseafdr").val();
           mdffile = $("#mdf").val();
           mdf_ntop = $("#percent_markers").val();
