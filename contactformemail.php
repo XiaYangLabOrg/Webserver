@@ -20,7 +20,7 @@ $message = $name ." wrote the following:" . "\n\n" . $_POST['message'];
     // You can also use header('Location: thank_you.php'); to redirect to another page.
    
 
-$mail->Body = $message;
+
 
 //$mail->IsSMTP(); // telling the class to use SMTP
         //Server settings
@@ -39,9 +39,11 @@ $mail->addAddress($recipient);     //Add a recipient
 
 
 
+//Content
+$mail->isHTML(true);                                  //Set email format to HTML
 
 $mail->Subject = $subject;
-
+$mail->Body = $message;
 
 //$address = "dougvarneson@gmail.com";
 $address = 'xyang123@g.ucla.edu';

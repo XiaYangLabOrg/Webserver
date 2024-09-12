@@ -161,8 +161,6 @@
 								$('#contact').trigger("reset");
 							},error: function(xhr, status, error) {
 								console.log(error);
-								var err = eval(xhr.responseText);
-								alert(err.Message);
 							}	
 						});
 			
