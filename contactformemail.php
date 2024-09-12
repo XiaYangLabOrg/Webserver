@@ -1,15 +1,21 @@
 <?php
-require('./PHPMailer-master/class.phpmailer.php');
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+#require('./PHPMailer-master/class.phpmailer.php');
+require './PHPMailer/src/Exception.php';
+require './PHPMailer/src/PHPMailer.php';
+require './PHPMailer/src/SMTP.php';
+$env=parse_ini_file(".env");
+$mail = new PHPMailer(true);
 
-$mail = new PHPMailer();
 
 
-
-    $from = $_POST['email']; // this is the sender's Email address
-    $name = $_POST['name'];
-    $last_name = $_POST['last_name'];
-    $subject = $_POST['subject'];
-    $message = $name ." wrote the following:" . "\n\n" . $_POST['message'];
+$from = $_POST['email']; // this is the sender's Email address
+$name = $_POST['name'];
+$last_name = $_POST['last_name'];
+$subject = $_POST['subject'];
+$message = $name ." wrote the following:" . "\n\n" . $_POST['message'];
   
     // You can also use header('Location: thank_you.php'); to redirect to another page.
    
@@ -17,15 +23,22 @@ $mail = new PHPMailer();
 $mail->Body = $message;
 
 //$mail->IsSMTP(); // telling the class to use SMTP
+        //Server settings
+        #$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+$mail->isSMTP();                                            //Send using SMTP
+$mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+$mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+$mail->Username   = $env["EMAIL_USERNAME"];                  //SMTP username
+$mail->Password   = $env["EMAIL_PASSWORD"];                               //SMTP password
+$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+$mail->Port       = 587;                //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-$mail->SMTPAuth   = true;                  // enable SMTP authentication
-$mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-$mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-$mail->Username   = "dougvarneson@gmail.com";  // GMAIL username
-$mail->Password   = "friday11";            // GMAIL password
+//Recipients
+$mail->setFrom($env["EMAIL_USERNAME"], 'Mergeomics Team');
+$mail->addAddress($recipient);     //Add a recipient
 
-$mail->SetFrom($from, $name);
+
+
 
 $mail->Subject = $subject;
 
