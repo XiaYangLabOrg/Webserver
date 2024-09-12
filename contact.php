@@ -159,6 +159,9 @@
 								console.log("done")
 								$("#successbutton").trigger('click');
 								$('#contact').trigger("reset");
+							},error: function(xhr, status, error) {
+								var err = eval("(" + xhr.responseText + ")");
+								alert(err.Message);
 							}	
 						});
 			
