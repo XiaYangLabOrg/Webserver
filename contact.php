@@ -147,21 +147,22 @@
 
 	function sendContact(){
 		
-	var form_data = new FormData(document.getElementById('contact'));
+		var form_data = new FormData(document.getElementById('contact'));
 
-          $.ajax({
-                        'url': 'contactformemail.php',
-                        'type': 'POST',
-                        'data': form_data,
-                        processData: false,
-                        contentType: false,
-                        'success': function(data){
-                            $("#successbutton").trigger('click');
-                            $('#contact').trigger("reset");
-                        }	
-                    });
-        
-            return false;
+			$.ajax({
+							'url': 'contactformemail.php',
+							'type': 'POST',
+							'data': form_data,
+							processData: false,
+							contentType: false,
+							'success': function(data){
+								console.log("done")
+								$("#successbutton").trigger('click');
+								$('#contact').trigger("reset");
+							}	
+						});
+			
+				return false;
         }
 
 </script>
