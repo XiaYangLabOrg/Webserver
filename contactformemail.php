@@ -49,6 +49,8 @@ $mail->AddAddress($address);
 if ($subject == "Mergeomics Support: Mergeomics Pipeline" || $subject == "Mergeomics Support: Pharmomics Pipeline") {
     $address = 'montyblencowe@ucla.edu';
     $mail->AddAddress($address);
+    $address = 'smha118@g.ucla.edu';
+    $mail->AddAddress($address);
 } elseif ($subject == "Mergeomics Support: Report a bug"){
     $address = 'mcheng7777@g.ucla.edu';
     $mail->AddAddress($address);
