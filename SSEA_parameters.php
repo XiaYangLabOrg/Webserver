@@ -417,7 +417,6 @@ $mapping = $json["marker"];
 
         </tr>
         <tr name="Trim">
-
           <td>Trim extremes:
             <div class="alert alert-warning" style="margin: 0 auto; width: 90%;margin-top: 10px;">
               <i class="icon-warning-sign" style="margin-right: 6px;font-size: 12px;"></i>Percentile of markers taken from beginning and end of trait associations to avoid signal inflation of null background in gene permutation
