@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\Exception;
 require './PHPMailer/src/Exception.php';
 require './PHPMailer/src/PHPMailer.php';
 require './PHPMailer/src/SMTP.php';
-$env=parse_ini_file(".env");
+$env=parse_ini_file("../.env");
 $mail = new PHPMailer(true);
 
 

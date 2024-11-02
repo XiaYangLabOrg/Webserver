@@ -53,7 +53,7 @@ function sendEmail( $recipient,$title, $body, $email_sent){
     require './PHPMailer/src/Exception.php';
     require './PHPMailer/src/PHPMailer.php';
     require './PHPMailer/src/SMTP.php';
-    $env=parse_ini_file(".env");
+    $env=parse_ini_file("../.env");
     $mail = new PHPMailer(true);
     try {
         //Server settings

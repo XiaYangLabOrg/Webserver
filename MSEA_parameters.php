@@ -1,5 +1,5 @@
  <?php
-
+include "functions.php";
 /* Initialize PHP variables
 sessionID = the saved session 
 
@@ -12,15 +12,15 @@ POST = if PHP enters the link
 
 
 //This function creates a random session ID string
-function generatesessionIDing($length = 10)
-{
-  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  $sessionIDing = '';
-  for ($i = 0; $i < $length; $i++) {
-    $sessionIDing .= $characters[rand(0, strlen($characters) - 1)];
-  }
-  return $sessionIDing;
-}
+// function generatesessionIDing($length = 10)
+// {
+//   $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+//   $sessionIDing = '';
+//   for ($i = 0; $i < $length; $i++) {
+//     $sessionIDing .= $characters[rand(0, strlen($characters) - 1)];
+//   }
+//   return $sessionIDing;
+// }
 
 
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
