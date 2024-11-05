@@ -585,7 +585,7 @@ Function to skip MDF
               <option value="Data/Pipeline/Resources/LD_files/ld70.stu.txt">STU LD70</option>
               <option value="Data/Pipeline/Resources/LD_files/ld50.stu.txt">STU LD50</option>
               <option value="Data/Pipeline/Resources/LD_files/ld70.tsi.txt">TSI LD70</option>
-              <option value="Data/Pipeline/Resources/LD_files/ld50.TSI.txt">TSI LD50</option>
+              <option value="Data/Pipeline/Resources/LD_files/ld50.tsi.txt">TSI LD50</option>
               <option value="Data/Pipeline/Resources/LD_files/ld70.yri.txt">YRI LD70</option>
               <option value="Data/Pipeline/Resources/LD_files/ld50.yri.txt">YRI LD50</option>
             </select>
