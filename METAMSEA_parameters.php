@@ -1654,7 +1654,7 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
             console.log("Fullpath:"+fullPath);
-            module_set_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/","");
+            module_set_file = fullPath.replace("/home/smha118/mergeomics/html/./Data/Pipeline/","");
             console.log("Fullpath:"+module_set_file);
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#GSETfilereturn').html(filename);
@@ -1717,7 +1717,7 @@ if (isset($_POST['permuttype']) ? $_POST['permuttype'] : null) {
           $('#GSETDprogressbar').hide();
           if (resp.status == 1) {
             var fullPath = resp.targetPath;
-            module_info_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
+            module_info_file = fullPath.replace("/home/smha118/mergeomics/html/./Data/Pipeline/", "");
             var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
             $('#GSETDfilereturn').html(filename);
             $('#GSETD_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);

@@ -983,7 +983,7 @@ $pv = "";
             $('#GSETprogressbar').hide();
             if (resp.status == 1) {
               var fullPath = resp.targetPath;
-              module_set_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
+              module_set_file = fullPath.replace("/home/smha118/mergeomics/html/./Data/Pipeline/", "");
               var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
               $('#GSETfilereturn').html(filename);
               $('#GSET_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);
@@ -1043,7 +1043,7 @@ $pv = "";
             $('#GSETDprogressbar').hide();
             if (resp.status == 1) {
               var fullPath = resp.targetPath;
-              module_info_file = fullPath.replace("/var/www/mergeomics/html/./Data/Pipeline/", "");
+              module_info_file = fullPath.replace("/home/smha118/mergeomics/html/./Data/Pipeline/", "");
               var filename = fullPath.replace(/^.*[\\\/]/, "").replace(session_id, "");
               $('#GSETDfilereturn').html(filename);
               $('#GSETD_uploaded_file').html(`<div class="alert alert-success"><i class="i-rounded i-small icon-check" style="background-color: #2ea92e;top: -5px;"></i><strong>Upload successful!</strong></div>`);

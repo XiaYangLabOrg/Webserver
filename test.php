@@ -10,7 +10,7 @@ echo "current user: ".get_current_user();
 echo "script was executed under user: ".exec('whoami');
 $connection = ssh2_connect($env["HOFFMAN2_SERVER_IP"], 22);
 ssh2_auth_password($connection, $env["PHARMOMICS_USERNAME"], $env["PHMARMOMICS_PASSWORD"]);
-$fpathOut="/var/www/mergeomics/html/Data/Pipeline/7DEB5jWjP2_app2_seg.R";
+$fpathOut="/home/smha118/mergeomics/html/Data/Pipeline/7DEB5jWjP2_app2_seg.R";
 #sah2_scp_send($connection, $fpathOut, '/u/scratch/m/mergeome/app2seg/7DEB5jWjP2_app2_seg.R', 0644);
 $stream=ssh2_exec($connection, "/usr/bin/ls .");
 stream_set_blocking( $stream, true );

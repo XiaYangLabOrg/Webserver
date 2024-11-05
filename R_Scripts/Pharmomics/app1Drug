@@ -11,7 +11,7 @@ options(stringsAsFactors = FALSE)
 #load("/home/www/abhatta3-webserver/include/pharmomics/all_combined_KEGG_GOBP_pathway.rda")
 #load("/home/www/abhatta3-webserver/include/pharmomics/All_combined_data_AE_GEO_0.01.rda")
 
-source("/var/www/mergeomics/html/srv/shiny-server/helpers.r")
+source("/home/smha118/mergeomics/html/srv/shiny-server/helpers.r")
 
 if(length(input$species)>1){
   comp = "species"

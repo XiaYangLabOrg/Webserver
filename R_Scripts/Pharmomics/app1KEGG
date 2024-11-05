@@ -12,7 +12,7 @@
 options(stringsAsFactors = FALSE)
 
 library(UpSetR)
-source("/var/www/mergeomics/html/srv/shiny-server/helpers.r")
+source("/home/smha118/mergeomics/html/srv/shiny-server/helpers.r")
 
 if(length(input$species)>1){
   comp = "species"

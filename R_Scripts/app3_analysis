@@ -9,7 +9,7 @@ Jaccard2 <- function(set1,set2){
 }
 
 #load("/srv/shiny-server/Jaccard_repositioning/Jaccard_app_databasev2.rda")
-load("/var/www/mergeomics/html/include/pharmomics/Jaccard_app_databaseReSave.RData")
+load("/home/smha118/mergeomics/html/include/pharmomics/Jaccard_app_databaseReSave.RData")
 
 bothind <- ifelse(length(Genes_down) != 0, T,F)
 speciesind <- "Human"

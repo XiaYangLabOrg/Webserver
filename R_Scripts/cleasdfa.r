@@ -2754,8 +2754,8 @@ ssea.start.configure <- function(plan) {
         tmpgene=tool.read(plan$genfile,c("GENE","MARKER"))
         names(tmploci)=c("LOCUS","VALUE")
         names(tmpgene)=c("GENE","LOCUS")
-        loci_file_name = paste("/var/www/mergeomics/html/Data/Pipeline/Resources/ssea_temp/",plan$label,"_loci.txt",sep="")
-        gene_file_name = paste("/var/www/mergeomics/html/Data/Pipeline/Resources/ssea_temp/",plan$label,"_gene.txt",sep="")
+        loci_file_name = paste("/home/smha118/mergeomics/html/Data/Pipeline/Resources/ssea_temp/",plan$label,"_loci.txt",sep="")
+        gene_file_name = paste("/home/smha118/mergeomics/html/Data/Pipeline/Resources/ssea_temp/",plan$label,"_gene.txt",sep="")
         write.table(tmploci,loci_file_name,quote = F,row.names = F,sep = "\t")
         write.table(tmpgene,gene_file_name,quote = F,row.names = F,sep = "\t")
         plan$locfile = loci_file_name
