@@ -1,6 +1,8 @@
 <?php
     include "functions.php";
     // GET THE SESSION ID
+    error_reporting(E_ALL);
+    ini_set('display_errors', 'On');
     $sessionID=trim($_GET['sessionID']);
     $drugname=trim($_GET['drugres']);
     $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
