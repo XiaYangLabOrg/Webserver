@@ -30,10 +30,11 @@ function detect_utf_encoding($text) {
 // R output is us-ascii
 // textEdit output for UTF-8 is us-ascii
 // testEdit output for UTF-16 is utf-16le
-error_reporting(0);
-ini_set('display_errors', 'Off');
+// error_reporting(0);
+// ini_set('display_errors', 'Off');
 ini_set('memory_limit', -1);
-
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 // error_reporting(E_ALL);
 // ini_set('display_errors', 'On');
 // ini_set('memory_limit', -1);
@@ -223,7 +224,7 @@ if ($fh) //check if the file was opened correctly
             exec('clamscan --infected --remove --quiet ' . escapeshellarg($target_path), $output, $return);
             if ($return != 0) {
                 $msg = "Malicious file detected: " . $fileName;
-                $antimalware="not passed";
+                $antimalware="not passed";  
             }else{
                 $antimalware="Passed";
             }
