@@ -3,7 +3,7 @@ include "functions.php";
 
 #App2 contains large result files, which throws fatal error for table to load. This is temporary fix. Will have to apply memory efficient loading in the future.
 ini_set('memory_limit', '-1');
-$env=parse_ini_file(".env");
+$env=parse_ini_file("../.env");
 $ROOT_DIR = $_SERVER['DOCUMENT_ROOT'] . "/";
 $connection = ssh2_connect($env["HOFFMAN2_SERVER_IP"], 22);
 ssh2_auth_password($connection, $env["PHARMOMICS_USERNAME"], $env["PHMARMOMICS_PASSWORD"]);
