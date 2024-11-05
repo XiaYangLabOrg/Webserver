@@ -16,5 +16,7 @@ $stream_out = ssh2_fetch_stream( $stream, SSH2_STREAM_STDIO );
 echo stream_get_contents($stream_out);
 fclose($stream);
 
+echo "current user: ".get_current_user();
 
+echo "script was executed under user: ".exec('whoami');
 ?>
