@@ -2,7 +2,6 @@
 include "functions.php";
 $total_quota = 100;
 $individual_user_quota = 5;
-echo $_SERVER["HTTP_HOST"];
 if (isset($_POST['sessionID']) ? $_POST['sessionID'] : null) {
   //If sessionID is received from post call, it means its from runpharmomics.php
   $sessionID = $_POST['sessionID'];
