@@ -6,6 +6,8 @@ include_once("functions.php");
 $env=parse_ini_file("../.env");
 echo $env["HOFFMAN2_SERVER_IP"]."<br>";
 echo $env["PHARMOMICS_USERNAME"];
+echo "current user: ".get_current_user();
+echo "script was executed under user: ".exec('whoami');
 $connection = ssh2_connect($env["HOFFMAN2_SERVER_IP"], 22);
 ssh2_auth_password($connection, $env["PHARMOMICS_USERNAME"], $env["PHMARMOMICS_PASSWORD"]);
 $fpathOut="/var/www/mergeomics/html/Data/Pipeline/7DEB5jWjP2_app2_seg.R";
@@ -16,7 +18,5 @@ $stream_out = ssh2_fetch_stream( $stream, SSH2_STREAM_STDIO );
 echo stream_get_contents($stream_out);
 fclose($stream);
 
-echo "current user: ".get_current_user();
 
-echo "script was executed under user: ".exec('whoami');
 ?>
