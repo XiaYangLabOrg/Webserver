@@ -61,7 +61,8 @@
         fclose($fp);
         chmod($ROOT_DIR . "cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_"."$i", 0777);
 
-        $node_list .= "{data: { id: \"$node\", type: \"$shape\", color: \"$color\", background: \"http://mergeomics.research.idre.ucla.edu/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_$i\", size: \"10\" }}, \n";
+        $node_list .= "{data: { id: \"$node\", type: \"$shape\", color: \"$color\", background: \"http://mergeomics.research.idre.ucla.edu:8081/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_$i\", size: \"10\" }}, \n";
+        #$node_list .= "{data: { id: \"$node\", type: \"$shape\", color: \"$color\", background: \"http://mergeomics.research.idre.ucla.edu/cyto_visualize/Images_To_Upload/"."$sessionID"."_Image_$i\", size: \"10\" }}, \n";
     }
     
     $node_list = substr("$node_list", 0, -3);
