@@ -2,6 +2,8 @@
 include "functions.php";
 $total_quota = 100;
 $individual_user_quota = 5;
+echo "current user: ".get_current_user();
+echo "script was executed under user: ".exec('whoami');
 if (isset($_POST['sessionID']) ? $_POST['sessionID'] : null) {
   //If sessionID is received from post call, it means its from runpharmomics.php
   $sessionID = $_POST['sessionID'];
