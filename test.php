@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-phpinfo();
+// phpinfo();
 // include_once("functions.php");
 // $env=parse_ini_file("../.env");
 // echo $env["HOFFMAN2_SERVER_IP"]."<br>";
