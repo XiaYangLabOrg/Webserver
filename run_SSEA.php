@@ -263,7 +263,7 @@ if (file_exists($fsession)) {
           //text = text.replace(/\s/g, '');
           //check mdf log has finished with "MDF COMPLETE" string at the end and terminate the loop Dec 26. 2023 -Dan
         timeOutVar=null;
-        if(text.includes("MSEA COMPLETE<br />") || text.includes("Execution Halted")) {
+        if(text.includes("MSEA COMPLETE") || text.includes("Execution Halted")) {
           if (typeof timeOutVar !== 'undefined'){
             clearTimeout(timeOutVar);
           }
