@@ -32,7 +32,7 @@ if (isset($_GET['sessionID']) ? $_GET['sessionID'] : null) {
   $sessionID = $_GET['sessionID'];
 } else {
   //if it does not exist, then create a new random string
-  $sessionID = generatesessionIDing(10);
+  $sessionID = generateRandomString(10);
 }
 
 //check if form has been submitted and then initialize it
