@@ -97,6 +97,8 @@ function utf16_decode($str, &$be=null) {
 
 $fileName = $_FILES['afile']['name'];
 $fileType = $_FILES['afile']['type'];
+echo $fileName;
+echo $fileType;
 $session_id = $_POST["session_id"];
 #$target_path = $ROOT_DIR . $_POST['path'] . $session_id . basename($fileName);
 $target_path = $_POST['path'] . $session_id . basename($fileName);
